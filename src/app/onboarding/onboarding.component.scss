@@ -18,6 +18,8 @@ header {
 
     h2 {
         color: variables.$bg-primary;
+        font-size: 2.5rem;
+        font-weight: 700;
     }
 
     .header-cta {
@@ -31,6 +33,7 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
+    max-width: 26rem;
     padding: 1.5rem;
     border-radius: 1.5rem;
     background-color: variables.$bg-base-200;
@@ -42,6 +45,7 @@ header {
         padding: unset;
 
         span {
+            text-align: center;
             text-wrap: balance;
         }
     }
@@ -85,7 +89,26 @@ header {
             }
         }
 
-        .social-login,
+        .btn-social {
+            width: 100%;
+            height: 2.75rem;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid variables.$bg-base-100;
+            border-radius: 999rem;
+            font-size: 1rem;
+            line-height: 1.25;
+            color: variables.$bg-primary;
+            font-family: 'Nunito';
+            font-size: 0.875rem;
+            font-weight: 400;
+            background-color: variables.$bg-base-100;
+
+            &:hover {
+                border: 1px solid variables.$bg-primary;
+                font-weight: 600;
+            }
+        }
+
         .form-controls {
             display: flex;
             align-items: center;
