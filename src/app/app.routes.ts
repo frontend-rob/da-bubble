@@ -1,26 +1,28 @@
-import { redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { Routes } from '@angular/router';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { OnboardingComponent } from './onboarding/onboarding.component';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['logon']);
-const redirectLoggedInToWorkspace = () => redirectLoggedInTo(['workspace']);
+const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['signin']);
+const redirectLoggedInToLandingPage = () => redirectLoggedInTo(['workspace']);
 
 export const routes: Routes = [
     {
         path: '',
-        //component: MainComponent,
-        //canActivate: [AuthGuard],
-        data: {authGuardPipe: redirectUnauthorizedToLogin},
+        component: LandingPageComponent,
+        canActivate: [AuthGuard],
+        data: {authGuardPipe: redirectUnauthorizedToOnBording},
         children: [
             {
-                //path: '',
+                path: '',
                 //component: 
             }
         ],
     },
     {
-        path: 'logon',
-        //component: LoginComponent,
-        data: {authGuardPipe: redirectLoggedInToWorkspace},
+        path: 'signin',
+        component: OnboardingComponent,
+        data: {authGuardPipe: redirectLoggedInToLandingPage},
         children: [
             {
                 //path: '',
