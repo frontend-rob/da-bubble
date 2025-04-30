@@ -1,1 +1,60 @@
-<p>main-menu works!</p>
+<div class="container">
+    <div class="menunav">
+        <div class="header-menu-container">
+            <img src="" alt="">
+            <span>Devspace</span>
+            <button type="button" (click)="newMessages()">
+                <img src="" alt="">
+            </button>
+        </div>
+        <div class="channel-menu-container">
+            <div class="channel-menu-header">
+                <button type="button" (click)="openChannelList()">
+                    <img src="" alt="">
+                </button>
+                <span>Channels</span>
+                <button type="button" (click)="newChannel()">
+                    <img src="" alt="">
+                </button>
+            </div>
+            <div class="channel-menu-list" *ngIf="showChannelList">
+                <div class="channel-menu-item" *ngFor="let channel of channels">
+                    <img src="" alt="">
+                    <span>{{ channel.name }}</span>
+                </div>
+            </div>
+            <div class="new-channnel-button">
+                <button type="button" (click)="newMessages()">
+                    <img src="" alt="">
+                    <span>New Channel</span>
+                </button>
+            </div>
+        </div>
+        <div class="user-menu-container">
+            <div class="user-menu-header">
+                <button type="button" (click)="openChannelList()">
+                    <img src="" alt="">
+                </button>
+                <span>Direct messages</span>
+                <button type="button" (click)="newChannel()">
+                    <img src="" alt="">
+                </button>
+            </div>
+            <div class="user-menu-list" *ngIf="showUserList">
+                <div class="user-menu-item" *ngFor="let user of users">
+                    <img src="" alt="">
+                    <span>{{ user.name }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    <div class="menunav-button-container">
+        <div class="menunav-button">
+            <a (click)="toggleNav()">
+                <span>Workspace-Menu open</span>
+                <img src="" alt="">
+              </a>
+        </div>
+    </div>
+</div>

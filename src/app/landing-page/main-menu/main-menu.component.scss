@@ -1,0 +1,43 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 500px;
+    width: 300px;
+    position: relative;
+}
+
+.menunav {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 90%;
+    position: relative;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.menunav-button-container {
+    position: absolute;
+    bottom: 30%;
+    left: 0;
+}
+
+.menunav-button {
+    padding: 10px 20px;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    border-radius: 0 0 20px 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.menunav-button:hover {
+    color: #3b14fa;
+}
