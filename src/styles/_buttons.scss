@@ -1,0 +1,62 @@
+@use './variables' as variables;
+
+@mixin button-base {
+    cursor: pointer;
+    user-select: none;
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: unset;
+    border-radius: 999rem;
+    font-size: 0.875rem;
+    border: 1px solid transparent;
+}
+
+@mixin button-hover($bg-color, $text-color) {
+    color: $text-color;
+    background-color: $bg-color;
+
+    svg {
+        color: $text-color;
+    }
+}
+
+.btn {
+    @include button-base;
+    color: variables.$text-inverse;
+    background-color: variables.$bg-neutral;
+}
+
+.btn:active {
+    transform: scale(0.95);
+    transition: 125ms ease;
+}
+
+.btn:hover {
+    background-color: color-mix(in srgb, variables.$text-primary 70%, transparent 10%);
+    transition: 125ms ease;
+}
+
+.btn-primary {
+    color: variables.$text-inverse;
+    background-color: variables.$bg-primary;
+
+}
+
+.btn-primary:hover {
+    @include button-hover(#797ef3, variables.$text-inverse);
+    transition: 125ms ease;
+}
+
+.btn-secondary {
+    color: variables.$bg-primary;
+    background-color: variables.$bg-base-200;
+    border: 1px solid variables.$bg-primary;
+}
+
+.btn-secondary:hover {
+    @include button-hover(#535AF1, variables.$text-inverse);
+    transition: 125ms ease;
+}

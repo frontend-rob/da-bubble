@@ -1,4 +1,4 @@
-@use "./styles/variables";
+@use "./styles/variables" as variables;
 @use "./styles/fonts";
 @use "./styles/buttons";
 @use "./styles/scrollbar";
@@ -8,4 +8,11 @@
     margin: 0;
     padding: 0;
     transition: all 250ms ease;
+}
+
+$bg-base-100: #eceefe;
+$bg-base-200: #ffffff;
+
+body {
+    background-color: $bg-base-100;
 }
