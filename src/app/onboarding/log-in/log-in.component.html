@@ -6,7 +6,7 @@
     <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <div class="input-field">
-                <input type="email" formControlName="email" placeholder="email@example.com">
+                <input type="email" id="login-email" formControlName="email" placeholder="email@example.com">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-mail-icon lucide-mail">
@@ -19,7 +19,7 @@
                 *Please enter a valid e-mail address.
             </span>
             <div class="input-field">
-                <input type="password" formControlName="password" placeholder="Password">
+                <input type="password" id="login-password" formControlName="password" placeholder="Password">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-lock-icon lucide-lock">

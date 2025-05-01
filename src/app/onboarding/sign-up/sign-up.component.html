@@ -14,7 +14,7 @@
     <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <div class="input-field">
-                <input type="text" formControlName="name" placeholder="Fullname">
+                <input type="text" id="signup-name" formControlName="name" placeholder="Fullname">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-user-round-icon lucide-user-round">
@@ -27,7 +27,7 @@
                 *Please enter your full name.
             </span>
             <div class="input-field">
-                <input type="email" formControlName="email" placeholder="email@example.com">
+                <input type="email" id="signup-email" formControlName="email" placeholder="email@example.com">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-mail-icon lucide-mail">
@@ -40,7 +40,7 @@
                 *Please enter a valid e-mail address.
             </span>
             <div class="input-field">
-                <input type="password" formControlName="password" placeholder="Password">
+                <input type="password" id="signup-password" formControlName="password" placeholder="Password">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                     class="lucide lucide-lock-icon lucide-lock">
@@ -53,8 +53,8 @@
                 *Password must contain at least 8 characters.
             </span>
             <div class="checkbox-field">
-                <input type="checkbox" formControlName="policy">
-                <label for="policy">I've read and agree to the <a href="#">Privacy Policy</a>.</label>
+                <input type="checkbox" id="signup-checkbox" formControlName="policy">
+                <span class="label">I've read and agree to the <a href="#">Privacy Policy</a>.</span>
             </div>
         </div>
         <div class="form-controls">
