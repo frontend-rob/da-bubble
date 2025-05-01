@@ -1,4 +1,5 @@
 @use '../../styles/variables' as variables;
+@use '../../styles/fonts' as fonts;
 @use '../../styles/inputs' as inputs;
 
 .onboarding-wrapper {
@@ -16,15 +17,42 @@ header {
     width: 100%;
     padding: 1.25rem;
 
-    h2 {
-        color: variables.$bg-primary;
-        font-size: 2.5rem;
-        font-weight: 700;
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .main-logo {
+            height: 3rem;
+            width: auto;
+        }
+
+        .logo-text {
+            color: variables.$text-primary;
+            font-size: 2rem;
+            font-weight: 700;
+        }
     }
 
     .header-cta {
         display: flex;
         flex-direction: column;
+        gap: 0.5rem;
+
+        a {
+            width: fit-content;
+            padding: 0.5rem 1rem;
+            border: 1px solid variables.$bg-base-100;
+            border-radius: 999rem;
+            font-family: 'Figtree';
+            text-decoration: none;
+            color: variables.$bg-primary-accent;
+
+            &:hover {
+                border: 1px solid variables.$border-color;
+                color: variables.$bg-primary;
+            }
+        }
     }
 }
 
@@ -33,16 +61,23 @@ header {
     flex-direction: column;
     align-items: center;
     gap: 2rem;
-    max-width: 26rem;
-    padding: 1.5rem;
+    max-width: 30rem;
+    padding: 2rem;
     border-radius: 1.5rem;
     background-color: variables.$bg-base-200;
 
-    header {
+    .card-header {
         display: flex;
         flex-direction: column;
+        align-items: center;
         gap: 1rem;
         padding: unset;
+
+        h2 {
+            color: variables.$bg-primary;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
 
         span {
             text-align: center;
@@ -71,9 +106,17 @@ header {
         }
 
         .password-link {
-            display: flex;
-            justify-content: center;
+            align-self: center;
+            padding: 0.5rem 1rem;
+            border-radius: 999rem;
             text-decoration: none;
+            color: variables.$bg-primary-accent;
+            font-family: 'Figtree';
+            font-size: 0.875rem;
+
+            &:hover {
+                background-color: variables.$bg-base-100;
+            }
         }
 
         .divider {
@@ -90,8 +133,12 @@ header {
         }
 
         .btn-social {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
             width: 100%;
-            height: 2.75rem;
+            height: 3rem;
             padding: 0.5rem 1.5rem;
             border: 1px solid variables.$bg-base-100;
             border-radius: 999rem;
@@ -105,7 +152,12 @@ header {
 
             &:hover {
                 border: 1px solid variables.$bg-primary;
-                font-weight: 600;
+                font-weight: 700;
+            }
+
+            .google-icon {
+                height: 2rem;
+                width: auto;
             }
         }
 
@@ -113,20 +165,30 @@ header {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1.25rem;
+            gap: 2rem;
         }
     }
 }
 
-footer {
+.card-footer {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    gap: 1.25rem;
+    gap: 2rem;
     padding: 1.25rem;
 
     a {
+        padding: 0.5rem 1rem;
+        border: 1px solid variables.$bg-base-100;
+        border-radius: 999rem;
+        font-family: 'Figtree';
         text-decoration: none;
+        color: variables.$bg-primary-accent;
+
+        &:hover {
+            border: 1px solid variables.$border-color;
+            color: variables.$bg-primary;
+        }
     }
 }

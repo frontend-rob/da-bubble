@@ -1,23 +1,36 @@
 <div class="onboarding-wrapper">
     <header>
-        <div class="logo">Logo</div>
+        <div class="logo-wrapper">
+            <img src="assets/img/logo.svg" class="main-logo" alt="DA Bubble Logo">
+            <span class="logo-text">DABubble</span>
+        </div>
         <div class="header-cta">
-            <span>New to DA Bubble?</span>
-            <a routerLink="signup">Konto erstellen</a>
+            <span>New to DABubble?</span>
+            <a routerLink="signup">Sign Up</a>
         </div>
     </header>
     <div class="login-card">
-        <header>
+        <div class="card-header">
             <h2>Log In</h2>
             <span>We recommend that you use an email that you use at work.</span>
-        </header>
+        </div>
         <form action="">
             <div class="form-group">
                 <div class="input-field">
                     <input type="email" name="Email" placeholder="email@example.com" required>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail-icon lucide-mail">
+                        <rect width="20" height="16" x="2" y="4" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
                 </div>
                 <div class="input-field">
                     <input type="password" name="Password" placeholder="Password" required>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lock-icon lucide-lock">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
                 </div>
             </div>
             <a routerLink="" class="password-link">Forgot your password?</a>
@@ -26,17 +39,18 @@
                 <span>OR</span>
                 <div class="divider-line"></div>
             </div>
-
-            <button class="btn btn-social">Log in with Google</button>
-
+            <button class="btn btn-social">
+                <img src="assets/img/google.png" class="google-icon" alt="Google Icon">
+                Log in with Google
+            </button>
             <div class="form-controls">
                 <button class="btn btn-primary" type="submit">Log in</button>
                 <button class="btn btn-secondary">Guest</button>
             </div>
         </form>
     </div>
-    <footer>
+    <div class="card-footer">
         <a routerLink="">Legal Notice</a>
         <a routerLink="">Privacy Policy</a>
-    </footer>
+    </div>
 </div>

@@ -10,10 +10,7 @@
     transition: all 250ms ease;
 }
 
-$bg-base-100: #eceefe;
-$bg-base-200: #ffffff;
-
 body {
-    background-color: $bg-base-100;
+    background-color: variables.$bg-base-100;
     font-family: 'Nunito';
 }

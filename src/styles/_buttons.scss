@@ -7,10 +7,12 @@
     gap: 0.5rem;
     align-items: center;
     width: fit-content;
-    padding: 0.5rem 1rem;
+    height: 3rem;
+    padding: 0 1.5rem;
     border: unset;
     border-radius: 999rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 700;
     border: 1px solid transparent;
 }
 
@@ -31,12 +33,10 @@
 
 .btn:active {
     transform: scale(0.95);
-    transition: 125ms ease;
 }
 
 .btn:hover {
     background-color: color-mix(in srgb, variables.$text-primary 70%, transparent 10%);
-    transition: 125ms ease;
 }
 
 .btn-primary {
@@ -46,8 +46,7 @@
 }
 
 .btn-primary:hover {
-    @include button-hover(#797ef3, variables.$text-inverse);
-    transition: 125ms ease;
+    @include button-hover(variables.$bg-primary-accent, variables.$text-inverse);
 }
 
 .btn-secondary {
@@ -57,6 +56,5 @@
 }
 
 .btn-secondary:hover {
-    @include button-hover(#535AF1, variables.$text-inverse);
-    transition: 125ms ease;
+    @include button-hover(variables.$bg-primary, variables.$text-inverse);
 }
