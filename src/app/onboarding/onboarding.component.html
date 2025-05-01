@@ -1,1 +1,19 @@
-<p>landing-page works!</p>
+<div class="onboarding-wrapper">
+    <header>
+        <div class="logo-wrapper">
+            <img src="assets/img/logo.svg" class="main-logo" alt="DA Bubble Logo">
+            <span class="logo-text">DABubble</span>
+        </div>
+        <div class="header-cta">
+            <span>New to DABubble?</span>
+            <a routerLink="signup">Sign Up</a>
+        </div>
+    </header>
+
+    <router-outlet></router-outlet>
+
+    <div class="card-footer">
+        <a routerLink="/legal-notice">Legal Notice</a>
+        <a routerLink="/privacy-policy">Privacy Policy</a>
+    </div>
+</div>

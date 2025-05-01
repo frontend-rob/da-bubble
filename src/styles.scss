@@ -1,4 +1,4 @@
-@use "./styles/variables";
+@use "./styles/variables" as variables;
 @use "./styles/fonts";
 @use "./styles/buttons";
 @use "./styles/scrollbar";
@@ -11,5 +11,10 @@
 }
 
 body {
-    background-color: #ECEEFE;
+    background-color: variables.$bg-base-100;
+    font-family: 'Nunito';
+}
+
+.hidden {
+    display: none !important;
 }

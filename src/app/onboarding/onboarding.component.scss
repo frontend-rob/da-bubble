@@ -1,0 +1,80 @@
+@use '../../styles/variables' as variables;
+@use '../../styles/fonts' as fonts;
+
+.onboarding-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1.25rem;
+
+    .logo-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .main-logo {
+            height: 3rem;
+            width: auto;
+        }
+
+        .logo-text {
+            color: variables.$text-primary;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+    }
+
+    .header-cta {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        a {
+            width: fit-content;
+            padding: 0.5rem 1rem;
+            border: 1px solid variables.$bg-base-100;
+            border-radius: 999rem;
+            font-family: 'Figtree';
+            text-decoration: none;
+            color: variables.$bg-primary-accent;
+
+            &:hover {
+                border: 1px solid variables.$border-color;
+                color: variables.$bg-primary;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+    padding: 1.25rem;
+
+    a {
+        padding: 0.5rem 1rem;
+        border: 1px solid variables.$bg-base-100;
+        border-radius: 999rem;
+        font-family: 'Figtree';
+        text-decoration: none;
+        color: variables.$bg-primary-accent;
+
+        &:hover {
+            border: 1px solid variables.$border-color;
+            color: variables.$bg-primary;
+        }
+    }
+}
