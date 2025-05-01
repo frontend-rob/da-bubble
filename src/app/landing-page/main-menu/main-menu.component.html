@@ -1,60 +1,72 @@
-<div class="container">
-    <div class="menunav">
+<div class="container" [class.close-menu]="isOpen">
+    <div class="menunav" >
         <div class="header-menu-container">
-            <img src="" alt="">
-            <span>Devspace</span>
-            <button type="button" (click)="newMessages()">
-                <img src="" alt="">
-            </button>
-        </div>
-        <div class="channel-menu-container">
-            <div class="channel-menu-header">
-                <button type="button" (click)="openChannelList()">
-                    <img src="" alt="">
-                </button>
-                <span>Channels</span>
-                <button type="button" (click)="newChannel()">
-                    <img src="" alt="">
-                </button>
+            <div class="devsapace-logo">
+                <img src="assets/img/Workspace_logo.svg" alt="logo">
+                <span>Devspace</span>
             </div>
-            <div class="channel-menu-list" *ngIf="showChannelList">
-                <div class="channel-menu-item" *ngFor="let channel of channels">
-                    <img src="" alt="">
-                    <span>{{ channel.name }}</span>
+            <a (click)=" newChannel()" class="new-channel-btn">
+                <div></div>
+            </a>
+        </div>
+        <div class="menu-container">
+            <div class="menu-header">
+                <div class="menu-header-title">
+                    <a (click)="openChannelList()" class="dropdown" [class.close-list-btn]="showChannelList">
+                        <div></div>
+                    </a>
+                    <div class="header">
+                        <img src="assets/img/workspaces_icon.svg" alt="">
+                        <span>Channels</span>
+                    </div>
+                </div>
+                <a (click)="newChannel()" class="add-btn">
+                    <div class="add"></div>
+                </a>
+            </div>
+            <div class="menu-list-container" [class.close-list]="showChannelList">
+                <div class="menu-list">
+                    <div class="menu-item" *ngFor="let channel of channels" (click)="openChannel(channel.id)"  [class.activate]="channel.id === activeChannel">
+                        <div></div>
+                        <span>{{channel.name}}</span>
+                    </div>
+                    <div class="new-channnel-button">
+                        <a (click)="newChannel()" class="add-btn">
+                            <div class="add-circle"></div>
+                            <span>New Channel</span>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="new-channnel-button">
-                <button type="button" (click)="newMessages()">
-                    <img src="" alt="">
-                    <span>New Channel</span>
-                </button>
-            </div>
         </div>
-        <div class="user-menu-container">
-            <div class="user-menu-header">
-                <button type="button" (click)="openChannelList()">
-                    <img src="" alt="">
-                </button>
-                <span>Direct messages</span>
-                <button type="button" (click)="newChannel()">
-                    <img src="" alt="">
-                </button>
-            </div>
-            <div class="user-menu-list" *ngIf="showUserList">
-                <div class="user-menu-item" *ngFor="let user of users">
-                    <img src="" alt="">
-                    <span>{{ user.name }}</span>
+        <div class="menu-container">
+            <div class="menu-header">
+                <div class="menu-header-title">
+                    <a (click)="openUserList()" class="dropdown" [class.close-list-btn]="showUserList">
+                        <div></div>
+                    </a>
+                    <div class="header">
+                        <img src="assets/img/account.svg" alt="">
+                        <span>Direct messages</span>
+                    </div>
                 </div>
+                <div></div>
+            </div>
+            <div class="menu-list-container" [class.close-list]="showUserList">
+                <div class="menu-list">
+                    <div class="menu-item" *ngFor="let user of users" (click)="openUser(user.id)" [class.activate]="user.id === activeUser">
+                        <img src="{{user.img}}" alt="">
+                        <span>{{ user.name }}</span>
+                    </div>
+                </div>
+                <div></div>
             </div>
         </div>
     </div>
-  
-    <div class="menunav-button-container">
-        <div class="menunav-button">
-            <a (click)="toggleNav()">
-                <span>Workspace-Menu open</span>
-                <img src="" alt="">
-              </a>
-        </div>
+</div>
+<div class="menunav-button-container">
+    <div class="menunav-button" [class.close-menu-button]="isOpen" (click)="toggleNav()">
+        <span class="text-menu-button"></span>
+        <div class="img-field"></div>
     </div>
 </div>

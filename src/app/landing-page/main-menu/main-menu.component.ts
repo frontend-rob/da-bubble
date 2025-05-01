@@ -8,24 +8,45 @@ import { Component } from '@angular/core';
   styleUrl: './main-menu.component.scss'
 })
 export class MainMenuComponent {
-  showChannelList = true;
-  showUserList = true;
-  users:any;
-  channels:any;
+  showChannelList = false;
+  showUserList = false;
+  isOpen = false;
+  activeChannel: number | null = null;
+  activeUser: number | null = null;
+  users = [
+    { name: 'John Doe', id: 1, img: 'https://example.com/bob.jpg' },
+    { name: 'Jane Smith', id: 2, img: 'https://example.com/bob.jpg' },
+    { name: 'Alice Johnson', id: 3, img: 'https://example.com/bob.jpg' },
+    { name: 'Bob Brown', id: 4, img: 'https://example.com/bob.jpg' },
+  ];
+  channels = [
+    { name: 'General', id: 1 },
+    { name: 'Random', id: 2 },
+    { name: 'Development', id: 3 },
+    { name: 'Design', id: 4 }
+  ];
 
   newChannel() {
-    // Logic to create a new channel
+
   }
 
   openChannelList() {
-    // Logic to open the channel list
-  }
-
-  newMessages() {
-    // Logic to open new messages
+    this.showChannelList = !this.showChannelList;
   }
 
   toggleNav() {
+    this.isOpen = !this.isOpen;
+  }
 
+  openUserList() {
+    this.showUserList = !this.showUserList;
+  }
+
+  openChannel(id: number) {
+    this.activeChannel = id;
+  }
+
+  openUser(id: number) {
+    this.activeUser = id;
   }
 }
