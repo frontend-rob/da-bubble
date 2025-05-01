@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormValidationService } from '../../services/form-validation.service';
+import { UserDataService } from '../../services/user-data.service';
 
 
 @Component({
@@ -15,7 +17,7 @@ import { FormValidationService } from '../../services/form-validation.service';
     styleUrls: ['./sign-up.component.scss']
 })
 
-export class SignUpComponent {
+export class SignUpComponent implements OnInit {
     /**
      * Form group for the sign-up form.
      */
@@ -24,20 +26,26 @@ export class SignUpComponent {
     /**
      * Constructor to initialize the form group.
      * @param fb - FormBuilder instance to create the form group.
+     * @param userDataService - UserDataService instance to handle user data.
+     * @param router - Router instance to navigate to other components.
      */
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: FormBuilder, private userDataService: UserDataService, private router: Router) {
         this.signUpForm = this.fb.group({
             name: ['', [Validators.required, FormValidationService.nameValidator]],
             email: ['', [Validators.required, FormValidationService.emailValidator]],
-            password: ['', [Validators.required, FormValidationService.passwordValidator]]
+            password: ['', [Validators.required, FormValidationService.passwordValidator]],
+            policy: [false, [Validators.requiredTrue]],
         });
     }
 
-    /**
-     * Navigates back to the previous page in the browser history.
-     */
-    navigateBack() {
-        window.history.back();
+    ngOnInit() {
+        const userData = this.userDataService.getUserData();
+        this.signUpForm.patchValue({
+            name: userData.name,
+            email: userData.email,
+            password: userData.password,
+            policy: userData.policy || false
+        });
     }
 
     /**
@@ -51,12 +59,26 @@ export class SignUpComponent {
     /**
      * Handles the form submission.
      * Logs the form data if valid, otherwise logs an invalid form message.
+     * Navigates to the AvatarsComponent if the form is valid.
      */
     onSubmit() {
         if (this.signUpForm.valid) {
-            console.log('Form submitted:', this.signUpForm.value);
+            this.userDataService.setUserData({
+                name: this.signUpForm.value.name,
+                email: this.signUpForm.value.email,
+                password: this.signUpForm.value.password,
+                policy: this.signUpForm.value.policy
+            });
+            this.router.navigate(['/onboarding/avatars']);
         } else {
             console.log('Form is invalid');
         }
+    }
+
+    /**
+     * Navigates back to the previous page in the browser history.
+     */
+    navigateBack() {
+        window.history.back();
     }
 }
