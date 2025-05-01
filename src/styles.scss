@@ -14,3 +14,7 @@ body {
     background-color: variables.$bg-base-100;
     font-family: 'Nunito';
 }
+
+.hidden {
+    display: none !important;
+}

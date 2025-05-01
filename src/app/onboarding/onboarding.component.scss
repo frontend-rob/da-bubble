@@ -1,6 +1,5 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/fonts' as fonts;
-@use '../../styles/inputs' as inputs;
 
 .onboarding-wrapper {
     display: flex;
@@ -51,121 +50,8 @@ header {
             &:hover {
                 border: 1px solid variables.$border-color;
                 color: variables.$bg-primary;
+                cursor: pointer;
             }
-        }
-    }
-}
-
-.login-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    max-width: 30rem;
-    padding: 2rem;
-    border-radius: 1.5rem;
-    background-color: variables.$bg-base-200;
-
-    .card-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        padding: unset;
-
-        h2 {
-            color: variables.$bg-primary;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-
-        span {
-            text-align: center;
-            text-wrap: balance;
-        }
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
-        gap: 1.5rem;
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            gap: 1.25rem;
-
-            .input-field {
-                display: flex;
-                justify-content: center;
-                width: 100%;
-            }
-        }
-
-        .password-link {
-            align-self: center;
-            padding: 0.5rem 1rem;
-            border-radius: 999rem;
-            text-decoration: none;
-            color: variables.$bg-primary-accent;
-            font-family: 'Figtree';
-            font-size: 0.875rem;
-
-            &:hover {
-                background-color: variables.$bg-base-100;
-            }
-        }
-
-        .divider {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-
-            .divider-line {
-                flex: 1;
-                height: 1px;
-                background-color: variables.$border-color;
-            }
-        }
-
-        .btn-social {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            width: 100%;
-            height: 3rem;
-            padding: 0.5rem 1.5rem;
-            border: 1px solid variables.$bg-base-100;
-            border-radius: 999rem;
-            font-size: 1rem;
-            line-height: 1.25;
-            color: variables.$bg-primary;
-            font-family: 'Nunito';
-            font-size: 0.875rem;
-            font-weight: 400;
-            background-color: variables.$bg-base-100;
-
-            &:hover {
-                border: 1px solid variables.$bg-primary;
-                font-weight: 700;
-            }
-
-            .google-icon {
-                height: 2rem;
-                width: auto;
-            }
-        }
-
-        .form-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 2rem;
         }
     }
 }

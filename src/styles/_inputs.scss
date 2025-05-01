@@ -4,6 +4,7 @@
 .input-field {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 100%;
 
@@ -47,9 +48,21 @@
                 color: transparent;
             }
 
-            + svg {
+            +svg {
                 color: variables.$text-primary !important;
             }
         }
+    }
+}
+
+.error-message {
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    color: transparent;
+    transition: color 0.3s ease;
+
+    &.visible {
+        color: red;
+        font-weight: 300;
     }
 }

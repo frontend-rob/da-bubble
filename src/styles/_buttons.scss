@@ -39,14 +39,24 @@
     background-color: color-mix(in srgb, variables.$text-primary 70%, transparent 10%);
 }
 
+.btn:disabled {
+    background-color: variables.$bg-neutral;
+    color: variables.$text-inverse;
+    border: 1px solid variables.$bg-neutral;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     color: variables.$text-inverse;
     background-color: variables.$bg-primary;
-
 }
 
 .btn-primary:hover {
     @include button-hover(variables.$bg-primary-accent, variables.$text-inverse);
+}
+
+.btn:disabled:hover {
+    @include button-hover(variables.$bg-neutral, variables.$text-inverse);
 }
 
 .btn-secondary {
