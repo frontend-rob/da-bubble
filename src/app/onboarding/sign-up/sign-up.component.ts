@@ -69,7 +69,7 @@ export class SignUpComponent implements OnInit {
                 password: this.signUpForm.value.password,
                 policy: this.signUpForm.value.policy
             });
-            this.router.navigate(['/onboarding/avatars']);
+            this.router.navigate(['/avatars']);
         } else {
             console.log('Form is invalid');
         }
