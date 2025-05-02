@@ -2,10 +2,18 @@
 @use '../../../styles/fonts' as fonts;
 @use '../../../styles/inputs' as inputs;
 
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 8rem);
+}
+
 .signup-card {
     position: relative;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 2rem;
     max-width: 30rem;

@@ -6,19 +6,21 @@ import { LogInComponent } from './onboarding/log-in/log-in.component';
 import { SignUpComponent } from './onboarding/sign-up/sign-up.component';
 import { PasswordResetComponent } from './onboarding/password-reset/password-reset.component';
 import { AvatarsComponent } from './onboarding/avatars/avatars.component';
+import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
-const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['signin']);
+const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['onboarding']);
 const redirectLoggedInToLandingPage = () => redirectLoggedInTo(['workspace']);
 
 export const routes: Routes = [
     {
-        path: '',
+        path: 'workspace',
         component: LandingPageComponent,
         //canActivate: [AuthGuard],
         data: {authGuardPipe: redirectUnauthorizedToOnBording},
     },
     {
-        path: 'onboarding',
+        path: '',
         component: OnboardingComponent,
         data: {authGuardPipe: redirectLoggedInToLandingPage},
         children: [
@@ -39,6 +41,14 @@ export const routes: Routes = [
                 component: AvatarsComponent
             },
         ],
+    },
+    {
+        path: 'legal-notice',
+        component: LegalNoticeComponent,
+    },
+    {
+        path: 'privacy-policy',
+        component: PrivacyPolicyComponent,
     },
 
 ];

@@ -1,52 +1,54 @@
-<div class="login-card">
-    <div class="card-header">
-        <h2>Log In</h2>
-        <span>We recommend that you use an email that you use at work.</span>
+<div class="card-wrapper">
+    <div class="login-card">
+        <div class="card-header">
+            <h2>Log In</h2>
+            <span>We recommend that you use an email that you use at work.</span>
+        </div>
+        <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div class="input-field">
+                    <input type="email" id="login-email" formControlName="email" placeholder="email@example.com">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-mail-icon lucide-mail">
+                        <rect width="20" height="16" x="2" y="4" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                </div>
+                <span class="error-message"
+                    [class.visible]="logInForm.get('email')?.invalid && logInForm.get('email')?.touched">
+                    *Please enter a valid e-mail address.
+                </span>
+                <div class="input-field">
+                    <input type="password" id="login-password" formControlName="password" placeholder="Password">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="lucide lucide-lock-icon lucide-lock">
+                        <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                </div>
+                <span class="error-message"
+                    [class.visible]="logInForm.get('password')?.invalid && logInForm.get('password')?.touched">
+                    *Password must contain at least 8 characters.
+                </span>
+            </div>
+            <a routerLink="" class="password-link">Forgot your password?</a>
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span>OR</span>
+                <div class="divider-line"></div>
+            </div>
+            <div class="login-options">
+                <button class="btn btn-social">
+                    <img src="assets/img/google.png" class="google-icon" alt="Google Icon">
+                    Log in with Google
+                </button>
+                <div class="form-controls">
+                    <button class="btn btn-primary" type="submit">Log in</button>
+                    <button class="btn btn-secondary">Guest</button>
+                </div>
+            </div>
+        </form>
     </div>
-    <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-            <div class="input-field">
-                <input type="email" formControlName="email" placeholder="email@example.com">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-mail-icon lucide-mail">
-                    <rect width="20" height="16" x="2" y="4" rx="2" />
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                </svg>
-            </div>
-            <span class="error-message"
-                [class.visible]="logInForm.get('email')?.invalid && logInForm.get('email')?.touched">
-                *Please enter a valid e-mail address.
-            </span>
-            <div class="input-field">
-                <input type="password" formControlName="password" placeholder="Password">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-lock-icon lucide-lock">
-                    <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                </svg>
-            </div>
-            <span class="error-message"
-                [class.visible]="logInForm.get('password')?.invalid && logInForm.get('password')?.touched">
-                *Password must contain at least 8 characters.
-            </span>
-        </div>
-        <a routerLink="" class="password-link">Forgot your password?</a>
-        <div class="divider">
-            <div class="divider-line"></div>
-            <span>OR</span>
-            <div class="divider-line"></div>
-        </div>
-        <div class="login-options">
-            <button class="btn btn-social">
-                <img src="assets/img/google.png" class="google-icon" alt="Google Icon">
-                Log in with Google
-            </button>
-            <div class="form-controls">
-                <button class="btn btn-primary" type="submit">Log in</button>
-                <button class="btn btn-secondary">Guest</button>
-            </div>
-        </div>
-    </form>
 </div>

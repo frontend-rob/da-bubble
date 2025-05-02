@@ -1,0 +1,52 @@
+@use '../../../styles/variables' as variables;
+@use '../../../styles/fonts' as fonts;
+
+.notification-card {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    border-bottom-right-radius: unset;
+    background-color: variables.$bg-primary;
+
+    span {
+        font-size: 1.25rem;
+        color: variables.$text-inverse
+    }
+}
+
+.slide-in-right {
+    -webkit-animation: slide-in-right 250ms ease-out both;
+    animation: slide-in-right 250ms ease-out both;
+}
+
+@-webkit-keyframes slide-in-right {
+    0% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-right {
+    0% {
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateX(0);
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

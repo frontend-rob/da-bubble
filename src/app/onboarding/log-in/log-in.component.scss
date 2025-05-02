@@ -2,6 +2,13 @@
 @use '../../../styles/fonts' as fonts;
 @use '../../../styles/inputs' as inputs;
 
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 13rem);
+}
+
 .login-card {
     display: flex;
     flex-direction: column;
