@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { ChannelListItemComponent } from './channel-list-item/channel-list-item.component';
+import { AvatarListItemComponent } from "./avatar-list-item/avatar-list-item.component";
 
 @Component({
   selector: 'app-main-menu',
-  imports: [CommonModule],
+  imports: [CommonModule, ChannelListItemComponent, AvatarListItemComponent],
   templateUrl: './main-menu.component.html',
   styleUrl: './main-menu.component.scss'
 })
@@ -11,13 +13,12 @@ export class MainMenuComponent {
   showChannelList = false;
   showUserList = false;
   isOpen = false;
-  activeChannel: number | null = null;
-  activeUser: number | null = null;
-  users = [
-    { name: 'John Doe', id: 1, img: 'https://example.com/bob.jpg' },
-    { name: 'Jane Smith', id: 2, img: 'https://example.com/bob.jpg' },
-    { name: 'Alice Johnson', id: 3, img: 'https://example.com/bob.jpg' },
-    { name: 'Bob Brown', id: 4, img: 'https://example.com/bob.jpg' },
+  avatars = [
+    { name: 'John Doe', id: 1, img: 'assets/img/avatar1.svg', status: 'online' },
+    { name: 'Jane Smith', id: 2, img: 'assets/img/avatar1.svg', status: 'online' },
+    { name: 'Alice Johnson', id: 3, img: 'assets/img/avatar1.svg', status: 'offline' },
+    { name: 'Bob Brown', id: 4, img: 'assets/img/avatar1.svg', status: 'online' },
+    { name: 'Charlie Davis', id: 5, img: 'assets/img/avatar1.svg', status: 'offline' },
   ];
   channels = [
     { name: 'General', id: 1 },
@@ -42,11 +43,7 @@ export class MainMenuComponent {
     this.showUserList = !this.showUserList;
   }
 
-  openChannel(id: number) {
-    this.activeChannel = id;
-  }
+ 
 
-  openUser(id: number) {
-    this.activeUser = id;
-  }
+  
 }

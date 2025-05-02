@@ -14,7 +14,7 @@ export const routes: Routes = [
     {
         path: '',
         component: LandingPageComponent,
-        canActivate: [AuthGuard],
+        //canActivate: [AuthGuard],
         data: {authGuardPipe: redirectUnauthorizedToOnBording},
     },
     {

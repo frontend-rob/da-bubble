@@ -1,0 +1,56 @@
+@use '../../../../styles/variables' as variables;
+
+.menu-item {
+    padding: 2px 15px;
+    display: flex;
+    justify-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+
+    >.avatar {
+        position: relative;
+        height: 35px;
+        width: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        >.status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            z-index: 5;
+            border: 2px solid variables.$bg-base-200;
+
+            &.online {
+                background-color: variables.$online;
+            }
+            &.offline {
+                background-color: variables.$offline;
+            }
+        }
+
+        >img {
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+        }
+    }
+
+    &:hover {
+        background-color: #ECEEFE;
+    }
+
+    &.activate {
+        background-color: #ECEEFE;
+
+        >span {
+            color: #535AF1;
+        }
+    }
+}

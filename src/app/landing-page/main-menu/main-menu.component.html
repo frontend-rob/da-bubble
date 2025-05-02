@@ -1,7 +1,7 @@
 <div class="container" [class.close-menu]="isOpen">
     <div class="menunav" >
         <div class="header-menu-container">
-            <div class="devsapace-logo">
+            <div class="devsapace-logo-header">
                 <img src="assets/img/Workspace_logo.svg" alt="logo">
                 <span>Devspace</span>
             </div>
@@ -11,12 +11,12 @@
         </div>
         <div class="menu-container">
             <div class="menu-header">
-                <div class="menu-header-title">
-                    <a (click)="openChannelList()" class="dropdown" [class.close-list-btn]="showChannelList">
+                <div class="menu-header-title" [class.close-list-btn]="showChannelList" (click)="openChannelList()">
+                    <a class="dropdown">
                         <div></div>
                     </a>
                     <div class="header">
-                        <img src="assets/img/workspaces_icon.svg" alt="">
+                        <div class="channel-img"></div>
                         <span>Channels</span>
                     </div>
                 </div>
@@ -26,10 +26,7 @@
             </div>
             <div class="menu-list-container" [class.close-list]="showChannelList">
                 <div class="menu-list">
-                    <div class="menu-item" *ngFor="let channel of channels" (click)="openChannel(channel.id)"  [class.activate]="channel.id === activeChannel">
-                        <div></div>
-                        <span>{{channel.name}}</span>
-                    </div>
+                    <app-channel-list-item *ngFor="let channel of channels" [channel]="channel"></app-channel-list-item>
                     <div class="new-channnel-button">
                         <a (click)="newChannel()" class="add-btn">
                             <div class="add-circle"></div>
@@ -41,12 +38,12 @@
         </div>
         <div class="menu-container">
             <div class="menu-header">
-                <div class="menu-header-title">
-                    <a (click)="openUserList()" class="dropdown" [class.close-list-btn]="showUserList">
+                <div class="menu-header-title" [class.close-list-btn]="showUserList" (click)="openUserList()">
+                    <a class="dropdown">
                         <div></div>
                     </a>
                     <div class="header">
-                        <img src="assets/img/account.svg" alt="">
+                        <div class="user-img"></div>
                         <span>Direct messages</span>
                     </div>
                 </div>
@@ -54,10 +51,7 @@
             </div>
             <div class="menu-list-container" [class.close-list]="showUserList">
                 <div class="menu-list">
-                    <div class="menu-item" *ngFor="let user of users" (click)="openUser(user.id)" [class.activate]="user.id === activeUser">
-                        <img src="{{user.img}}" alt="">
-                        <span>{{ user.name }}</span>
-                    </div>
+                    <app-avatar-list-item *ngFor="let avatar of avatars" [avatar]="avatar"></app-avatar-list-item>
                 </div>
                 <div></div>
             </div>

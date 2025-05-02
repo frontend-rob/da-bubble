@@ -1,0 +1,7 @@
+<div class="menu-item" (click)="openUser(avatar.id)" [class.activate]="avatar.id === activeAvatar">
+    <div class="avatar">
+        <img src="{{avatar.img}}" alt="">
+        <div class="status" [ngClass]="{'online': avatar.status === 'online', 'offline': avatar.status === 'offline'}"></div>
+    </div>
+    <span>{{ avatar.name }}</span>
+</div>
