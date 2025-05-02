@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormValidationService } from '../../services/form-validation.service';
 import { UserDataService } from '../../services/user-data.service';
@@ -11,6 +11,7 @@ import { UserDataService } from '../../services/user-data.service';
     standalone: true,
     imports: [
         CommonModule,
+        RouterLink,
         ReactiveFormsModule
     ],
     templateUrl: './sign-up.component.html',

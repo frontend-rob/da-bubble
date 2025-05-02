@@ -42,4 +42,17 @@ export class UserDataService {
     getUserData() {
         return this.userData;
     }
+
+    /**
+     * Resets the user data to its initial state.
+     */
+    resetUserData() {
+        this.userData = {
+            name: '',
+            email: '',
+            password: '',
+            avatar: '',
+            policy: false
+        };
+    }
 }

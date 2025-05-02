@@ -1,6 +1,13 @@
 @use '../../../styles/variables' as variables;
 @use '../../../styles/fonts' as fonts;
 
+.card-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - 8rem);
+}
+
 .avatar-card {
     position: relative;
     display: flex;

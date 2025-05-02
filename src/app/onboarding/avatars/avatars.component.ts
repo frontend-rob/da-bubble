@@ -1,18 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
+import { NotificationsComponent } from '../notifications/notifications.component';
+
 
 /**
  * Component for selecting an avatar and displaying user information.
  */
 @Component({
     selector: 'app-avatars',
-    imports: [CommonModule],
+    imports: [
+        CommonModule,
+        NotificationsComponent
+    ],
     templateUrl: './avatars.component.html',
     styleUrls: ['./avatars.component.scss']
 })
 
 export class AvatarsComponent {
+    
+    @ViewChild('notification') notificationComponent!: NotificationsComponent;
+
     /**
      * The currently selected avatar image path.
      */
@@ -44,7 +53,7 @@ export class AvatarsComponent {
      * Constructor to inject the UserDataService.
      * @param userDataService - Service to manage user data.
      */
-    constructor(private userDataService: UserDataService) { }
+    constructor(private userDataService: UserDataService, private router: Router) { }
 
     /**
      * Lifecycle hook to initialize component data.
@@ -63,8 +72,7 @@ export class AvatarsComponent {
     selectedAvatar(path: string): void {
         if (this.status) {
             this.selectedUserAvatar = path;
-            const avatarName = path.split('/').pop()?.split('.')[0] || '';
-            this.userDataService.setAvatar(avatarName);
+            this.userDataService.setAvatar(path);
         }
     }
 
@@ -84,7 +92,15 @@ export class AvatarsComponent {
     */
     createAccount() {
         const userData = this.userDataService.getUserData();
+        this.notificationComponent.showNotification('Account successfully created!');
         console.log('Account created with data:', userData);
+
+        // Navigate and reset forms after notification is shown
+        setTimeout(() => {
+            this.userDataService.resetUserData();
+            this.selectedUserAvatar = 'assets/img/avatars/av-00.svg';
+            this.router.navigate(['']);
+        }, 3000);
     }
     
     /**
