@@ -4,8 +4,9 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { LogInComponent } from './onboarding/log-in/log-in.component';
 import { SignUpComponent } from './onboarding/sign-up/sign-up.component';
-import { PasswordResetComponent } from './onboarding/password-reset/password-reset.component';
 import { AvatarsComponent } from './onboarding/avatars/avatars.component';
+import { PasswordResetComponent } from './onboarding/password-reset/password-reset.component';
+import { PasswordNewComponent } from './onboarding/password-new/password-new.component';
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
@@ -33,12 +34,16 @@ export const routes: Routes = [
                 component: SignUpComponent
             },
             {
-                path: 'passwordreset',
+                path: 'avatars',
+                component: AvatarsComponent
+            },
+            {
+                path: 'reset-password',
                 component: PasswordResetComponent
             },
             {
-                path: 'avatars',
-                component: AvatarsComponent
+                path: 'change-password',
+                component: PasswordNewComponent
             },
         ],
     },

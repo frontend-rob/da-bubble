@@ -39,5 +39,17 @@ export class FormValidationService {
         return control.value && control.value.length >= 8 ? null : { invalidPassword: true };
     }
 
+    /**
+     * Validates if two form controls have matching values.
+     * @param control - The form group to validate.
+     * @returns Validation errors if invalid, otherwise null.
+     */
+    static changePasswordValidator(control: AbstractControl): ValidationErrors | null {
+        const password = control.get('password')?.value;
+        const passwordConfirmation = control.get('passwordConfirmation')?.value;
+
+        return password === passwordConfirmation ? null : { valuesDoNotMatch: true };
+    }
+
     constructor() { }
 }

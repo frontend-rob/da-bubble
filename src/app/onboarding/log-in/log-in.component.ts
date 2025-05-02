@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormValidationService } from '../../services/form-validation.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-log-in',
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     ReactiveFormsModule
 ],
   templateUrl: './log-in.component.html',

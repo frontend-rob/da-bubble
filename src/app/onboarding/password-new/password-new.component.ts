@@ -1,31 +1,30 @@
-import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { FormValidationService } from '../../services/form-validation.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
-
+import { Router, RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
-    selector: 'app-password-reset',
+    selector: 'app-password-new',
     imports: [
         CommonModule,
         RouterModule,
         ReactiveFormsModule,
         NotificationsComponent
     ],
-    templateUrl: './password-reset.component.html',
-    styleUrl: './password-reset.component.scss'
+    templateUrl: './password-new.component.html',
+    styleUrl: './password-new.component.scss'
 })
 
-export class PasswordResetComponent {
+export class PasswordNewComponent {
 
     @ViewChild('notification') notificationComponent!: NotificationsComponent;
 
     /**
      * Form group for managing the password reset form.
      */
-    resetPWForm: FormGroup;
+    changePWForm: FormGroup;
 
     /**
      * Initializes the component and sets up the form group.
@@ -33,33 +32,32 @@ export class PasswordResetComponent {
      * @param router - Router instance for navigation.
      */
     constructor(private fb: FormBuilder, private router: Router) {
-        this.resetPWForm = this.fb.group({
-            email: ['', [Validators.required, FormValidationService.emailValidator]],
-        });
+        this.changePWForm = this.fb.group({
+            password: ['', [Validators.required, FormValidationService.passwordValidator]],
+            passwordConfirmation: ['', [Validators.required, FormValidationService.passwordValidator]]
+        }, { validators: FormValidationService.changePasswordValidator });
     }
 
     /**
-     * Validates the form.
+     * Checks if the form is valid.
      * @returns True if the form is valid, otherwise false.
      */
     isFormValid(): boolean {
-        return this.resetPWForm.valid;
+        return this.changePWForm.valid;
     }
 
     /**
-     * Handles form submission.
-     * If the form is valid, logs the email and navigates to the home page.
-     * Otherwise, logs an error message.
+     * Sets a new password if the form is valid, shows a notification, and navigates to the home page.
      */
-    resetPassword() {
-        if (this.resetPWForm.valid) {
-            const email = this.resetPWForm.value.email;
-            this.notificationComponent.showNotification('Email sent successfully!');
-            console.log('Form submitted with email:', email);
+    setNewPassword() {
+        if (this.changePWForm.valid) {
+            const password = this.changePWForm.value.password;
+            this.notificationComponent.showNotification('New password set!');
+            console.log('New password:', password);
 
             // Navigate and reset forms after notification is shown
             setTimeout(() => {
-                this.resetPWForm.reset();
+                this.changePWForm.reset();
                 this.router.navigate(['']);
             }, 3000);
         } else {
@@ -73,4 +71,5 @@ export class PasswordResetComponent {
     navigateBack() {
         window.history.back();
     }
+
 }

@@ -4,10 +4,6 @@ import { Router } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
 
-
-/**
- * Component for selecting an avatar and displaying user information.
- */
 @Component({
     selector: 'app-avatars',
     imports: [
