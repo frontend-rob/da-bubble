@@ -1,0 +1,24 @@
+@import "./../../styles/variables";
+
+.workspace {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.workspace-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 1920px;
+  height: 100vh;
+  padding: 20px;
+  background-color: $bg-base-100;
+
+  > div {
+    display: flex;
+    height: 100%;
+    gap: 20px;
+  }
+}
