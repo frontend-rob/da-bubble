@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,15 @@ import { CommonModule } from '@angular/common';
         CommonModule
     ],
     templateUrl: './onboarding.component.html',
-    styleUrls: ['./onboarding.component.scss']
+    styleUrls: [
+        './onboarding.component.scss',
+        './log-in/log-in.component.scss',
+        './sign-up/sign-up.component.scss',
+        './avatars/avatars.component.scss',
+        './password-reset/password-reset.component.scss',
+        './password-new/password-new.component.scss',
+    ],
+    encapsulation: ViewEncapsulation.None,
 })
 
 export class OnboardingComponent implements OnInit, AfterViewInit {

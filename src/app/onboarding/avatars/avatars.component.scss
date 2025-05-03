@@ -1,67 +1,9 @@
 @use '../../../styles/variables' as variables;
 @use '../../../styles/fonts' as fonts;
-
-.card-wrapper {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: calc(100vh - 8rem);
-}
+@use '../../../styles/shared-styles';
 
 .avatar-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    width: 30rem;
-    padding: 2rem;
-    border-radius: 1.5rem;
-    background-color: variables.$bg-base-200;
-
-    .card-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        padding: unset;
-
-        .btn-back {
-            position: absolute;
-            top: 2.5rem;
-            left: 1rem;
-            display: inline-flex;
-            justify-content: center;
-            height: 2.5rem;
-            width: 2.5rem;
-            aspect-ratio: 1;
-            padding: 0.25rem;
-            border-radius: 999rem;
-            background-color: variables.$bg-base-200;
-            border: none;
-            cursor: pointer;
-
-            svg {
-                width: 1.5rem;
-                height: 1.5rem;
-                color: variables.$text-primary;
-            }
-        }
-
-        .btn-back:hover {
-            background-color: variables.$bg-base-100;
-
-            svg {
-                color: variables.$bg-primary;
-            }
-        }
-
-        h2 {
-            color: variables.$bg-primary;
-            font-size: 2.5rem;
-            font-weight: 700;
-        }
-    }
+    @extend %card-base;
 }
 
 .avatar-selection-container {
@@ -69,27 +11,27 @@
     flex-direction: column;
     gap: 2rem;
     width: 100%;
+}
 
-    .choosen-avatar {
-        display: flex;
-        justify-content: center;
+.choosen-avatar {
+    display: flex;
+    justify-content: center;
+}
 
-        img {
-            height: 8.75rem;
-            width: 8.75rem;
-        }
-    }
+.choosen-avatar img {
+    height: 8.75rem;
+    width: 8.75rem;
+}
 
-    .user-information {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
+.user-information {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
 
-        h3 {
-            font-size: 1.5rem;
-            text-align: center;
-        }
-    }
+.user-information h3 {
+    font-size: 1.5rem;
+    text-align: center;
 }
 
 .avatar-img-container {
@@ -99,26 +41,59 @@
     gap: 1rem;
     width: 100%;
     flex-wrap: wrap;
+}
 
-    img {
-        height: 3.25rem;
-        width: 3.25rem;
-        cursor: pointer;
-        outline: 0.25rem solid transparent;
+.avatar-img-container img {
+    height: 3.25rem;
+    width: 3.25rem;
+    cursor: pointer;
+    outline: 0.25rem solid transparent;
+}
 
-        &:hover {
-            outline: 0.25rem solid variables.$bg-neutral-hover;
-            border-radius: 999rem;
-        }
+.avatar-img-container img:hover {
+    outline: 0.25rem solid variables.$bg-neutral-hover;
+    border-radius: 999rem;
+}
 
-        &:active {
-            outline: 0.25rem solid variables.$bg-primary-accent;
-            border-radius: 999rem;
-        }
-    }
+.avatar-img-container img:active {
+    outline: 0.25rem solid variables.$bg-primary-accent;
+    border-radius: 999rem;
 }
 
 .form-control {
     display: flex;
     justify-content: flex-end;
+    width: 100%;
+}
+
+@media screen and (max-width: 40rem) {
+    .avatar-card {
+        gap: 1.5rem;
+        padding: 1.25rem;
+    }
+
+    .card-header {
+        gap: 1rem;
+    }
+
+    .btn-back {
+        top: 1.25rem;
+    }
+
+    .card-header h2 {
+        font-size: 2rem;
+    }
+
+    .avatar-selection-container {
+        gap: 1.5rem;
+    }
+
+    .choosen-avatar img {
+        height: 8rem;
+        width: 8rem;
+    }
+
+    .avatar-img-container {
+        gap: 0.5rem;
+    }
 }

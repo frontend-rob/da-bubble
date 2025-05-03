@@ -5,78 +5,152 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
+}
+
+app-log-in,
+app-sign-up,
+app-avatars,
+app-password-reset,
+app-password-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex: 1;
 }
 
 header {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.header-inner {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 96rem;
     width: 100%;
     height: 8rem;
     padding: 1.25rem;
+}
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
-        .main-logo {
-            height: 3rem;
-            width: auto;
-        }
+.main-logo {
+    height: 3rem;
+    width: auto;
+}
 
-        .logo-text {
-            color: variables.$text-primary;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-    }
+.logo-text {
+    color: variables.$text-primary;
+    font-size: 2rem;
+    font-weight: 700;
+}
 
-    .header-cta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+.header-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
-        a {
-            width: fit-content;
-            padding: 0.5rem 1rem;
-            border: 1px solid variables.$bg-base-100;
-            border-radius: 999rem;
-            font-family: 'Figtree';
-            text-decoration: none;
-            color: variables.$bg-primary-accent;
+.header-cta a {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
 
-            &:hover {
-                border: 1px solid variables.$border-color;
-                color: variables.$bg-primary;
-                cursor: pointer;
-            }
-        }
-    }
+.header-cta a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+    cursor: pointer;
+}
+
+.header-cta-mobile {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 8rem;
+    padding: 1.25rem;
+}
+
+.header-cta-mobile a {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
+
+.header-cta-mobile a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+    cursor: pointer;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .card-footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 96rem;
     width: 100%;
     height: 5rem;
     gap: 2rem;
-    padding: 1.25rem;
+    padding: 1rem;
+}
 
-    a {
-        padding: 0.5rem 1rem;
-        border: 1px solid variables.$bg-base-100;
-        border-radius: 999rem;
-        font-family: 'Figtree';
-        text-decoration: none;
-        color: variables.$bg-primary-accent;
+.card-footer a {
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
 
-        &:hover {
-            border: 1px solid variables.$border-color;
-            color: variables.$bg-primary;
-        }
+.card-footer a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+}
+
+@media screen and (max-width: calc(48rem + 1px)) {
+    .header-cta-mobile {
+        display: flex;
+    }
+
+    .card-footer {
+        display: none;
+    }
+
+    .header-inner {
+        justify-content: center;
+    }
+
+    .header-cta {
+        display: none;
     }
 }
