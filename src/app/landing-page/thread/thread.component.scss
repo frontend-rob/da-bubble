@@ -7,10 +7,10 @@
     height: calc(100vh - 40px);
     border-radius: 30px;
     position: relative;
-    margin-right: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
 }
 
 .thread-head-container {
@@ -68,17 +68,21 @@
     }
 }
 
+main {
+    padding: 24px;
+    width: 100%;
+  }
 
-.thread-chatbox-container {
-    width: calc(100% - 40px);
+
+.chatbox-container {
+    width: 100%;
     border: 1px solid rgba(173, 176, 217, 1);
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    position: absolute;
-    bottom: 40px;
+    margin-bottom: 20px;
 
     >textarea {
         border: none;

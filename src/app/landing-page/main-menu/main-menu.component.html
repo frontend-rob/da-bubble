@@ -66,7 +66,7 @@
 </div>
 <div class="menunav-button-container">
     <div class="menunav-button" [class.close-menu-button]="isOpen" (click)="toggleNav()">
-        <span class="text-menu-button"></span>
-        <div class="img-field"></div>
+        <span  class="text-menu-button">{{isOpen ? isClosedText : isOpenText}}</span>
+        <div  class="img-field"></div>
     </div>
 </div>

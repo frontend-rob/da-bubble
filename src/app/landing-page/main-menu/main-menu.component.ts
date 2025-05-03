@@ -11,6 +11,10 @@ export class MainMenuComponent {
   showChannelList = false;
   showUserList = false;
   isOpen = false;
+  isOpenText = "Close workspace menu";
+  isOpenImg = "./assets/img/workspaces_close_default.svg";
+  isClosedText = "Open workspace menu";
+  isClosedImg = "./assets/img/workspaces_open_default.svg";
   activeChannel: number | null = null;
   activeUser: number | null = null;
   users = [

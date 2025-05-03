@@ -4,6 +4,7 @@
 .chat-container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 989px;
   height: 100%;
   border-radius: 30px;
@@ -124,5 +125,92 @@
     justify-content: flex-start;
     align-items: center;
     padding: 24px;
+  }
+
+  .chatbox-container {
+    width: calc(100% - 40px);
+    border: 1px solid rgba(173, 176, 217, 1);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+
+    >textarea {
+      border: none;
+      outline: none;
+      resize: none;
+      width: 100%;
+      height: 100%;
+    }
+
+    textarea::placeholder {
+      font-family: 'Nunito';
+    }
+  }
+
+  .chatbox-options-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .options-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .emoji {
+    background-image: url('/assets/img/sentiment_satisfied.svg');
+    background-size: 20px 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px;
+
+    &:hover {
+      background-color: #ECEEFE;
+      border-radius: 50%;
+      cursor: pointer;
+      background-image: url('/assets/img/add_reaction_hover.svg');
+    }
+
+  }
+
+  .tag {
+    background-image: url('/assets/img/alternate_email.svg');
+    background-size: 20px 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+    margin: 10px;
+
+    &:hover {
+      background-color: #ECEEFE;
+      border-radius: 50%;
+      cursor: pointer;
+      background-image: url('/assets/img/alternate_email_hover.svg');
+    }
+  }
+
+  .option-black {
+    filter: brightness(0);
+  }
+
+  .send {
+    background-image: url('/assets/img/send.svg');
+    background-size: cover;
+    background-position: center;
+    height: 18.77px;
+    width: 21.78px;
+
+    &:hover {
+      cursor: pointer;
+      background-image: url('/assets/img/send_hover.svg');
+    }
   }
 }
