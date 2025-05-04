@@ -1,9 +1,13 @@
 <section class="message-input-section">
-  <textarea name="" id="" placeholder="Nachricht an #Entwicklerteam"></textarea>
-  <div class="chatbox-options-container">
-    <div class="options-container">
-      <div class="emoji"></div>
-      <div class="tag"></div>
+  <textarea [placeholder]="placeholderText"></textarea>
+  <div class="options-container">
+    <div class="options">
+      <div class="options-link emoji">
+        <img src="assets/img/shared/emoji.svg" />
+      </div>
+      <div class="options-link tag">
+        <img src="assets/img/shared/tag.svg" />
+      </div>
     </div>
     <div class="send-button"></div>
   </div>

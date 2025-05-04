@@ -27,8 +27,10 @@
 
   <main>
     <div class="chat-history"></div>
+    <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
     <app-message-input-field
       class="message-input-field"
+      [placeholderText]="'Nachricht an #Entwicklerteam'"
     ></app-message-input-field>
   </main>
 </section>
