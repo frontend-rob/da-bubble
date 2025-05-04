@@ -1,4 +1,9 @@
-<div class="onboarding-wrapper">
+<div class="animation-wrapper" *ngIf="!isAnimationComplete">
+    <img src="assets/img/logo.svg" class="animation-logo logo-slide-in" alt="DA Bubble Logo"
+        (animationend)="onLogoAnimationEnd()">
+    <span class="animation-text" [class.hidden]="isTextHidden">DABubble</span>
+</div>
+<div class="onboarding-wrapper" *ngIf="isAnimationComplete">
     <header>
         <div class="header-inner">
             <div class="logo-wrapper">
