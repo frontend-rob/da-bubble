@@ -4,12 +4,13 @@
   align-items: flex-start;
   justify-content: center;
   height: 100%;
-  width: 300px;
+  width: 366px;
   flex: 1;
   // position: relative;
 
   &.close-menu {
-    overflow: hidden;
+    display: none;
+    // overflow: hidden;
     transform: translateX(-100%);
   }
 }
@@ -22,7 +23,7 @@
   width: 100%;
   position: relative;
   background-color: white;
-  border-radius: 20px;
+  border-radius: 30px;
   padding: 20px;
   gap: 20px;
   transition: all 250ms ease-in-out;
