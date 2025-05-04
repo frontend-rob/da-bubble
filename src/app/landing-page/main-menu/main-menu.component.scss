@@ -6,7 +6,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     width: 300px;
     position: relative;
 
@@ -74,7 +74,7 @@
             }
 
             &:hover {
-                background-color: #ECEEFE;
+                background-color: variables.$bg-neutral-hover;
                 border-radius: 50%;
 
                 >div {
@@ -95,8 +95,7 @@
         justify-content: space-between;
         width: 100%;
         position: relative;
-        background-color: white;
-        border-radius: 20px;
+        background-color: variables.$bg-base-200;
         gap: 10px;
 
         .menu-header {
@@ -162,7 +161,7 @@
                         }
                     }
                     >.header {
-                        color: #535AF1;
+                        color: variables.$text-hover;
 
                         >.channel-img {
                             background-image: url('/assets/img/workspaces_icon_hover.svg');
@@ -197,6 +196,7 @@
         display: flex;
         margin-top: 15px;
         padding: 0 15px;
+        font-size: 14px;
 
         >.add-btn {
             gap: 5px;
@@ -211,7 +211,7 @@
                 border-radius: 0%;
 
                 >span {
-                    color: #535AF1;
+                    color: variables.$text-hover;
                 }
             }
         }
@@ -240,7 +240,7 @@
         }
 
         &:hover {
-            background-color: #ECEEFE;
+            background-color: variables.$bg-neutral-hover;
             border-radius: 50%;
 
             >div {
@@ -350,11 +350,40 @@
         }
 
         &:hover {
-            color: #535AF1;
+            color: variables.$text-hover;
 
             >.img-field {
                 background-image: url('/assets/img/workspaces_open_hover.svg');
             }
         }
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+
+    .menunav {
+        margin: 0;
+        width: 100%;
+        border-radius: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .header-menu-container {
+        display: none !important;
+        padding: 0 20px;
+    }
+
+    .menu-container {
+        padding: 0 20px;
+    }
+
+    .menunav-button-container {
+        display: none;
     }
 }
