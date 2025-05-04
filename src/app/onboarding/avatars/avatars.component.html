@@ -17,17 +17,17 @@
             </div>
             <div class="user-information">
                 <h3>{{ userName }}</h3>
-                <p>Select an avatar from the list.</p>
+                <p>Choose your avatar...</p>
             </div>
             <div class="avatar-img-container">
                 <img *ngFor="let avatar of avatarList" src="{{ avatar }}" (click)="selectedAvatar(avatar)">
             </div>
-            <div class="form-control">
-                <button class="btn btn-primary" (click)="createAccount()"
-                    [disabled]="selectedUserAvatar === 'assets/img/avatars/av-00.svg'">
-                    Create Account
-                </button>
-            </div>
+        </div>
+        <div class="form-control">
+            <button class="btn btn-primary" (click)="createAccount()"
+                [disabled]="selectedUserAvatar === 'assets/img/avatars/av-00.svg'">
+                Create Account
+            </button>
         </div>
     </div>
 </div>

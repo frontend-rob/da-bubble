@@ -17,43 +17,42 @@ export const routes: Routes = [
     {
         path: 'workspace',
         component: LandingPageComponent,
-        //canActivate: [AuthGuard],
-        data: {authGuardPipe: redirectUnauthorizedToOnBording},
+        // canActivate: [AuthGuard],
+        // data: {authGuardPipe: redirectUnauthorizedToOnBording},
     },
     {
         path: '',
         component: OnboardingComponent,
-        data: {authGuardPipe: redirectLoggedInToLandingPage},
+        data: { authGuardPipe: redirectLoggedInToLandingPage },
         children: [
             {
                 path: '',
-                component: LogInComponent
+                component: LogInComponent,
             },
             {
                 path: 'signup',
-                component: SignUpComponent
+                component: SignUpComponent,
             },
             {
                 path: 'avatars',
-                component: AvatarsComponent
+                component: AvatarsComponent,
             },
             {
                 path: 'reset-password',
-                component: PasswordResetComponent
+                component: PasswordResetComponent,
             },
             {
                 path: 'change-password',
-                component: PasswordNewComponent
+                component: PasswordNewComponent,
+            },
+            {
+                path: 'legal-notice',
+                component: LegalNoticeComponent,
+            },
+            {
+                path: 'privacy-policy',
+                component: PrivacyPolicyComponent,
             },
         ],
     },
-    {
-        path: 'legal-notice',
-        component: LegalNoticeComponent,
-    },
-    {
-        path: 'privacy-policy',
-        component: PrivacyPolicyComponent,
-    },
-
 ];

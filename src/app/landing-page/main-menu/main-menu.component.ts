@@ -19,6 +19,18 @@ export class MainMenuComponent {
     { name: 'Alice Johnson', id: 3, img: 'assets/img/avatar1.svg', status: 'offline' },
     { name: 'Bob Brown', id: 4, img: 'assets/img/avatar1.svg', status: 'online' },
     { name: 'Charlie Davis', id: 5, img: 'assets/img/avatar1.svg', status: 'offline' },
+  ]
+  isOpenText = "Close workspace menu";
+  isOpenImg = "./assets/img/workspaces_close_default.svg";
+  isClosedText = "Open workspace menu";
+  isClosedImg = "./assets/img/workspaces_open_default.svg";
+  activeChannel: number | null = null;
+  activeUser: number | null = null;
+  users = [
+    { name: 'John Doe', id: 1, img: 'https://example.com/bob.jpg' },
+    { name: 'Jane Smith', id: 2, img: 'https://example.com/bob.jpg' },
+    { name: 'Alice Johnson', id: 3, img: 'https://example.com/bob.jpg' },
+    { name: 'Bob Brown', id: 4, img: 'https://example.com/bob.jpg' },
   ];
   channels = [
     { name: 'General', id: 1 },

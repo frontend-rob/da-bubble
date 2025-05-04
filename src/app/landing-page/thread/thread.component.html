@@ -1,0 +1,29 @@
+<div class="thread-container">
+    <div class="thread-head-container">
+        <div class="thread-description-container">
+            <span class="thread-head-text">Thread</span>
+            <div class="thread-tag"></div>
+            <span class="thread-description">Entwicklerteam</span>
+        </div>
+        <div class="thread-close"></div>
+    </div>
+    <main>
+        <!-- <div>chat-messages</div> -->
+        <div class="chatbox-container">
+            <textarea name="" id="" placeholder="Antworten..."></textarea>
+            <div class="chatbox-options-container">
+                <div class="options-container">
+                    <div class="emoji" (mouseover)="hoverEmoji = true" (mouseout)="hoverEmoji = false"
+                        [ngClass]="{ 'option-black': hoverTag }">
+                    </div>
+                    <div class="tag" (mouseover)="hoverTag = true" (mouseout)="hoverTag = false"
+                        [ngClass]="{ 'option-black': hoverEmoji }">
+                    </div>
+                </div>
+                <div (mouseover)="hoverTag = true; hoverEmoji = true" (mouseout)="hoverTag = false; hoverEmoji=false"
+                    class="send"></div>
+            </div>
+        </div>
+    </main>
+
+</div>

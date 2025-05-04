@@ -1,82 +1,235 @@
 @use '../../styles/variables' as variables;
 @use '../../styles/fonts' as fonts;
 
+.animation-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    gap: 1.5rem;
+    background: linear-gradient(0deg,
+            variables.$bg-primary-dark 25%,
+            variables.$bg-primary 60%,
+            variables.$bg-primary-accent 100%)
+}
+
+.animation-logo {
+    height: 6rem;
+    width: auto;
+}
+
+.animation-text span {
+    display: inline-flex;
+    color: variables.$text-inverse;
+    font-size: 3rem;
+    font-weight: 700;
+    opacity: 0;
+}
+
 .onboarding-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     overflow-x: hidden;
+}
+
+app-log-in,
+app-sign-up,
+app-avatars,
+app-password-reset,
+app-password-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    flex: 1;
 }
 
 header {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.header-inner {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 96rem;
     width: 100%;
     height: 8rem;
     padding: 1.25rem;
+}
 
-    .logo-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
+.logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
-        .main-logo {
-            height: 3rem;
-            width: auto;
-        }
+.main-logo {
+    height: 3rem;
+    width: auto;
+}
 
-        .logo-text {
-            color: variables.$text-primary;
-            font-size: 2rem;
-            font-weight: 700;
-        }
-    }
+.logo-text {
+    color: variables.$text-primary;
+    font-size: 2rem;
+    font-weight: 700;
+}
 
-    .header-cta {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
+.header-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
 
-        a {
-            width: fit-content;
-            padding: 0.5rem 1rem;
-            border: 1px solid variables.$bg-base-100;
-            border-radius: 999rem;
-            font-family: 'Figtree';
-            text-decoration: none;
-            color: variables.$bg-primary-accent;
+.header-cta a {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
 
-            &:hover {
-                border: 1px solid variables.$border-color;
-                color: variables.$bg-primary;
-                cursor: pointer;
-            }
-        }
-    }
+.header-cta a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+    cursor: pointer;
+}
+
+.header-cta-mobile {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    height: 8rem;
+    padding: 1.25rem;
+}
+
+.header-cta-mobile a {
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
+
+.header-cta-mobile a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+    cursor: pointer;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }
 
 .card-footer {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 96rem;
     width: 100%;
     height: 5rem;
     gap: 2rem;
-    padding: 1.25rem;
+    padding: 1rem;
+}
 
-    a {
-        padding: 0.5rem 1rem;
-        border: 1px solid variables.$bg-base-100;
-        border-radius: 999rem;
-        font-family: 'Figtree';
-        text-decoration: none;
-        color: variables.$bg-primary-accent;
+.card-footer a {
+    padding: 0.5rem 1rem;
+    border: 1px solid variables.$bg-base-100;
+    border-radius: 999rem;
+    font-family: 'Figtree';
+    text-decoration: none;
+    color: variables.$bg-primary-accent;
+}
 
-        &:hover {
-            border: 1px solid variables.$border-color;
-            color: variables.$bg-primary;
-        }
+.card-footer a:hover {
+    border: 1px solid variables.$border-color;
+    color: variables.$bg-primary;
+}
+
+.logo-slide-in {
+    -webkit-animation: logo-slide-in 1000ms cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    animation: logo-slide-in 1000ms cubic-bezier(0.230, 1.000, 0.320, 1.000) both;
+    animation-delay: 500ms;
+}
+
+@keyframes logo-slide-in {
+    0% {
+        -webkit-transform: translateY(-300%) scaleY(3) scaleX(0.2);
+        transform: translateY(-300%) scaleY(3) scaleX(0.2);
+        -webkit-transform-origin: 50% 0%;
+        transform-origin: 50% 0%;
+        -webkit-filter: blur(1.25rem);
+        filter: blur(1.25rem);
+        opacity: 0;
+    }
+
+    100% {
+        -webkit-transform: translateY(0) scaleY(1) scaleX(1);
+        transform: translateY(0) scaleY(1) scaleX(1);
+        -webkit-transform-origin: 50% 50%;
+        transform-origin: 50% 50%;
+        -webkit-filter: blur(0);
+        filter: blur(0);
+        opacity: 1;
+    }
+}
+
+@keyframes split-text {
+    0% {
+        opacity: 0;
+        transform: translateY(1rem);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media screen and (max-width: calc(48rem + 1px)) {
+    .header-cta-mobile {
+        display: flex;
+    }
+
+    .card-footer {
+        display: none;
+    }
+
+    .header-inner {
+        justify-content: center;
+    }
+
+    .header-cta {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 40rem) {
+    .animation-wrapper {
+        gap: 1rem;
+    }
+
+    .animation-logo {
+        height: 3rem;
+    }
+
+    .animation-text span {
+        font-size: 2rem;
     }
 }
