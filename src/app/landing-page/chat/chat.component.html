@@ -1,5 +1,5 @@
 <section class="chat-section">
-  <header>
+  <header class="chat-header">
     <div class="chat-title" (click)="openOverlay()">
       <img class="icon" src="assets/img/chat/channel_tag.svg" />
       <h1>Entwicklerteam</h1>
@@ -24,10 +24,46 @@
       </div>
     </div>
 
-    <div class="overlay" *ngIf="overlayIsOpen"></div>
+    <div class="overlay" *ngIf="overlayIsOpen">
+      <div class="container">
+        <header class="overlay-header">
+          <div>
+            <img class="tag" src="assets/img/chat/channel_tag.svg" />
+            <h1>Entwicklerteam</h1>
+          </div>
+          <div class="close-btn" (click)="openOverlay()">
+            <img src="assets/img/chat/close.svg" />
+          </div>
+        </header>
+        <main class="overlay-main">
+          <div class="title-container">
+            <h2>Channel-Name</h2>
+
+            <div class="title">
+              <img src="assets/img/chat/channel_tag.svg" />
+              Entwicklerteam
+            </div>
+          </div>
+          <div class="description-container">
+            <h2>Description</h2>
+            <div class="description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
+              error distinctio nesciunt, aspernatur fugit dicta assumenda
+              delectus, nisi, facilis consequatur atque! In ratione molestiae
+              itaque cum doloribus consequuntur eligendi repellendus.
+            </div>
+
+            <div class="seperator"></div>
+
+            <h2>Created by</h2>
+            <div class="creator">Noah Braun</div>
+          </div>
+        </main>
+      </div>
+    </div>
   </header>
 
-  <main>
+  <main class="chat-main">
     <div class="chat-history"></div>
     <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
     <app-message-input-field
