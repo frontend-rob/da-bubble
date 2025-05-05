@@ -6,6 +6,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
     providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
         authDomain: "dabubble-826b4.firebaseapp.com",
         messagingSenderId: "943978163562"
     })),
+    // provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideDatabase(() => getDatabase()
