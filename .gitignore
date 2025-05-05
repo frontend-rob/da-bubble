@@ -49,5 +49,7 @@ Thumbs.db
 .runtimeconfig.json
 
 # Personal
-
 up.sh
+
+#Environment
+/src/environments/environment.prod.ts
