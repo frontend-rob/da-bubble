@@ -19,6 +19,7 @@
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     box-shadow: 0 2px 10px 0 #00000014;
+    position: relative;
 
     .chat-title {
       display: flex;
@@ -26,6 +27,7 @@
       padding: 6px 10px;
       gap: 10px;
       border-radius: 100px;
+      cursor: pointer;
 
       &:hover {
         background-color: variables.$bg-base-100;
@@ -117,6 +119,20 @@
           content: url("/assets/img/chat/add_member_hover.svg");
         }
       }
+    }
+
+    .overlay {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 500px;
+      height: 300px;
+      position: absolute;
+      top: 72px;
+      left: 48px;
+      z-index: 1;
+      border-radius: 30px;
+      background-color: red;
     }
   }
 

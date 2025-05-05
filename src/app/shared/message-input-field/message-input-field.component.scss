@@ -50,15 +50,19 @@
   }
 }
 
-.emoji img {
+.emoji {
   &:hover {
-    content: url("/assets/img/shared/emoji_hover.svg");
+    img {
+      content: url("/assets/img/shared/emoji_hover.svg");
+    }
   }
 }
 
-.tag img {
+.tag {
   &:hover {
-    content: url("/assets/img/shared/tag_hover.svg");
+    img {
+      content: url("/assets/img/shared/tag_hover.svg");
+    }
   }
 }
 

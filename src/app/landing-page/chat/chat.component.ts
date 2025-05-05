@@ -11,4 +11,9 @@ import { MessageInputFieldComponent } from '../../shared/message-input-field/mes
 export class ChatComponent {
   hoverEmoji = false;
   hoverTag = false;
+  overlayIsOpen = false;
+
+  openOverlay() {
+    this.overlayIsOpen = !this.overlayIsOpen;
+  }
 }
