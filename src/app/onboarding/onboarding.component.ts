@@ -17,6 +17,8 @@ import { CommonModule } from '@angular/common';
         './avatars/avatars.component.scss',
         './password-reset/password-reset.component.scss',
         './password-new/password-new.component.scss',
+        '../legal-notice/legal-notice.component.scss',
+        '../privacy-policy/privacy-policy.component.scss',
     ],
     encapsulation: ViewEncapsulation.None,
 })
