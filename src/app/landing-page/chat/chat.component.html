@@ -1,6 +1,6 @@
 <section class="chat-section">
   <header class="chat-header">
-    <div class="chat-title" (click)="openOverlay()">
+    <div class="chat-title" (click)="toggleOverlay()">
       <img class="icon" src="assets/img/chat/channel_tag.svg" />
       <h1>Entwicklerteam</h1>
       <img class="arrow" src="assets/img/chat/arrow_down.svg" />
@@ -24,6 +24,12 @@
       </div>
     </div>
 
+    <div
+      class="overlay-bg"
+      (click)="toggleOverlay()"
+      *ngIf="overlayIsOpen"
+    ></div>
+
     <div class="overlay" *ngIf="overlayIsOpen">
       <div class="container">
         <header class="overlay-header">
@@ -31,7 +37,7 @@
             <img class="tag" src="assets/img/chat/channel_tag.svg" />
             <h1>Entwicklerteam</h1>
           </div>
-          <div class="close-btn" (click)="openOverlay()">
+          <div class="close-btn" (click)="toggleOverlay()">
             <img src="assets/img/chat/close.svg" />
           </div>
         </header>

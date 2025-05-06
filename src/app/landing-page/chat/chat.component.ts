@@ -13,14 +13,14 @@ export class ChatComponent {
   hoverTag = false;
   overlayIsOpen = false;
 
-  openOverlay() {
-    const overlayBackground = document.getElementById('overlay-bg');
+  toggleOverlay() {
+    // const overlayBackground = document.getElementById('overlay-bg');
     this.overlayIsOpen = !this.overlayIsOpen;
 
-    if (this.overlayIsOpen) {
-      overlayBackground?.classList.add('overlay-bg');
-    } else {
-      overlayBackground?.classList.remove('overlay-bg');
-    }
+    // if (this.overlayIsOpen) {
+    //   overlayBackground?.classList.add('overlay-bg');
+    // } else {
+    //   overlayBackground?.classList.remove('overlay-bg');
+    // }
   }
 }

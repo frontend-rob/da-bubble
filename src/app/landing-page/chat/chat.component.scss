@@ -121,6 +121,19 @@
       }
     }
 
+    .overlay-bg {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: #00000050;
+      z-index: 1;
+    }
+
     .overlay {
       display: flex;
       justify-content: center;
