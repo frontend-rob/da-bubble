@@ -42,21 +42,56 @@
           </div>
         </header>
         <main class="overlay-main">
-          <div class="title-container">
-            <h2>Channel-Name</h2>
+          <div class="name-container" *ngIf="!nameIsEdit">
+            <div>
+              <h2>Channel-Name</h2>
+              <button (click)="toggleNameEdit()">Bearbeiten</button>
+            </div>
 
-            <div class="title">
+            <div class="name">
               <img src="assets/img/chat/channel_tag.svg" />
               Entwicklerteam
             </div>
           </div>
-          <div class="description-container">
-            <h2>Description</h2>
+
+          <div class="name-container-edit" *ngIf="nameIsEdit">
+            <div>
+              <h2>Channel-Name</h2>
+              <button (click)="toggleNameEdit()">Speichern</button>
+            </div>
+
+            <div class="input-container">
+              <img src="assets/img/chat/channel_tag.svg" />
+              <input type="text" placeholder="Entwicklerteam" />
+            </div>
+          </div>
+
+          <div class="description-container" *ngIf="!descriptionIsEdit">
+            <div>
+              <h2>Description</h2>
+              <button (click)="toggleDescriptionEdit()">Bearbeiten</button>
+            </div>
             <div class="description">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
               error distinctio nesciunt, aspernatur fugit dicta assumenda
               delectus, nisi, facilis consequatur atque! In ratione molestiae
               itaque cum doloribus consequuntur eligendi repellendus.
+            </div>
+
+            <div class="seperator"></div>
+
+            <h2>Created by</h2>
+            <div class="creator">Noah Braun</div>
+          </div>
+
+          <div class="description-container-edit" *ngIf="descriptionIsEdit">
+            <div>
+              <h2>Description</h2>
+              <button (click)="toggleDescriptionEdit()">Speichern</button>
+            </div>
+
+            <div class="input-container">
+              <input type="text" placeholder="Your text here..." />
             </div>
 
             <div class="seperator"></div>

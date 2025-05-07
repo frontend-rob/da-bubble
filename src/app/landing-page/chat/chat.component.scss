@@ -204,7 +204,7 @@
           flex-direction: column;
           justify-content: flex-start;
           align-items: center;
-          gap: 16px;
+          gap: 24px;
           width: 100%;
 
           h2 {
@@ -212,7 +212,7 @@
             font-weight: 700;
           }
 
-          .title-container,
+          .name-container,
           .description-container {
             display: flex;
             flex-direction: column;
@@ -225,8 +225,41 @@
             width: 100%;
           }
 
-          .title-container {
-            .title {
+          .name-container-edit,
+          .description-container-edit {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 20px;
+            border: none;
+            border-radius: 20px;
+            width: 100%;
+          }
+
+          .name-container,
+          .name-container-edit {
+            > div:first-child {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+            }
+
+            button {
+              background-color: transparent;
+              border: none;
+              color: variables.$text-hover;
+              font-weight: 600;
+              cursor: pointer;
+
+              &:hover {
+                font-weight: 700;
+              }
+            }
+
+            .name {
               display: flex;
               align-items: center;
               gap: 10px;
@@ -238,7 +271,58 @@
             }
           }
 
-          .description-container {
+          .name-container-edit,
+          .description-container-edit {
+            display: flex;
+            padding: 0;
+
+            button {
+              margin-right: 20px;
+            }
+
+            .input-container {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              padding: 18px 20px;
+              border: 1px solid variables.$border;
+              border-radius: 40px;
+              width: 100%;
+
+              > img {
+                width: 16px;
+                height: 16px;
+              }
+
+              input {
+                border: none;
+                outline: none;
+                width: 100%;
+              }
+            }
+          }
+
+          .description-container,
+          .description-container-edit {
+            > div:first-child {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              width: 100%;
+            }
+
+            button {
+              background-color: transparent;
+              border: none;
+              color: variables.$text-hover;
+              font-weight: 600;
+              cursor: pointer;
+
+              &:hover {
+                font-weight: 700;
+              }
+            }
+
             .seperator {
               width: 100%;
               height: 1px;

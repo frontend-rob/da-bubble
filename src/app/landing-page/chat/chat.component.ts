@@ -12,15 +12,20 @@ export class ChatComponent {
   hoverEmoji = false;
   hoverTag = false;
   overlayIsOpen = false;
+  nameIsEdit = false;
+  descriptionIsEdit = false;
 
   toggleOverlay() {
-    // const overlayBackground = document.getElementById('overlay-bg');
     this.overlayIsOpen = !this.overlayIsOpen;
+    this.nameIsEdit = false;
+    this.descriptionIsEdit = false;
+  }
 
-    // if (this.overlayIsOpen) {
-    //   overlayBackground?.classList.add('overlay-bg');
-    // } else {
-    //   overlayBackground?.classList.remove('overlay-bg');
-    // }
+  toggleNameEdit() {
+    this.nameIsEdit = !this.nameIsEdit;
+  }
+
+  toggleDescriptionEdit() {
+    this.descriptionIsEdit = !this.descriptionIsEdit;
   }
 }
