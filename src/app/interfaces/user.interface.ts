@@ -32,7 +32,7 @@ export interface User {
      * The timestamp of when the user was created in Firestore.
      * Used for sorting, auditing, or showing "member since" data.
      */
-    createdAt: Timestamp;  // Firebase's Timestamp for better compatibility with Firestore
+    createdAt: Timestamp;
 
     /**
      * The user's presence status.

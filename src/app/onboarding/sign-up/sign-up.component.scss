@@ -3,7 +3,6 @@
 @use '../../../styles/inputs' as inputs;
 @use '../../../styles/shared-styles';
 
-
 .signup-card {
     @extend %card-base;
 }
@@ -20,6 +19,7 @@
 
     .btn-back {
         top: 1.25rem;
+        left: 0.875rem;
     }
 
     .card-header h2 {

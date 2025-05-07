@@ -12,7 +12,7 @@
     gap: 2rem;
     max-width: 60rem;
     width: 100%;
-    padding: 2rem;
+    padding: 1.5rem 2rem;
     margin-bottom: 4rem;
     border-radius: 1.5rem;
     background-color: variables.$bg-base-200;
@@ -28,8 +28,8 @@
 
 .btn-back {
     position: absolute;
-    top: 2.5rem;
-    left: 2rem;
+    top: 2rem;
+    left: 1.5rem;
     display: inline-flex;
     justify-content: center;
     height: 2.5rem;
@@ -121,8 +121,8 @@ li {
     }
 
     .btn-back {
-        top: 1rem;
-        left: 1em;
+        top: 1.25rem;
+        left: 0.875rem;
     }
 
     .article-header h2 {
