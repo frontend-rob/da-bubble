@@ -1,9 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
+import { User } from '../../interfaces/user.interface';
+import { Timestamp } from 'firebase/firestore';
+import { AuthService } from '../../services/auth.service';
 
+/**
+ * Component for managing user avatar selection during onboarding.
+ * Allows users to choose an avatar and create an account.
+ */
 @Component({
     selector: 'app-avatars',
     imports: [
@@ -13,9 +20,10 @@ import { NotificationsComponent } from '../notifications/notifications.component
     templateUrl: './avatars.component.html',
     styleUrls: ['./avatars.component.scss']
 })
-
 export class AvatarsComponent {
-    
+    /**
+     * Reference to the notification component for displaying messages.
+     */
     @ViewChild('notification') notificationComponent!: NotificationsComponent;
 
     /**
@@ -46,10 +54,11 @@ export class AvatarsComponent {
     status: boolean = true;
 
     /**
-     * Constructor to inject the UserDataService.
-     * @param userDataService - Service to manage user data.
+     * Injecting services using Angular's inject() function.
      */
-    constructor(private userDataService: UserDataService, private router: Router) { }
+    private authService = inject(AuthService);
+    private userDataService = inject(UserDataService);
+    private router = inject(Router);
 
     /**
      * Lifecycle hook to initialize component data.
@@ -84,21 +93,59 @@ export class AvatarsComponent {
     }
 
     /**
-     * Handles the account creation process by logging the user data.
-    */
-    createAccount() {
-        const userData = this.userDataService.getUserData();
-        this.notificationComponent.showNotification('Account successfully created!');
-        console.log('Account created with data:', userData);
+     * Handles the account creation process by registering the user in Firebase Authentication and saving their data to Firestore.
+     */
+    async createAccount() {
+        try {
+            const userData = this.userDataService.getUserData();
+            const uid = await this.registerUserInFirebase(userData.email, userData.password);
+            await this.saveUserDataToFirestore(uid, userData);
+            this.showSuccessNotification();
+        } catch (error) {
+            console.error('Error creating account:', error);
+        }
+    }
 
-        // Navigate and reset forms after notification is shown
+    /**
+     * Registers the user in Firebase Authentication.
+     * @param email - The user's email address.
+     * @param password - The user's password.
+     * @returns The UID of the registered user.
+     */
+    private async registerUserInFirebase(email: string, password: string): Promise<string> {
+        return this.authService.registerUser(email, password);
+    }
+
+    /**
+     * Saves the user data to Firestore.
+     * @param uid - The UID of the user.
+     * @param userData - The user data to save.
+     */
+    private async saveUserDataToFirestore(uid: string, userData: { name: string; email: string; avatar: string }): Promise<void> {
+        const user: User = {
+            uid,
+            userName: userData.name,
+            email: userData.email,
+            photoURL: this.selectedUserAvatar,
+            createdAt: Timestamp.fromDate(new Date()),
+            status: 'online',
+            role: 'user'
+        };
+        await this.authService.saveUserToFirestore(uid, user);
+    }
+
+    /**
+     * Displays a success notification and resets user data.
+     */
+    private showSuccessNotification(): void {
+        this.notificationComponent.showNotification('Account successfully created!');
         setTimeout(() => {
             this.userDataService.resetUserData();
             this.selectedUserAvatar = 'assets/img/avatars/av-00.svg';
             this.router.navigate(['']);
         }, 3000);
     }
-    
+
     /**
      * Navigates back to the previous page in the browser history.
      */

@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { FormValidationService } from '../../services/form-validation.service';
 import { UserDataService } from '../../services/user-data.service';
 
-
+/**
+ * Component for handling the user sign-up process.
+ * Provides a form for user registration and navigation to the avatar selection step.
+ */
 @Component({
     selector: 'app-sign-up',
     standalone: true,
@@ -17,20 +20,20 @@ import { UserDataService } from '../../services/user-data.service';
     templateUrl: './sign-up.component.html',
     styleUrls: ['./sign-up.component.scss']
 })
-
 export class SignUpComponent implements OnInit {
     /**
-     * Form group for the sign-up form.
+     * Reactive form group for the sign-up form.
      */
     signUpForm: FormGroup;
 
     /**
-     * Constructor to initialize the form group.
-     * @param fb - FormBuilder instance to create the form group.
-     * @param userDataService - UserDataService instance to handle user data.
-     * @param router - Router instance to navigate to other components.
+     * Injecting required services using Angular's inject() function.
      */
-    constructor(private fb: FormBuilder, private userDataService: UserDataService, private router: Router) {
+    private fb = inject(FormBuilder);
+    private userDataService = inject(UserDataService);
+    private router = inject(Router);
+
+    constructor() {
         this.signUpForm = this.fb.group({
             name: ['', [Validators.required, FormValidationService.nameValidator]],
             email: ['', [Validators.required, FormValidationService.emailValidator]],
@@ -39,6 +42,9 @@ export class SignUpComponent implements OnInit {
         });
     }
 
+    /**
+     * Lifecycle hook to initialize the form with existing user data.
+     */
     ngOnInit() {
         const userData = this.userDataService.getUserData();
         this.signUpForm.patchValue({
@@ -58,11 +64,9 @@ export class SignUpComponent implements OnInit {
     }
 
     /**
-     * Handles the form submission.
-     * Logs the form data if valid, otherwise logs an invalid form message.
-     * Navigates to the AvatarsComponent if the form is valid.
+     * Handles the form submission by saving user data and navigating to the avatar selection step.
      */
-    onSubmit() {
+    async onSubmit() {
         if (this.signUpForm.valid) {
             this.userDataService.setUserData({
                 name: this.signUpForm.value.name,

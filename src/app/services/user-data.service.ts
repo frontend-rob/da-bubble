@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root'
 })
-
 export class UserDataService {
     /**
      * Stores user data including name, email, password, avatar, and policy agreement.
