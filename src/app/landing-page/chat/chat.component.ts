@@ -11,12 +11,12 @@ import { MessageInputFieldComponent } from '../../shared/message-input-field/mes
 export class ChatComponent {
   hoverEmoji = false;
   hoverTag = false;
-  overlayIsOpen = false;
+  modalIsOpen = false;
   nameIsEdit = false;
   descriptionIsEdit = false;
 
-  toggleOverlay() {
-    this.overlayIsOpen = !this.overlayIsOpen;
+  toggleModal() {
+    this.modalIsOpen = !this.modalIsOpen;
     this.nameIsEdit = false;
     this.descriptionIsEdit = false;
   }

@@ -9,6 +9,7 @@
   width: 100%;
   border: 1px solid variables.$border;
   border-radius: 20px;
+  position: relative;
 
   textarea {
     border: none;
@@ -77,4 +78,18 @@
     cursor: pointer;
     background-image: url("/assets/img/send_hover.svg");
   }
+}
+
+.emojiModal,
+.userTagModal {
+  padding: 20px;
+  width: 300px;
+  height: 200px;
+  background-color: variables.$bg-base-200;
+  border: 1px solid variables.$border;
+  border-radius: 20px;
+  border-bottom-left-radius: 0;
+  position: absolute;
+  bottom: 128px;
+  z-index: 1;
 }

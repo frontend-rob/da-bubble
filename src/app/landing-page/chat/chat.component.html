@@ -1,6 +1,6 @@
 <section class="chat-section">
   <header class="chat-header">
-    <div class="chat-title" (click)="toggleOverlay()">
+    <div class="chat-title" (click)="toggleModal()">
       <img class="icon" src="assets/img/chat/channel_tag.svg" />
       <h1>Entwicklerteam</h1>
       <img class="arrow" src="assets/img/chat/arrow_down.svg" />
@@ -24,24 +24,20 @@
       </div>
     </div>
 
-    <div
-      class="overlay-bg"
-      (click)="toggleOverlay()"
-      *ngIf="overlayIsOpen"
-    ></div>
+    <div class="modal-bg" (click)="toggleModal()" *ngIf="modalIsOpen"></div>
 
-    <div class="overlay" *ngIf="overlayIsOpen">
+    <div class="modal" *ngIf="modalIsOpen">
       <div class="container">
-        <header class="overlay-header">
+        <header class="modal-header">
           <div>
             <img class="tag" src="assets/img/chat/channel_tag.svg" />
             <h1>Entwicklerteam</h1>
           </div>
-          <div class="close-btn" (click)="toggleOverlay()">
+          <div class="close-btn" (click)="toggleModal()">
             <img src="assets/img/chat/close.svg" />
           </div>
         </header>
-        <main class="overlay-main">
+        <main class="modal-main">
           <div class="name-container" *ngIf="!nameIsEdit">
             <div>
               <h2>Channel-Name</h2>
