@@ -15,9 +15,9 @@
                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                     </svg>
                 </div>
-                <span class="error-message"
-                    [class.visible]="logInForm.get('email')?.invalid && logInForm.get('email')?.touched">
-                    *Please enter a valid e-mail address.
+                <span class="error-message visible"
+                    [class.visible]="(logInForm.get('email')?.invalid && logInForm.get('email')?.touched) || serverError?.includes('email')">
+                    {{ getEmailErrorMessage() }}
                 </span>
                 <div class="input-field">
                     <input type="password" id="login-password" formControlName="password" placeholder="Password">
@@ -29,8 +29,8 @@
                     </svg>
                 </div>
                 <span class="error-message"
-                    [class.visible]="logInForm.get('password')?.invalid && logInForm.get('password')?.touched">
-                    *Password must contain at least 8 characters.
+                    [class.visible]="(logInForm.get('password')?.invalid && logInForm.get('password')?.touched) || serverError?.includes('password')">
+                    {{ getPasswordErrorMessage() }}
                 </span>
             </div>
             <a routerLink="/reset-password" class="password-link">Forgot your password?</a>
@@ -46,7 +46,7 @@
                 </button>
                 <div class="form-controls">
                     <button class="btn btn-primary" type="submit">Log in</button>
-                    <button class="btn btn-secondary">Guest</button>
+                    <button class="btn btn-secondary" (click)="guestLogIn()">Guest</button>
                 </div>
             </div>
         </form>

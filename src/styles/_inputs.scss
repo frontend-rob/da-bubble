@@ -71,13 +71,16 @@
 }
 
 .error-message {
-    font-size: 0.875rem;
+    display: block;
+    min-height: 1.25rem;
     margin-bottom: 0.5rem;
-    color: transparent;
-    transition: color 0.3s ease;
+    font-size: 0.875rem;
+    color: variables.$bg-error;
+    font-weight: 300;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 
     &.visible {
-        color: red;
-        font-weight: 300;
+        opacity: 1;
     }
 }
