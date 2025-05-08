@@ -3,7 +3,7 @@
  * Provides methods to register users and save user data to Firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { User } from '../interfaces/user.interface';
 
@@ -39,6 +39,20 @@ export class AuthService {
             const firestore = inject(Firestore);
             const userRef = doc(firestore, `users/${uid}`);
             await setDoc(userRef, userData);
+        });
+    }
+
+    /**
+     * Logs in a user with Firebase Authentication.
+     * Ensures the method runs within an Angular injection context.
+     * @param email - The email address of the user.
+     * @param password - The password for the user.
+     * @returns A promise that resolves when the user is successfully logged in.
+     */
+    async logIn(email: string, password: string): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const auth = inject(Auth);
+            await signInWithEmailAndPassword(auth, email, password);
         });
     }
 }
