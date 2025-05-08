@@ -101,7 +101,10 @@
   </header>
 
   <main class="chat-main">
-    <div class="chat-history"></div>
+    <div class="chat-history">
+      <app-chat-message-other></app-chat-message-other>
+      <app-chat-message-own></app-chat-message-own>
+    </div>
     <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
     <app-message-input-field
       class="message-input-field"

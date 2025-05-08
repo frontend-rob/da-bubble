@@ -343,13 +343,17 @@
   .chat-main {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    padding: 32px;
     width: 100%;
 
     .message-input-field {
+      padding: 32px;
       width: 100%;
     }
+  }
+  
+  .chat-history {
+    margin: 20px 0;
   }
 }
