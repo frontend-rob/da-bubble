@@ -3,7 +3,7 @@
  * Provides methods to register users and save user data to Firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { UserData } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
@@ -58,6 +58,18 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
             await signInWithEmailAndPassword(auth, email, password);
+        });
+    }
+
+    /**
+     * Logs out the currently authenticated user.
+     * Ensures the method runs within an Angular injection context.
+     * @returns A promise that resolves when the user is successfully logged out.
+     */
+    async logOut(): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const auth = inject(Auth);
+            await signOut(auth);
         });
     }
 }
