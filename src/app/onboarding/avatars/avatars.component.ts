@@ -128,7 +128,7 @@ export class AvatarsComponent {
             email: userData.email,
             photoURL: this.selectedUserAvatar,
             createdAt: Timestamp.fromDate(new Date()),
-            status: 'online',
+            status: 'offline',
             role: 'user'
         };
         await this.authService.saveUserToFirestore(uid, user);

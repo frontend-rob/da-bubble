@@ -3,6 +3,7 @@
  * Provides methods to register users and save user data to firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
+<<<<<<< Updated upstream
 import {
     Auth,
     createUserWithEmailAndPassword,
@@ -15,6 +16,10 @@ import {
     GoogleAuthProvider, sendPasswordResetEmail
 } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
+=======
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut, signInAnonymously } from '@angular/fire/auth';
+import { Firestore, doc, setDoc, Timestamp } from '@angular/fire/firestore';
+>>>>>>> Stashed changes
 import { UserData } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 
@@ -111,13 +116,29 @@ export class AuthService {
     }
 
     /**
-     * Signs in a user anonymously using Firebase Authentication.
-     * @returns A promise that resolves when the user is successfully signed in.
+     * Signs in a user anonymously using Firebase Authentication and saves guest data to Firestore.
+     * @returns A promise that resolves when the user is successfully signed in and saved.
      */
     async signInAnonymously(): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
-            await signInAnonymously(auth);
+            const firestore = inject(Firestore);
+
+            const userCredential = await signInAnonymously(auth);
+            const uid = userCredential.user.uid;
+
+            const guestData: UserData = {
+                uid,
+                userName: 'Guest',
+                email: '',
+                photoURL: '',
+                createdAt: Timestamp.fromDate(new Date()),
+                status: 'offline',
+                role: 'guest'
+            };
+
+            const userRef = doc(firestore, `users/${uid}`);
+            await setDoc(userRef, guestData);
         });
     }
 }

@@ -43,8 +43,8 @@ export interface UserData {
 
     /**
      * The role of the user in the system.
-     * Can be 'user', 'admin', 'moderator', etc. (optional).
+     * Can be 'user', 'admin', 'moderator', 'guest', etc. (optional).
      */
-    role?: 'user' | 'admin' | 'moderator';
+    role?: 'user' | 'admin' | 'moderator' | 'guest';
 
 }
