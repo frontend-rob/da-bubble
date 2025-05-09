@@ -115,10 +115,10 @@ export class AuthService {
             const guestData: UserData = {
                 uid,
                 userName: 'Guest',
-                email: 'dabubble-406.firebaseapp.com',
-                photoURL: 'assets/img/avatars/av-01.svg',
+                email: '',
+                photoURL: '',
                 createdAt: Timestamp.fromDate(new Date()),
-                status: 'online',
+                status: 'offline',
                 role: 'guest'
             };
 
