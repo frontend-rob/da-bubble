@@ -10,19 +10,20 @@ import { PasswordNewComponent } from './onboarding/password-new/password-new.com
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
-const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['onboarding']);
+const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['']);
 const redirectLoggedInToLandingPage = () => redirectLoggedInTo(['workspace']);
 
 export const routes: Routes = [
     {
         path: 'workspace',
         component: LandingPageComponent,
-        // canActivate: [AuthGuard],
-        // data: {authGuardPipe: redirectUnauthorizedToOnBording},
+        canActivate: [AuthGuard],
+        data: {authGuardPipe: redirectUnauthorizedToOnBording},
     },
     {
         path: '',
         component: OnboardingComponent,
+        canActivate: [AuthGuard],
         data: { authGuardPipe: redirectLoggedInToLandingPage },
         children: [
             {
