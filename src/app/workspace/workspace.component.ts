@@ -5,14 +5,14 @@ import { ThreadComponent } from './thread/thread.component';
 import { NewChannelComponent } from './new-channel/new-channel.component';
 
 @Component({
-  selector: 'app-landing-page',
+  selector: 'app-workspace',
   imports: [
     MainMenuComponent,
     ChatComponent,
     ThreadComponent,
     NewChannelComponent,
   ],
-  templateUrl: './landing-page.component.html',
-  styleUrl: './landing-page.component.scss',
+  templateUrl: './workspace.component.html',
+  styleUrl: './workspace.component.scss',
 })
-export class LandingPageComponent {}
+export class WorkspaceComponent {}
