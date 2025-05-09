@@ -3,23 +3,8 @@
  * Provides methods to register users and save user data to firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-<<<<<<< Updated upstream
-import {
-    Auth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    user,
-    User,
-    signOut,
-    signInAnonymously,
-    signInWithPopup,
-    GoogleAuthProvider, sendPasswordResetEmail
-} from '@angular/fire/auth';
-import { Firestore, doc, setDoc } from '@angular/fire/firestore';
-=======
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut, signInAnonymously } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut, signInAnonymously, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { Firestore, doc, setDoc, Timestamp } from '@angular/fire/firestore';
->>>>>>> Stashed changes
 import { UserData } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 
@@ -130,10 +115,10 @@ export class AuthService {
             const guestData: UserData = {
                 uid,
                 userName: 'Guest',
-                email: '',
-                photoURL: '',
+                email: 'dabubble-406.firebaseapp.com',
+                photoURL: 'assets/img/avatars/av-01.svg',
                 createdAt: Timestamp.fromDate(new Date()),
-                status: 'offline',
+                status: 'online',
                 role: 'guest'
             };
 
