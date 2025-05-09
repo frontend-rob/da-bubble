@@ -1,9 +1,19 @@
 /**
  * Service for handling authentication and user-related operations.
- * Provides methods to register users and save user data to Firestore.
+ * Provides methods to register users and save user data to firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut, signInAnonymously } from '@angular/fire/auth';
+import {
+    Auth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    user,
+    User,
+    signOut,
+    signInAnonymously,
+    signInWithPopup,
+    GoogleAuthProvider, sendPasswordResetEmail
+} from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { UserData } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
@@ -14,8 +24,8 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
     user$: Observable<User | null>;
-    
-    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth) { 
+
+    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth) {
         this.user$ = user(this.firebaseAuth);
     }
 
@@ -70,6 +80,33 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
             await signOut(auth);
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+        });
+    }
+
+    /**
+     * sends a Password Reset email to the specified email address.
+     * @param email - The email address of the user.
+     * @returns A promise that resolves when the email is successfully sent.
+     */
+    async resetPassword(email: string): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const auth = inject(Auth);
+            await sendPasswordResetEmail(auth, email);
+        });
+    }
+
+    /**
+     * Signs in a user with Google using Firebase Authentication.
+     * @returns A promise that resolves when the user is successfully signed in.
+     */
+    async signInWithGoogle(): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const auth = inject(Auth);
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
         });
     }
 

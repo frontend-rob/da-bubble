@@ -91,6 +91,24 @@ export class LogInComponent {
             });
     }
 
+  /**
+   * Logs in as a google user using Firebase google authentication.
+   * Resets form validation and error states.
+   */
+    googleLogIn(): void {
+    this.logInForm.reset(); // Reset form values and validation states
+    this.serverError = null; // Clear server error messages#
+
+        this.authService.signInWithGoogle()
+            .then(() => {
+                this.router.navigate(['/workspace']);
+            })
+            .catch((error) => {
+                this.serverError = 'global: *Failed to log in with Google. Please try again.';
+                console.error('Google login error:', error);
+            });
+    }
+
     /**
      * Returns the appropriate error message for the email field.
      */

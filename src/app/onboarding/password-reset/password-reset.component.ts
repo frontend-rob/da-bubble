@@ -3,6 +3,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormValidationService } from '../../services/form-validation.service';
+import { AuthService } from '../../services/auth.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
 
 
@@ -32,7 +33,7 @@ export class PasswordResetComponent {
      * @param fb - Instance of FormBuilder for creating the form.
      * @param router - Router instance for navigation.
      */
-    constructor(private fb: FormBuilder, private router: Router) {
+    constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
         this.resetPWForm = this.fb.group({
             email: ['', [Validators.required, FormValidationService.emailValidator]],
         });
@@ -49,11 +50,13 @@ export class PasswordResetComponent {
     /**
      * Handles form submission.
      * If the form is valid, logs the email and navigates to the home page.
+     * calls the auth service to send the user an email reset.
      * Otherwise, logs an error message.
      */
     resetPassword() {
         if (this.resetPWForm.valid) {
             const email = this.resetPWForm.value.email;
+            this.authService.resetPassword(email);
             this.notificationComponent.showNotification('Email sent successfully!');
             console.log('Form submitted with email:', email);
 
