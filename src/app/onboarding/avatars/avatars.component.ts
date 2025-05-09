@@ -3,7 +3,7 @@ import { Component, ViewChild, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserDataService } from '../../services/user-data.service';
 import { NotificationsComponent } from '../notifications/notifications.component';
-import { User } from '../../interfaces/user.interface';
+import { UserData } from '../../interfaces/user.interface';
 import { Timestamp } from 'firebase/firestore';
 import { AuthService } from '../../services/auth.service';
 
@@ -122,7 +122,7 @@ export class AvatarsComponent {
      * @param userData - The user data to save.
      */
     private async saveUserDataToFirestore(uid: string, userData: { name: string; email: string; avatar: string }): Promise<void> {
-        const user: User = {
+        const user: UserData = {
             uid,
             userName: userData.name,
             email: userData.email,

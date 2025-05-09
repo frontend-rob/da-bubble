@@ -3,7 +3,7 @@ import { Timestamp } from 'firebase/firestore';
 /**
  * Firestore model for a registered user including identity, profile, and status.
  */
-export interface User {
+export interface UserData {
     /**
      * The unique Firebase Authentication user ID.
      * Used to identify the user across the application and in Firestore.

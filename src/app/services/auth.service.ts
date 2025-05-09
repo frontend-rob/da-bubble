@@ -3,16 +3,21 @@
  * Provides methods to register users and save user data to Firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
-import { User } from '../interfaces/user.interface';
+import { UserData } from '../interfaces/user.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+
+    user$: Observable<User | null>;
     
-    constructor(private environmentInjector: EnvironmentInjector) { }
+    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth) { 
+        this.user$ = user(this.firebaseAuth);
+    }
 
     /**
      * Registers a new user with Firebase Authentication.
@@ -34,7 +39,7 @@ export class AuthService {
      * @param userData - The user data to save.
      * @returns A promise that resolves when the data is successfully saved.
      */
-    async saveUserToFirestore(uid: string, userData: User): Promise<void> {
+    async saveUserToFirestore(uid: string, userData: UserData): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const userRef = doc(firestore, `users/${uid}`);

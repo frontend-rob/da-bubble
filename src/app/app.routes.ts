@@ -1,5 +1,5 @@
-import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { Routes } from '@angular/router';
+import { authGuard } from './guards/auth.guard';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { LogInComponent } from './onboarding/log-in/log-in.component';
@@ -10,21 +10,15 @@ import { PasswordNewComponent } from './onboarding/password-new/password-new.com
 import { LegalNoticeComponent } from './legal-notice/legal-notice.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
-const redirectUnauthorizedToOnBording = () => redirectUnauthorizedTo(['']);
-const redirectLoggedInToLandingPage = () => redirectLoggedInTo(['workspace']);
-
 export const routes: Routes = [
     {
         path: 'workspace',
         component: LandingPageComponent,
-        canActivate: [AuthGuard],
-        data: {authGuardPipe: redirectUnauthorizedToOnBording},
+        canActivate: [authGuard],
     },
     {
         path: '',
         component: OnboardingComponent,
-        canActivate: [AuthGuard],
-        data: { authGuardPipe: redirectLoggedInToLandingPage },
         children: [
             {
                 path: '',
