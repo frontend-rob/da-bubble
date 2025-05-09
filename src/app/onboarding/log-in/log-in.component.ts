@@ -74,14 +74,21 @@ export class LogInComponent {
     }
 
     /**
-     * Logs in as a guest user with predefined credentials.
+     * Logs in as a guest user using Firebase anonymous authentication.
+     * Resets form validation and error states.
      */
     guestLogIn(): void {
-        this.logInForm.setValue({
-            email: 'guest@dabubble.com',
-            password: 'guest@dabubble406'
-        });
-        this.onSubmit();
+        this.logInForm.reset(); // Reset form values and validation states
+        this.serverError = null; // Clear server error messages
+
+        this.authService.signInAnonymously()
+            .then(() => {
+                this.router.navigate(['/workspace']);
+            })
+            .catch((error) => {
+                this.serverError = 'global: *Failed to log in as guest. Please try again.';
+                console.error('Guest login error:', error);
+            });
     }
 
     /**

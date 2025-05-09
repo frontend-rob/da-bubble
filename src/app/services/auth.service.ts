@@ -3,7 +3,7 @@
  * Provides methods to register users and save user data to Firestore.
  */
 import { Injectable, inject, EnvironmentInjector, runInInjectionContext } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, user, User, signOut, signInAnonymously } from '@angular/fire/auth';
 import { Firestore, doc, setDoc } from '@angular/fire/firestore';
 import { UserData } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
@@ -70,6 +70,17 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
             await signOut(auth);
+        });
+    }
+
+    /**
+     * Signs in a user anonymously using Firebase Authentication.
+     * @returns A promise that resolves when the user is successfully signed in.
+     */
+    async signInAnonymously(): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const auth = inject(Auth);
+            await signInAnonymously(auth);
         });
     }
 }
