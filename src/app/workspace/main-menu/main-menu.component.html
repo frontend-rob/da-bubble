@@ -1,66 +1,66 @@
-<div class="container" [class.close-menu]="isOpen">
-    <div class="menunav" >
-        <div class="header-menu-container">
-            <div class="devsapace-logo-header">
-                <img src="assets/img/Workspace_logo.svg" alt="logo">
-                <span>Devspace</span>
-            </div>
-            <a (click)=" newChannel()" class="new-channel-btn">
-                <div></div>
-            </a>
-        </div>
-        <div class="menu-container">
-            <div class="menu-header">
-                <div class="menu-header-title" [class.close-list-btn]="showChannelList" (click)="openChannelList()">
-                    <a class="dropdown">
-                        <div></div>
-                    </a>
-                    <div class="header">
-                        <div class="channel-img"></div>
-                        <span>Channels</span>
-                    </div>
-                </div>
-                <a (click)="newChannel()" class="add-btn">
-                    <div class="add"></div>
-                </a>
-            </div>
-            <div class="menu-list-container" [class.close-list]="showChannelList">
-                <div class="menu-list">
-                    <app-channel-list-item *ngFor="let channel of channels" [channel]="channel"></app-channel-list-item>
-                    <div class="new-channnel-button">
-                        <a (click)="newChannel()" class="add-btn">
-                            <div class="add-circle"></div>
-                            <span>New Channel</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="menu-container">
-            <div class="menu-header">
-                <div class="menu-header-title" [class.close-list-btn]="showUserList" (click)="openUserList()">
-                    <a class="dropdown">
-                        <div></div>
-                    </a>
-                    <div class="header">
-                        <div class="user-img"></div>
-                        <span>Direct messages</span>
-                    </div>
-                </div>
-                <div></div>
-            </div>
-            <div class="menu-list-container" [class.close-list]="showUserList">
-                <div class="menu-list">
-                    <app-avatar-list-item *ngFor="let avatar of avatars" [avatar]="avatar"></app-avatar-list-item>
-                </div>
-                <div></div>
-            </div>
-        </div>
+<div [class.close-menu]="isOpen" class="container">
+  <div class="menunav">
+    <div class="header-menu-container">
+      <div class="devsapace-logo-header">
+        <img alt="logo" src="assets/img/Workspace_logo.svg">
+        <span>Devspace</span>
+      </div>
+      <a (click)=" newChannel()" class="new-channel-btn">
+        <div></div>
+      </a>
     </div>
+    <div class="menu-container">
+      <div class="menu-header">
+        <div (click)="openChannelList()" [class.close-list-btn]="showChannelList" class="menu-header-title">
+          <a class="dropdown">
+            <div></div>
+          </a>
+          <div class="header">
+            <div class="channel-img"></div>
+            <span>Channels</span>
+          </div>
+        </div>
+        <a (click)="newChannel()" class="add-btn">
+          <div class="add"></div>
+        </a>
+      </div>
+      <div [class.close-list]="showChannelList" class="menu-list-container">
+        <div class="menu-list">
+          <app-channel-list-item *ngFor="let channel of channels" [channel]="channel"></app-channel-list-item>
+          <div class="new-channnel-button">
+            <a (click)="newChannel()" class="add-btn">
+              <div class="add-circle"></div>
+              <span>New Channel</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-container">
+      <div class="menu-header">
+        <div (click)="openUserList()" [class.close-list-btn]="showUserList" class="menu-header-title">
+          <a class="dropdown">
+            <div></div>
+          </a>
+          <div class="header">
+            <div class="user-img"></div>
+            <span>Direct messages</span>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <div [class.close-list]="showUserList" class="menu-list-container">
+        <div class="menu-list">
+          <app-avatar-list-item *ngFor="let avatar of avatars" [avatar]="avatar"></app-avatar-list-item>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="menunav-button-container">
-    <div class="menunav-button" [class.close-menu-button]="isOpen" (click)="toggleNav()">
-        <span  class="text-menu-button">{{isOpen ? isClosedText : isOpenText}}</span>
-        <div  class="img-field"></div>
-    </div>
+  <div (click)="toggleNav()" [class.close-menu-button]="isOpen" class="menunav-button">
+    <span class="text-menu-button">{{ isOpen ? isClosedText : isOpenText }}</span>
+    <div class="img-field"></div>
+  </div>
 </div>

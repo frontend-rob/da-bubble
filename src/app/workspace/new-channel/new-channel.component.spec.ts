@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NewChannelComponent } from './new-channel.component';
+import {NewChannelComponent} from './new-channel.component';
 
 describe('NewChannelComponent', () => {
   let component: NewChannelComponent;
@@ -10,7 +10,7 @@ describe('NewChannelComponent', () => {
     await TestBed.configureTestingModule({
       imports: [NewChannelComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(NewChannelComponent);
     component = fixture.componentInstance;

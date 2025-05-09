@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-channel-list-item',
@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 export class ChannelListItemComponent {
   @Input() channel: any;
   activeChannel: number | null = null;
-  
+
   openChannel(id: number) {
     this.activeChannel = id;
   }

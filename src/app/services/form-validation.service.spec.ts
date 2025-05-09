@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { FormValidationService } from './form-validation.service';
+import {FormValidationService} from './form-validation.service';
 
 describe('FormValidationService', () => {
   let service: FormValidationService;

@@ -115,6 +115,7 @@ main {
   height: 32px;
   width: 32px;
   margin: 10px;
+
   &:hover {
     background-color: #eceefe;
     border-radius: 50%;
@@ -131,6 +132,7 @@ main {
   height: 32px;
   width: 32px;
   margin: 10px;
+
   &:hover {
     background-color: #eceefe;
     border-radius: 50%;
@@ -149,6 +151,7 @@ main {
   background-position: center;
   height: 18.77px;
   width: 21.78px;
+
   &:hover {
     cursor: pointer;
     background-image: url("/assets/img/send_hover.svg");

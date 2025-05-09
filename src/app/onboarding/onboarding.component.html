@@ -1,27 +1,27 @@
-<div class="animation-wrapper" *ngIf="!isAnimationComplete">
+<div *ngIf="!isAnimationComplete" class="animation-wrapper">
   <img
-    src="assets/img/logo.svg"
-    class="animation-logo logo-slide-in"
-    alt="DA Bubble Logo"
     (animationend)="onLogoAnimationEnd()"
+    alt="DA Bubble Logo"
+    class="animation-logo logo-slide-in"
+    src="assets/img/logo.svg"
   />
-  <span class="animation-text" [class.hidden]="isTextHidden">DABubble</span>
+  <span [class.hidden]="isTextHidden" class="animation-text">DABubble</span>
 </div>
-<div class="onboarding-wrapper" *ngIf="isAnimationComplete">
+<div *ngIf="isAnimationComplete" class="onboarding-wrapper">
   <header>
     <div class="header-inner">
       <div class="logo-wrapper">
-        <img src="assets/img/logo.svg" class="main-logo" alt="DA Bubble Logo" />
+        <img alt="DA Bubble Logo" class="main-logo" src="assets/img/logo.svg"/>
         <span class="logo-text">DABubble</span>
       </div>
-      <div class="header-cta" *ngIf="showHeaderCta">
+      <div *ngIf="showHeaderCta" class="header-cta">
         <span>New to DABubble?</span>
         <a routerLink="signup">Sign Up</a>
       </div>
     </div>
   </header>
   <router-outlet></router-outlet>
-  <div class="header-cta-mobile" *ngIf="showHeaderCta">
+  <div *ngIf="showHeaderCta" class="header-cta-mobile">
     <span>New to DABubble?</span>
     <a routerLink="signup">Sign Up</a>
   </div>

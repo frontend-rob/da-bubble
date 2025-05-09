@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MessageInputFieldComponent } from '../../shared/message-input-field/message-input-field.component';
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { ChatMessageOwnComponent } from "./chat-message-own/chat-message-own.component";
+import {Component} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MessageInputFieldComponent} from '../../shared/message-input-field/message-input-field.component';
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {ChatMessageOwnComponent} from "./chat-message-own/chat-message-own.component";
 
 @Component({
   selector: 'app-chat',

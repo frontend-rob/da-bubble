@@ -1,26 +1,26 @@
 .menu-item {
-    padding: 4px 15px;
-    display: flex;
-    justify-self: flex-start;
-    align-items: center;
-    gap: 5px;
-    border-radius: 20px;
-    cursor: pointer;
+  padding: 4px 15px;
+  display: flex;
+  justify-self: flex-start;
+  align-items: center;
+  gap: 5px;
+  border-radius: 20px;
+  cursor: pointer;
 
-    >img {
-        height: 18px;
-        width: 18px;
+  > img {
+    height: 18px;
+    width: 18px;
+  }
+
+  &:hover {
+    background-color: #ECEEFE;
+  }
+
+  &.activate {
+    background-color: #ECEEFE;
+
+    > span {
+      color: #535AF1;
     }
-
-    &:hover {
-        background-color: #ECEEFE;
-    }
-
-    &.activate {
-        background-color: #ECEEFE;
-
-        >span {
-            color: #535AF1;
-        }
-    }
+  }
 }

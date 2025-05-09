@@ -1,97 +1,97 @@
 @use './variables' as variables;
 
 %card-base {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    max-width: 30rem;
-    width: 100%;
-    padding: 1.5rem 2rem;
-    border-radius: 1.5rem;
-    background-color: variables.$bg-base-200;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  max-width: 30rem;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  border-radius: 1.5rem;
+  background-color: variables.$bg-base-200;
 }
 
 .card-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 96rem;
-    width: 100%;
-    height: auto;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 96rem;
+  width: 100%;
+  height: auto;
+  padding: 1rem;
 }
 
 .card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    padding: unset;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: unset;
 }
 
 .btn-back {
-    position: absolute;
-    top: 2rem;
-    left: 1.5rem;
-    display: inline-flex;
-    justify-content: center;
-    height: 2.5rem;
-    width: 2.5rem;
-    aspect-ratio: 1;
-    padding: 0.25rem;
-    border-radius: 999rem;
-    background-color: variables.$bg-base-200;
-    border: none;
-    cursor: pointer;
+  position: absolute;
+  top: 2rem;
+  left: 1.5rem;
+  display: inline-flex;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  aspect-ratio: 1;
+  padding: 0.25rem;
+  border-radius: 999rem;
+  background-color: variables.$bg-base-200;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-back svg {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: variables.$text-primary;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: variables.$text-primary;
 }
 
 .btn-back:hover {
-    background-color: variables.$bg-base-100;
+  background-color: variables.$bg-base-100;
 }
 
 .btn-back:hover svg {
-    color: variables.$bg-primary;
+  color: variables.$bg-primary;
 }
 
 .card-header h2 {
-    color: variables.$bg-primary;
-    font-size: 2.5rem;
-    font-weight: 700;
+  color: variables.$bg-primary;
+  font-size: 2.5rem;
+  font-weight: 700;
 }
 
 .card-header span {
-    text-align: center;
-    text-wrap: balance;
+  text-align: center;
+  text-wrap: balance;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  gap: 1.5rem;
 }
 
 .form-group {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
 }
 
 .form-controls {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
 }

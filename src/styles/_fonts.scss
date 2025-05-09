@@ -1,27 +1,27 @@
 @font-face {
-    font-family: Nunito;
-    font-weight: 300 900;
-    font-style: normal;
-    font-display: swap;
-    src: url('../../public/assets/fonts/nunito-variable.ttf');
+  font-family: Nunito;
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../public/assets/fonts/nunito-variable.ttf');
 }
 
 @font-face {
-    font-family: Figtree;
-    font-weight: 300 900;
-    font-style: normal;
-    font-display: swap;
-    src: url('../../public/assets/fonts/figtree-variable.ttf');
+  font-family: Figtree;
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+  src: url('../../public/assets/fonts/figtree-variable.ttf');
 }
 
 p {
-    font-family: Nunito;
-    font-size: 18px;
-    font-weight: 400;
+  font-family: Nunito;
+  font-size: 18px;
+  font-weight: 400;
 }
 
 @media screen and (max-width: 48rem) {
-    p {
-        font-size: 16px;
-    }
+  p {
+    font-size: 16px;
+  }
 }
