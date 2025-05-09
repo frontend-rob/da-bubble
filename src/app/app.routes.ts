@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { WorkspaceComponent } from './workspace/workspace.component';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { LogInComponent } from './onboarding/log-in/log-in.component';
 import { SignUpComponent } from './onboarding/sign-up/sign-up.component';
@@ -13,7 +13,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 export const routes: Routes = [
     {
         path: 'workspace',
-        component: LandingPageComponent,
+        component: WorkspaceComponent,
         canActivate: [authGuard],
     },
     {
