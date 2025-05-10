@@ -29,7 +29,22 @@ export class MessageInputFieldComponent {
       this.messageInputData = '@';
     } else {
       this.userTagModalIsOpen = false;
-      this.messageInputData = '';
+
+      if (this.messageInputData.endsWith('@')) {
+        this.messageInputData = this.messageInputData.slice(0, -1);
+      }
+
+      console.log(this.messageInputData);
+    }
+  }
+
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.key === '@') {
+      this.toggleUserTagModal();
+    } else if (event.key === '#') {
+      this.toggleUserTagModal();
+    } else if (event.key === 'Escape' && this.userTagModalIsOpen) {
+      this.toggleUserTagModal();
     }
   }
 }

@@ -5,6 +5,7 @@
   <textarea
     [placeholder]="placeholderText"
     [(ngModel)]="messageInputData"
+    (keydown)="onKeyDown($event)"
   ></textarea>
   <div class="options-container">
     <div class="options">
