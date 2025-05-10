@@ -2,7 +2,7 @@
  * Service for handling authentication and user-related operations.
  * Provides methods to register users and save user data to firestore.
  */
-import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
 import {
     Auth,
     createUserWithEmailAndPassword,
@@ -15,9 +15,10 @@ import {
     user,
     User
 } from '@angular/fire/auth';
-import { doc, Firestore, setDoc, Timestamp } from '@angular/fire/firestore';
-import { UserData } from '../interfaces/user.interface';
-import { Observable } from 'rxjs';
+import {UserData} from '../interfaces/user.interface';
+import {doc, Firestore, setDoc, Timestamp} from '@angular/fire/firestore';
+import {Observable} from 'rxjs';
+import {UserDataService} from './user-data.service';
 
 @Injectable({
     providedIn: 'root'
@@ -26,7 +27,7 @@ export class AuthService {
 
     user$: Observable<User | null>;
 
-    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth) {
+    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth, private userDataService: UserDataService) {
         this.user$ = user(this.firebaseAuth);
     }
 
@@ -108,6 +109,23 @@ export class AuthService {
             const auth = inject(Auth);
             const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
+
+            const googleData: UserData = {
+                uid: auth.currentUser?.uid || '',
+                userName: auth.currentUser?.displayName || '',
+                email: auth.currentUser?.email || '',
+                photoURL: 'assets/img/avatars/av-01.svg',
+                createdAt: Timestamp.fromDate(new Date()),
+                status: 'online',
+                role: 'user'
+            };
+            this.userDataService.setUserData({
+                name: auth.currentUser?.displayName || '',
+                email: auth.currentUser?.email || '',
+                password: '',
+                policy: false
+            })
+            await this.saveUserToFirestore(auth.currentUser?.uid || '', googleData);
         });
     }
 
