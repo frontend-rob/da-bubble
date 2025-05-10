@@ -1,15 +1,15 @@
-import {Timestamp} from 'firebase/firestore';
+import { Timestamp } from "firebase/firestore";
 
 /**
  * Represents a communication channel within the application.
  * Can be used for public discussions, private groups, or direct chats.
  */
-export interface Channel {
+export interface ChannelData {
   /**
    * The type of the channel.
    * Used to distinguish channel behavior and visibility.
    */
-  type: string;
+  type?: string;
 
   /**
    * Unique identifier for the channel.
@@ -21,7 +21,7 @@ export interface Channel {
    * The display name of the channel shown to users.
    * Example: "Developer Team".
    */
-  channelName?: string;
+  channelName: string;
 
   /**
    * A short description of the channel’s purpose or topic.
@@ -50,5 +50,4 @@ export interface Channel {
    * Firestore timestamp of the last update to the channel (e.g., name or members).
    */
   updatedAt: Timestamp;
-
 }

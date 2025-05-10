@@ -1,7 +1,4 @@
 <section class="message-input-section">
-  <div *ngIf="userTagModalIsOpen" class="userTagModal"></div>
-  <div *ngIf="emojiModalIsOpen" class="emojiModal"></div>
-
   <textarea
     [(ngModel)]="messageInputData"
     (keydown)="onKeyDown($event)"
@@ -12,9 +9,24 @@
         <img src="assets/img/shared/emoji.svg" />
       </div>
       <div (click)="toggleUserTagModal()" class="options-link tag">
-        <img src="assets/img/shared/tag.svg" />
+        <img src="assets/img/shared/user-tag.svg" />
       </div>
     </div>
     <div class="send-button"></div>
   </div>
+
+  <app-message-input-modal
+    [isEmojiModalOpen]="isEmojiModalOpen"
+    [users]="users"
+  ></app-message-input-modal>
+  <app-message-input-modal
+    [isUserTagModalOpen]="isUserTagModalOpen"
+    [users]="users"
+    (choosenUserTag)="addUserTag($event)"
+  ></app-message-input-modal>
+  <app-message-input-modal
+    [isChannelTagModalOpen]="isChannelTagModalOpen"
+    [channels]="channels"
+    (choosenChannelTag)="addChannelTag($event)"
+  ></app-message-input-modal>
 </section>
