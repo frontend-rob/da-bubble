@@ -1,6 +1,6 @@
-<div class="popup-modal" *ngIf="showPopup">
+<div *ngIf="showPopup" class="popup-modal">
   <div class="popup-container">
-    <div class="popup-content" [attr.data-step]="1" *ngIf="currentStep === 1">
+    <div *ngIf="currentStep === 1" [attr.data-step]="1" class="popup-content">
       <div class="header">
         <h2>Create new Channel</h2>
         <div (click)="closePopup()"></div>
@@ -14,12 +14,12 @@
           <label for="channelName">Channel name</label>
           <div class="input-container">
             <input
-              type="text"
-              id="channelName"
               [(ngModel)]="channelName"
+              id="channelName"
               name="channelName"
-              required
               placeholder="e.g. Office-Team"
+              required
+              type="text"
             />
             <div class="hash-icon"></div>
           </div>
@@ -27,11 +27,11 @@
         <div class="input-group">
           <label for="description">Description (optional)</label>
           <textarea
-            id="description"
+            (input)="autoGrow($event)"
             [(ngModel)]="description"
+            id="description"
             name="description"
             placeholder="Add a description..."
-            (input)="autoGrow($event)"
           ></textarea>
         </div>
         <div class="button-group">
@@ -40,21 +40,21 @@
       </form>
     </div>
 
-    <div class="popup-content" [attr.data-step]="2" *ngIf="currentStep === 2">
-      <div class="close-btn-mobile" (click)="previousStep()"></div>
+    <div *ngIf="currentStep === 2" [attr.data-step]="2" class="popup-content">
+      <div (click)="previousStep()" class="close-btn-mobile"></div>
       <div class="header">
         <h2>Add people</h2>
-        <div class="close-btn" (click)="closePopup()"></div>
+        <div (click)="closePopup()" class="close-btn"></div>
       </div>
 
       <div class="access-options">
         <div class="option-item">
           <input
-            type="radio"
+            [(ngModel)]="accessType"
+            [value]="'all'"
             id="all-members"
             name="access"
-            [value]="'all'"
-            [(ngModel)]="accessType"
+            type="radio"
           />
           <label for="all-members">
             <span>All members of</span>
@@ -65,31 +65,31 @@
 
         <div class="option-item">
           <input
-            type="radio"
+            [(ngModel)]="accessType"
+            [value]="'selected'"
             id="select-people"
             name="access"
-            [value]="'selected'"
-            [(ngModel)]="accessType"
+            type="radio"
           />
           <label for="select-people">Add certain people</label>
         </div>
       </div>
 
-      <div class="input-group" *ngIf="accessType === 'selected'">
+      <div *ngIf="accessType === 'selected'" class="input-group">
         <input
-          type="text"
-          placeholder="name for search"
           [(ngModel)]="searchText"
           name="search"
+          placeholder="name for search"
+          type="text"
         />
       </div>
 
       <div class="button-group">
         <button
-          class="btn"
-          [disabled]="!isValidForCreation()"
-          [class.disabled]="!isValidForCreation()"
           (click)="createChannel()"
+          [class.disabled]="!isValidForCreation()"
+          [disabled]="!isValidForCreation()"
+          class="btn"
         >
           Create
         </button>

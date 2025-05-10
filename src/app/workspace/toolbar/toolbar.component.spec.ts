@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ToolbarComponent } from './toolbar.component';
+import {ToolbarComponent} from './toolbar.component';
 
 describe('ToolbarComponent', () => {
   let component: ToolbarComponent;
@@ -10,7 +10,7 @@ describe('ToolbarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ToolbarComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ToolbarComponent);
     component = fixture.componentInstance;

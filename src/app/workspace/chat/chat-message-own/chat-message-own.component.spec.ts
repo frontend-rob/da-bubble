@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChatMessageOwnComponent } from './chat-message-own.component';
+import {ChatMessageOwnComponent} from './chat-message-own.component';
 
 describe('ChatMessageOwnComponent', () => {
   let component: ChatMessageOwnComponent;
@@ -10,7 +10,7 @@ describe('ChatMessageOwnComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ChatMessageOwnComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ChatMessageOwnComponent);
     component = fixture.componentInstance;

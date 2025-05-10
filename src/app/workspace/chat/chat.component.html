@@ -1,68 +1,68 @@
 <section class="chat-section">
   <header class="chat-header">
-    <div class="chat-title" (click)="toggleModal()">
-      <img class="icon" src="assets/img/chat/channel_tag.svg" />
+    <div (click)="toggleModal()" class="chat-title">
+      <img class="icon" src="assets/img/chat/channel_tag.svg"/>
       <h1>Entwicklerteam</h1>
-      <img class="arrow" src="assets/img/chat/arrow_down.svg" />
+      <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
     </div>
 
     <div class="chat-members">
       <div class="members">
         <div class="member">
-          <img src="assets/img/avatars/av-01.svg" />
+          <img src="assets/img/avatars/av-01.svg"/>
         </div>
         <div class="member">
-          <img src="assets/img/avatars/av-02.svg" />
+          <img src="assets/img/avatars/av-02.svg"/>
         </div>
         <div class="member">
-          <img src="assets/img/avatars/av-03.svg" />
+          <img src="assets/img/avatars/av-03.svg"/>
         </div>
         <div class="member-counter">3</div>
       </div>
       <div class="add-member">
-        <img src="assets/img/chat/add_member.svg" />
+        <img src="assets/img/chat/add_member.svg"/>
       </div>
     </div>
 
-    <div class="modal-bg" (click)="toggleModal()" *ngIf="modalIsOpen"></div>
+    <div (click)="toggleModal()" *ngIf="modalIsOpen" class="modal-bg"></div>
 
-    <div class="modal" *ngIf="modalIsOpen">
+    <div *ngIf="modalIsOpen" class="modal">
       <div class="container">
         <header class="modal-header">
           <div>
-            <img class="tag" src="assets/img/chat/channel_tag.svg" />
+            <img class="tag" src="assets/img/chat/channel_tag.svg"/>
             <h1>Entwicklerteam</h1>
           </div>
-          <div class="close-btn" (click)="toggleModal()">
-            <img src="assets/img/chat/close.svg" />
+          <div (click)="toggleModal()" class="close-btn">
+            <img src="assets/img/chat/close.svg"/>
           </div>
         </header>
         <main class="modal-main">
-          <div class="name-container" *ngIf="!nameIsEdit">
+          <div *ngIf="!nameIsEdit" class="name-container">
             <div>
               <h2>Channel-Name</h2>
               <button (click)="toggleNameEdit()">Bearbeiten</button>
             </div>
 
             <div class="name">
-              <img src="assets/img/chat/channel_tag.svg" />
+              <img src="assets/img/chat/channel_tag.svg"/>
               Entwicklerteam
             </div>
           </div>
 
-          <div class="name-container-edit" *ngIf="nameIsEdit">
+          <div *ngIf="nameIsEdit" class="name-container-edit">
             <div>
               <h2>Channel-Name</h2>
               <button (click)="toggleNameEdit()">Speichern</button>
             </div>
 
             <div class="input-container">
-              <img src="assets/img/chat/channel_tag.svg" />
-              <input type="text" placeholder="Entwicklerteam" />
+              <img src="assets/img/chat/channel_tag.svg"/>
+              <input placeholder="Entwicklerteam" type="text"/>
             </div>
           </div>
 
-          <div class="description-container" *ngIf="!descriptionIsEdit">
+          <div *ngIf="!descriptionIsEdit" class="description-container">
             <div>
               <h2>Description</h2>
               <button (click)="toggleDescriptionEdit()">Bearbeiten</button>
@@ -80,14 +80,14 @@
             <div class="creator">Noah Braun</div>
           </div>
 
-          <div class="description-container-edit" *ngIf="descriptionIsEdit">
+          <div *ngIf="descriptionIsEdit" class="description-container-edit">
             <div>
               <h2>Description</h2>
               <button (click)="toggleDescriptionEdit()">Speichern</button>
             </div>
 
             <div class="input-container">
-              <input type="text" placeholder="Your text here..." />
+              <input placeholder="Your text here..." type="text"/>
             </div>
 
             <div class="seperator"></div>
@@ -107,8 +107,8 @@
     </div>
     <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
     <app-message-input-field
-      class="message-input-field"
       [placeholderText]="'Nachricht an #Entwicklerteam'"
+      class="message-input-field"
     ></app-message-input-field>
   </main>
 </section>

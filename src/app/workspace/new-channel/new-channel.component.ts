@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {Component, Input} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-new-channel',
@@ -17,8 +17,8 @@ export class NewChannelComponent {
   accessType = 'all';
   selectedUsers: any[] = [];
   users = [
-    { id: 1, name: 'Max Mustermann', selected: false },
-    { id: 2, name: 'Anna Schmidt', selected: false },
+    {id: 1, name: 'Max Mustermann', selected: false},
+    {id: 2, name: 'Anna Schmidt', selected: false},
     // Weitere Benutzer hier hinzufügen
   ];
 
@@ -64,15 +64,15 @@ export class NewChannelComponent {
     this.resetForm();
   }
 
-  private resetForm() {
-    this.currentStep = 1;
-    this.channelName = '';
-    this.description = '';
-  }
-
   autoGrow(event: any): void {
     const textarea = event.target;
     textarea.style.height = 'auto';
     textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  private resetForm() {
+    this.currentStep = 1;
+    this.channelName = '';
+    this.description = '';
   }
 }

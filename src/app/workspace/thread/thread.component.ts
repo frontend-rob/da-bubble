@@ -1,6 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { MessageInputFieldComponent } from '../../shared/message-input-field/message-input-field.component';
+import {CommonModule} from '@angular/common';
+import {Component} from '@angular/core';
+import {MessageInputFieldComponent} from '../../shared/message-input-field/message-input-field.component';
 
 @Component({
   selector: 'app-thread',

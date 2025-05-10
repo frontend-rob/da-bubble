@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { MessageInputFieldComponent } from './message-input-field.component';
+import {MessageInputFieldComponent} from './message-input-field.component';
 
 describe('MessageInputFieldComponent', () => {
   let component: MessageInputFieldComponent;
@@ -10,7 +10,7 @@ describe('MessageInputFieldComponent', () => {
     await TestBed.configureTestingModule({
       imports: [MessageInputFieldComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(MessageInputFieldComponent);
     component = fixture.componentInstance;

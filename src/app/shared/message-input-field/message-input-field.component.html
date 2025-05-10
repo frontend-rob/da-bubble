@@ -1,18 +1,17 @@
 <section class="message-input-section">
-  <div class="userTagModal" *ngIf="userTagModalIsOpen"></div>
-  <div class="emojiModal" *ngIf="emojiModalIsOpen"></div>
+  <div *ngIf="userTagModalIsOpen" class="userTagModal"></div>
+  <div *ngIf="emojiModalIsOpen" class="emojiModal"></div>
 
   <textarea
-    [placeholder]="placeholderText"
     [(ngModel)]="messageInputData"
     (keydown)="onKeyDown($event)"
   ></textarea>
   <div class="options-container">
     <div class="options">
-      <div class="options-link emoji" (click)="toggleEmojiModal()">
+      <div (click)="toggleEmojiModal()" class="options-link emoji">
         <img src="assets/img/shared/emoji.svg" />
       </div>
-      <div class="options-link tag" (click)="toggleUserTagModal()">
+      <div (click)="toggleUserTagModal()" class="options-link tag">
         <img src="assets/img/shared/tag.svg" />
       </div>
     </div>

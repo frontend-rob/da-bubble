@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PasswordNewComponent } from './password-new.component';
+import {PasswordNewComponent} from './password-new.component';
 
 describe('PasswordNewComponent', () => {
   let component: PasswordNewComponent;
@@ -10,7 +10,7 @@ describe('PasswordNewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PasswordNewComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(PasswordNewComponent);
     component = fixture.componentInstance;

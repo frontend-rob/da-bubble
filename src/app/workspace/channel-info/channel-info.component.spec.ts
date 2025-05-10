@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChannelInfoComponent } from './channel-info.component';
+import {ChannelInfoComponent} from './channel-info.component';
 
 describe('ChannelInfoComponent', () => {
   let component: ChannelInfoComponent;
@@ -10,7 +10,7 @@ describe('ChannelInfoComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ChannelInfoComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(ChannelInfoComponent);
     component = fixture.componentInstance;

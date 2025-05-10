@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { AvatarListItemComponent } from './avatar-list-item.component';
+import {AvatarListItemComponent} from './avatar-list-item.component';
 
 describe('AvatarListItemComponent', () => {
   let component: AvatarListItemComponent;
@@ -10,7 +10,7 @@ describe('AvatarListItemComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AvatarListItemComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(AvatarListItemComponent);
     component = fixture.componentInstance;

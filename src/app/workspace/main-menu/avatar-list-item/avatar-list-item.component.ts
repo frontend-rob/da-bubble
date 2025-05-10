@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-avatar-list-item',
