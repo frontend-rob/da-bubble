@@ -1,0 +1,34 @@
+<div class="modal" *ngIf="isEmojiModalOpen">
+  <p>Hier kommen Emojis!</p>
+</div>
+
+<div class="modal" *ngIf="isUserTagModalOpen">
+  <ul class="user-list">
+    @for (user of users; track $index) {
+    <li (click)="addUserTag(user.userName)">
+      <div>
+        <img class="user-img" src="{{ user.photoURL }}" />
+        <div
+          class="status"
+          [ngClass]="{
+            online: user.status === 'online',
+            offline: user.status === 'offline'
+          }"
+        ></div>
+      </div>
+      <div class="user-name">{{ user.userName }}</div>
+    </li>
+    }
+  </ul>
+</div>
+
+<div class="modal" *ngIf="isChannelTagModalOpen">
+  <ul class="channel-list">
+    @for (channel of channels; track $index) {
+    <li (click)="addChannelTag(channel.channelName)">
+      <img class="channel-img" src="assets/img/shared/channel-tag.svg" />
+      <div class="channel-name">{{ channel.channelName }}</div>
+    </li>
+    }
+  </ul>
+</div>
