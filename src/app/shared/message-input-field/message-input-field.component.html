@@ -5,16 +5,21 @@
     <textarea
         [(ngModel)]="messageInputData"
         [placeholder]="placeholderText"
+        (keydown)="onKeyDown($event)"
+        rows="3"
     ></textarea>
+
     <div class="options-container">
         <div class="options">
             <div (click)="toggleEmojiModal()" class="options-link emoji">
-                <img src="assets/img/shared/emoji.svg"/>
+                <img src="assets/img/shared/emoji.svg" alt="Emoji" />
             </div>
             <div (click)="toggleUserTagModal()" class="options-link tag">
-                <img src="assets/img/shared/tag.svg"/>
+                <img src="assets/img/shared/tag.svg" alt="Tag" />
             </div>
         </div>
-        <div class="send-button"></div>
+        <div class="send-button">
+            <button (click)="trySendMessage()">Send</button>
+        </div>
     </div>
 </section>

@@ -1,26 +1,20 @@
 <section class="chat-section">
     <header class="chat-header">
         <div (click)="toggleModal()" class="chat-title">
-            <img class="icon" src="assets/img/chat/channel_tag.svg"/>
-            <h1>Entwicklerteam</h1>
-            <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
+            <img class="icon" src="assets/img/chat/channel_tag.svg" />
+            <h1>{{ selectedChannel?.channelName || 'Entwicklerteam' }}</h1>
+            <img class="arrow" src="assets/img/chat/arrow_down.svg" />
         </div>
 
         <div class="chat-members">
             <div class="members">
-                <div class="member">
-                    <img src="assets/img/avatars/av-01.svg"/>
+                <div *ngFor="let member of selectedChannel?.channelMembers" class="member">
+                    <img [src]="'assets/img/avatars/' + member + '.svg'" />
                 </div>
-                <div class="member">
-                    <img src="assets/img/avatars/av-02.svg"/>
-                </div>
-                <div class="member">
-                    <img src="assets/img/avatars/av-03.svg"/>
-                </div>
-                <div class="member-counter">3</div>
+                <div class="member-counter">{{ selectedChannel?.channelMembers?.length || 0 }}</div>
             </div>
             <div class="add-member">
-                <img src="assets/img/chat/add_member.svg"/>
+                <img src="assets/img/chat/add_member.svg" />
             </div>
         </div>
 
@@ -30,11 +24,11 @@
             <div class="container">
                 <header class="modal-header">
                     <div>
-                        <img class="tag" src="assets/img/chat/channel_tag.svg"/>
-                        <h1>Entwicklerteam</h1>
+                        <img class="tag" src="assets/img/chat/channel_tag.svg" />
+                        <h1>{{ selectedChannel?.channelName || 'Entwicklerteam' }}</h1>
                     </div>
                     <div (click)="toggleModal()" class="close-btn">
-                        <img src="assets/img/chat/close.svg"/>
+                        <img src="assets/img/chat/close.svg" />
                     </div>
                 </header>
                 <main class="modal-main">
@@ -43,10 +37,9 @@
                             <h2>Channel-Name</h2>
                             <button (click)="toggleNameEdit()">Bearbeiten</button>
                         </div>
-
                         <div class="name">
-                            <img src="assets/img/chat/channel_tag.svg"/>
-                            Entwicklerteam
+                            <img src="assets/img/chat/channel_tag.svg" />
+                            {{ selectedChannel?.channelName }}
                         </div>
                     </div>
 
@@ -55,10 +48,9 @@
                             <h2>Channel-Name</h2>
                             <button (click)="toggleNameEdit()">Speichern</button>
                         </div>
-
                         <div class="input-container">
-                            <img src="assets/img/chat/channel_tag.svg"/>
-                            <input placeholder="Entwicklerteam" type="text"/>
+                            <img src="assets/img/chat/channel_tag.svg" />
+                            <input [(ngModel)]="newChannelName" placeholder="Channel Name" type="text" />
                         </div>
                     </div>
 
@@ -68,16 +60,13 @@
                             <button (click)="toggleDescriptionEdit()">Bearbeiten</button>
                         </div>
                         <div class="description">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-                            error distinctio nesciunt, aspernatur fugit dicta assumenda
-                            delectus, nisi, facilis consequatur atque! In ratione molestiae
-                            itaque cum doloribus consequuntur eligendi repellendus.
+                            {{ selectedChannel?.channelDescription || 'Keine Beschreibung' }}
                         </div>
 
                         <div class="seperator"></div>
 
                         <h2>Created by</h2>
-                        <div class="creator">Noah Braun</div>
+                        <div class="creator">{{ selectedChannel?.createdBy || 'Unbekannt' }}</div>
                     </div>
 
                     <div *ngIf="descriptionIsEdit" class="description-container-edit">
@@ -85,15 +74,14 @@
                             <h2>Description</h2>
                             <button (click)="toggleDescriptionEdit()">Speichern</button>
                         </div>
-
                         <div class="input-container">
-                            <input placeholder="Your text here..." type="text"/>
+                            <input [(ngModel)]="newChannelDescription" placeholder="Description" type="text" />
                         </div>
 
                         <div class="seperator"></div>
 
                         <h2>Created by</h2>
-                        <div class="creator">Noah Braun</div>
+                        <div class="creator">{{ selectedChannel?.createdBy || 'Unbekannt' }}</div>
                     </div>
                 </main>
             </div>
@@ -102,13 +90,15 @@
 
     <main class="chat-main">
         <div class="chat-history">
-            <app-chat-message-other></app-chat-message-other>
-            <app-chat-message-own></app-chat-message-own>
+            <app-chat-message-other
+                *ngFor="let message of (messages$ | async) ?? []; trackBy: trackByMessageId"
+                [message]="message"
+            ></app-chat-message-other>
         </div>
-        <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
         <app-message-input-field
-            [placeholderText]="'Nachricht an #Entwicklerteam'"
+            [placeholderText]="'Nachricht an #' + (selectedChannel?.channelName || 'Entwicklerteam')"
             class="message-input-field"
+            (send)="sendMessage($event)"
         ></app-message-input-field>
     </main>
 </section>
