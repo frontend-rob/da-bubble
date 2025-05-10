@@ -1,20 +1,20 @@
 <section class="message-input-section">
-  <div *ngIf="userTagModalIsOpen" class="userTagModal"></div>
-  <div *ngIf="emojiModalIsOpen" class="emojiModal"></div>
+    <div *ngIf="userTagModalIsOpen" class="userTagModal"></div>
+    <div *ngIf="emojiModalIsOpen" class="emojiModal"></div>
 
-  <textarea
-    [(ngModel)]="messageInputData"
-    [placeholder]="placeholderText"
-  ></textarea>
-  <div class="options-container">
-    <div class="options">
-      <div (click)="toggleEmojiModal()" class="options-link emoji">
-        <img src="assets/img/shared/emoji.svg"/>
-      </div>
-      <div (click)="toggleUserTagModal()" class="options-link tag">
-        <img src="assets/img/shared/tag.svg"/>
-      </div>
+    <textarea
+        [(ngModel)]="messageInputData"
+        [placeholder]="placeholderText"
+    ></textarea>
+    <div class="options-container">
+        <div class="options">
+            <div (click)="toggleEmojiModal()" class="options-link emoji">
+                <img src="assets/img/shared/emoji.svg"/>
+            </div>
+            <div (click)="toggleUserTagModal()" class="options-link tag">
+                <img src="assets/img/shared/tag.svg"/>
+            </div>
+        </div>
+        <div class="send-button"></div>
     </div>
-    <div class="send-button"></div>
-  </div>
 </section>

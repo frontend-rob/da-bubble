@@ -1,34 +1,34 @@
 <div *ngIf="!isAnimationComplete" class="animation-wrapper">
-  <img
-    (animationend)="onLogoAnimationEnd()"
-    alt="DA Bubble Logo"
-    class="animation-logo logo-slide-in"
-    src="assets/img/logo.svg"
-  />
-  <span [class.hidden]="isTextHidden" class="animation-text">DABubble</span>
+    <img
+        (animationend)="onLogoAnimationEnd()"
+        alt="DA Bubble Logo"
+        class="animation-logo logo-slide-in"
+        src="assets/img/logo.svg"
+    />
+    <span [class.hidden]="isTextHidden" class="animation-text">DABubble</span>
 </div>
 <div *ngIf="isAnimationComplete" class="onboarding-wrapper">
-  <header>
-    <div class="header-inner">
-      <div class="logo-wrapper">
-        <img alt="DA Bubble Logo" class="main-logo" src="assets/img/logo.svg"/>
-        <span class="logo-text">DABubble</span>
-      </div>
-      <div *ngIf="showHeaderCta" class="header-cta">
+    <header>
+        <div class="header-inner">
+            <div class="logo-wrapper">
+                <img alt="DA Bubble Logo" class="main-logo" src="assets/img/logo.svg"/>
+                <span class="logo-text">DABubble</span>
+            </div>
+            <div *ngIf="showHeaderCta" class="header-cta">
+                <span>New to DABubble?</span>
+                <a routerLink="signup">Sign Up</a>
+            </div>
+        </div>
+    </header>
+    <router-outlet></router-outlet>
+    <div *ngIf="showHeaderCta" class="header-cta-mobile">
         <span>New to DABubble?</span>
         <a routerLink="signup">Sign Up</a>
-      </div>
     </div>
-  </header>
-  <router-outlet></router-outlet>
-  <div *ngIf="showHeaderCta" class="header-cta-mobile">
-    <span>New to DABubble?</span>
-    <a routerLink="signup">Sign Up</a>
-  </div>
-  <footer *ngIf="showCardFooter">
-    <div class="card-footer">
-      <a routerLink="/legal-notice">Legal Notice</a>
-      <a routerLink="/privacy-policy">Privacy Policy</a>
-    </div>
-  </footer>
+    <footer *ngIf="showCardFooter">
+        <div class="card-footer">
+            <a routerLink="/legal-notice">Legal Notice</a>
+            <a routerLink="/privacy-policy">Privacy Policy</a>
+        </div>
+    </footer>
 </div>

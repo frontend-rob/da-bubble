@@ -5,15 +5,15 @@ import {ThreadComponent} from './thread/thread.component';
 import {NewChannelComponent} from './new-channel/new-channel.component';
 
 @Component({
-  selector: 'app-workspace',
-  imports: [
-    MainMenuComponent,
-    ChatComponent,
-    ThreadComponent,
-    NewChannelComponent,
-  ],
-  templateUrl: './workspace.component.html',
-  styleUrl: './workspace.component.scss',
+    selector: 'app-workspace',
+    imports: [
+        MainMenuComponent,
+        ChatComponent,
+        ThreadComponent,
+        NewChannelComponent,
+    ],
+    templateUrl: './workspace.component.html',
+    styleUrl: './workspace.component.scss',
 })
 export class WorkspaceComponent {
 }
