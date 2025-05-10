@@ -66,8 +66,8 @@ export class LogInComponent {
    * Resets form validation and error states.
    */
   guestLogIn(): void {
-    this.logInForm.reset(); // Reset form values and validation states
-    this.serverError = null; // Clear server error messages
+    this.logInForm.reset();
+    this.serverError = null;
 
     this.authService.signInAnonymously()
       .then(() => {
