@@ -1,7 +1,7 @@
 import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Message } from '../interfaces/message.interface';
-import { Channel } from '../interfaces/channel.interface';
+import { ChannelData } from '../interfaces/channel.interface';
 import {
     collection,
     collectionData,
@@ -25,12 +25,12 @@ export class ChatService {
      *
      * @return {Observable<Channel[]>} An observable that emits an array of channels.
      */
-    getChannels(): Observable<Channel[]> {
+    getChannels(): Observable<ChannelData[]> {
         return runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, 'channels');
             const q = query(channelsRef, orderBy('createdAt', 'desc'));
-            return collectionData(q, { idField: 'channelId' }) as Observable<Channel[]>;
+            return collectionData(q, { idField: 'channelId' }) as Observable<ChannelData[]>;
         });
     }
 
@@ -42,7 +42,7 @@ export class ChatService {
      *                            channelDescription, createdBy, channelMembers, createdAt, and updatedAt.
      * @return {Promise<void>} - A promise that resolves when the channel is successfully created and stored in Firestore.
      */
-    async createChannel(channel: Channel): Promise<void> {
+    async createChannel(channel: ChannelData): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, 'channels');
@@ -59,7 +59,7 @@ export class ChatService {
         });
     }
 
-    async updateChannel(channel: Channel): Promise<void> {
+    async updateChannel(channel: ChannelData): Promise<void> {
         const firestore = inject(Firestore);
         if (!channel.channelId) return;
         const channelDoc = doc(firestore, 'channels', channel.channelId);

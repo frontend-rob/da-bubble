@@ -2,7 +2,7 @@ import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ChatService } from '../../services/chat.service';
-import { Channel } from '../../interfaces/channel.interface';
+import { ChannelData } from '../../interfaces/channel.interface';
 import { Message } from '../../interfaces/message.interface';
 import { ChatMessageComponent } from './chat-message-other/chat-message.component';
 import { MessageInputFieldComponent } from '../../shared/message-input-field/message-input-field.component';
@@ -23,9 +23,9 @@ import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
     ]
 })
 export class ChatComponent implements OnInit {
-    channels$: Observable<Channel[]> | undefined;
+    channels$: Observable<ChannelData[]> | undefined;
     messages$: Observable<Message[]> | undefined;
-    selectedChannel: Channel | null = null;
+    selectedChannel: ChannelData | null = null;
     modalIsOpen = false;
     nameIsEdit = false;
     descriptionIsEdit = false;
@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit {
         });
     }
 
-    selectChannel(channel: Channel): void {
+    selectChannel(channel: ChannelData): void {
         this.selectedChannel = channel;
         this.newChannelName = channel.channelName || '';
         this.newChannelDescription = channel.channelDescription || '';
@@ -86,7 +86,7 @@ export class ChatComponent implements OnInit {
         this.descriptionIsEdit = !this.descriptionIsEdit;
     }
 
-    private async updateChannel(channel: Channel): Promise<void> {
+    private async updateChannel(channel: ChannelData): Promise<void> {
         if (!channel.channelId) {
             return;
         }

@@ -2,16 +2,11 @@ import {Component, EventEmitter, inject, Input, OnInit, Output} from '@angular/c
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChatService } from '../../services/chat.service';
-import { Channel } from '../../interfaces/channel.interface';
+import { ChannelData } from '../../interfaces/channel.interface';
 import { Timestamp } from 'firebase/firestore';
-
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { FormsModule } from "@angular/forms";
 import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
-import { ChannelData } from "../../interfaces/channel.interface";
 import { UserData } from "../../interfaces/user.interface";
-import { Timestamp } from "firebase/firestore";
+
 @Component({
     selector: "app-message-input-field",
     standalone: true,
@@ -20,7 +15,7 @@ import { Timestamp } from "firebase/firestore";
     styleUrl: "./message-input-field.component.scss",
 })
 export class MessageInputFieldComponent implements OnInit  {
-    @Input() selectedChannel: Channel | undefined;
+    @Input() selectedChannel: ChannelData | undefined;
     @Input() channels$: any;
     @Input() placeholderText = 'Type a message...';
     @Output() send = new EventEmitter<string>();
@@ -34,10 +29,10 @@ export class MessageInputFieldComponent implements OnInit  {
 
         this.channels$ = this.chatService.getChannels();
 
-        this.channels$?.subscribe(async (channels: Channel[]) => {
+        this.channels$?.subscribe(async (channels: ChannelData[]) => {
             if (channels.length === 0) {
                 // Noch keine Channels vorhanden, daher Default-Channel erstellen
-                const defaultChannel: Channel = {
+                const defaultChannel: ChannelData = {
                     channelId: '', // Firestore setzt die ID automatisch
                     type: 'default',
                     channelName: 'Entwicklerteam',
@@ -165,6 +160,10 @@ export class MessageInputFieldComponent implements OnInit  {
     }
 
     onKeyDown(event: KeyboardEvent): void {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            this.trySendMessage();
+        }
         if (event.key === "@") {
             this.toggleUserTagModal();
         }
@@ -172,7 +171,6 @@ export class MessageInputFieldComponent implements OnInit  {
         if (event.key === "#") {
             this.toggleChannelTagModal();
         }
-
         if (
             (event.key === "Escape" && this.isUserTagModalOpen) ||
             (event.key === "Escape" && this.isChannelTagModalOpen)
@@ -184,13 +182,6 @@ export class MessageInputFieldComponent implements OnInit  {
             if (this.isChannelTagModalOpen) {
                 this.toggleChannelTagModal();
             }
-        }
-    }
-
-    onKeyDown(event: KeyboardEvent) {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
-            this.trySendMessage();
         }
     }
 
