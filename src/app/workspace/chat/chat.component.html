@@ -1,114 +1,114 @@
 <section class="chat-section">
-  <header class="chat-header">
-    <div (click)="toggleModal()" class="chat-title">
-      <img class="icon" src="assets/img/chat/channel_tag.svg"/>
-      <h1>Entwicklerteam</h1>
-      <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
-    </div>
-
-    <div class="chat-members">
-      <div class="members">
-        <div class="member">
-          <img src="assets/img/avatars/av-01.svg"/>
-        </div>
-        <div class="member">
-          <img src="assets/img/avatars/av-02.svg"/>
-        </div>
-        <div class="member">
-          <img src="assets/img/avatars/av-03.svg"/>
-        </div>
-        <div class="member-counter">3</div>
-      </div>
-      <div class="add-member">
-        <img src="assets/img/chat/add_member.svg"/>
-      </div>
-    </div>
-
-    <div (click)="toggleModal()" *ngIf="modalIsOpen" class="modal-bg"></div>
-
-    <div *ngIf="modalIsOpen" class="modal">
-      <div class="container">
-        <header class="modal-header">
-          <div>
-            <img class="tag" src="assets/img/chat/channel_tag.svg"/>
+    <header class="chat-header">
+        <div (click)="toggleModal()" class="chat-title">
+            <img class="icon" src="assets/img/chat/channel_tag.svg"/>
             <h1>Entwicklerteam</h1>
-          </div>
-          <div (click)="toggleModal()" class="close-btn">
-            <img src="assets/img/chat/close.svg"/>
-          </div>
-        </header>
-        <main class="modal-main">
-          <div *ngIf="!nameIsEdit" class="name-container">
-            <div>
-              <h2>Channel-Name</h2>
-              <button (click)="toggleNameEdit()">Bearbeiten</button>
+            <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
+        </div>
+
+        <div class="chat-members">
+            <div class="members">
+                <div class="member">
+                    <img src="assets/img/avatars/av-01.svg"/>
+                </div>
+                <div class="member">
+                    <img src="assets/img/avatars/av-02.svg"/>
+                </div>
+                <div class="member">
+                    <img src="assets/img/avatars/av-03.svg"/>
+                </div>
+                <div class="member-counter">3</div>
             </div>
-
-            <div class="name">
-              <img src="assets/img/chat/channel_tag.svg"/>
-              Entwicklerteam
+            <div class="add-member">
+                <img src="assets/img/chat/add_member.svg"/>
             </div>
-          </div>
+        </div>
 
-          <div *ngIf="nameIsEdit" class="name-container-edit">
-            <div>
-              <h2>Channel-Name</h2>
-              <button (click)="toggleNameEdit()">Speichern</button>
+        <div (click)="toggleModal()" *ngIf="modalIsOpen" class="modal-bg"></div>
+
+        <div *ngIf="modalIsOpen" class="modal">
+            <div class="container">
+                <header class="modal-header">
+                    <div>
+                        <img class="tag" src="assets/img/chat/channel_tag.svg"/>
+                        <h1>Entwicklerteam</h1>
+                    </div>
+                    <div (click)="toggleModal()" class="close-btn">
+                        <img src="assets/img/chat/close.svg"/>
+                    </div>
+                </header>
+                <main class="modal-main">
+                    <div *ngIf="!nameIsEdit" class="name-container">
+                        <div>
+                            <h2>Channel-Name</h2>
+                            <button (click)="toggleNameEdit()">Bearbeiten</button>
+                        </div>
+
+                        <div class="name">
+                            <img src="assets/img/chat/channel_tag.svg"/>
+                            Entwicklerteam
+                        </div>
+                    </div>
+
+                    <div *ngIf="nameIsEdit" class="name-container-edit">
+                        <div>
+                            <h2>Channel-Name</h2>
+                            <button (click)="toggleNameEdit()">Speichern</button>
+                        </div>
+
+                        <div class="input-container">
+                            <img src="assets/img/chat/channel_tag.svg"/>
+                            <input placeholder="Entwicklerteam" type="text"/>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!descriptionIsEdit" class="description-container">
+                        <div>
+                            <h2>Description</h2>
+                            <button (click)="toggleDescriptionEdit()">Bearbeiten</button>
+                        </div>
+                        <div class="description">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
+                            error distinctio nesciunt, aspernatur fugit dicta assumenda
+                            delectus, nisi, facilis consequatur atque! In ratione molestiae
+                            itaque cum doloribus consequuntur eligendi repellendus.
+                        </div>
+
+                        <div class="seperator"></div>
+
+                        <h2>Created by</h2>
+                        <div class="creator">Noah Braun</div>
+                    </div>
+
+                    <div *ngIf="descriptionIsEdit" class="description-container-edit">
+                        <div>
+                            <h2>Description</h2>
+                            <button (click)="toggleDescriptionEdit()">Speichern</button>
+                        </div>
+
+                        <div class="input-container">
+                            <input placeholder="Your text here..." type="text"/>
+                        </div>
+
+                        <div class="seperator"></div>
+
+                        <h2>Created by</h2>
+                        <div class="creator">Noah Braun</div>
+                    </div>
+                </main>
             </div>
+        </div>
+    </header>
 
-            <div class="input-container">
-              <img src="assets/img/chat/channel_tag.svg"/>
-              <input placeholder="Entwicklerteam" type="text"/>
-            </div>
-          </div>
-
-          <div *ngIf="!descriptionIsEdit" class="description-container">
-            <div>
-              <h2>Description</h2>
-              <button (click)="toggleDescriptionEdit()">Bearbeiten</button>
-            </div>
-            <div class="description">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam
-              error distinctio nesciunt, aspernatur fugit dicta assumenda
-              delectus, nisi, facilis consequatur atque! In ratione molestiae
-              itaque cum doloribus consequuntur eligendi repellendus.
-            </div>
-
-            <div class="seperator"></div>
-
-            <h2>Created by</h2>
-            <div class="creator">Noah Braun</div>
-          </div>
-
-          <div *ngIf="descriptionIsEdit" class="description-container-edit">
-            <div>
-              <h2>Description</h2>
-              <button (click)="toggleDescriptionEdit()">Speichern</button>
-            </div>
-
-            <div class="input-container">
-              <input placeholder="Your text here..." type="text"/>
-            </div>
-
-            <div class="seperator"></div>
-
-            <h2>Created by</h2>
-            <div class="creator">Noah Braun</div>
-          </div>
-        </main>
-      </div>
-    </div>
-  </header>
-
-  <main class="chat-main">
-    <div class="chat-history">
-      <app-chat-message-other></app-chat-message-other>
-      <app-chat-message-own></app-chat-message-own>
-    </div>
-    <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
-    <app-message-input-field
-      [placeholderText]="'Nachricht an #Entwicklerteam'"
-      class="message-input-field"
-    ></app-message-input-field>
-  </main>
+    <main class="chat-main">
+        <div class="chat-history">
+            <app-chat-message-other></app-chat-message-other>
+            <app-chat-message-own></app-chat-message-own>
+        </div>
+        <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
+        <app-message-input-field
+            [placeholderText]="'Nachricht an #Entwicklerteam'"
+            class="message-input-field"
+        ></app-message-input-field>
+    </main>
 </section>

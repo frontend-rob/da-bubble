@@ -2,38 +2,38 @@
 @use "./../../styles/variables" as variables;
 
 .workspace {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    position: relative;
 }
 
 .workspace-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 20px;
-  width: 1920px;
-  height: 100vh;
-  background-color: variables.$bg-base-100;
-
-  > div {
     display: flex;
-    gap: 20px;
-    height: 100%;
-  }
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    width: 1920px;
+    height: 100vh;
+    background-color: variables.$bg-base-100;
+
+    > div {
+        display: flex;
+        gap: 20px;
+        height: 100%;
+    }
 }
 
 .modal-bg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #00000050;
-  z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #00000050;
+    z-index: 1;
 }

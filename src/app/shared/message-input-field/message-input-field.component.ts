@@ -12,7 +12,7 @@ import { Timestamp } from "firebase/firestore";
   styleUrl: "./message-input-field.component.scss",
 })
 export class MessageInputFieldComponent {
-  @Input() placeholderText!: string;
+    @Input() placeholderText!: string;
 
   isEmojiModalOpen = false;
   isUserTagModalOpen = false;
@@ -92,7 +92,6 @@ export class MessageInputFieldComponent {
     } else {
       this.isEmojiModalOpen = false;
     }
-  }
 
   toggleUserTagModal() {
     if (!this.isUserTagModalOpen) {

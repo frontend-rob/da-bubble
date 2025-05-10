@@ -3,76 +3,76 @@ import {Component, Input} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 @Component({
-  selector: 'app-new-channel',
-  templateUrl: './new-channel.component.html',
-  styleUrls: ['./new-channel.component.scss'],
-  imports: [FormsModule, CommonModule],
+    selector: 'app-new-channel',
+    templateUrl: './new-channel.component.html',
+    styleUrls: ['./new-channel.component.scss'],
+    imports: [FormsModule, CommonModule],
 })
 export class NewChannelComponent {
-  @Input() showPopup = false;
-  searchText = '';
-  currentStep = 1;
-  channelName = '';
-  description = '';
-  accessType = 'all';
-  selectedUsers: any[] = [];
-  users = [
-    {id: 1, name: 'Max Mustermann', selected: false},
-    {id: 2, name: 'Anna Schmidt', selected: false},
-    // Weitere Benutzer hier hinzufügen
-  ];
+    @Input() showPopup = false;
+    searchText = '';
+    currentStep = 1;
+    channelName = '';
+    description = '';
+    accessType = 'all';
+    selectedUsers: any[] = [];
+    users = [
+        {id: 1, name: 'Max Mustermann', selected: false},
+        {id: 2, name: 'Anna Schmidt', selected: false},
+        // Weitere Benutzer hier hinzufügen
+    ];
 
-  openPopup() {
-    this.showPopup = true;
-  }
-
-  setAccessType(type: 'all' | 'selected') {
-    this.accessType = type;
-  }
-
-  isValidForCreation(): boolean {
-    if (this.accessType === 'all') {
-      return true;
+    openPopup() {
+        this.showPopup = true;
     }
-    return this.accessType === 'selected' && this.selectedUsers.length > 0;
-  }
 
-  createChannel() {
-    if (!this.isValidForCreation()) {
-      return;
+    setAccessType(type: 'all' | 'selected') {
+        this.accessType = type;
     }
-    const selectedUsers = this.accessType === 'selected' ? this.users.filter(user => user.selected) : this.users;
 
-    const channelData = {
-      name: this.channelName, description: this.description, accessType: this.accessType, users: selectedUsers
-    };
+    isValidForCreation(): boolean {
+        if (this.accessType === 'all') {
+            return true;
+        }
+        return this.accessType === 'selected' && this.selectedUsers.length > 0;
+    }
 
-    console.log('Channel erstellt:', channelData);
-    this.closePopup();
-  }
+    createChannel() {
+        if (!this.isValidForCreation()) {
+            return;
+        }
+        const selectedUsers = this.accessType === 'selected' ? this.users.filter(user => user.selected) : this.users;
 
-  nextStep() {
-    this.currentStep++;
-  }
+        const channelData = {
+            name: this.channelName, description: this.description, accessType: this.accessType, users: selectedUsers
+        };
 
-  previousStep() {
-    this.currentStep--;
-  }
+        console.log('Channel erstellt:', channelData);
+        this.closePopup();
+    }
 
-  closePopup() {
-    this.showPopup = false;
-    this.resetForm();
-  }
+    nextStep() {
+        this.currentStep++;
+    }
 
-  autoGrow(event: any): void {
-    const textarea = event.target;
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
-  }
+    previousStep() {
+        this.currentStep--;
+    }
 
-  private resetForm() {
-    this.currentStep = 1;
-    this.channelName = '';
-    this.description = '';
-  }
+    closePopup() {
+        this.showPopup = false;
+        this.resetForm();
+    }
+
+    autoGrow(event: any): void {
+        const textarea = event.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    private resetForm() {
+        this.currentStep = 1;
+        this.channelName = '';
+        this.description = '';
+    }
 }

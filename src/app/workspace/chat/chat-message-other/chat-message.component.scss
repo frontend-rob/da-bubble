@@ -1,96 +1,96 @@
 @use '../../../../styles/variables' as variables;
 
 .message-container {
-  display: flex;
+    display: flex;
 
-  padding: 10px 45px;
-  gap: 30px;
+    padding: 10px 45px;
+    gap: 30px;
 
-  > img {
-    max-height: 70px;
-    max-width: 70px;
-  }
-
-  &:hover {
-    cursor: pointer;
-    background-color: variables.$bg-neutral-hover;
-
-    .message {
-      background-color: variables.$bg-base-200;
+    > img {
+        max-height: 70px;
+        max-width: 70px;
     }
-  }
+
+    &:hover {
+        cursor: pointer;
+        background-color: variables.$bg-neutral-hover;
+
+        .message {
+            background-color: variables.$bg-base-200;
+        }
+    }
 }
 
 .author-container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 
 .message-content-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .author-name {
-  font-weight: 700;
-  font-size: 18px;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 .message-time {
-  font-weight: 400;
-  font-size: 14px;
-  color: variables.$bg-neutral;
+    font-weight: 400;
+    font-size: 14px;
+    color: variables.$bg-neutral;
 }
 
 .message {
-  border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px;
-  border-bottom-left-radius: 30px;
-  padding: 15px;
-  background-color: variables.$bg-neutral-hover;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 15px;
+    background-color: variables.$bg-neutral-hover;
 }
 
 .message-time-seperator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px 32px;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 32px;
+    width: 100%;
 
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid variables.$border;
+    &::before,
+    &::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid variables.$border;
 
-  }
+    }
 }
 
 .time {
-  border: solid 1px variables.$border;
-  border-radius: 30px;
-  padding: 5px 15px;
-  width: fit-content;
-  justify-self: center;
-  white-space: nowrap;
+    border: solid 1px variables.$border;
+    border-radius: 30px;
+    padding: 5px 15px;
+    width: fit-content;
+    justify-self: center;
+    white-space: nowrap;
 }
 
 .replies-container {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .replies {
-  font-size: 18px;
-  font-weight: 400;
-  color: variables.$text-hover;
+    font-size: 18px;
+    font-weight: 400;
+    color: variables.$text-hover;
 }
 
 .last-reply {
-  color: variables.$bg-neutral;
-  font-size: 14px;
+    color: variables.$bg-neutral;
+    font-size: 14px;
 }

@@ -3,21 +3,21 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {AvatarListItemComponent} from './avatar-list-item.component';
 
 describe('AvatarListItemComponent', () => {
-  let component: AvatarListItemComponent;
-  let fixture: ComponentFixture<AvatarListItemComponent>;
+    let component: AvatarListItemComponent;
+    let fixture: ComponentFixture<AvatarListItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [AvatarListItemComponent]
-    })
-      .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [AvatarListItemComponent]
+        })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(AvatarListItemComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(AvatarListItemComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

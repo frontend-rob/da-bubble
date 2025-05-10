@@ -2,6 +2,7 @@
 @use "./../../../styles/variables" as variables;
 
 .message-input-section {
+<<<<<<< HEAD
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -18,45 +19,63 @@
     outline: none;
     resize: none;
   }
+=======
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    width: 100%;
+    border: 1px solid variables.$border;
+    border-radius: 20px;
+    position: relative;
+
+    textarea {
+        border: none;
+        outline: none;
+        resize: none;
+        width: 100%;
+        height: 100%;
+    }
+>>>>>>> da6d08a5f86c8fb45e84a41678e269a65bd6f853
 }
 
 .options-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .options {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 
-  &:has(:hover) :not(:hover).options-link {
-    filter: brightness(0);
-  }
+    &:has(:hover) :not(:hover).options-link {
+        filter: brightness(0);
+    }
 }
 
 .options-link {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
 
-  &:hover {
-    background-color: variables.$bg-neutral-hover;
-  }
+    &:hover {
+        background-color: variables.$bg-neutral-hover;
+    }
 }
 
 .emoji {
-  &:hover {
-    img {
-      content: url("/assets/img/shared/emoji_hover.svg");
+    &:hover {
+        img {
+            content: url("/assets/img/shared/emoji_hover.svg");
+        }
     }
-  }
 }
 
 .tag {
@@ -64,18 +83,34 @@
     img {
       content: url("/assets/img/shared/user-tag_hover.svg");
     }
-  }
 }
 
 .send-button {
-  background-image: url("/assets/img/send.svg");
-  background-size: cover;
-  background-position: center;
-  height: 18.77px;
-  width: 21.78px;
+    background-image: url("/assets/img/send.svg");
+    background-size: cover;
+    background-position: center;
+    height: 18.77px;
+    width: 21.78px;
 
-  &:hover {
-    cursor: pointer;
-    background-image: url("/assets/img/send_hover.svg");
-  }
+    &:hover {
+        cursor: pointer;
+        background-image: url("/assets/img/send_hover.svg");
+    }
 }
+<<<<<<< HEAD
+=======
+
+.emojiModal,
+.userTagModal {
+    padding: 20px;
+    width: 300px;
+    height: 200px;
+    background-color: variables.$bg-base-200;
+    border: 1px solid variables.$border;
+    border-radius: 20px;
+    border-bottom-left-radius: 0;
+    position: absolute;
+    bottom: 128px;
+    z-index: 1;
+}
+>>>>>>> da6d08a5f86c8fb45e84a41678e269a65bd6f853
