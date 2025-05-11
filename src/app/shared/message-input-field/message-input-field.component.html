@@ -8,22 +8,19 @@
     <div class="options-container">
         <div class="options">
             <div (click)="toggleEmojiModal()" class="options-link emoji">
-                <img src="assets/img/shared/emoji.svg" />
-                <img src="assets/img/shared/emoji.svg" alt="Emoji" />
+                <img src="assets/img/shared/message-input-field/emoji.svg" />
             </div>
             <div (click)="toggleUserTagModal()" class="options-link tag">
-                <img src="assets/img/shared/user-tag.svg" />
-                <img src="assets/img/shared/tag.svg" alt="Tag" />
+                <img src="assets/img/shared/message-input-field/user-tag.svg" />
             </div>
         </div>
-        <div class="send-button">
-            <button (click)="trySendMessage()">Send</button>
-        </div>
+        <div (click)="trySendMessage()" class="send-button"></div>
     </div>
 
     <app-message-input-modal
         [isEmojiModalOpen]="isEmojiModalOpen"
-        [users]="users"
+        [emojiList]="emojiList"
+        (choosenEmoji)="addEmoji($event)"
     ></app-message-input-modal>
     <app-message-input-modal
         [isUserTagModalOpen]="isUserTagModalOpen"
