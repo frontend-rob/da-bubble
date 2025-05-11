@@ -14,6 +14,15 @@
             <span class="last-reply">Letze Antwort 14:56</span>
         </div>
     </div>
-
+    <div class="chat-message-other">
+        <div class="message-header">
+            <span class="sender">{{ message.sender || 'Unbekannt' }}</span>
+            <span class="timestamp">{{ message.timestamp |
+                date:'short' }}</span>
+        </div>
+        <div class="message-content">
+            {{ message.text }}
+        </div>
+    </div>
 
 </div>

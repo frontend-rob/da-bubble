@@ -5,18 +5,18 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 20px;
     width: 100%;
     border: 1px solid variables.$border;
     border-radius: 20px;
     position: relative;
 
     textarea {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 100%;
         border: none;
         outline: none;
         resize: none;
-        width: 100%;
-        height: 100%;
     }
 }
 
@@ -54,7 +54,7 @@
 .emoji {
     &:hover {
         img {
-            content: url("/assets/img/shared/emoji_hover.svg");
+            content: url("/assets/img/shared/message-input-field/emoji_hover.svg");
         }
     }
 }
@@ -62,7 +62,20 @@
 .tag {
     &:hover {
         img {
-            content: url("/assets/img/shared/tag_hover.svg");
+            content: url("/assets/img/shared/message-input-field/user-tag_hover.svg");
+        }
+    }
+
+    .send-button {
+        background-image: url("/assets/img/send.svg");
+        background-size: cover;
+        background-position: center;
+        height: 18.77px;
+        width: 21.78px;
+
+        &:hover {
+            cursor: pointer;
+            background-image: url("/assets/img/send_hover.svg");
         }
     }
 }
@@ -78,18 +91,4 @@
         cursor: pointer;
         background-image: url("/assets/img/send_hover.svg");
     }
-}
-
-.emojiModal,
-.userTagModal {
-    padding: 20px;
-    width: 300px;
-    height: 200px;
-    background-color: variables.$bg-base-200;
-    border: 1px solid variables.$border;
-    border-radius: 20px;
-    border-bottom-left-radius: 0;
-    position: absolute;
-    bottom: 128px;
-    z-index: 1;
 }
