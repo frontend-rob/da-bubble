@@ -153,7 +153,11 @@ export class MessageInputFieldComponent implements OnInit {
     }
 
     toggleEmojiModal() {
-        if (!this.isEmojiModalOpen) {
+        if (
+            !this.isEmojiModalOpen &&
+            !this.isUserTagModalOpen &&
+            !this.isChannelTagModalOpen
+        ) {
             this.isEmojiModalOpen = true;
         } else {
             this.isEmojiModalOpen = false;
@@ -161,7 +165,11 @@ export class MessageInputFieldComponent implements OnInit {
     }
 
     toggleUserTagModal() {
-        if (!this.isUserTagModalOpen) {
+        if (
+            !this.isEmojiModalOpen &&
+            !this.isUserTagModalOpen &&
+            !this.isChannelTagModalOpen
+        ) {
             this.isUserTagModalOpen = true;
             this.messageInputData += "@";
         } else {
@@ -174,7 +182,11 @@ export class MessageInputFieldComponent implements OnInit {
     }
 
     toggleChannelTagModal() {
-        if (!this.isChannelTagModalOpen) {
+        if (
+            !this.isEmojiModalOpen &&
+            !this.isUserTagModalOpen &&
+            !this.isChannelTagModalOpen
+        ) {
             this.isChannelTagModalOpen = true;
             this.messageInputData += "#";
         } else {
@@ -233,7 +245,7 @@ export class MessageInputFieldComponent implements OnInit {
     }
 
     addEmoji(emoji: string) {
-        this.messageInputData += `:${emoji}:`;
+        this.messageInputData += `<img src="assets/img/shared/message-input-field/emojis/${emoji}"/>`;
         this.isEmojiModalOpen = false;
     }
 }

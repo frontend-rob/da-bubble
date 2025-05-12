@@ -29,6 +29,6 @@ export class MessageInputModalComponent {
     }
 
     addEmoji(emojiName: string) {
-        this.choosenChannelTag.emit(emojiName);
+        this.choosenEmoji.emit(emojiName);
     }
 }
