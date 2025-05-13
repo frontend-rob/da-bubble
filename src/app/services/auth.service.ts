@@ -69,7 +69,8 @@ export class AuthService {
     async logIn(email: string, password: string): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            await this.setUserOnlineStatus(userCredential.user.uid, 'online');
         });
     }
 
@@ -81,10 +82,15 @@ export class AuthService {
     async logOut(): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
-            await signOut(auth);
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            const user = result.user;
+            const currentUser = auth.currentUser;
+
+            if (currentUser) {
+                await this.setUserOnlineStatus(currentUser.uid, 'offline');
+            }
+
+            await runInInjectionContext(this.environmentInjector, async () => {
+                await signOut(auth);
+            });
         });
     }
 
@@ -175,6 +181,19 @@ export class AuthService {
         await runInInjectionContext(this.environmentInjector, async () => {
             const userRef = doc(firestore, `users/${uid}`);
             await setDoc(userRef, guestData);
+        });
+    }
+
+    /**
+     * Updates the user's status in Firestore.
+     * @param uid - The unique ID of the user.
+     * @param status - The status to set ('online' or 'offline').
+     */
+    private async setUserOnlineStatus(uid: string, status: 'online' | 'offline'): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const userRef = doc(firestore, `users/${uid}`);
+            await setDoc(userRef, { status }, { merge: true });
         });
     }
 }
