@@ -1,0 +1,71 @@
+@use "../../../styles/fonts" as fonts;
+@use "../../../styles/variables" as variables;
+
+.header-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search-bar-container {
+    display: flex;
+    background-color: variables.$bg-base-200;
+    width: 989px;
+    border-radius: 42px;
+    justify-content: space-between;
+    padding: 17.5px 45px;
+
+    >input {
+        border: none;
+        font-size: 24px;
+
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.profile-container {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    >span {
+        font-size: 32px;
+        font-weight: 700;
+    }
+}
+
+.profile-avatar {
+        position: relative;
+        height: 75px;
+            width: 75px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        > .status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0px;
+            right: 0px;
+            z-index: 5;
+            border: 2px solid variables.$bg-base-200;
+
+            &.online {
+                background-color: variables.$online;
+            }
+
+            &.offline {
+                background-color: variables.$offline;
+            }
+        }
+
+        > img {
+            
+            border-radius: 50%;
+        }
+    }
