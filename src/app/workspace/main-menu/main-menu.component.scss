@@ -28,8 +28,8 @@
     background-color: white;
     border-radius: 30px;
     padding: 20px;
-    gap: 20px;
-    transition: all 250ms ease-in-out;
+    gap: 24px;
+    // transition: all 250ms ease-in-out;
 
     > header {
         display: flex;
@@ -90,6 +90,7 @@
         flex-direction: column;
         align-items: flex-start;
         justify-content: flex-start;
+        gap: 24px;
         width: 100%;
 
         .menu-container {
@@ -113,6 +114,22 @@
                 > div {
                     display: flex;
                     gap: 16px;
+
+                    &:hover {
+                        color: variables.$text-hover;
+
+                        .dropdown-img {
+                            content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
+                        }
+
+                        .channel-img {
+                            content: url("/assets/img/main-menu/channels_hover.svg");
+                        }
+
+                        .direct-messages-img {
+                            content: url("/assets/img/main-menu/direct_messages_hover.svg");
+                        }
+                    }
 
                     > div {
                         display: flex;
@@ -139,20 +156,19 @@
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
+                padding-left: 26px;
                 gap: 24px;
                 width: 100%;
                 height: auto;
-                transition: height 135ms ease-in-out,
-                    transform 125ms ease-in-out;
-                transform-origin: top;
+                // transition: height 135ms ease-in-out,
+                //     transform 125ms ease-in-out;
+                // transform-origin: top;
 
                 > div {
                     display: flex;
                     justify-content: flex-start;
                     align-items: flex-start;
-                    margin-left: 36px;
                     gap: 16px;
-                    width: 100%;
 
                     div {
                         display: flex;
@@ -164,6 +180,29 @@
 
                 .menu-list {
                     flex-direction: column !important;
+                }
+
+                .add-channel-btn {
+                    padding-left: 20px;
+                    cursor: pointer;
+
+                    div {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 24px;
+                        height: 24px;
+                    }
+
+                    &:hover {
+                        img {
+                            content: url("/assets/img/main-menu/add_circle_hover.svg");
+                        }
+
+                        h3 {
+                            color: variables.$text-hover;
+                        }
+                    }
                 }
             }
         }

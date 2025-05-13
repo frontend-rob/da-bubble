@@ -22,14 +22,18 @@
                         (click)="openChannelList()"
                         [class.close-list-btn]="showChannelList"
                     >
-                        <div class="button">
+                        <div>
                             <img
                                 src="assets/img/main-menu/arrow_close_dropdown.svg"
+                                class="dropdown-img"
                             />
                         </div>
                         <div>
                             <div>
-                                <img src="assets/img/main-menu/channels.svg" />
+                                <img
+                                    src="assets/img/main-menu/channels.svg"
+                                    class="channel-img"
+                                />
                             </div>
                             <h2>Channels</h2>
                         </div>
@@ -54,30 +58,58 @@
                             class="channel-list-item"
                         ></app-channel-list-item>
                     </div>
-                    <div (click)="addNewChannel()">
-                        <img src="assets/img/main-menu/add_circle.svg" />
+                    <div (click)="addNewChannel()" class="add-channel-btn">
+                        <div>
+                            <img src="assets/img/main-menu/add_circle.svg" />
+                        </div>
                         <h3>New Channel</h3>
                     </div>
                 </div>
             </div>
 
             <div class="menu-container">
-                <div class="menu-header">
+                <header>
+                    <div
+                        (click)="openUserList()"
+                        [class.close-list-btn]="showUserList"
+                    >
+                        <div>
+                            <img
+                                src="assets/img/main-menu/arrow_close_dropdown.svg"
+                                class="dropdown-img"
+                            />
+                        </div>
+                        <div>
+                            <div>
+                                <img
+                                    src="assets/img/main-menu/direct_messages.svg"
+                                    class="direct-messages-img"
+                                />
+                            </div>
+                            <h2>Channels</h2>
+                        </div>
+                    </div>
+
+                    <div class="button">
+                        <img
+                            (click)="addNewChannel()"
+                            src="assets/img/main-menu/add.svg"
+                        />
+                    </div>
+                </header>
+                <!-- <div>
                     <div
                         (click)="openUserList()"
                         [class.close-list-btn]="showUserList"
                         class="menu-header-title"
                     >
-                        <a class="dropdown">
-                            <div></div>
-                        </a>
+                        <img class="dropdown" />
                         <div class="header">
-                            <div class="user-img"></div>
-                            <span>Direct messages</span>
+                            <h2>Direct messages</h2>
                         </div>
                     </div>
-                    <div></div>
-                </div>
+                </div> -->
+
                 <div
                     [class.close-list]="showUserList"
                     class="menu-list-container"
