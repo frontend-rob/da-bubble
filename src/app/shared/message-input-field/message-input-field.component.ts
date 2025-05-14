@@ -1,18 +1,11 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnInit,
-    Output,
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Timestamp } from "firebase/firestore";
-import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
-import { UserData } from "../../interfaces/user.interface";
+import {Component, EventEmitter, inject, Input, OnInit, Output,} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Timestamp} from "firebase/firestore";
+import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
+import {UserData} from "../../interfaces/user.interface";
 
 @Component({
     selector: "app-message-input-field",

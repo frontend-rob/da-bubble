@@ -1,7 +1,7 @@
-import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Message } from '../interfaces/message.interface';
-import { ChannelData } from '../interfaces/channel.interface';
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
+import {Observable} from 'rxjs';
+import {Message} from '../interfaces/message.interface';
+import {ChannelData} from '../interfaces/channel.interface';
 import {
     collection,
     collectionData,
@@ -30,7 +30,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, 'channels');
             const q = query(channelsRef, orderBy('createdAt', 'desc'));
-            return collectionData(q, { idField: 'channelId' }) as Observable<ChannelData[]>;
+            return collectionData(q, {idField: 'channelId'}) as Observable<ChannelData[]>;
         });
     }
 
@@ -69,7 +69,6 @@ export class ChatService {
             updatedAt: channel.updatedAt || Timestamp.now(),
         });
     }
-
 
 
     /**

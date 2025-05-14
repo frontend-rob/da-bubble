@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { ChannelData } from "../../../interfaces/channel.interface";
-import { UserData } from "../../../interfaces/user.interface";
+import {CommonModule} from "@angular/common";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {ChannelData} from "../../../interfaces/channel.interface";
+import {UserData} from "../../../interfaces/user.interface";
 
 @Component({
     selector: "app-message-input-modal",

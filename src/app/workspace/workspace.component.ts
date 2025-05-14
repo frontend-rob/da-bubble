@@ -1,11 +1,9 @@
-import { Component } from "@angular/core";
-import { MainMenuComponent } from "./main-menu/main-menu.component";
-import { ChatComponent } from "./chat/chat.component";
-import { ThreadComponent } from "./thread/thread.component";
-import { NewChannelComponent } from "./new-channel/new-channel.component";
-import { AuthService } from "../services/auth.service";
-import { Router } from "@angular/router";
-import { WorkspaceHeaderComponent } from "./workspace-header/workspace-header.component";
+import {Component} from "@angular/core";
+import {MainMenuComponent} from "./main-menu/main-menu.component";
+import {ChatComponent} from "./chat/chat.component";
+import {AuthService} from "../services/auth.service";
+import {Router} from "@angular/router";
+import {WorkspaceHeaderComponent} from "./workspace-header/workspace-header.component";
 
 @Component({
     selector: "app-workspace",
@@ -13,14 +11,14 @@ import { WorkspaceHeaderComponent } from "./workspace-header/workspace-header.co
         MainMenuComponent,
         ChatComponent,
         // ThreadComponent,
-        NewChannelComponent,
         WorkspaceHeaderComponent,
     ],
     templateUrl: "./workspace.component.html",
     styleUrls: ["./workspace.component.scss"],
 })
 export class WorkspaceComponent {
-    constructor(private authService: AuthService, private router: Router) {}
+    constructor(private authService: AuthService, private router: Router) {
+    }
 
     logOut(): void {
         this.authService

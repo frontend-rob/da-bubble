@@ -1,4 +1,4 @@
-import { Timestamp } from "firebase/firestore";
+import {Timestamp} from "firebase/firestore";
 
 /**
  * Represents a communication channel within the application.

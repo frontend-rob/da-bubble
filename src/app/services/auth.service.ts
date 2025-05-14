@@ -193,7 +193,7 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const userRef = doc(firestore, `users/${uid}`);
-            await setDoc(userRef, { status }, { merge: true });
+            await setDoc(userRef, {status}, {merge: true});
         });
     }
 }

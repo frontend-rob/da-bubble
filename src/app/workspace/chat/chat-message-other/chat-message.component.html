@@ -5,7 +5,8 @@
     <img alt="" src="assets/img/avatars/av-04.svg">
     <div class="message-content-container">
         <div class="author-container">
-            <span class="author-name">{{ message.sender || 'Noah Braun' }}</span> <span class="message-time">{{ message.timestamp | date:'short' }}</span>
+            <span class="author-name">{{ message.sender || 'Noah Braun' }}</span> <span
+            class="message-time">{{ message.timestamp | date:'short' }}</span>
         </div>
 
         <div class="message">{{ message.text }}</div>

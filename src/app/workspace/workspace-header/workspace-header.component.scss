@@ -16,7 +16,7 @@
     justify-content: space-between;
     padding: 17.5px 45px;
 
-    >input {
+    > input {
         border: none;
         font-size: 24px;
 
@@ -31,41 +31,41 @@
     gap: 20px;
     align-items: center;
 
-    >span {
+    > span {
         font-size: 32px;
         font-weight: 700;
     }
 }
 
 .profile-avatar {
-        position: relative;
-        height: 75px;
-            width: 75px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    position: relative;
+    height: 75px;
+    width: 75px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-        > .status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 0px;
-            right: 0px;
-            z-index: 5;
-            border: 2px solid variables.$bg-base-200;
+    > .status {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        z-index: 5;
+        border: 2px solid variables.$bg-base-200;
 
-            &.online {
-                background-color: variables.$online;
-            }
-
-            &.offline {
-                background-color: variables.$offline;
-            }
+        &.online {
+            background-color: variables.$online;
         }
 
-        > img {
-            
-            border-radius: 50%;
+        &.offline {
+            background-color: variables.$offline;
         }
     }
+
+    > img {
+
+        border-radius: 50%;
+    }
+}
