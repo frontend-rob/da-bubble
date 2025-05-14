@@ -2,7 +2,7 @@
  * Service for handling authentication and user-related operations.
  * Provides methods to register users and save user data to firestore.
  */
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
+import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
 import {
     Auth,
     createUserWithEmailAndPassword,
@@ -15,10 +15,10 @@ import {
     user,
     User
 } from '@angular/fire/auth';
-import {UserData} from '../interfaces/user.interface';
-import {doc, Firestore, setDoc, Timestamp} from '@angular/fire/firestore';
-import {Observable} from 'rxjs';
-import {UserDataService} from './user-data.service';
+import { UserData } from '../interfaces/user.interface';
+import { doc, Firestore, setDoc, Timestamp, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { UserDataService } from './user-data.service';
 
 @Injectable({
     providedIn: 'root'
@@ -193,7 +193,32 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const userRef = doc(firestore, `users/${uid}`);
-            await setDoc(userRef, {status}, {merge: true});
+            await setDoc(userRef, { status }, { merge: true });
+        });
+    }
+
+    /**
+     * Checks if an email address is already registered in the Firestore database.
+     *
+     * This function queries the 'users' collection in Firestore to determine if the
+     * provided email address exists. The email is normalized (trimmed and converted
+     * to lowercase) before the query.
+     *
+     * @param email - The email address to check.
+     * @returns A promise that resolves to true if the email exists, otherwise false.
+     */
+    async isEmailRegistered(email: string): Promise<boolean> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+
+            try {
+                const normalizedEmail = email.trim().toLowerCase();
+                const usersCollection = collection(firestore, 'users');
+                const querySnapshot = await getDocs(query(usersCollection, where('email', '==', normalizedEmail)));
+                return !querySnapshot.empty;
+            } catch {
+                return false;
+            }
         });
     }
 }

@@ -1,9 +1,10 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {Router, RouterLink} from '@angular/router';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {FormValidationService} from '../../services/form-validation.service';
-import {UserDataService} from '../../services/user-data.service';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormValidationService } from '../../services/form-validation.service';
+import { UserDataService } from '../../services/user-data.service';
+import { AuthService } from '../../services/auth.service';
 
 /**
  * Component for handling the user sign-up process.
@@ -27,13 +28,18 @@ export class SignUpComponent implements OnInit {
     signUpForm: FormGroup;
 
     /**
+     * Property to store email-specific error messages.
+     */
+    emailError: string | null = null;
+
+    /**
      * Injecting required services using Angular's inject() function.
      */
     private fb = inject(FormBuilder);
     private userDataService = inject(UserDataService);
     private router = inject(Router);
 
-    constructor() {
+    constructor(private authService: AuthService) {
         this.signUpForm = this.fb.group({
             name: ['', [Validators.required, FormValidationService.nameValidator]],
             email: ['', [Validators.required, FormValidationService.emailValidator]],
@@ -68,13 +74,24 @@ export class SignUpComponent implements OnInit {
      */
     async onSubmit() {
         if (this.signUpForm.valid) {
-            this.userDataService.setUserData({
-                name: this.signUpForm.value.name,
-                email: this.signUpForm.value.email,
-                password: this.signUpForm.value.password,
-                policy: this.signUpForm.value.policy
-            });
-            this.router.navigate(['/avatars']);
+            try {
+                const emailExists = await this.authService.isEmailRegistered(this.signUpForm.value.email);
+
+                if (emailExists) {
+                    this.emailError = 'email: This email address is already registered.';
+                    return;
+                }
+
+                this.userDataService.setUserData({
+                    name: this.signUpForm.value.name,
+                    email: this.signUpForm.value.email,
+                    password: this.signUpForm.value.password,
+                    policy: this.signUpForm.value.policy
+                });
+                this.router.navigate(['/avatars']);
+            } catch (error) {
+                console.error('Error checking email registration:', error);
+            }
         } else {
             console.log('Form is invalid');
         }
@@ -83,7 +100,18 @@ export class SignUpComponent implements OnInit {
     /**
      * Navigates back to the previous page in the browser history.
      */
-    navigateBack() {
+    navigateBack(): void {
         window.history.back();
+    }
+
+    /**
+     * Returns the appropriate error message for the email field.
+     */
+    getEmailErrorMessage(): string {
+        if (this.emailError?.includes('email')) {
+            return 'This email address is already registered.';
+        }
+
+        return '*Please enter a valid e-mail address.';
     }
 }
