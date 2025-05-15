@@ -36,7 +36,6 @@ export class ChatComponent implements OnInit {
     }
 
     trackByMessageId: TrackByFunction<Message> = (index: number, message: Message) => {
-        // Use a unique identifier from message, fallback to index if no id available
         return (message as any).id || index;
     };
 
