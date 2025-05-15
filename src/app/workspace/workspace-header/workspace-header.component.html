@@ -5,7 +5,10 @@
         <img alt="" src="assets/img/workspace-header/search.svg">
     </div>
     <div class="profile-container">
-        <span>Frederick Beck</span>
+        <!-- Verwende async pipe und *ngIf, um den Benutzer sicher anzuzeigen -->
+        <span *ngIf="authService.user$ | async as user">{{ user.displayName }}</span>
+        <!-- Optional: Zeige etwas anderes an, wenn kein Benutzer eingeloggt ist -->
+        <span *ngIf="!(authService.user$ | async)">Gast</span>
         <img alt="" class="profile-avatar" src="assets/img/avatars/av-03.svg">
         <img alt="" class="arrow-down" src="assets/img/workspace-header/keyboard_arrow_down.svg">
     </div>
