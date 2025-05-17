@@ -1,4 +1,4 @@
-import { Timestamp } from '@angular/fire/firestore';
+import {Timestamp} from '@angular/fire/firestore';
 
 /**
  * Firestore model for a registered user including identity, profile, and status.

@@ -1,4 +1,4 @@
-import { Timestamp } from '@angular/fire/firestore';
+import {Timestamp} from '@angular/fire/firestore';
 
 /**
  * The structure of a search result item, returned when searching across users, messages or channels.
