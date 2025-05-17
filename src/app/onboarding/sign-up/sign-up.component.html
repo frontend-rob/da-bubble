@@ -39,8 +39,9 @@
                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
                     </svg>
                 </div>
-                <span [class.visible]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched || emailError"
-                      class="error-message visible">
+                <span
+                    [class.visible]="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched || emailError"
+                    class="error-message visible">
                     {{ getEmailErrorMessage() }}
                 </span>
                 <div class="input-field">

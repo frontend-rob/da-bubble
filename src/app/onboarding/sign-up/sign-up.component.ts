@@ -1,10 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormValidationService } from '../../services/form-validation.service';
-import { UserDataService } from '../../services/user-data.service';
-import { AuthService } from '../../services/auth.service';
+import {Component, inject, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {Router, RouterLink} from '@angular/router';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormValidationService} from '../../services/form-validation.service';
+import {UserDataService} from '../../services/user-data.service';
+import {AuthService} from '../../services/auth.service';
 
 /**
  * Component for handling the user sign-up process.
