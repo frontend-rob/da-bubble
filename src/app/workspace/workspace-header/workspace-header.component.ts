@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, EnvironmentInjector, inject, OnInit, runInInjectionContext} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {doc, docData, Firestore} from '@angular/fire/firestore';
 import {Observable, of, switchMap} from 'rxjs';
@@ -18,20 +18,19 @@ export class WorkspaceHeaderComponent implements OnInit {
     private firestore: Firestore = inject(Firestore);
     private auth: Auth = inject(Auth);
 
-    constructor() {
+    constructor(private environmentInjector: EnvironmentInjector) {
         this.currentUser$ = user(this.auth).pipe(
             switchMap(user => {
                 if (!user) {
                     return of(null);
                 }
 
-                const userDocRef = doc(this.firestore, `users/${user.uid}`);
-
-                return docData(userDocRef) as Observable<UserData>;
+                return runInInjectionContext(this.environmentInjector, () => {
+                    const userDocRef = doc(this.firestore, `users/${user.uid}`);
+                    return docData(userDocRef) as Observable<UserData>;
+                });
             })
         );
-
-
     }
 
     ngOnInit() {
@@ -39,5 +38,4 @@ export class WorkspaceHeaderComponent implements OnInit {
             console.log('Current user data:', userData);
         });
     }
-
 }
