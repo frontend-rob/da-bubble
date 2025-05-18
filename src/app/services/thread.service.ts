@@ -4,8 +4,6 @@ import { Injectable } from "@angular/core";
     providedIn: "root",
 })
 export class ThreadService {
-    constructor() {}
-
     private _isThreadOpen = false;
 
     toggleThread(value: boolean) {
