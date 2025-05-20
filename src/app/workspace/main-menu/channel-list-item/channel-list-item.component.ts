@@ -1,17 +1,18 @@
-import {CommonModule} from '@angular/common';
-import {Component, Input} from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
-    selector: 'app-channel-list-item',
+    selector: "app-channel-list-item",
     imports: [CommonModule],
-    templateUrl: './channel-list-item.component.html',
-    styleUrl: './channel-list-item.component.scss'
+    templateUrl: "./channel-list-item.component.html",
+    styleUrl: "./channel-list-item.component.scss",
 })
 export class ChannelListItemComponent {
     @Input() channel: any;
-    activeChannel: number | null = null;
+    @Input() active: boolean = false;
+    @Output() activeMenuItem = new EventEmitter<number>();
 
-    openChannel(id: number) {
-        this.activeChannel = id;
+    setActiveChat(id: number) {
+        this.activeMenuItem.emit(id);
     }
 }

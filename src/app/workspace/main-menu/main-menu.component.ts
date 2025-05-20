@@ -1,11 +1,15 @@
-import {CommonModule} from "@angular/common";
-import {Component} from "@angular/core";
-import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {AvatarListItemComponent} from "./avatar-list-item/avatar-list-item.component";
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
 
 @Component({
     selector: "app-main-menu",
-    imports: [CommonModule, ChannelListItemComponent, AvatarListItemComponent],
+    imports: [
+        CommonModule,
+        ChannelListItemComponent,
+        DirectMessageListItemComponent,
+    ],
     templateUrl: "./main-menu.component.html",
     styleUrl: "./main-menu.component.scss",
 })
@@ -13,7 +17,20 @@ export class MainMenuComponent {
     showChannelList = false;
     showUserList = false;
     isOpen = false;
-    avatars = [
+    activeMenuItem: number | null = null;
+    activeUser: number | null = null;
+
+    isOpenText = "Close workspace menu";
+    isOpenImg = "./assets/img/workspaces_close_default.svg";
+    isClosedText = "Open workspace menu";
+    isClosedImg = "./assets/img/workspaces_open_default.svg";
+    channels = [
+        { name: "General", id: 100 },
+        { name: "Random", id: 200 },
+        { name: "Development", id: 300 },
+        { name: "Design", id: 400 },
+    ];
+    chats = [
         {
             name: "John Doe",
             id: 1,
@@ -45,37 +62,24 @@ export class MainMenuComponent {
             status: "offline",
         },
     ];
-    isOpenText = "Close workspace menu";
-    isOpenImg = "./assets/img/workspaces_close_default.svg";
-    isClosedText = "Open workspace menu";
-    isClosedImg = "./assets/img/workspaces_open_default.svg";
-    activeChannel: number | null = null;
-    activeUser: number | null = null;
-    users = [
-        {name: "John Doe", id: 1, img: "https://example.com/bob.jpg"},
-        {name: "Jane Smith", id: 2, img: "https://example.com/bob.jpg"},
-        {name: "Alice Johnson", id: 3, img: "https://example.com/bob.jpg"},
-        {name: "Bob Brown", id: 4, img: "https://example.com/bob.jpg"},
-    ];
-    channels = [
-        {name: "General", id: 1},
-        {name: "Random", id: 2},
-        {name: "Development", id: 3},
-        {name: "Design", id: 4},
-    ];
-
-    addNewChannel() {
-    }
-
-    openChannelList() {
-        this.showChannelList = !this.showChannelList;
-    }
 
     toggleNav() {
         this.isOpen = !this.isOpen;
     }
 
-    openUserList() {
+    toggleChannelList() {
+        this.showChannelList = !this.showChannelList;
+    }
+
+    toggleDirectMessageList() {
         this.showUserList = !this.showUserList;
+    }
+
+    setActiveChat(id: number) {
+        this.activeMenuItem = id;
+    }
+
+    addNewChannel() {
+        console.log("ADD NEW CHANNEL BTN CLICKED!");
     }
 }

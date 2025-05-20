@@ -2,7 +2,7 @@
     <div class="main-menu-container">
         <header>
             <div>
-                <img src="assets/img/main-menu/logo.svg"/>
+                <img src="assets/img/main-menu/logo.svg" />
                 <h1>Devspace</h1>
             </div>
 
@@ -14,12 +14,11 @@
             </div>
         </header>
 
-        <!-- TODO: hier weiter -->
         <main>
             <div class="menu-container">
                 <header>
                     <div
-                        (click)="openChannelList()"
+                        (click)="toggleChannelList()"
                         [class.close-list-btn]="showChannelList"
                     >
                         <div>
@@ -55,14 +54,18 @@
                         <app-channel-list-item
                             *ngFor="let channel of channels"
                             [channel]="channel"
+                            [active]="channel.id === activeMenuItem"
+                            (activeMenuItem)="setActiveChat($event)"
                             class="channel-list-item"
                         ></app-channel-list-item>
-                    </div>
-                    <div (click)="addNewChannel()" class="add-channel-btn">
-                        <div>
-                            <img src="assets/img/main-menu/add_circle.svg"/>
+                        <div (click)="addNewChannel()" class="add-channel-btn">
+                            <div>
+                                <img
+                                    src="assets/img/main-menu/add_circle.svg"
+                                />
+                            </div>
+                            <h3>New Channel</h3>
                         </div>
-                        <h3>New Channel</h3>
                     </div>
                 </div>
             </div>
@@ -70,7 +73,7 @@
             <div class="menu-container">
                 <header>
                     <div
-                        (click)="openUserList()"
+                        (click)="toggleDirectMessageList()"
                         [class.close-list-btn]="showUserList"
                     >
                         <div>
@@ -86,41 +89,23 @@
                                     src="assets/img/main-menu/direct_messages.svg"
                                 />
                             </div>
-                            <h2>Channels</h2>
+                            <h2>Direct Messages</h2>
                         </div>
-                    </div>
-
-                    <div class="button">
-                        <img
-                            (click)="addNewChannel()"
-                            src="assets/img/main-menu/add.svg"
-                        />
                     </div>
                 </header>
-                <!-- <div>
-                    <div
-                        (click)="openUserList()"
-                        [class.close-list-btn]="showUserList"
-                        class="menu-header-title"
-                    >
-                        <img class="dropdown" />
-                        <div class="header">
-                            <h2>Direct messages</h2>
-                        </div>
-                    </div>
-                </div> -->
 
                 <div
                     [class.close-list]="showUserList"
                     class="menu-list-container"
                 >
                     <div class="menu-list">
-                        <app-avatar-list-item
-                            *ngFor="let avatar of avatars"
-                            [avatar]="avatar"
-                        ></app-avatar-list-item>
+                        <app-direct-message-list-item
+                            *ngFor="let chat of chats"
+                            [chat]="chat"
+                            [active]="chat.id === activeMenuItem"
+                            (activeMenuItem)="setActiveChat($event)"
+                        ></app-direct-message-list-item>
                     </div>
-                    <div></div>
                 </div>
             </div>
         </main>
@@ -134,8 +119,8 @@
         class="menunav-button"
     >
         <span class="text-menu-button">{{
-                isOpen ? isClosedText : isOpenText
-            }}</span>
+            isOpen ? isClosedText : isOpenText
+        }}</span>
         <div class="img-field"></div>
     </div>
 </div>

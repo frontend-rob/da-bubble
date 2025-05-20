@@ -29,3 +29,12 @@
         }
     }
 }
+
+.activate {
+    background-color: variables.$bg-base-100;
+
+    > div {
+        color: variables.$text-hover;
+        font-weight: 700;
+    }
+}
