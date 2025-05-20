@@ -1,6 +1,6 @@
-import {Component, OnInit, TrackByFunction} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit, TrackByFunction} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {ChatService} from '../../services/chat.service';
 import {ChannelData} from '../../interfaces/channel.interface';
 import {Message} from '../../interfaces/message.interface';
@@ -8,6 +8,8 @@ import {ChatMessageComponent} from './chat-message-other/chat-message.component'
 import {MessageInputFieldComponent} from '../../shared/message-input-field/message-input-field.component';
 import {Timestamp} from '@angular/fire/firestore';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import {UserData} from '../../interfaces/user.interface';
+import {UserService} from '../../services/user.service';
 
 @Component({
     selector: 'app-chat',
@@ -22,7 +24,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
         AsyncPipe
     ]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
     channels$: Observable<ChannelData[]> | undefined;
     messages$: Observable<Message[]> | undefined;
     selectedChannel: ChannelData | null = null;
@@ -31,6 +33,9 @@ export class ChatComponent implements OnInit {
     descriptionIsEdit = false;
     newChannelName: string = '';
     newChannelDescription: string = '';
+    currentUser$!: UserData;
+    userSubscription!: Subscription;
+    private userService: UserService = inject(UserService)
 
     constructor(private chatService: ChatService) {
     }
@@ -40,6 +45,12 @@ export class ChatComponent implements OnInit {
     };
 
     ngOnInit(): void {
+        this.userSubscription = this.userService.currentUser$.subscribe(userData => {
+            if (userData) {
+                this.currentUser$ = userData;
+            }
+        });
+
         this.channels$ = this.chatService.getChannels();
 
         this.channels$?.subscribe((channels) => {
@@ -50,10 +61,11 @@ export class ChatComponent implements OnInit {
     }
 
     selectChannel(channel: ChannelData): void {
+        console.log(this.selectedChannel);
         this.selectedChannel = channel;
         this.newChannelName = channel.channelName || '';
         this.newChannelDescription = channel.channelDescription || '';
-        this.messages$ = this.chatService.getMessages(channel.channelId || '');
+        this.messages$ = this.chatService.getMessages(channel.channelId.toString());
     }
 
     toggleModal(): void {
@@ -93,17 +105,23 @@ export class ChatComponent implements OnInit {
         if (!this.selectedChannel || !content.trim()) {
             return console.log(this.selectedChannel);
         }
+        console.log(this.currentUser$);
         const message: Message = {
             text: content,
-            timestamp: Date.now(),
-            sender: '',
+            sender: this.currentUser$,
+            timestamp: Timestamp.fromDate(new Date()),
             reactions: []
         };
         try {
-            console.log('send messagedwadwadawd:');
-            await this.chatService.sendMessage(this.selectedChannel.channelId || '', message);
+            await this.chatService.sendMessage(this.selectedChannel.channelId.toString(), message);
         } catch (error) {
             console.error('Error sending message:', error);
+        }
+    }
+
+    ngOnDestroy() {
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
         }
     }
 

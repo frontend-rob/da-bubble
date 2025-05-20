@@ -3,13 +3,13 @@
     <div class="search-bar-container">
         <input placeholder="Devspace durchsuchen" type="text">
         <img alt="" src="assets/img/workspace-header/search.svg">
-    </div>
+    </div><!--
     <div class="profile-container">
         <span *ngIf="currentUser$ | async as user">
             {{ user.userName }}
         </span>
-        <img alt="" class="profile-avatar" *ngIf="currentUser$ | async as user" [src]="user.photoURL">
-        <img alt="" class="profile-avatar" *ngIf="!(currentUser$ | async)" src="assets/img/avatars/av-03.svg">
+        <img *ngIf="currentUser$ | async as user" [src]="user.photoURL" alt="" class="profile-avatar">
+        <img *ngIf="!(currentUser$ | async)" alt="" class="profile-avatar" src="assets/img/avatars/av-03.svg">
         <img alt="" class="arrow-down" src="assets/img/workspace-header/keyboard_arrow_down.svg">
-    </div>
+    </div>-->
 </div>

@@ -2,7 +2,7 @@
     <div class="main-menu-container">
         <header>
             <div>
-                <img src="assets/img/main-menu/logo.svg" />
+                <img src="assets/img/main-menu/logo.svg"/>
                 <h1>Devspace</h1>
             </div>
 
@@ -52,10 +52,10 @@
                 >
                     <div class="menu-list">
                         <app-channel-list-item
-                            *ngFor="let channel of channels"
-                            [channel]="channel"
-                            [active]="channel.id === activeMenuItem"
                             (activeMenuItem)="setActiveChat($event)"
+                            *ngFor="let channel of channels"
+                            [active]="channel.channelId === activeMenuItem"
+                            [channel]="channel"
                             class="channel-list-item"
                         ></app-channel-list-item>
                         <div (click)="addNewChannel()" class="add-channel-btn">
@@ -100,10 +100,10 @@
                 >
                     <div class="menu-list">
                         <app-direct-message-list-item
-                            *ngFor="let chat of chats"
-                            [chat]="chat"
-                            [active]="chat.id === activeMenuItem"
                             (activeMenuItem)="setActiveChat($event)"
+                            *ngFor="let chat of chats"
+                            [active]="chat.id === activeMenuItem"
+                            [chat]="chat"
                         ></app-direct-message-list-item>
                     </div>
                 </div>
@@ -119,8 +119,8 @@
         class="menunav-button"
     >
         <span class="text-menu-button">{{
-            isOpen ? isClosedText : isOpenText
-        }}</span>
+                isOpen ? isClosedText : isOpenText
+            }}</span>
         <div class="img-field"></div>
     </div>
 </div>

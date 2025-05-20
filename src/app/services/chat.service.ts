@@ -49,12 +49,13 @@ export class ChatService {
             const newDocRef = doc(channelsRef);
             await setDoc(newDocRef, {
                 type: channel.type,
+                channelId: channel.channelId,
                 channelName: channel.channelName,
                 channelDescription: channel.channelDescription || '',
                 createdBy: channel.createdBy,
                 channelMembers: channel.channelMembers || [],
-                createdAt: channel.createdAt || Timestamp.now(),
-                updatedAt: channel.updatedAt || Timestamp.now(),
+                createdAt: channel.createdAt || Timestamp.fromDate(new Date()),
+                updatedAt: Timestamp.fromDate(new Date()),
             });
         });
     }
@@ -62,11 +63,20 @@ export class ChatService {
     async updateChannel(channel: ChannelData): Promise<void> {
         const firestore = inject(Firestore);
         if (!channel.channelId) return;
-        const channelDoc = doc(firestore, 'channels', channel.channelId);
+        const channelDoc = doc(firestore, 'channels', channel.channelId.toString());
         await updateDoc(channelDoc, {
+            type: {
+                channel: channel.type.channel,
+                directMessage: channel.type.directMessage,
+                thread: channel.type.thread
+            },
+            channelId: channel.channelId,
             channelName: channel.channelName,
             channelDescription: channel.channelDescription,
-            updatedAt: channel.updatedAt || Timestamp.now(),
+            createdBy: channel.createdBy,
+            channelMembers: channel.channelMembers,
+            createdAt: channel.createdAt,
+            updatedAt: Timestamp.fromDate(new Date())
         });
     }
 

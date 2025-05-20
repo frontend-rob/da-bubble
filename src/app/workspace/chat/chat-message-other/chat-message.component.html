@@ -2,15 +2,15 @@
     <div class="time">May 14th, 2025</div>
 </div>
 <div class="message-container">
-    <img alt="" src="assets/img/avatars/av-04.svg" />
+    <img alt="" src="assets/img/avatars/av-04.svg"/>
     <div class="message-content-container">
         <div class="author-container">
             <span class="author-name">{{
-                message.sender || "Noah Braun"
-            }}</span>
+                    message.sender
+                }}</span>
             <span class="message-time">{{
-                message.timestamp | date : "short"
-            }}</span>
+                    message.timestamp
+                }}</span>
         </div>
 
         <div class="message">{{ message.text }}</div>
