@@ -157,13 +157,13 @@
                 [message]="message"
             ></app-chat-message-other>
         </div>
-        <app-message-input-field
-            (send)="sendMessage($event)"
-            [placeholderText]="
-                'Nachricht an #' +
-                (selectedChannel?.channelName || 'Entwicklerteam')
-            "
-            class="message-input-field"
-        ></app-message-input-field>
     </main>
+    <app-message-input-field
+        (send)="sendMessage($event)"
+        [placeholderText]="
+            'Nachricht an #' +
+            (selectedChannel?.channelName || 'Entwicklerteam')
+        "
+        class="message-input-field"
+    ></app-message-input-field>
 </section>
