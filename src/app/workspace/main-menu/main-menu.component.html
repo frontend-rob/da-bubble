@@ -55,7 +55,7 @@
                             [channel]="channel"
                             class="channel-list-item"
                         ></app-channel-list-item>
-                        <div (click)="addNewChannel()" class="add-channel-btn">
+                        <div (click)="toggleModal();" class="add-channel-btn">
                             <div>
                                 <img
                                     src="assets/img/main-menu/add_circle.svg"
@@ -129,7 +129,8 @@
                             <img src="assets/img/chat/close.svg"/>
                         </div>
                     </header>
-                    <main class="modal-main">
+                    <form #channelForm="ngForm" (ngSubmit)="addNewChannel(channelFormData.name, channelFormData.description)"
+                          class="modal-main">
                         <div>
                             <h2>Channel-Name</h2>
                             <div class="input-container">
@@ -137,8 +138,11 @@
                                     src="/assets/img/main-menu/channel_tag_grey.svg"
                                 />
                                 <input
+                                    [(ngModel)]="channelFormData.name"
+                                    id="name"
                                     name="name"
                                     placeholder="e.g. marketing"
+                                    required
                                     type="text"
                                 />
                             </div>
@@ -148,6 +152,8 @@
                             <h2>Description <span>(optional)</span></h2>
                             <div class="input-container">
                                 <input
+                                    [(ngModel)]="channelFormData.description"
+                                    id="description"
                                     name="description"
                                     placeholder="Your description text"
                                     type="text"
@@ -156,9 +162,9 @@
                         </div>
 
                         <div>
-                            <button (click)="addNewChannel()">Erstellen</button>
+                            <button [disabled]="channelForm.invalid" type="submit">Erstellen</button>
                         </div>
-                    </main>
+                    </form>
                 </div>
             </div>
         </div>

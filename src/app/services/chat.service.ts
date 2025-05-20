@@ -109,6 +109,7 @@ export class ChatService {
      * @return {Observable<Message[]>} An observable that emits an array of messages for the specified channel.
      */
     getMessages(channelId: string): Observable<Message[]> {
+        console.log(channelId);
         return runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
             const messagesRef = collection(
