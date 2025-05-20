@@ -17,6 +17,7 @@ export class MainMenuComponent {
     showChannelList = false;
     showUserList = false;
     isOpen = false;
+    isModalOpen = false;
     activeMenuItem: number | null = null;
     activeUser: number | null = null;
 
@@ -80,6 +81,12 @@ export class MainMenuComponent {
     }
 
     addNewChannel() {
+        this.toggleModal();
         console.log("ADD NEW CHANNEL BTN CLICKED!");
+    }
+
+    toggleModal() {
+        this.isModalOpen = !this.isModalOpen;
+        console.log(this.isModalOpen);
     }
 }

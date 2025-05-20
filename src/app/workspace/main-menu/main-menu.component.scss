@@ -409,50 +409,144 @@ app-direct-message-list-item {
     z-index: 10;
 }
 
-// .dropdown {
-//     cursor: pointer;
+.modal-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #00000050;
+    z-index: 1;
+}
 
-//     > div {
-//         height: 20px;
-//         width: 20px;
-//         background-image: url("/assets/img/arrow_close_dropdown.svg");
-//         background-position: center;
-//         background-size: cover;
-//     }
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 872px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 30px;
+    box-shadow: 0 6px 10px 0 #00000033;
+    background-color: variables.$bg-base-200;
 
-//     &:hover {
-//         background-color: #d0d7e6;
-//         border-radius: 50%;
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 40px;
+        gap: 20px;
+        width: 100%;
+        height: 100%;
 
-//         > div {
-//             height: 18px;
-//             width: 18px;
-//             background-image: url("/assets/img/arrow_close_dropdown_active.svg");
-//             background-position: center;
-//             background-size: cover;
-//         }
-//     }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 100%;
 
-//     &.close-list-btn {
-//         > div {
-//             height: 20px;
-//             width: 20px;
-//             background-image: url("/assets/img/arrow_open_dropdown.svg");
-//             background-position: center;
-//             background-size: cover;
-//         }
+            h1 {
+                font-size: 24px;
+                font-weight: 700;
+            }
 
-//         &:hover {
-//             background-color: #d0d7e6;
-//             border-radius: 50%;
+            > div {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
 
-//             > div {
-//                 height: 18px;
-//                 width: 18px;
-//                 background-image: url("/assets/img/arrow_open_dropdown_active.svg");
-//                 background-position: center;
-//                 background-size: cover;
-//             }
-//         }
-//     }
-// }
+            .header-description {
+                font-size: 18px;
+            }
+
+            .close-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: variables.$bg-base-100;
+
+                    img {
+                        content: url("/assets/img/chat/close_hover.svg");
+                    }
+                }
+            }
+        }
+
+        .modal-main {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 24px;
+            width: 100%;
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                width: 100%;
+
+                h2 {
+                    font-size: 18px;
+                    font-weight: 700;
+
+                    > span {
+                        font-weight: 400;
+                        color: variables.$text-secondary;
+                    }
+                }
+
+                .input-container {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    padding: 18px 20px;
+                    border: 1px solid variables.$border;
+                    border-radius: 40px;
+                    width: 100%;
+
+                    > input {
+                        border: none;
+                        outline: none;
+                        width: 100%;
+                    }
+                }
+            }
+
+            > div:last-child {
+                display: flex;
+                flex-direction: unset !important;
+                justify-content: flex-end !important;
+
+                > button {
+                    padding: 12px 24px;
+                    border-radius: 24px;
+                    border: none;
+                    background-color: variables.$bg-primary;
+                    color: variables.$text-inverse;
+                    font-size: 18px;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: variables.$bg-primary-accent;
+                    }
+                }
+            }
+        }
+    }
+}
