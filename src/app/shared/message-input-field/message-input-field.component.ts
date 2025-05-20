@@ -1,4 +1,4 @@
-import {Component, EventEmitter, inject, Input, OnInit, Output,} from "@angular/core";
+import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output,} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChatService} from "../../services/chat.service";
@@ -6,6 +6,8 @@ import {ChannelData} from "../../interfaces/channel.interface";
 import {Timestamp} from "firebase/firestore";
 import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
 import {UserData} from "../../interfaces/user.interface";
+import {UserService} from '../../services/user.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: "app-message-input-field",
@@ -14,8 +16,8 @@ import {UserData} from "../../interfaces/user.interface";
     templateUrl: "./message-input-field.component.html",
     styleUrl: "./message-input-field.component.scss",
 })
-export class MessageInputFieldComponent implements OnInit {
-    @Input() selectedChannel: ChannelData | undefined;
+export class MessageInputFieldComponent implements OnInit, OnDestroy {
+    @Input() selectedChannel!: ChannelData;
     @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
     @Output() send = new EventEmitter<string>();
@@ -26,28 +28,53 @@ export class MessageInputFieldComponent implements OnInit {
 
     messageInputData = "";
     chatService = inject(ChatService);
+    userService = inject(UserService);
+
+    currentUser$!: UserData;
+    userSubscription!: Subscription;
 
     channels: ChannelData[] = [
         {
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.getRandomNumber(),
             channelName: "General",
-            createdBy: "Admin",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
             channelMembers: [],
-            createdAt: Timestamp.fromMillis(1746858839934),
-            updatedAt: Timestamp.fromMillis(1746858839934),
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
         },
         {
-            channelName: "Development",
-            createdBy: "Admin",
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.getRandomNumber(),
+            channelName: "General",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
             channelMembers: [],
-            createdAt: Timestamp.fromMillis(1746858839934),
-            updatedAt: Timestamp.fromMillis(1746858839934),
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
         },
         {
-            channelName: "Design",
-            createdBy: "Admin",
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.getRandomNumber(),
+            channelName: "General",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
             channelMembers: [],
-            createdAt: Timestamp.fromMillis(1746858839934),
-            updatedAt: Timestamp.fromMillis(1746858839934),
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
         },
     ];
 
@@ -114,24 +141,32 @@ export class MessageInputFieldComponent implements OnInit {
     ];
 
     ngOnInit(): void {
+        this.userSubscription = this.userService.currentUser$.subscribe(userData => {
+            if (userData) {
+                this.currentUser$ = userData;
+            }
+        });
+
         this.channels$ = this.chatService.getChannels();
 
         this.channels$?.subscribe(async (channels: ChannelData[]) => {
             if (channels.length === 0) {
-                // Noch keine Channels vorhanden, daher Default-Channel erstellen
                 const defaultChannel: ChannelData = {
-                    channelId: "", // Firestore setzt die ID automatisch
-                    type: "default",
-                    channelName: "Entwicklerteam",
-                    channelDescription: "Default Channel",
-                    createdBy: "system",
+                    channelId: this.getRandomNumber(),
+                    type: {
+                        channel: true,
+                        directMessage: false,
+                        thread: false
+                    },
+                    channelName: "Allgemein",
+                    channelDescription: "Eine allgemeine Diskussion.",
+                    createdBy: this.currentUser$,
                     channelMembers: [],
                     createdAt: Timestamp.now(),
                     updatedAt: Timestamp.now(),
                 };
                 try {
                     await this.chatService.createChannel(defaultChannel);
-                    // Channels erneut laden, damit der neue Channel sichtbar wird
                     this.channels$ = this.chatService.getChannels();
                 } catch (error) {
                     console.error(
@@ -143,6 +178,10 @@ export class MessageInputFieldComponent implements OnInit {
                 this.selectedChannel = channels[0];
             }
         });
+    }
+
+    getRandomNumber(min: number = 0, max: number = 1000): number {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     toggleEmojiModal() {
@@ -240,5 +279,11 @@ export class MessageInputFieldComponent implements OnInit {
     addEmoji(emoji: string) {
         this.messageInputData += `<img src="assets/img/shared/message-input-field/emojis/${emoji}"/>`;
         this.isEmojiModalOpen = false;
+    }
+
+    ngOnDestroy() {
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
+        }
     }
 }

@@ -1,4 +1,6 @@
 import {Timestamp} from '@angular/fire/firestore';
+import {ChannelType} from './channelType';
+import {UserData} from './user.interface';
 
 /**
  * Represents a communication channel within the application.
@@ -9,13 +11,13 @@ export interface ChannelData {
      * The type of the channel.
      * Used to distinguish channel behavior and visibility.
      */
-    type?: string;
+    type: ChannelType;
 
     /**
      * Unique identifier for the channel.
      * Used internally to reference the channel in the database.
      */
-    channelId?: string;
+    channelId: number;
 
     /**
      * The display name of the channel shown to users.
@@ -27,19 +29,19 @@ export interface ChannelData {
      * A short description of the channel’s purpose or topic.
      * Helpful for organizing channels and onboarding users.
      */
-    channelDescription?: string;
+    channelDescription: string;
 
     /**
      * UID of the user who created the channel.
      * Can be used to identify the owner or assign administrative rights.
      */
-    createdBy: string;
+    createdBy: UserData;
 
     /**
      * A list of user UIDs who are members of the channel.
      * This array is updated as users join or leave.
      */
-    channelMembers: string[];
+    channelMembers: UserData[];
 
     /**
      * Firestore timestamp indicating when the channel was created.

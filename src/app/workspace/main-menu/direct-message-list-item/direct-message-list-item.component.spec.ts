@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 
-import { DirectMessageListItemComponent } from "./direct-message-list-item.component";
+import {DirectMessageListItemComponent} from "./direct-message-list-item.component";
 
 describe("DirectMessageListItemComponent", () => {
     let component: DirectMessageListItemComponent;

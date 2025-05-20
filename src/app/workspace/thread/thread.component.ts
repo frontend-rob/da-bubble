@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Output } from "@angular/core";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { ThreadService } from "../../services/thread.service";
+import {CommonModule} from "@angular/common";
+import {Component} from "@angular/core";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {ThreadService} from "../../services/thread.service";
 
 @Component({
     selector: "app-thread",
@@ -13,7 +13,8 @@ export class ThreadComponent {
     hoverEmoji = false;
     hoverTag = false;
 
-    constructor(private threadService: ThreadService) {}
+    constructor(private threadService: ThreadService) {
+    }
 
     toggleThread() {
         this.threadService.toggleThread(false);

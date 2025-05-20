@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 
 @Injectable({
     providedIn: "root",
@@ -6,11 +6,11 @@ import { Injectable } from "@angular/core";
 export class ThreadService {
     private _isThreadOpen = false;
 
-    toggleThread(value: boolean) {
-        this._isThreadOpen = value;
-    }
-
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
+    }
+
+    toggleThread(value: boolean) {
+        this._isThreadOpen = value;
     }
 }
