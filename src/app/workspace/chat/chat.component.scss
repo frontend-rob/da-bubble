@@ -9,331 +9,369 @@
     height: 100%;
     border-radius: 30px;
     background-color: variables.$bg-base-200;
+    gap: 20px;
 
-    .chat-header {
+    header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
         padding: 24px 48px;
         border-top-left-radius: 30px;
         border-top-right-radius: 30px;
         box-shadow: 0 2px 10px 0 #00000014;
         position: relative;
+        max-height: 6rem;
+        height: 100%;
 
-        .chat-title {
+        .chat-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 6px 10px;
-            gap: 10px;
-            border-radius: 100px;
-            cursor: pointer;
+            width: 100%;
+            position: relative;
 
-            &:hover {
-                background-color: variables.$bg-base-100;
-
-                h1 {
-                    color: variables.$text-hover;
-                }
-
-                .icon {
-                    content: url("/assets/img/chat/channel_tag_hover.svg");
-                }
-
-                .arrow {
-                    content: url("/assets/img/chat/arrow_down_hover.svg");
-                }
-            }
-
-            h1 {
-                font-size: 24px;
-                font-weight: 700;
-                transition: color 0.3s ease;
-            }
-
-            .icon,
-            .arrow {
-                transition: all 0.3s ease;
-            }
-        }
-
-        .chat-members {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-
-            .members {
+            .chat-title {
                 display: flex;
                 align-items: center;
-                padding: 4px 10px;
+                padding: 6px 10px;
                 gap: 10px;
                 border-radius: 100px;
+                cursor: pointer;
 
                 &:hover {
                     background-color: variables.$bg-base-100;
 
-                    .member-counter {
+                    h1 {
                         color: variables.$text-hover;
                     }
-                }
 
-                .member {
-                    margin-left: -24px;
-                    width: 40px;
-                    height: 40px;
-                    border: 2px solid white;
-                    border-radius: 100%;
-
-                    &:first-child {
-                        margin-left: 0 !important;
+                    .icon {
+                        content: url("/assets/img/chat/channel_tag_hover.svg");
                     }
 
-                    img {
-                        width: 36px;
-                        height: 36px;
+                    .arrow {
+                        content: url("/assets/img/chat/arrow_down_hover.svg");
                     }
                 }
 
-                .member-counter {
-                    font-size: 20px;
-                    font-weight: 600;
+                h1 {
+                    font-size: 24px;
+                    font-weight: 700;
+                    transition: color 0.3s ease;
+                }
+
+                .icon,
+                .arrow {
+                    transition: all 0.3s ease;
                 }
             }
 
-            .add-member {
+            .chat-members {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+
+                .members {
+                    display: flex;
+                    align-items: center;
+                    padding: 4px 10px;
+                    gap: 10px;
+                    border-radius: 100px;
+
+                    &:hover {
+                        background-color: variables.$bg-base-100;
+
+                        .member-counter {
+                            color: variables.$text-hover;
+                        }
+                    }
+
+                    .member {
+                        margin-left: -24px;
+                        width: 40px;
+                        height: 40px;
+                        border: 2px solid white;
+                        border-radius: 100%;
+
+                        &:first-child {
+                            margin-left: 0 !important;
+                        }
+
+                        img {
+                            width: 36px;
+                            height: 36px;
+                        }
+                    }
+
+                    .member-counter {
+                        font-size: 20px;
+                        font-weight: 600;
+                    }
+                }
+
+                .add-member {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 100%;
+                    background-color: variables.$bg-base-100;
+                    cursor: pointer;
+
+                    img {
+                        width: 24px;
+                        height: 24px;
+                    }
+
+                    &:hover img {
+                        content: url("/assets/img/chat/add_member_hover.svg");
+                    }
+                }
+            }
+
+            .modal-bg {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 45px;
-                height: 45px;
-                border-radius: 100%;
-                background-color: variables.$bg-base-100;
-                cursor: pointer;
+                width: 100vw;
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: #00000050;
+                z-index: 1;
+            }
 
-                img {
-                    width: 24px;
-                    height: 24px;
-                }
+            .modal {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                width: 872px;
+                position: absolute;
+                top: 72px;
+                left: 48px;
+                z-index: 2;
+                border-radius: 30px;
+                border-top-left-radius: 0;
+                box-shadow: 0 6px 10px 0 #00000033;
+                background-color: variables.$bg-base-200;
 
-                &:hover img {
-                    content: url("/assets/img/chat/add_member_hover.svg");
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    padding: 32px;
+                    gap: 24px;
+                    width: 100%;
+                    height: 100%;
+
+                    .modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 100%;
+
+                        h1 {
+                            font-size: 24px;
+                            font-weight: 700;
+                        }
+
+                        >div {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                        }
+
+                        .tag {
+                            width: 20px;
+                            height: 20px;
+                        }
+
+                        .close-btn {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: variables.$bg-base-100;
+
+                                img {
+                                    content: url("/assets/img/chat/close_hover.svg");
+                                }
+                            }
+                        }
+                    }
+
+                    .modal-main {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-start;
+                        align-items: center;
+                        gap: 24px;
+                        width: 100%;
+
+                        h2 {
+                            font-size: 18px;
+                            font-weight: 700;
+                        }
+
+                        .name-container,
+                        .description-container {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            padding: 20px;
+                            gap: 20px;
+                            border: 1px solid variables.$border;
+                            border-radius: 20px;
+                            width: 100%;
+                        }
+
+                        .name-container-edit,
+                        .description-container-edit {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            padding: 20px;
+                            gap: 20px;
+                            border: none;
+                            border-radius: 20px;
+                            width: 100%;
+                        }
+
+                        .name-container,
+                        .name-container-edit {
+                            >div:first-child {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                width: 100%;
+                            }
+
+                            button {
+                                background-color: transparent;
+                                border: none;
+                                color: variables.$text-hover;
+                                font-weight: 600;
+                                cursor: pointer;
+
+                                &:hover {
+                                    font-weight: 700;
+                                }
+                            }
+
+                            .name {
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
+
+                                >img {
+                                    width: 16px;
+                                    height: 16px;
+                                }
+                            }
+                        }
+
+                        .name-container-edit,
+                        .description-container-edit {
+                            display: flex;
+                            padding: 0;
+
+                            button {
+                                margin-right: 20px;
+                            }
+
+                            .input-container {
+                                display: flex;
+                                align-items: center;
+                                gap: 16px;
+                                padding: 18px 20px;
+                                border: 1px solid variables.$border;
+                                border-radius: 40px;
+                                width: 100%;
+
+                                >img {
+                                    width: 16px;
+                                    height: 16px;
+                                }
+
+                                input {
+                                    border: none;
+                                    outline: none;
+                                    width: 100%;
+                                }
+                            }
+                        }
+
+                        .description-container,
+                        .description-container-edit {
+                            >div:first-child {
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                width: 100%;
+                            }
+
+                            button {
+                                background-color: transparent;
+                                border: none;
+                                color: variables.$text-hover;
+                                font-weight: 600;
+                                cursor: pointer;
+
+                                &:hover {
+                                    font-weight: 700;
+                                }
+                            }
+
+                            .seperator {
+                                width: 100%;
+                                height: 1px;
+                                background-color: variables.$border;
+                            }
+
+                            .creator {
+                                font-size: 24px;
+                                color: variables.$text-hover;
+                                cursor: pointer;
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        .modal-bg {
+        .new-Message-header {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            background-color: #00000050;
-            z-index: 1;
-        }
+            position: relative;
 
-        .modal {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            width: 872px;
-            position: absolute;
-            top: 72px;
-            left: 48px;
-            z-index: 2;
-            border-radius: 30px;
-            border-top-left-radius: 0;
-            box-shadow: 0 6px 10px 0 #00000033;
-            background-color: variables.$bg-base-200;
+            >h1 {
+                font-size: 24px;
+                font-weight: 700;
+            }
 
-            .container {
+            >div {
                 display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                padding: 32px;
-                gap: 24px;
+                align-items: center;
+                gap: 16px;
+                padding: 18px 20px;
+                border: 1px solid variables.$border;
+                border-radius: 40px;
                 width: 100%;
-                height: 100%;
 
-                .modal-header {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
+                >input {
+                    border: none;
+                    outline: none;
                     width: 100%;
-
-                    h1 {
-                        font-size: 24px;
-                        font-weight: 700;
-                    }
-
-                    > div {
-                        display: flex;
-                        align-items: center;
-                        gap: 8px;
-                    }
-
-                    .tag {
-                        width: 20px;
-                        height: 20px;
-                    }
-
-                    .close-btn {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        cursor: pointer;
-
-                        &:hover {
-                            background-color: variables.$bg-base-100;
-
-                            img {
-                                content: url("/assets/img/chat/close_hover.svg");
-                            }
-                        }
-                    }
-                }
-
-                .modal-main {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: center;
-                    gap: 24px;
-                    width: 100%;
-
-                    h2 {
-                        font-size: 18px;
-                        font-weight: 700;
-                    }
-
-                    .name-container,
-                    .description-container {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        padding: 20px;
-                        gap: 20px;
-                        border: 1px solid variables.$border;
-                        border-radius: 20px;
-                        width: 100%;
-                    }
-
-                    .name-container-edit,
-                    .description-container-edit {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-start;
-                        align-items: flex-start;
-                        padding: 20px;
-                        gap: 20px;
-                        border: none;
-                        border-radius: 20px;
-                        width: 100%;
-                    }
-
-                    .name-container,
-                    .name-container-edit {
-                        > div:first-child {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            width: 100%;
-                        }
-
-                        button {
-                            background-color: transparent;
-                            border: none;
-                            color: variables.$text-hover;
-                            font-weight: 600;
-                            cursor: pointer;
-
-                            &:hover {
-                                font-weight: 700;
-                            }
-                        }
-
-                        .name {
-                            display: flex;
-                            align-items: center;
-                            gap: 10px;
-
-                            > img {
-                                width: 16px;
-                                height: 16px;
-                            }
-                        }
-                    }
-
-                    .name-container-edit,
-                    .description-container-edit {
-                        display: flex;
-                        padding: 0;
-
-                        button {
-                            margin-right: 20px;
-                        }
-
-                        .input-container {
-                            display: flex;
-                            align-items: center;
-                            gap: 16px;
-                            padding: 18px 20px;
-                            border: 1px solid variables.$border;
-                            border-radius: 40px;
-                            width: 100%;
-
-                            > img {
-                                width: 16px;
-                                height: 16px;
-                            }
-
-                            input {
-                                border: none;
-                                outline: none;
-                                width: 100%;
-                            }
-                        }
-                    }
-
-                    .description-container,
-                    .description-container-edit {
-                        > div:first-child {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            width: 100%;
-                        }
-
-                        button {
-                            background-color: transparent;
-                            border: none;
-                            color: variables.$text-hover;
-                            font-weight: 600;
-                            cursor: pointer;
-
-                            &:hover {
-                                font-weight: 700;
-                            }
-                        }
-
-                        .seperator {
-                            width: 100%;
-                            height: 1px;
-                            background-color: variables.$border;
-                        }
-
-                        .creator {
-                            font-size: 24px;
-                            color: variables.$text-hover;
-                            cursor: pointer;
-                        }
-                    }
                 }
             }
         }
@@ -345,6 +383,7 @@
         justify-content: space-between;
         align-items: center;
         width: 100%;
+        overflow-y: auto;
 
         .message-input-field {
             padding: 32px;

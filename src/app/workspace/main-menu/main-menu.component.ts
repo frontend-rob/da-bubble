@@ -1,10 +1,7 @@
-import {CommonModule} from "@angular/common";
-import {Component, OnDestroy, OnInit} from "@angular/core";
-import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
-import {Subscription} from 'rxjs';
-import {ChatService} from '../../services/chat.service';
-import {ChannelData} from '../../interfaces/channel.interface';
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
 
 @Component({
     selector: "app-main-menu",
@@ -20,6 +17,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     showChannelList = false;
     showUserList = false;
     isOpen = false;
+    isModalOpen = false;
     activeMenuItem: number | null = null;
     activeUser: number | null = null;
 
@@ -118,6 +116,15 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
 
     addNewChannel() {
+        this.toggleModal();
         console.log("ADD NEW CHANNEL BTN CLICKED!");
+    }
+
+    toggleModal() {
+        this.isModalOpen = !this.isModalOpen;
+    }
+
+    toogleNewMessageHeader() {
+        this.chatService.toggleNewMessageHeader(true);
     }
 }

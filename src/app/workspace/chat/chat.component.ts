@@ -31,16 +31,18 @@ export class ChatComponent implements OnInit, OnDestroy {
     modalIsOpen = false;
     nameIsEdit = false;
     descriptionIsEdit = false;
-    newChannelName: string = '';
-    newChannelDescription: string = '';
+    newChannelName: string = "";
+    newChannelDescription: string = "";
     currentUser$!: UserData;
     userSubscription!: Subscription;
     private userService: UserService = inject(UserService)
 
-    constructor(private chatService: ChatService) {
-    }
+    constructor(private chatService: ChatService) {}
 
-    trackByMessageId: TrackByFunction<Message> = (index: number, message: Message) => {
+    trackByMessageId: TrackByFunction<Message> = (
+        index: number,
+        message: Message
+    ) => {
         return (message as any).id || index;
     };
 
@@ -113,9 +115,10 @@ export class ChatComponent implements OnInit, OnDestroy {
             reactions: []
         };
         try {
+            console.log("send messagedwadwadawd:");
             await this.chatService.sendMessage(this.selectedChannel.channelId.toString(), message);
         } catch (error) {
-            console.error('Error sending message:', error);
+            console.error("Error sending message:", error);
         }
     }
 
@@ -133,7 +136,11 @@ export class ChatComponent implements OnInit, OnDestroy {
             await this.chatService.updateChannel(channel);
             this.selectChannel(channel);
         } catch (error) {
-            console.error('Error updating channel:', error);
+            console.error("Error updating channel:", error);
         }
+    }
+
+    get isNewMessage() {
+        return this.chatService.isNewMessage;
     }
 }
