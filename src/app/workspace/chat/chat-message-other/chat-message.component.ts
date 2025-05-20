@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {Message} from "../../../interfaces/message.interface";
 import {ChatService} from "../../../services/chat.service";
 
@@ -8,10 +8,14 @@ import {ChatService} from "../../../services/chat.service";
     templateUrl: "./chat-message.component.html",
     styleUrl: "./chat-message.component.scss",
 })
-export class ChatMessageComponent {
+export class ChatMessageComponent implements OnInit {
     @Input() message!: Message;
 
     constructor(private chatService: ChatService) {
+    }
+
+    ngOnInit(): void {
+        console.log(this.message);
     }
 
     toggleThread() {

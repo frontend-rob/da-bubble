@@ -10,6 +10,8 @@ import {Timestamp} from '@angular/fire/firestore';
 import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {UserData} from '../../interfaces/user.interface';
 import {UserService} from '../../services/user.service';
+import {HelperService} from '../../services/helper.service';
+
 
 @Component({
     selector: 'app-chat',
@@ -27,7 +29,7 @@ import {UserService} from '../../services/user.service';
 export class ChatComponent implements OnInit, OnDestroy {
     channels$: Observable<ChannelData[]> | undefined;
     messages$: Observable<Message[]> | undefined;
-    selectedChannel: ChannelData | null = null;
+    selectedChannel!: ChannelData;
     modalIsOpen = false;
     nameIsEdit = false;
     descriptionIsEdit = false;
@@ -36,6 +38,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     currentUser$!: UserData;
     userSubscription!: Subscription;
     private userService: UserService = inject(UserService)
+    private helperService: HelperService = inject(HelperService);
 
     constructor(private chatService: ChatService) {
     }
@@ -68,11 +71,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     selectChannel(channel: ChannelData): void {
-        console.log(this.selectedChannel);
         this.selectedChannel = channel;
         this.newChannelName = channel.channelName || '';
         this.newChannelDescription = channel.channelDescription || '';
         this.messages$ = this.chatService.getMessages(channel.channelId.toString());
+        console.log(this.selectedChannel);
     }
 
     toggleModal(): void {
@@ -108,7 +111,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     async sendMessage(content: string): Promise<void> {
         console.log('send message triggerted:');
 
-        console.log(!this.selectedChannel || !content.trim());
+        console.log(this.selectedChannel || !content.trim());
         if (!this.selectedChannel || !content.trim()) {
             return console.log(this.selectedChannel);
         }
@@ -117,7 +120,17 @@ export class ChatComponent implements OnInit, OnDestroy {
             text: content,
             sender: this.currentUser$,
             timestamp: Timestamp.fromDate(new Date()),
-            reactions: []
+            time: this.helperService.getBerlinTime24h(),
+            date: this.helperService.getBerlinDateFormatted(),
+            reactions: [],
+            thread: {
+                text: content,
+                sender: this.currentUser$,
+                timestamp: Timestamp.fromDate(new Date()),
+                time: this.helperService.getBerlinTime24h(),
+                date: this.helperService.getBerlinDateFormatted(),
+                reactions: [],
+            }
         };
         try {
             console.log("send messagedwadwadawd:");

@@ -1,10 +1,15 @@
 import {CommonModule} from "@angular/common";
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, inject, OnDestroy, OnInit} from "@angular/core";
 import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
 import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
 import {ChannelData} from '../../interfaces/channel.interface';
 import {ChatService} from '../../services/chat.service';
 import {Subscription} from 'rxjs';
+import {HelperService} from '../../services/helper.service';
+import {Timestamp} from 'firebase/firestore';
+import {FormsModule} from '@angular/forms';
+import {UserData} from '../../interfaces/user.interface';
+import {UserService} from '../../services/user.service';
 
 @Component({
     selector: "app-main-menu",
@@ -12,6 +17,7 @@ import {Subscription} from 'rxjs';
         CommonModule,
         ChannelListItemComponent,
         DirectMessageListItemComponent,
+        FormsModule,
     ],
     templateUrl: "./main-menu.component.html",
     styleUrl: "./main-menu.component.scss",
@@ -28,7 +34,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     isOpenImg = "./assets/img/workspaces_close_default.svg";
     isClosedText = "Open workspace menu";
     isClosedImg = "./assets/img/workspaces_open_default.svg";
-
+    currentUser$!: UserData;
+    userSubscription!: Subscription;
+    channelFormData = {
+        name: '',
+        description: ''
+    }
     channels: ChannelData[] = [];
     chats = [
         {
@@ -62,6 +73,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             status: "offline",
         },
     ];
+    private helperService: HelperService = inject(HelperService);
+    private userService: UserService = inject(UserService)
     private channelsSubscription!: Subscription;
 
     constructor(private chatService: ChatService) {
@@ -69,11 +82,21 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.loadChannels();
+
+        this.userSubscription = this.userService.currentUser$.subscribe(userData => {
+            if (userData) {
+                this.currentUser$ = userData;
+            }
+        });
     }
 
     ngOnDestroy(): void {
         if (this.channelsSubscription) {
             this.channelsSubscription.unsubscribe();
+        }
+
+        if (this.userSubscription) {
+            this.userSubscription.unsubscribe();
         }
     }
 
@@ -118,8 +141,23 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.activeMenuItem = id;
     }
 
-    addNewChannel() {
+    addNewChannel(name: string, description: string) {
         this.toggleModal();
+        const defaultChannel: ChannelData = {
+            channelId: this.helperService.getRandomNumber(),
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelName: name,
+            channelDescription: description,
+            createdBy: this.currentUser$,
+            channelMembers: [],
+            createdAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
+        };
+        this.chatService.createChannel(defaultChannel)
         console.log("ADD NEW CHANNEL BTN CLICKED!");
     }
 

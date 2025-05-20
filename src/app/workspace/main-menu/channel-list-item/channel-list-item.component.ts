@@ -26,6 +26,7 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
 
     setActiveChat(id: number) {
         this.activeMenuItem.emit(id);
+
     }
 
     ngOnInit() {

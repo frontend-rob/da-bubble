@@ -8,6 +8,7 @@ import {MessageInputModalComponent} from "./message-input-modal/message-input-mo
 import {UserData} from "../../interfaces/user.interface";
 import {UserService} from '../../services/user.service';
 import {Subscription} from 'rxjs';
+import {HelperService} from '../../services/helper.service';
 
 @Component({
     selector: "app-message-input-field",
@@ -27,57 +28,8 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     isChannelTagModalOpen = false;
 
     messageInputData = "";
-    chatService = inject(ChatService);
-    userService = inject(UserService);
-
     currentUser$!: UserData;
     userSubscription!: Subscription;
-
-    channels: ChannelData[] = [
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-    ];
-
     users: UserData[] = [
         {
             uid: "1",
@@ -120,7 +72,6 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
             status: "offline",
         },
     ];
-
     emojiList: string[] = [
         "01-white-heavy-check-mark.svg",
         "02-heavy-black-heart.svg",
@@ -139,6 +90,53 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         "15-ok-hand-sign.svg",
         "16-person-raising-both-hands-in-celebration.svg",
     ];
+    private chatService: ChatService = inject(ChatService);
+    private userService: UserService = inject(UserService);
+    private helperService: HelperService = inject(HelperService);
+    channels: ChannelData[] = [
+        {
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.helperService.getRandomNumber(),
+            channelName: "General",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
+            channelMembers: [],
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
+        },
+        {
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.helperService.getRandomNumber(),
+            channelName: "General",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
+            channelMembers: [],
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
+        },
+        {
+            type: {
+                channel: true,
+                directMessage: false,
+                thread: false
+            },
+            channelId: this.helperService.getRandomNumber(),
+            channelName: "General",
+            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
+            createdBy: this.currentUser$,
+            channelMembers: [],
+            createdAt: Timestamp.fromDate(new Date()),
+            updatedAt: Timestamp.fromDate(new Date()),
+        },
+    ];
 
     ngOnInit(): void {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
@@ -152,7 +150,7 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         this.channels$?.subscribe(async (channels: ChannelData[]) => {
             if (channels.length === 0) {
                 const defaultChannel: ChannelData = {
-                    channelId: this.getRandomNumber(),
+                    channelId: this.helperService.getRandomNumber(),
                     type: {
                         channel: true,
                         directMessage: false,
@@ -178,10 +176,6 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
                 this.selectedChannel = channels[0];
             }
         });
-    }
-
-    getRandomNumber(min: number = 0, max: number = 1000): number {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
     toggleEmojiModal() {
