@@ -8,7 +8,7 @@
 
             <div class="add-new-channel-btn">
                 <img
-                    (click)="addNewChannel()"
+                    (click)="toogleNewMessageHeader()"
                     src="assets/img/main-menu/edit_square.svg"
                 />
             </div>
@@ -38,11 +38,8 @@
                         </div>
                     </div>
 
-                    <div class="button">
-                        <img
-                            (click)="addNewChannel()"
-                            src="assets/img/main-menu/add.svg"
-                        />
+                    <div (click)="toggleModal()" class="button">
+                        <img src="assets/img/main-menu/add.svg" />
                     </div>
                 </header>
 
@@ -109,6 +106,62 @@
                 </div>
             </div>
         </main>
+
+        <!-- MODAL -->
+
+        <div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">
+            <div
+                *ngIf="isModalOpen"
+                class="modal"
+                onclick="event.stopPropagation()"
+            >
+                <div class="container">
+                    <header class="modal-header">
+                        <div>
+                            <h1>Create Channel</h1>
+                            <div class="header-description">
+                                Channels serve your team for communication. It
+                                is best to be topic related #marketing for
+                                example.
+                            </div>
+                        </div>
+                        <div (click)="toggleModal()" class="close-btn">
+                            <img src="assets/img/chat/close.svg" />
+                        </div>
+                    </header>
+                    <main class="modal-main">
+                        <div>
+                            <h2>Channel-Name</h2>
+                            <div class="input-container">
+                                <img
+                                    src="/assets/img/main-menu/channel_tag_grey.svg"
+                                />
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="e.g. marketing"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <h2>Description <span>(optional)</span></h2>
+                            <div class="input-container">
+                                <input
+                                    type="text"
+                                    name="description"
+                                    placeholder="Your description text"
+                                />
+                            </div>
+                        </div>
+
+                        <div>
+                            <button (click)="addNewChannel()">Erstellen</button>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
