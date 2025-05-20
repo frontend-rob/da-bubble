@@ -37,7 +37,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     userSubscription!: Subscription;
     private userService: UserService = inject(UserService)
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: ChatService) {
+    }
+
+    get isNewMessage() {
+        return this.chatService.isNewMessage;
+    }
 
     trackByMessageId: TrackByFunction<Message> = (
         index: number,
@@ -138,9 +143,5 @@ export class ChatComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error("Error updating channel:", error);
         }
-    }
-
-    get isNewMessage() {
-        return this.chatService.isNewMessage;
     }
 }
