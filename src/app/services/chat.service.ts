@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Message} from '../interfaces/message.interface';
-import {ChannelData} from '../interfaces/channel.interface';
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -11,14 +16,32 @@ import {
     query,
     setDoc,
     Timestamp,
-    updateDoc
-} from '@angular/fire/firestore';
+    updateDoc,
+} from "@angular/fire/firestore";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
+    private _isThreadOpen = false;
+    private _isNewMessage = false;
+
+    toggleThread(value: boolean) {
+        this._isThreadOpen = value;
+    }
+
+    get isThreadOpen(): boolean {
+        return this._isThreadOpen;
+    }
+
+    toggleNewMessageHeader(value: boolean) {
+        this._isNewMessage = value;
+    }
+
+    get isNewMessage(): boolean {
+        return this._isNewMessage;
+    }
 
     /**
      * Fetches a list of channels from Firestore, ordered by their creation date in descending order.
@@ -28,12 +51,13 @@ export class ChatService {
     getChannels(): Observable<ChannelData[]> {
         return runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
-            const channelsRef = collection(firestore, 'channels');
-            const q = query(channelsRef, orderBy('createdAt', 'desc'));
-            return collectionData(q, {idField: 'channelId'}) as Observable<ChannelData[]>;
+            const channelsRef = collection(firestore, "channels");
+            const q = query(channelsRef, orderBy("createdAt", "desc"));
+            return collectionData(q, { idField: "channelId" }) as Observable<
+                ChannelData[]
+            >;
         });
     }
-
 
     /**
      * Creates a new channel document in the Firestore database with the provided channel details.
@@ -45,12 +69,12 @@ export class ChatService {
     async createChannel(channel: ChannelData): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
-            const channelsRef = collection(firestore, 'channels');
+            const channelsRef = collection(firestore, "channels");
             const newDocRef = doc(channelsRef);
             await setDoc(newDocRef, {
                 type: channel.type,
                 channelName: channel.channelName,
-                channelDescription: channel.channelDescription || '',
+                channelDescription: channel.channelDescription || "",
                 createdBy: channel.createdBy,
                 channelMembers: channel.channelMembers || [],
                 createdAt: channel.createdAt || Timestamp.now(),
@@ -62,14 +86,13 @@ export class ChatService {
     async updateChannel(channel: ChannelData): Promise<void> {
         const firestore = inject(Firestore);
         if (!channel.channelId) return;
-        const channelDoc = doc(firestore, 'channels', channel.channelId);
+        const channelDoc = doc(firestore, "channels", channel.channelId);
         await updateDoc(channelDoc, {
             channelName: channel.channelName,
             channelDescription: channel.channelDescription,
             updatedAt: channel.updatedAt || Timestamp.now(),
         });
     }
-
 
     /**
      * Retrieves a stream of messages for a specified channel, ordered by timestamp in ascending order.
@@ -80,12 +103,14 @@ export class ChatService {
     getMessages(channelId: string): Observable<Message[]> {
         return runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
-            const messagesRef = collection(firestore, `channels/${channelId}/messages`);
-            const q = query(messagesRef, orderBy('timestamp', 'asc'));
+            const messagesRef = collection(
+                firestore,
+                `channels/${channelId}/messages`
+            );
+            const q = query(messagesRef, orderBy("timestamp", "asc"));
             return collectionData(q) as Observable<Message[]>;
         });
     }
-
 
     /**
      * Sends a message to a specific channel.
@@ -96,9 +121,12 @@ export class ChatService {
      */
     async sendMessage(channelId: string, message: Message): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
-            console.log('send message chat service triggerted:');
+            console.log("send message chat service triggerted:");
             const firestore = inject(Firestore);
-            const messagesRef = collection(firestore, `channels/${channelId}/messages`);
+            const messagesRef = collection(
+                firestore,
+                `channels/${channelId}/messages`
+            );
             const newMsgDoc = doc(messagesRef);
             await setDoc(newMsgDoc, message);
         });

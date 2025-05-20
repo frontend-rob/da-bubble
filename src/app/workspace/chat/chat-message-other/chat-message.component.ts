@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { Message } from "../../../interfaces/message.interface";
 import { DatePipe } from "@angular/common";
-import { ThreadService } from "../../../services/thread.service";
+import { ChatService } from "../../../services/chat.service";
 
 @Component({
     selector: "app-chat-message-other",
@@ -12,9 +12,9 @@ import { ThreadService } from "../../../services/thread.service";
 export class ChatMessageComponent {
     @Input() message!: Message;
 
-    constructor(private threadService: ThreadService) {}
+    constructor(private chatService: ChatService) {}
 
     toggleThread() {
-        this.threadService.toggleThread(true);
+        this.chatService.toggleThread(true);
     }
 }

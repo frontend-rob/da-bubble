@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { WorkspaceHeaderComponent } from "./workspace-header/workspace-header.component";
 import { ThreadComponent } from "./thread/thread.component";
 import { CommonModule } from "@angular/common";
-import { ThreadService } from "../services/thread.service";
+import { ChatService } from "../services/chat.service";
 
 @Component({
     selector: "app-workspace",
@@ -20,13 +20,13 @@ import { ThreadService } from "../services/thread.service";
     ],
     templateUrl: "./workspace.component.html",
     styleUrls: ["./workspace.component.scss"],
-    providers: [ThreadService],
+    providers: [ChatService],
 })
 export class WorkspaceComponent {
     constructor(
         private authService: AuthService,
         private router: Router,
-        public threadService: ThreadService
+        public chatService: ChatService
     ) {}
 
     logOut(): void {
@@ -41,6 +41,6 @@ export class WorkspaceComponent {
     }
 
     get isThreadOpen() {
-        return this.threadService.isThreadOpen;
+        return this.chatService.isThreadOpen;
     }
 }
