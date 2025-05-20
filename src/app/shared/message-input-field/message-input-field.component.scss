@@ -1,22 +1,26 @@
 @use "./../../../styles/fonts" as fonts;
 @use "./../../../styles/variables" as variables;
 
-.message-input-section {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    width: 100%;
-    border: 1px solid variables.$border;
-    border-radius: 20px;
-    position: relative;
+.message-input-wrapper {
+    padding: 1.25rem;
 
-    textarea {
-        margin-bottom: 20px;
+    .message-input-section {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
         width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        resize: none;
+        border: 1px solid variables.$border;
+        border-radius: 20px;
+        position: relative;
+
+        textarea {
+            margin-bottom: 20px;
+            width: 100%;
+            height: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+        }
     }
 }
 
