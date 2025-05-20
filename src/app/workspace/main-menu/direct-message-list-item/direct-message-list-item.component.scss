@@ -1,4 +1,4 @@
-@use '../../../../styles/variables' as variables;
+@use "../../../../styles/variables" as variables;
 
 .menu-item {
     padding: 2px 15px;
@@ -44,14 +44,15 @@
     }
 
     &:hover {
-        background-color: #ECEEFE;
+        background-color: variables.$bg-base-100;
     }
+}
 
-    &.activate {
-        background-color: #ECEEFE;
+.activate {
+    background-color: variables.$bg-base-100;
 
-        > span {
-            color: #535AF1;
-        }
+    > div {
+        color: variables.$text-hover;
+        font-weight: 700;
     }
 }

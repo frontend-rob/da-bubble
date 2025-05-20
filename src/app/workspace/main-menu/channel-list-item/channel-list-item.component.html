@@ -1,10 +1,10 @@
 <div
-    (click)="openChannel(channel.id)"
-    [class.activate]="channel.id === activeChannel"
+    (click)="setActiveChat(channel.id)"
+    [class.activate]="active"
     class="menu-item"
 >
     <div>
-        <img src="assets/img/main-menu/channel_tag.svg"/>
+        <img src="assets/img/main-menu/channel_tag.svg" />
     </div>
     <div>{{ channel.name }}</div>
 </div>

@@ -1,4 +1,4 @@
-@use '../../../../styles/variables' as variables;
+@use "../../../../styles/variables" as variables;
 
 .message-container {
     display: flex;
@@ -26,7 +26,6 @@
     align-items: center;
     gap: 20px;
 }
-
 
 .message-content-container {
     display: flex;
@@ -65,7 +64,6 @@
         content: "";
         flex: 1;
         border-bottom: 1px solid variables.$border;
-
     }
 }
 
@@ -81,13 +79,18 @@
 .replies-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    // gap: 20px;
 }
 
 .replies {
+    min-width: 128px;
     font-size: 18px;
     font-weight: 400;
     color: variables.$text-hover;
+
+    &:hover {
+        font-weight: 700;
+    }
 }
 
 .last-reply {

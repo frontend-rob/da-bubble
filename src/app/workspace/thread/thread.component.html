@@ -3,9 +3,11 @@
         <div class="thread-description-container">
             <span class="thread-head-text">Thread</span>
             <div class="thread-tag"></div>
-            <span class="thread-description">Entwicklerteam</span>
+            <span class="thread-description">Development</span>
         </div>
-        <div class="thread-close"></div>
+        <div (click)="toggleThread()" class="close-btn">
+            <img src="assets/img/thread/close.svg" />
+        </div>
     </div>
     <main>
         <!-- <div>chat-messages</div> -->

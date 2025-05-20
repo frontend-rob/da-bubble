@@ -1,18 +1,22 @@
 <div class="message-time-seperator">
-    <div class="time">Dienstag, 14 Januar</div>
+    <div class="time">May 14th, 2025</div>
 </div>
 <div class="message-container">
-    <img alt="" src="assets/img/avatars/av-04.svg">
+    <img alt="" src="assets/img/avatars/av-04.svg" />
     <div class="message-content-container">
         <div class="author-container">
-            <span class="author-name">{{ message.sender || 'Noah Braun' }}</span> <span
-            class="message-time">{{ message.timestamp | date:'short' }}</span>
+            <span class="author-name">{{
+                message.sender || "Noah Braun"
+            }}</span>
+            <span class="message-time">{{
+                message.timestamp | date : "short"
+            }}</span>
         </div>
 
         <div class="message">{{ message.text }}</div>
         <div class="replies-container">
-            <span class="replies">2 Antworten</span>
-            <span class="last-reply">Letze Antwort 14:56</span>
+            <span (click)="toggleThread()" class="replies">2 Answers</span>
+            <span class="last-reply">Last Answer 2:56 PM</span>
         </div>
     </div>
     <div class="chat-message-other">
@@ -21,5 +25,4 @@
             <span class="timestamp"></span>
         </div>
     </div>
-
 </div>

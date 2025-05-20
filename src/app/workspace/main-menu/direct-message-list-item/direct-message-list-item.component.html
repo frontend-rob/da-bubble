@@ -1,0 +1,17 @@
+<div
+    (click)="setActiveChat(chat.id)"
+    [class.activate]="active"
+    class="menu-item"
+>
+    <div class="avatar">
+        <img src="{{ chat.img }}" />
+        <div
+            [ngClass]="{
+                online: chat.status === 'online',
+                offline: chat.status === 'offline'
+            }"
+            class="status"
+        ></div>
+    </div>
+    <div>{{ chat.name }}</div>
+</div>
