@@ -1,26 +1,26 @@
-import {Component, OnInit, TrackByFunction} from '@angular/core';
-import {FormsModule} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {ChatService} from '../../services/chat.service';
-import {ChannelData} from '../../interfaces/channel.interface';
-import {Message} from '../../interfaces/message.interface';
-import {ChatMessageComponent} from './chat-message-other/chat-message.component';
-import {MessageInputFieldComponent} from '../../shared/message-input-field/message-input-field.component';
-import {Timestamp} from '@angular/fire/firestore';
-import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
+import { Component, OnInit, TrackByFunction } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
 
 @Component({
-    selector: 'app-chat',
-    templateUrl: './chat.component.html',
-    styleUrls: ['./chat.component.scss'],
+    selector: "app-chat",
+    templateUrl: "./chat.component.html",
+    styleUrls: ["./chat.component.scss"],
     imports: [
         ChatMessageComponent,
         MessageInputFieldComponent,
         NgIf,
         FormsModule,
         NgForOf,
-        AsyncPipe
-    ]
+        AsyncPipe,
+    ],
 })
 export class ChatComponent implements OnInit {
     channels$: Observable<ChannelData[]> | undefined;
@@ -29,13 +29,15 @@ export class ChatComponent implements OnInit {
     modalIsOpen = false;
     nameIsEdit = false;
     descriptionIsEdit = false;
-    newChannelName: string = '';
-    newChannelDescription: string = '';
+    newChannelName: string = "";
+    newChannelDescription: string = "";
 
-    constructor(private chatService: ChatService) {
-    }
+    constructor(private chatService: ChatService) {}
 
-    trackByMessageId: TrackByFunction<Message> = (index: number, message: Message) => {
+    trackByMessageId: TrackByFunction<Message> = (
+        index: number,
+        message: Message
+    ) => {
         return (message as any).id || index;
     };
 
@@ -51,9 +53,9 @@ export class ChatComponent implements OnInit {
 
     selectChannel(channel: ChannelData): void {
         this.selectedChannel = channel;
-        this.newChannelName = channel.channelName || '';
-        this.newChannelDescription = channel.channelDescription || '';
-        this.messages$ = this.chatService.getMessages(channel.channelId || '');
+        this.newChannelName = channel.channelName || "";
+        this.newChannelDescription = channel.channelDescription || "";
+        this.messages$ = this.chatService.getMessages(channel.channelId || "");
     }
 
     toggleModal(): void {
@@ -87,7 +89,7 @@ export class ChatComponent implements OnInit {
     }
 
     async sendMessage(content: string): Promise<void> {
-        console.log('send message triggerted:');
+        console.log("send message triggerted:");
 
         console.log(!this.selectedChannel || !content.trim());
         if (!this.selectedChannel || !content.trim()) {
@@ -96,14 +98,17 @@ export class ChatComponent implements OnInit {
         const message: Message = {
             text: content,
             timestamp: Date.now(),
-            sender: '',
-            reactions: []
+            sender: "",
+            reactions: [],
         };
         try {
-            console.log('send messagedwadwadawd:');
-            await this.chatService.sendMessage(this.selectedChannel.channelId || '', message);
+            console.log("send messagedwadwadawd:");
+            await this.chatService.sendMessage(
+                this.selectedChannel.channelId || "",
+                message
+            );
         } catch (error) {
-            console.error('Error sending message:', error);
+            console.error("Error sending message:", error);
         }
     }
 
@@ -115,7 +120,11 @@ export class ChatComponent implements OnInit {
             await this.chatService.updateChannel(channel);
             this.selectChannel(channel);
         } catch (error) {
-            console.error('Error updating channel:', error);
+            console.error("Error updating channel:", error);
         }
+    }
+
+    get isNewMessage() {
+        return this.chatService.isNewMessage;
     }
 }

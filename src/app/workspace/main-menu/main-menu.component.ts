@@ -2,6 +2,7 @@ import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
 import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import { ChatService } from "../../services/chat.service";
 
 @Component({
     selector: "app-main-menu",
@@ -64,6 +65,8 @@ export class MainMenuComponent {
         },
     ];
 
+    constructor(private chatService: ChatService) {}
+
     toggleNav() {
         this.isOpen = !this.isOpen;
     }
@@ -87,6 +90,9 @@ export class MainMenuComponent {
 
     toggleModal() {
         this.isModalOpen = !this.isModalOpen;
-        console.log(this.isModalOpen);
+    }
+
+    toogleNewMessageHeader() {
+        this.chatService.toggleNewMessageHeader(true);
     }
 }
