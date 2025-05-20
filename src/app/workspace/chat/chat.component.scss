@@ -177,7 +177,7 @@
                             font-weight: 700;
                         }
 
-                        >div {
+                        > div {
                             display: flex;
                             align-items: center;
                             gap: 8px;
@@ -248,7 +248,7 @@
 
                         .name-container,
                         .name-container-edit {
-                            >div:first-child {
+                            > div:first-child {
                                 display: flex;
                                 justify-content: space-between;
                                 align-items: center;
@@ -272,7 +272,7 @@
                                 align-items: center;
                                 gap: 10px;
 
-                                >img {
+                                > img {
                                     width: 16px;
                                     height: 16px;
                                 }
@@ -297,7 +297,7 @@
                                 border-radius: 40px;
                                 width: 100%;
 
-                                >img {
+                                > img {
                                     width: 16px;
                                     height: 16px;
                                 }
@@ -312,7 +312,7 @@
 
                         .description-container,
                         .description-container-edit {
-                            >div:first-child {
+                            > div:first-child {
                                 display: flex;
                                 justify-content: space-between;
                                 align-items: center;
@@ -354,12 +354,12 @@
             align-items: center;
             position: relative;
 
-            >h1 {
+            > h1 {
                 font-size: 24px;
                 font-weight: 700;
             }
 
-            >div {
+            > div {
                 display: flex;
                 align-items: center;
                 gap: 16px;
@@ -368,7 +368,7 @@
                 border-radius: 40px;
                 width: 100%;
 
-                >input {
+                > input {
                     border: none;
                     outline: none;
                     width: 100%;

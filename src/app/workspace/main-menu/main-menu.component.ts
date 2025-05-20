@@ -1,7 +1,10 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
-import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import {CommonModule} from "@angular/common";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
+import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
+import {ChannelData} from '../../interfaces/channel.interface';
+import {ChatService} from '../../services/chat.service';
+import {Subscription} from 'rxjs';
 
 @Component({
     selector: "app-main-menu",

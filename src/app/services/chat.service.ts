@@ -19,6 +19,25 @@ import {
 })
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
+    private _isThreadOpen = false;
+
+    get isThreadOpen(): boolean {
+        return this._isThreadOpen;
+    }
+
+    private _isNewMessage = false;
+
+    get isNewMessage(): boolean {
+        return this._isNewMessage;
+    }
+
+    toggleThread(value: boolean) {
+        this._isThreadOpen = value;
+    }
+
+    toggleNewMessageHeader(value: boolean) {
+        this._isNewMessage = value;
+    }
 
     /**
      * Fetches a list of channels from Firestore, ordered by their creation date in descending order.
@@ -30,7 +49,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, { idField: "channelId" }) as Observable<
+            return collectionData(q, {idField: "channelId"}) as Observable<
                 ChannelData[]
             >;
         });

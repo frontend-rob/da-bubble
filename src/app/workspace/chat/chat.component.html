@@ -2,9 +2,9 @@
     <header>
         <div *ngIf="!isNewMessage" class="chat-header">
             <div (click)="toggleModal()" class="chat-title">
-                <img class="icon" src="assets/img/chat/channel_tag.svg" />
+                <img class="icon" src="assets/img/chat/channel_tag.svg"/>
                 <h1>{{ selectedChannel?.channelName || "Development" }}</h1>
-                <img class="arrow" src="assets/img/chat/arrow_down.svg" />
+                <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
             </div>
 
             <div class="chat-members">
@@ -13,14 +13,14 @@
                         *ngFor="let member of selectedChannel?.channelMembers"
                         class="member"
                     >
-                        <img [src]="'assets/img/avatars/' + member + '.svg'" />
+                        <img [src]="'assets/img/avatars/' + member + '.svg'"/>
                     </div>
                     <div class="member-counter">
                         {{ selectedChannel?.channelMembers?.length || 0 }}
                     </div>
                 </div>
                 <div class="add-member">
-                    <img src="assets/img/chat/add_member.svg" />
+                    <img src="assets/img/chat/add_member.svg"/>
                 </div>
             </div>
 
@@ -41,12 +41,12 @@
                             <h1>
                                 {{
                                     selectedChannel?.channelName ||
-                                        "Development"
+                                    "Development"
                                 }}
                             </h1>
                         </div>
                         <div (click)="toggleModal()" class="close-btn">
-                            <img src="assets/img/chat/close.svg" />
+                            <img src="assets/img/chat/close.svg"/>
                         </div>
                     </header>
                     <main class="modal-main">
@@ -58,7 +58,7 @@
                                 </button>
                             </div>
                             <div class="name">
-                                <img src="assets/img/chat/channel_tag.svg" />
+                                <img src="assets/img/chat/channel_tag.svg"/>
                                 {{ selectedChannel?.channelName }}
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                                 </button>
                             </div>
                             <div class="input-container">
-                                <img src="assets/img/chat/channel_tag.svg" />
+                                <img src="assets/img/chat/channel_tag.svg"/>
                                 <input
                                     [(ngModel)]="newChannelName"
                                     placeholder="Channel Name"
@@ -93,7 +93,7 @@
                             <div class="description">
                                 {{
                                     selectedChannel?.channelDescription ||
-                                        "Keine Beschreibung"
+                                    "Keine Beschreibung"
                                 }}
                             </div>
 
@@ -139,9 +139,9 @@
             <h1>New Message</h1>
             <div>
                 <input
-                    type="text"
                     name="description"
                     placeholder="Your description text"
+                    type="text"
                 />
             </div>
         </div>
