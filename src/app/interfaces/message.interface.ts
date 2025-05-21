@@ -1,6 +1,5 @@
 import {UserData} from './user.interface';
 import {Timestamp} from 'firebase/firestore';
-import {ThreadInterface} from './thread.interface';
 
 export interface Message {
     text: string;
@@ -9,5 +8,5 @@ export interface Message {
     time: string;
     date: string;
     reactions?: any[];
-    thread: ThreadInterface;
+    thread: Message[];
 }

@@ -121,6 +121,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                     createdAt: channel.createdAt,
                     updatedAt: channel.updatedAt
                 }));
+                this.setActiveChat(this.channels[0].channelId)
             },
             error => {
                 console.error('Error loading channels:', error);
