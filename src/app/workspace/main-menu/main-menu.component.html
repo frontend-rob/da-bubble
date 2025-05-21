@@ -129,7 +129,8 @@
                             <img src="assets/img/chat/close.svg"/>
                         </div>
                     </header>
-                    <form #channelForm="ngForm" (ngSubmit)="addNewChannel(channelFormData.name, channelFormData.description)"
+                    <form #channelForm="ngForm"
+                          (ngSubmit)="addNewChannel(channelFormData.name, channelFormData.description)"
                           class="modal-main">
                         <div>
                             <h2>Channel-Name</h2>

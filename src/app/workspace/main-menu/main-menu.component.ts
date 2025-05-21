@@ -10,6 +10,7 @@ import {Timestamp} from 'firebase/firestore';
 import {FormsModule} from '@angular/forms';
 import {UserData} from '../../interfaces/user.interface';
 import {UserService} from '../../services/user.service';
+import {FunctionTriggerService} from '../../services/function-trigger.service';
 
 @Component({
     selector: "app-main-menu",
@@ -41,6 +42,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         description: ''
     }
     channels: ChannelData[] = [];
+
     chats = [
         {
             name: "John Doe",
@@ -76,6 +78,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private helperService: HelperService = inject(HelperService);
     private userService: UserService = inject(UserService)
     private channelsSubscription!: Subscription;
+    private functionTriggerService: FunctionTriggerService = inject(FunctionTriggerService);
 
     constructor(private chatService: ChatService) {
     }
@@ -139,6 +142,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     setActiveChat(id: number) {
         this.activeMenuItem = id;
+        this.channels.forEach(channel => {
+            if (channel.channelId === id) {
+                this.functionTriggerService.callSelectChannel(channel)
+            }
+        })
     }
 
     addNewChannel(name: string, description: string) {

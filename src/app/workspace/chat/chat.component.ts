@@ -11,6 +11,7 @@ import {AsyncPipe, NgForOf, NgIf} from '@angular/common';
 import {UserData} from '../../interfaces/user.interface';
 import {UserService} from '../../services/user.service';
 import {HelperService} from '../../services/helper.service';
+import {FunctionTriggerService} from '../../services/function-trigger.service';
 
 
 @Component({
@@ -37,8 +38,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     newChannelDescription: string = "";
     currentUser$!: UserData;
     userSubscription!: Subscription;
+    functionTriggerSubscription!: Subscription;
     private userService: UserService = inject(UserService)
     private helperService: HelperService = inject(HelperService);
+    private functionTriggerService: FunctionTriggerService = inject(FunctionTriggerService);
 
     constructor(private chatService: ChatService) {
     }
@@ -55,6 +58,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     };
 
     ngOnInit(): void {
+        this.functionTriggerSubscription = this.functionTriggerService.trigger$.subscribe(channel => {
+            this.selectChannel(channel);
+        });
+
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
                 this.currentUser$ = userData;
@@ -66,16 +73,17 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.channels$?.subscribe((channels) => {
             if (channels.length > 0 && !this.selectedChannel) {
                 this.selectChannel(channels[0]);
+
             }
         });
     }
 
     selectChannel(channel: ChannelData): void {
         this.selectedChannel = channel;
+        console.log(this.selectedChannel);
         this.newChannelName = channel.channelName || '';
         this.newChannelDescription = channel.channelDescription || '';
         this.messages$ = this.chatService.getMessages(channel.channelId.toString());
-        console.log(this.selectedChannel);
     }
 
     toggleModal(): void {
@@ -141,9 +149,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        if (this.userSubscription) {
-            this.userSubscription.unsubscribe();
-        }
+        this.userSubscription.unsubscribe();
+        this.functionTriggerSubscription.unsubscribe();
     }
 
     private async updateChannel(channel: ChannelData): Promise<void> {

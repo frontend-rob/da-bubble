@@ -121,7 +121,6 @@ export class ChatService {
         });
     }
 
-
     /**
      * Sends a message to a specific channel.
      *
