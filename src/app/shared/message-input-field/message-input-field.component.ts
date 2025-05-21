@@ -30,48 +30,7 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     messageInputData = "";
     currentUser$!: UserData;
     userSubscription!: Subscription;
-    users: UserData[] = [
-        {
-            uid: "1",
-            userName: "John Doe",
-            email: "john.doe@testmail.dev",
-            photoURL: "assets/img/avatars/av-01.svg",
-            createdAt: Timestamp.fromMillis(1746858839934),
-            status: "online",
-        },
-        {
-            uid: "2",
-            userName: "Jane Smith",
-            email: "jane.smith@testmail.dev",
-            photoURL: "assets/img/avatars/av-02.svg",
-            createdAt: Timestamp.fromMillis(1746858839934),
-            status: "offline",
-        },
-        {
-            uid: "3",
-            userName: "Alice Johnson",
-            email: "alice.johnson@testmail.dev",
-            photoURL: "assets/img/avatars/av-03.svg",
-            createdAt: Timestamp.fromMillis(1746858839934),
-            status: "offline",
-        },
-        {
-            uid: "4",
-            userName: "Bob Brown",
-            email: "bob.brown@testmail.dev",
-            photoURL: "assets/img/avatars/av-04.svg",
-            createdAt: Timestamp.fromMillis(1746858839934),
-            status: "online",
-        },
-        {
-            uid: "5",
-            userName: "Charlie Davis",
-            email: "charlie.davis@testmail.dev",
-            photoURL: "assets/img/avatars/av-05.svg",
-            createdAt: Timestamp.fromMillis(1746858839934),
-            status: "offline",
-        },
-    ];
+    users: UserData[] = [];
     emojiList: string[] = [
         "01-white-heavy-check-mark.svg",
         "02-heavy-black-heart.svg",
@@ -93,90 +52,8 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     private chatService: ChatService = inject(ChatService);
     private userService: UserService = inject(UserService);
     private helperService: HelperService = inject(HelperService);
-    channels: ChannelData[] = [
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.helperService.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.helperService.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-        {
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
-            channelId: this.helperService.getRandomNumber(),
-            channelName: "General",
-            channelDescription: "Keine ahnungslosen Nachrichten. wait?",
-            createdBy: this.currentUser$,
-            channelMembers: [],
-            createdAt: Timestamp.fromDate(new Date()),
-            updatedAt: Timestamp.fromDate(new Date()),
-        },
-    ];
 
-    ngOnInit(): void {
-        this.userSubscription = this.userService.currentUser$.subscribe(userData => {
-            if (userData) {
-                this.currentUser$ = userData;
-            }
-        });
-
-        this.channels$ = this.chatService.getChannels();
-
-        this.channels$?.subscribe(async (channels: ChannelData[]) => {
-            if (channels.length === 0) {
-                const defaultChannel: ChannelData = {
-                    channelId: this.helperService.getRandomNumber(),
-                    type: {
-                        channel: true,
-                        directMessage: false,
-                        thread: false
-                    },
-                    channelName: "Allgemein",
-                    channelDescription: "Eine allgemeine Diskussion.",
-                    createdBy: this.currentUser$,
-                    channelMembers: [],
-                    createdAt: Timestamp.now(),
-                    updatedAt: Timestamp.now(),
-                };
-                try {
-                    await this.chatService.createChannel(defaultChannel);
-                    this.channels$ = this.chatService.getChannels();
-                } catch (error) {
-                    console.error(
-                        "Fehler beim Anlegen des Default-Channels:",
-                        error
-                    );
-                }
-            } else if (!this.selectedChannel) {
-                this.selectedChannel = channels[0];
-            }
-        });
-    }
+    ngOnInit() {}
 
     toggleEmojiModal() {
         if (

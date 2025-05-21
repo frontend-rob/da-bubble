@@ -131,17 +131,9 @@ export class ChatComponent implements OnInit, OnDestroy {
             time: this.helperService.getBerlinTime24h(),
             date: this.helperService.getBerlinDateFormatted(),
             reactions: [],
-            thread: {
-                text: content,
-                sender: this.currentUser$,
-                timestamp: Timestamp.fromDate(new Date()),
-                time: this.helperService.getBerlinTime24h(),
-                date: this.helperService.getBerlinDateFormatted(),
-                reactions: [],
-            }
+            thread: []
         };
         try {
-            console.log("send messagedwadwadawd:");
             await this.chatService.sendMessage(this.selectedChannel.channelId.toString(), message);
         } catch (error) {
             console.error("Error sending message:", error);
