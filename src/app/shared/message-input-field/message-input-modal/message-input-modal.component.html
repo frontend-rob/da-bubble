@@ -1,9 +1,7 @@
 <div *ngIf="isEmojiModalOpen" class="modal">
     <ul class="emoji-list">
         <li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
-            <img
-                [src]="'assets/img/shared/message-input-field/emojis/' + emoji"
-            />
+            <span class="emoji">{{ emoji }}</span>
         </li>
     </ul>
 </div>
@@ -12,14 +10,10 @@
     <ul class="user-list">
         <li (click)="addUserTag(user.userName)" *ngFor="let user of users">
             <div>
-                <img class="user-img" src="{{ user.photoURL }}"/>
-                <div
-                    [ngClass]="{
-                        online: user.status === 'online',
-                        offline: user.status === 'offline'
-                    }"
-                    class="status"
-                ></div>
+                <img class="user-img" src="{{ user.photoURL }}" />
+                <div class="status"
+                    [ngClass]="{ online: user.status === 'online', offline: user.status === 'offline' }">
+                </div>
             </div>
             <div class="user-name">{{ user.userName }}</div>
         </li>
@@ -28,10 +22,7 @@
 
 <div *ngIf="isChannelTagModalOpen" class="modal">
     <ul class="channel-list">
-        <li
-            (click)="addChannelTag(channel.channelName)"
-            *ngFor="let channel of channels"
-        >
+        <li (click)="addChannelTag(channel.channelName)" *ngFor="let channel of channels">
             <div class="channel-name">{{ channel.channelName }}</div>
         </li>
     </ul>

@@ -32,22 +32,22 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     userSubscription!: Subscription;
     users: UserData[] = [];
     emojiList: string[] = [
-        "01-white-heavy-check-mark.svg",
-        "02-heavy-black-heart.svg",
-        "03-party-popper.svg",
-        "04-rocket.svg",
-        "05-smiling-face-with-open-mouth.svg",
-        "06-winking-face.svg",
-        "07-smiling-face-with-sunglasses.svg",
-        "08-nerd-face.svg",
-        "09-smiling-face-with-heart-shaped-eyes.svg",
-        "10-thinking-face.svg",
-        "11-loudly-crying-face.svg",
-        "12-face-with-look-of-triumph.svg",
-        "13-thumbs-up-sign.svg",
-        "14-waving-hand-sign.svg",
-        "15-ok-hand-sign.svg",
-        "16-person-raising-both-hands-in-celebration.svg",
+        '\u{1F60A}', // 😊
+        '\u{1F602}', // 😂
+        '\u{1F60D}', // 😍
+        '\u{1F60E}', // 😎
+        '\u{1F914}', // 🤔
+        '\u{1F973}', // 🥳
+        '\u{1F389}', // 🎉
+        '\u{1F9D1}\u{200D}\u{1F4BB}', // 🧑‍💻
+        '\u{1F44D}', // 👍
+        '\u{1F44C}', // 👌
+        '\u{2764}\u{FE0F}', // ❤️
+        '\u{1F525}', // 🔥
+        '\u{2B50}', // ⭐
+        '\u{1F4AF}', // 💯
+        '\u{2705}', // ✅
+        '\u{1F680}', // 🚀
     ];
     private chatService: ChatService = inject(ChatService);
     private userService: UserService = inject(UserService);
@@ -133,7 +133,7 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         if (trimmedMessage.length > 0) {
             console.log(this.send);
             this.send.emit(trimmedMessage);
-            this.messageInputData = ""; // clear input after sending
+            this.messageInputData = "";
         }
     }
 
@@ -148,7 +148,7 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     }
 
     addEmoji(emoji: string) {
-        this.messageInputData += `<img src="assets/img/shared/message-input-field/emojis/${emoji}"/>`;
+        this.messageInputData += emoji;
         this.isEmojiModalOpen = false;
     }
 
