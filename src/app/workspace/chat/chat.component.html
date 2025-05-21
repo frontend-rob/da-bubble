@@ -1,169 +1,171 @@
-<section class="chat-section">
-    <header>
-        <div *ngIf="!isNewMessage" class="chat-header">
-            <div (click)="toggleModal()" class="chat-title">
-                <img class="icon" src="assets/img/chat/channel_tag.svg"/>
-                <h1>{{ selectedChannel?.channelName || "Development" }}</h1>
-                <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
-            </div>
-
-            <div class="chat-members">
-                <div class="members">
-                    <div
-                        *ngFor="let member of selectedChannel?.channelMembers"
-                        class="member"
-                    >
-                        <img [src]="'assets/img/avatars/' + member + '.svg'"/>
-                    </div>
-                    <div class="member-counter">
-                        {{ selectedChannel?.channelMembers?.length || 0 }}
-                    </div>
+@if (selectedChannel) {
+    <section class="chat-section">
+        <header>
+            <div *ngIf="!isNewMessage" class="chat-header">
+                <div (click)="toggleModal()" class="chat-title">
+                    <img class="icon" src="assets/img/chat/channel_tag.svg"/>
+                    <h1>{{ selectedChannel.channelName || "Development" }}</h1>
+                    <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
                 </div>
-                <div class="add-member">
-                    <img src="assets/img/chat/add_member.svg"/>
-                </div>
-            </div>
 
-            <div
-                (click)="toggleModal()"
-                *ngIf="modalIsOpen"
-                class="modal-bg"
-            ></div>
-
-            <div *ngIf="modalIsOpen" class="modal">
-                <div class="container">
-                    <header class="modal-header">
-                        <div>
-                            <img
-                                class="tag"
-                                src="assets/img/chat/channel_tag.svg"
-                            />
-                            <h1>
-                                {{
-                                    selectedChannel?.channelName ||
-                                    "Development"
-                                }}
-                            </h1>
-                        </div>
-                        <div (click)="toggleModal()" class="close-btn">
-                            <img src="assets/img/chat/close.svg"/>
-                        </div>
-                    </header>
-                    <main class="modal-main">
-                        <div *ngIf="!nameIsEdit" class="name-container">
-                            <div>
-                                <h2>Channel-Name</h2>
-                                <button (click)="toggleNameEdit()">
-                                    Bearbeiten
-                                </button>
-                            </div>
-                            <div class="name">
-                                <img src="assets/img/chat/channel_tag.svg"/>
-                                {{ selectedChannel?.channelName }}
-                            </div>
-                        </div>
-
-                        <div *ngIf="nameIsEdit" class="name-container-edit">
-                            <div>
-                                <h2>Channel-Name</h2>
-                                <button (click)="toggleNameEdit()">
-                                    Speichern
-                                </button>
-                            </div>
-                            <div class="input-container">
-                                <img src="assets/img/chat/channel_tag.svg"/>
-                                <input
-                                    [(ngModel)]="newChannelName"
-                                    placeholder="Channel Name"
-                                    type="text"
-                                />
-                            </div>
-                        </div>
-
+                <div class="chat-members">
+                    <div class="members">
                         <div
-                            *ngIf="!descriptionIsEdit"
-                            class="description-container"
+                            *ngFor="let member of selectedChannel.channelMembers"
+                            class="member"
                         >
-                            <div>
-                                <h2>Description</h2>
-                                <button (click)="toggleDescriptionEdit()">
-                                    Bearbeiten
-                                </button>
-                            </div>
-                            <div class="description">
-                                {{
-                                    selectedChannel?.channelDescription ||
-                                    "Keine Beschreibung"
-                                }}
-                            </div>
-
-                            <div class="seperator"></div>
-
-                            <h2>Created by</h2>
-                            <div class="creator">
-                                {{ selectedChannel.createdBy || "Unbekannt" }}
-                            </div>
+                            <img [src]="'assets/img/avatars/' + member + '.svg'"/>
                         </div>
+                        <div class="member-counter">
+                            {{ selectedChannel.channelMembers.length || 0 }}
+                        </div>
+                    </div>
+                    <div class="add-member">
+                        <img src="assets/img/chat/add_member.svg"/>
+                    </div>
+                </div>
 
-                        <div
-                            *ngIf="descriptionIsEdit"
-                            class="description-container-edit"
-                        >
+                <div
+                    (click)="toggleModal()"
+                    *ngIf="modalIsOpen"
+                    class="modal-bg"
+                ></div>
+
+                <div *ngIf="modalIsOpen" class="modal">
+                    <div class="container">
+                        <header class="modal-header">
                             <div>
-                                <h2>Description</h2>
-                                <button (click)="toggleDescriptionEdit()">
-                                    Speichern
-                                </button>
-                            </div>
-                            <div class="input-container">
-                                <input
-                                    [(ngModel)]="newChannelDescription"
-                                    placeholder="Description"
-                                    type="text"
+                                <img
+                                    class="tag"
+                                    src="assets/img/chat/channel_tag.svg"
                                 />
+                                <h1>
+                                    {{
+                                        selectedChannel.channelName ||
+                                        "Development"
+                                    }}
+                                </h1>
+                            </div>
+                            <div (click)="toggleModal()" class="close-btn">
+                                <img src="assets/img/chat/close.svg"/>
+                            </div>
+                        </header>
+                        <main class="modal-main">
+                            <div *ngIf="!nameIsEdit" class="name-container">
+                                <div>
+                                    <h2>Channel-Name</h2>
+                                    <button (click)="toggleNameEdit()">
+                                        Bearbeiten
+                                    </button>
+                                </div>
+                                <div class="name">
+                                    <img src="assets/img/chat/channel_tag.svg"/>
+                                    {{ selectedChannel.channelName }}
+                                </div>
                             </div>
 
-                            <div class="seperator"></div>
-
-                            <h2>Created by</h2>
-                            <div class="creator">
-                                {{ selectedChannel?.createdBy || "Unbekannt" }}
+                            <div *ngIf="nameIsEdit" class="name-container-edit">
+                                <div>
+                                    <h2>Channel-Name</h2>
+                                    <button (click)="toggleNameEdit()">
+                                        Speichern
+                                    </button>
+                                </div>
+                                <div class="input-container">
+                                    <img src="assets/img/chat/channel_tag.svg"/>
+                                    <input
+                                        [(ngModel)]="newChannelName"
+                                        placeholder="Channel Name"
+                                        type="text"
+                                    />
+                                </div>
                             </div>
-                        </div>
-                    </main>
+
+                            <div
+                                *ngIf="!descriptionIsEdit"
+                                class="description-container"
+                            >
+                                <div>
+                                    <h2>Description</h2>
+                                    <button (click)="toggleDescriptionEdit()">
+                                        Bearbeiten
+                                    </button>
+                                </div>
+                                <div class="description">
+                                    {{
+                                        selectedChannel.channelDescription ||
+                                        "Keine Beschreibung"
+                                    }}
+                                </div>
+
+                                <div class="seperator"></div>
+
+                                <h2>Created by</h2>
+                                <div class="creator">
+                                    {{ selectedChannel.createdBy.userName || "Unbekannt" }}
+                                </div>
+                            </div>
+
+                            <div
+                                *ngIf="descriptionIsEdit"
+                                class="description-container-edit"
+                            >
+                                <div>
+                                    <h2>Description</h2>
+                                    <button (click)="toggleDescriptionEdit()">
+                                        Speichern
+                                    </button>
+                                </div>
+                                <div class="input-container">
+                                    <input
+                                        [(ngModel)]="newChannelDescription"
+                                        placeholder="Description"
+                                        type="text"
+                                    />
+                                </div>
+
+                                <div class="seperator"></div>
+
+                                <h2>Created by</h2>
+                                <div class="creator">
+                                    {{ selectedChannel.createdBy || "Unbekannt" }}
+                                </div>
+                            </div>
+                        </main>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div *ngIf="isNewMessage" class="new-message-header">
-            <h1>New Message</h1>
-            <div>
-                <input
-                    name="description"
-                    placeholder="Your description text"
-                    type="text"
-                />
+            <div *ngIf="isNewMessage" class="new-message-header">
+                <h1>New Message</h1>
+                <div>
+                    <input
+                        name="description"
+                        placeholder="Your description text"
+                        type="text"
+                    />
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="chat-main">
-        <div class="chat-history">
-            <app-chat-message-other
-                *ngFor="
+        <main class="chat-main">
+            <div class="chat-history">
+                <app-chat-message-other
+                    *ngFor="
                     let message of (messages$ | async) ?? [];
                     trackBy: trackByMessageId
                 "
-                [message]="message"
-            ></app-chat-message-other>
-        </div>
-    </main>
-    <app-message-input-field
-        (send)="sendMessage($event)"
-        [placeholderText]="
+                    [message]="message"
+                ></app-chat-message-other>
+            </div>
+        </main>
+        <app-message-input-field
+            (send)="sendMessage($event)"
+            [placeholderText]="
             'Nachricht an #' +
-            (selectedChannel?.channelName || 'Entwicklerteam')
+            (selectedChannel.channelName || 'Entwicklerteam')
         "
-        class="message-input-field"
-    ></app-message-input-field>
-</section>
+            class="message-input-field"
+        ></app-message-input-field>
+    </section>
+}
