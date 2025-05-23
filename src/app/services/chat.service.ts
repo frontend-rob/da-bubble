@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Message} from '../interfaces/message.interface';
-import {ChannelData} from '../interfaces/channel.interface';
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -11,11 +16,11 @@ import {
     query,
     setDoc,
     Timestamp,
-    updateDoc
-} from '@angular/fire/firestore';
+    updateDoc,
+} from "@angular/fire/firestore";
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: "root",
 })
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
@@ -49,12 +54,11 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, {idField: "channelId"}) as Observable<
+            return collectionData(q, { idField: "channelId" }) as Observable<
                 ChannelData[]
             >;
         });
     }
-
 
     /**
      * Creates a new channel document in the Firestore database with the provided channel details.
@@ -84,12 +88,16 @@ export class ChatService {
     async updateChannel(channel: ChannelData): Promise<void> {
         const firestore = inject(Firestore);
         if (!channel.channelId) return;
-        const channelDoc = doc(firestore, 'channels', channel.channelId.toString());
+        const channelDoc = doc(
+            firestore,
+            "channels",
+            channel.channelId.toString()
+        );
         await updateDoc(channelDoc, {
             type: {
                 channel: channel.type.channel,
                 directMessage: channel.type.directMessage,
-                thread: channel.type.thread
+                thread: channel.type.thread,
             },
             channelId: channel.channelId,
             channelName: channel.channelName,
@@ -97,10 +105,9 @@ export class ChatService {
             createdBy: channel.createdBy,
             channelMembers: channel.channelMembers,
             createdAt: channel.createdAt,
-            updatedAt: Timestamp.fromDate(new Date())
+            updatedAt: Timestamp.fromDate(new Date()),
         });
     }
-
 
     /**
      * Retrieves a stream of messages for a specified channel, ordered by timestamp in ascending order.
