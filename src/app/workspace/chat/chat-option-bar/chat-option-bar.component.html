@@ -1,7 +1,7 @@
-<div class="menu">
-    <img alt="Check" src="assets/img/chat-emojis/white-heavy-check-mark.svg"/>
-    <img alt="Like" src="assets/img/chat-emojis/thumbs-up.svg"/>
-    <img alt="React" src="assets/img/chat/add_reaction.svg"/>
-    <img alt="Reply" src="assets/img/chat/comment.svg"/>
-    <img *ngIf="isOwnMessage" alt="More" src="assets/img/chat/more_vert.svg"/>
+<div class="options-container">
+    <img src="assets/img/chat/check.svg" />
+    <img src="assets/img/chat/top.svg" />
+    <img src="assets/img/chat/reaction.svg" />
+    <img (click)="openThread()" src="assets/img/chat/comment.svg" />
+    <!-- <img *ngIf="isOwnMessage" src="assets/img/chat/more_vert.svg"/> -->
 </div>

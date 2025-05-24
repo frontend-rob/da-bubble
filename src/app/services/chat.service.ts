@@ -25,23 +25,22 @@ import {
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
     private _isThreadOpen = false;
+    private _isNewMessage = false;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
     }
 
-    private _isNewMessage = false;
-
     get isNewMessage(): boolean {
         return this._isNewMessage;
     }
 
-    toggleThread(value: boolean) {
-        this._isThreadOpen = value;
+    toggleThread(bool: boolean) {
+        this._isThreadOpen = bool;
     }
 
-    toggleNewMessageHeader(value: boolean) {
-        this._isNewMessage = value;
+    toggleNewMessageHeader(bool: boolean) {
+        this._isNewMessage = bool;
     }
 
     /**

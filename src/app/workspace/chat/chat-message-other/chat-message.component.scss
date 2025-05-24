@@ -2,9 +2,9 @@
 
 .message-container {
     display: flex;
-
-    padding: 10px 45px;
+    padding: 8px 48px;
     gap: 30px;
+    position: relative;
 
     > img {
         max-height: 70px;
