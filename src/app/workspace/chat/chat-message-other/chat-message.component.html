@@ -1,21 +1,21 @@
 <div class="message-time-seperator">
     <div class="time">{{ message.date }}</div>
 </div>
-<div class="message-container">
-    <img [src]="message.sender.photoURL" alt="assets/img/avatars/av-04.svg"/>
+<div
+    (mouseenter)="toggleHovered(true)"
+    (mouseleave)="toggleHovered(false)"
+    class="message-container"
+>
+    <img [src]="message.sender.photoURL" alt="assets/img/avatars/av-04.svg" />
     <div class="message-content-container">
         <div class="author-container">
-            <span class="author-name">{{
-                    message.sender.userName
-                }}</span>
-            <span class="message-time">{{
-                    message.time
-                }} Uhr</span>
+            <span class="author-name">{{ message.sender.userName }}</span>
+            <span class="message-time">{{ message.time }} Uhr</span>
         </div>
 
         <div class="message">{{ message.text }}</div>
         <div class="replies-container">
-            <span (click)="toggleThread()" class="replies">2 Answers</span>
+            <span (click)="openThread()" class="replies">2 Answers</span>
             <span class="last-reply">Last Answer 2:56 PM</span>
         </div>
     </div>
@@ -25,4 +25,6 @@
             <span class="timestamp"></span>
         </div>
     </div>
+
+    <app-chat-option-bar *ngIf="isHovered"></app-chat-option-bar>
 </div>
