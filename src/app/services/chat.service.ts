@@ -5,7 +5,7 @@ import {
     runInInjectionContext,
 } from "@angular/core";
 import { Observable } from "rxjs";
-import { Message, ThreadMessages } from "../interfaces/message.interface";
+import { Message } from "../interfaces/message.interface";
 import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
@@ -143,12 +143,14 @@ export class ChatService {
         channelId: string,
         parentMessageId: string | undefined
     ): Promise<void> {
-        const firestore = inject(Firestore);
-        const msgRef = doc(
-            firestore,
-            `channels/${channelId}/messages/${parentMessageId}`
-        );
-        await updateDoc(msgRef, { hasThread: true });
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const msgRef = doc(
+                firestore,
+                `channels/${channelId}/messages/${parentMessageId}`
+            );
+            await updateDoc(msgRef, { hasThread: true });
+        });
     }
 
     /**
@@ -188,6 +190,34 @@ export class ChatService {
             );
             const newMsgDoc = doc(messagesRef);
             await setDoc(newMsgDoc, message);
+        });
+    }
+
+    /**
+     * Retrieves thread messages for a given channel ID and parent message ID.
+     *
+     * This method retrieves the thread messages associated with a specific channel and parent message.
+     * It uses Firestore to fetch the messages and then parses them into an Observable.
+     *
+     * @param channelId The ID of the channel to retrieve messages from.
+     * @param parentMessageId The ID of the parent message to retrieve messages from.
+     * @return An Observable<Message[]> that emits the thread messages.
+     */
+    getThreadMessages(
+        channelId: string,
+        parentMessageId: string | undefined
+    ): Observable<Message[]> {
+        console.log(channelId, parentMessageId);
+        return runInInjectionContext(this.environmentInjector, () => {
+            const firestore = inject(Firestore);
+            const messagesRef = collection(
+                firestore,
+                `channels/${channelId}/messages/${parentMessageId}/thread`
+            );
+            const q = query(messagesRef, orderBy("timestamp", "asc"));
+            return collectionData(q, { idField: "messageId" }) as Observable<
+                Message[]
+            >;
         });
     }
 

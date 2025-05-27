@@ -1,13 +1,10 @@
-import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output,} from "@angular/core";
+import {Component, EventEmitter, Input, Output,} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {ChatService} from "../../services/chat.service";
 import {ChannelData} from "../../interfaces/channel.interface";
 import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
 import {UserData} from "../../interfaces/user.interface";
-import {UserService} from '../../services/user.service';
 import {Subscription} from 'rxjs';
-import {HelperService} from '../../services/helper.service';
 
 @Component({
     selector: "app-message-input-field",
@@ -20,8 +17,8 @@ export class MessageInputFieldComponent {
     @Input() selectedChannel!: ChannelData;
     @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
-    @Output() send:EventEmitter<string> = new EventEmitter<string>();
-    @Output() isthread:EventEmitter<boolean> = new EventEmitter<boolean>;
+    @Output() send: EventEmitter<string> = new EventEmitter<string>();
+    @Output() isthread: EventEmitter<boolean> = new EventEmitter<boolean>;
 
     isEmojiModalOpen = false;
     isUserTagModalOpen = false;
