@@ -1,0 +1,156 @@
+@use "./../../../styles/variables" as variables;
+
+.profile-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 30px;
+    box-shadow: 0 6px 10px 0 #00000033;
+    background-color: variables.$bg-base-200;
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        padding: 40px;
+        gap: 48px;
+        width: 500px;
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            h2 {
+                font-size: 24px;
+                font-weight: 700;
+            }
+
+            div {
+                &:hover {
+                    img {
+                        content: url("/assets/img/profile-card/close_hover.svg");
+                    }
+                }
+            }
+        }
+
+        .profile-img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            > img {
+                width: 200px;
+                height: 200px;
+                border-radius: 100px;
+            }
+        }
+    }
+}
+
+.name-container,
+.email-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.name-container {
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+
+        > button {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-weight: 600;
+            color: variables.$text-hover;
+            cursor: pointer;
+
+            &:hover {
+                font-weight: 700;
+            }
+        }
+    }
+
+    .online-status {
+        justify-content: flex-start !important;
+        font-size: 20px;
+        color: variables.$bg-neutral;
+
+        .status-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: variables.$online;
+        }
+    }
+}
+
+.email-container {
+    h1 {
+        font-size: 32px;
+        font-weight: 700;
+    }
+
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        > div {
+            font-size: 20px;
+        }
+    }
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+
+    > button {
+        display: flex;
+        padding: 12px 24px;
+        gap: 10px;
+        width: fit-content;
+        border: none;
+        border-radius: 50px;
+        background-color: variables.$bg-primary;
+        color: variables.$text-inverse;
+        font-weight: 700;
+        cursor: pointer;
+
+        &:hover {
+            background-color: variables.$bg-primary-accent;
+        }
+    }
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: 4px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: variables.$bg-neutral-hover;
+    }
+}

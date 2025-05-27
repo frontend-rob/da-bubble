@@ -43,6 +43,10 @@
         font-size: 32px;
         font-weight: 700;
     }
+
+    > img {
+        cursor: pointer;
+    }
 }
 
 .profile-avatar {
@@ -73,7 +77,6 @@
     }
 
     > img {
-
         border-radius: 50%;
     }
 }
