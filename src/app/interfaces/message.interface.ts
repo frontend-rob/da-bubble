@@ -8,5 +8,12 @@ export interface Message {
     time: string;
     date: string;
     reactions?: any[];
-    thread: Message[];
+}
+
+export interface ThreadMessages extends Message {
+    threadMessages: Message[];
+}
+
+export interface IdtMessages extends Message {
+    messageId?: string;
 }

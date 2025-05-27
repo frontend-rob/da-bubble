@@ -3,7 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {Observable, Subscription} from "rxjs";
 import {ChatService} from "../../services/chat.service";
 import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
+import {Message, ThreadMessages} from "../../interfaces/message.interface";
 import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {Timestamp} from "@angular/fire/firestore";
@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     descriptionIsEdit = false;
     newChannelName: string = "";
     newChannelDescription: string = "";
-    currentUser$!: UserData;
+    currentUser!: UserData;
     userSubscription!: Subscription;
     functionTriggerSubscription!: Subscription;
     private userService: UserService = inject(UserService);
@@ -43,8 +43,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     private functionTriggerService: FunctionTriggerService = inject(
         FunctionTriggerService
     );
-
-    constructor(private chatService: ChatService) {
+    public readonly chatService: ChatService = inject(ChatService)
+    constructor() {
+        this.selectedChannel = this.chatService.selectedChannel;
     }
 
     get isNewMessage() {
@@ -67,7 +68,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
                 if (userData) {
-                    this.currentUser$ = userData;
+                    this.currentUser = userData;
                 }
             }
         );
@@ -82,13 +83,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     selectChannel(channel: ChannelData): void {
-        this.selectedChannel = channel;
-        console.log(this.selectedChannel);
+        this.chatService.selectedChannel = channel;
         this.newChannelName = channel.channelName || "";
         this.newChannelDescription = channel.channelDescription || "";
         this.messages$ = this.chatService.getMessages(
             channel.channelId.toString()
         );
+        this.messages$.subscribe((messages) => {
+          this.chatService.selectedChannelsMessages = messages
+        });
     }
 
     toggleModal(): void {
@@ -98,9 +101,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     toggleNameEdit(): void {
-        if (this.nameIsEdit && this.selectedChannel) {
+        if (this.nameIsEdit && this.chatService.selectedChannel) {
             const updatedChannel = {
-                ...this.selectedChannel,
+                ...this.chatService.selectedChannel,
                 channelName: this.newChannelName,
                 updatedAt: Timestamp.now(),
             };
@@ -110,9 +113,9 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     toggleDescriptionEdit(): void {
-        if (this.descriptionIsEdit && this.selectedChannel) {
+        if (this.descriptionIsEdit && this.chatService.selectedChannel) {
             const updatedChannel = {
-                ...this.selectedChannel,
+                ...this.chatService.selectedChannel,
                 channelDescription: this.newChannelDescription,
                 updatedAt: Timestamp.now(),
             };
@@ -122,25 +125,21 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     async sendChatMessage(content: string): Promise<void> {
-        console.log("send message triggerted:");
-
-        console.log(this.selectedChannel || !content.trim());
-        if (!this.selectedChannel || !content.trim()) {
-            return console.log(this.selectedChannel);
+        if (!this.chatService.selectedChannel || !content.trim()) {
+            return console.log(this.chatService.selectedChannel);
         }
-        console.log(this.currentUser$);
-        const message: Message = {
+        const message: ThreadMessages = {
             text: content,
-            sender: this.currentUser$,
+            sender: this.currentUser,
             timestamp: Timestamp.fromDate(new Date()),
             time: this.helperService.getBerlinTime24h(),
             date: this.helperService.getBerlinDateFormatted(),
             reactions: [],
-            thread: [],
+            threadMessages: []
         };
         try {
             await this.chatService.sendMessage(
-                this.selectedChannel.channelId.toString(),
+                this.chatService.selectedChannel.channelId.toString(),
                 message
             );
         } catch (error) {

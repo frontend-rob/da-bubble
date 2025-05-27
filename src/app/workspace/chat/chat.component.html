@@ -1,23 +1,23 @@
-@if (selectedChannel) {
+@if (this.chatService.selectedChannel) {
     <section class="chat-section">
         <header>
             <div *ngIf="!isNewMessage" class="chat-header">
                 <div (click)="toggleModal()" class="chat-title">
                     <img class="icon" src="assets/img/chat/channel_tag.svg"/>
-                    <h1>{{ selectedChannel.channelName || "Development" }}</h1>
+                    <h1>{{ this.chatService.selectedChannel.channelName || "Development" }}</h1>
                     <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
                 </div>
 
                 <div class="chat-members">
                     <div class="members">
                         <div
-                            *ngFor="let member of selectedChannel.channelMembers"
+                            *ngFor="let member of this.chatService.selectedChannel.channelMembers"
                             class="member"
                         >
                             <img [src]="'assets/img/avatars/' + member + '.svg'"/>
                         </div>
                         <div class="member-counter">
-                            {{ selectedChannel.channelMembers.length || 0 }}
+                            {{ this.chatService.selectedChannel.channelMembers.length || 0 }}
                         </div>
                     </div>
                     <div class="add-member">
@@ -41,7 +41,7 @@
                                 />
                                 <h1>
                                     {{
-                                        selectedChannel.channelName || "Development"
+                                        this.chatService.selectedChannel.channelName || "Development"
                                     }}
                                 </h1>
                             </div>
@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="name">
                                     <img src="assets/img/chat/channel_tag.svg"/>
-                                    {{ selectedChannel.channelName }}
+                                    {{ this.chatService.selectedChannel.channelName }}
                                 </div>
                             </div>
 
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="description">
                                     {{
-                                        selectedChannel.channelDescription ||
+                                        this.chatService.selectedChannel.channelDescription ||
                                         "Keine Beschreibung"
                                     }}
                                 </div>
@@ -102,7 +102,7 @@
                                 <h2>Created by</h2>
                                 <div class="creator">
                                     {{
-                                        selectedChannel.createdBy.userName ||
+                                        this.chatService.selectedChannel.createdBy.userName ||
                                         "Unbekannt"
                                     }}
                                 </div>
@@ -130,7 +130,7 @@
 
                                 <h2>Created by</h2>
                                 <div class="creator">
-                                    {{ selectedChannel.createdBy || "Unbekannt" }}
+                                    {{ this.chatService.selectedChannel.createdBy || "Unbekannt" }}
                                 </div>
                             </div>
                         </main>
@@ -167,8 +167,9 @@
         </main>
         <app-message-input-field
             (send)="sendChatMessage($event)"
+            (isthread)="false"
             [placeholderText]="
-            'Nachricht an #' + (selectedChannel.channelName || 'Entwicklerteam')
+            'Nachricht an #' + (this.chatService.selectedChannel.channelName || 'Entwicklerteam')
         "
             class="message-input-field"
         ></app-message-input-field>

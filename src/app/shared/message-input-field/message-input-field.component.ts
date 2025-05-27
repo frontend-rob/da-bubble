@@ -16,18 +16,18 @@ import {HelperService} from '../../services/helper.service';
     templateUrl: "./message-input-field.component.html",
     styleUrl: "./message-input-field.component.scss",
 })
-export class MessageInputFieldComponent implements OnInit, OnDestroy {
+export class MessageInputFieldComponent {
     @Input() selectedChannel!: ChannelData;
     @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
-    @Output() send = new EventEmitter<string>();
+    @Output() send:EventEmitter<string> = new EventEmitter<string>();
+    @Output() isthread:EventEmitter<boolean> = new EventEmitter<boolean>;
 
     isEmojiModalOpen = false;
     isUserTagModalOpen = false;
     isChannelTagModalOpen = false;
 
     messageInputData = "";
-    currentUser$!: UserData;
     userSubscription!: Subscription;
     users: UserData[] = [];
     emojiList: string[] = [
@@ -48,12 +48,6 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         '\u{2705}', // ✅
         '\u{1F680}', // 🚀
     ];
-    private chatService: ChatService = inject(ChatService);
-    private userService: UserService = inject(UserService);
-    private helperService: HelperService = inject(HelperService);
-
-    ngOnInit() {
-    }
 
     toggleEmojiModal() {
         if (
@@ -102,9 +96,13 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     }
 
     onKeyDown(event: KeyboardEvent): void {
-        if (event.key === "Enter" && !event.shiftKey) {
+        if (event.key === "Enter" && !event.shiftKey && !this.isthread) {
             event.preventDefault();
-            this.questionChannelType();
+            this.trySendMessage();
+        }
+        if (event.key === "Enter" && !event.shiftKey && this.isthread) {
+            event.preventDefault();
+            this.trySendThreadMessage()
         }
         if (event.key === "@") {
             this.toggleUserTagModal();
@@ -127,21 +125,15 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         }
     }
 
-    questionChannelType() {
-
-    }
-
     trySendMessage() {
-        console.log("try send message");
         const trimmedMessage = this.messageInputData.trim();
         if (trimmedMessage.length > 0) {
-            console.log(this.send);
             this.send.emit(trimmedMessage);
             this.messageInputData = "";
         }
     }
 
-    trySendThreadMessage($event: string) {
+    trySendThreadMessage() {
 
     }
 
@@ -158,11 +150,5 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     addEmoji(emoji: string) {
         this.messageInputData += emoji;
         this.isEmojiModalOpen = false;
-    }
-
-    ngOnDestroy() {
-        if (this.userSubscription) {
-            this.userSubscription.unsubscribe();
-        }
     }
 }
