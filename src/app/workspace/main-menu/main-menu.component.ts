@@ -108,11 +108,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             (channelsData: ChannelData[]) => {
                 // Transform the ChannelData to match the expected format in the template
                 this.channels = channelsData.map(channel => ({
-                    type: {
-                        channel: channel.type.channel,
-                        directMessage: channel.type.directMessage,
-                        thread: channel.type.thread
-                    },
                     channelId: channel.channelId,
                     channelName: channel.channelName,
                     channelDescription: channel.channelDescription,
@@ -154,11 +149,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.toggleModal();
         const defaultChannel: ChannelData = {
             channelId: this.helperService.getRandomNumber(),
-            type: {
-                channel: true,
-                directMessage: false,
-                thread: false
-            },
             channelName: name,
             channelDescription: description,
             createdBy: this.currentUser$,
