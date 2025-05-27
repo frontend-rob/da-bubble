@@ -27,6 +27,7 @@ export class ChatService {
     private _isThreadOpen = false;
     private _isNewMessage = false;
     private _isProfileInfoOpen = false;
+    private _isProfilMenuOpen = false;
     selectedChannel!: ChannelData;
     selectedChannelsMessages!: Message[];
     selectedThreadMessageId!: string | undefined;
@@ -43,6 +44,10 @@ export class ChatService {
         return this._isProfileInfoOpen;
     }
 
+    get isProfilMenuOpen(): boolean {
+        return this._isProfilMenuOpen;
+    }
+
     toggleThread(bool: boolean) {
         this._isThreadOpen = bool;
     }
@@ -53,7 +58,11 @@ export class ChatService {
 
     toggleProfileInfo(bool: boolean) {
         this._isProfileInfoOpen = bool;
-        console.log("PROFILE-INFO:", bool);
+    }
+
+    toggleProfileMenu(bool: boolean) {
+        this._isProfilMenuOpen = bool;
+        console.log("MENU OPEN", this.isProfilMenuOpen);
     }
 
     /**

@@ -1,15 +1,26 @@
 <div class="header-container">
-    <img alt="" src="assets/img/workspace-header/main-logo.svg">
+    <img alt="" src="assets/img/workspace-header/main-logo.svg" />
     <div class="search-bar-container">
-        <input placeholder="Devspace durchsuchen" type="text">
-        <img alt="" src="assets/img/workspace-header/search.svg">
-    </div><!--
+        <input placeholder="Devspace durchsuchen" type="text" />
+        <img src="assets/img/workspace-header/search.svg" />
+    </div>
+
     <div class="profile-container">
-        <span *ngIf="currentUser | async as user">
-            {{ user.userName }}
-        </span>
-        <img *ngIf="currentUser | async as user" [src]="user.photoURL" alt="" class="profile-avatar">
-        <img *ngIf="!(currentUser | async)" alt="" class="profile-avatar" src="assets/img/avatars/av-03.svg">
-        <img alt="" class="arrow-down" src="assets/img/workspace-header/keyboard_arrow_down.svg">
-    </div>-->
+        <span *ngIf="undefined | async as user"> userName </span>
+        <img
+            *ngIf="undefined | async as user"
+            src="assets/img/avatar1.svg"
+            class="profile-avatar"
+        />
+        <img
+            *ngIf="!(undefined | async)"
+            class="profile-avatar"
+            src="assets/img/avatars/av-03.svg"
+        />
+        <img
+            (click)="toggleMenu(true)"
+            class="arrow-down"
+            src="assets/img/workspace-header/keyboard_arrow_down.svg"
+        />
+    </div>
 </div>
