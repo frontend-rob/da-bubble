@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { Message } from "../../../interfaces/message.interface";
-import { ChatService } from "../../../services/chat.service";
-import { ChatOptionBarComponent } from "../chat-option-bar/chat-option-bar.component";
-import { CommonModule } from "@angular/common";
+import {Component, Input, OnInit} from "@angular/core";
+import {Message} from "../../../interfaces/message.interface";
+import {ChatService} from "../../../services/chat.service";
+import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
+import {CommonModule} from "@angular/common";
 
 @Component({
     selector: "app-chat-message-other",
@@ -14,7 +14,8 @@ export class ChatMessageComponent implements OnInit {
     @Input() message!: Message;
     isHovered = false;
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: ChatService) {
+    }
 
     ngOnInit(): void {
         console.log(this.message);

@@ -1,23 +1,17 @@
-import {
-    Component,
-    inject,
-    OnDestroy,
-    OnInit,
-    TrackByFunction,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { Observable, Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Message } from "../../interfaces/message.interface";
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { Timestamp } from "@angular/fire/firestore";
-import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { HelperService } from "../../services/helper.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {Observable, Subscription} from "rxjs";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Message} from "../../interfaces/message.interface";
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {Timestamp} from "@angular/fire/firestore";
+import {AsyncPipe, NgForOf, NgIf} from "@angular/common";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {HelperService} from "../../services/helper.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
 
 @Component({
     selector: "app-chat",
@@ -50,7 +44,8 @@ export class ChatComponent implements OnInit, OnDestroy {
         FunctionTriggerService
     );
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: ChatService) {
+    }
 
     get isNewMessage() {
         return this.chatService.isNewMessage;
@@ -126,7 +121,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.descriptionIsEdit = !this.descriptionIsEdit;
     }
 
-    async sendMessage(content: string): Promise<void> {
+    async sendChatMessage(content: string): Promise<void> {
         console.log("send message triggerted:");
 
         console.log(this.selectedChannel || !content.trim());
@@ -158,6 +153,17 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.functionTriggerSubscription.unsubscribe();
     }
 
+    onKeyDown(event: KeyboardEvent): void {
+        // TODO: ADD LOGIC
+        if (event.key === "Enter" && this.isNewMessage) {
+            console.log("CREATE NEW MESSAGE");
+        }
+
+        if (event.key === "Escape" && this.isNewMessage) {
+            this.chatService.toggleNewMessageHeader(false);
+        }
+    }
+
     private async updateChannel(channel: ChannelData): Promise<void> {
         if (!channel.channelId) {
             return;
@@ -167,17 +173,6 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.selectChannel(channel);
         } catch (error) {
             console.error("Error updating channel:", error);
-        }
-    }
-
-    onKeyDown(event: KeyboardEvent): void {
-        // TODO: ADD LOGIC
-        if (event.key === "Enter" && this.isNewMessage) {
-            console.log("CREATE NEW MESSAGE");
-        }
-
-        if (event.key === "Escape" && this.isNewMessage) {
-            this.chatService.toggleNewMessageHeader(false);
         }
     }
 }

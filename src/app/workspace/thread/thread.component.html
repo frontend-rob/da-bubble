@@ -13,6 +13,7 @@
         <!-- <div>chat-messages</div> -->
         <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
         <app-message-input-field
+            (send)="sendThreadMessage($event)"
             [placeholderText]="'Antworten...'"
             class="message-input-field"
         ></app-message-input-field>

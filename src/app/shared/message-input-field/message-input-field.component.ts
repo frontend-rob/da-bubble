@@ -3,7 +3,6 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChatService} from "../../services/chat.service";
 import {ChannelData} from "../../interfaces/channel.interface";
-import {Timestamp} from "firebase/firestore";
 import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
 import {UserData} from "../../interfaces/user.interface";
 import {UserService} from '../../services/user.service';
@@ -53,7 +52,8 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     private userService: UserService = inject(UserService);
     private helperService: HelperService = inject(HelperService);
 
-    ngOnInit() {}
+    ngOnInit() {
+    }
 
     toggleEmojiModal() {
         if (
@@ -104,7 +104,7 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
     onKeyDown(event: KeyboardEvent): void {
         if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
-            this.trySendMessage();
+            this.questionChannelType();
         }
         if (event.key === "@") {
             this.toggleUserTagModal();
@@ -127,6 +127,10 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
         }
     }
 
+    questionChannelType() {
+
+    }
+
     trySendMessage() {
         console.log("try send message");
         const trimmedMessage = this.messageInputData.trim();
@@ -135,6 +139,10 @@ export class MessageInputFieldComponent implements OnInit, OnDestroy {
             this.send.emit(trimmedMessage);
             this.messageInputData = "";
         }
+    }
+
+    trySendThreadMessage($event: string) {
+
     }
 
     addUserTag(userName: string) {

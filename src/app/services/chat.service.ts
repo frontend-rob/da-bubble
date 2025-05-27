@@ -1,12 +1,7 @@
-import {
-    EnvironmentInjector,
-    inject,
-    Injectable,
-    runInInjectionContext,
-} from "@angular/core";
-import { Observable } from "rxjs";
-import { Message } from "../interfaces/message.interface";
-import { ChannelData } from "../interfaces/channel.interface";
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
+import {Observable} from "rxjs";
+import {Message} from "../interfaces/message.interface";
+import {ChannelData} from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -25,11 +20,12 @@ import {
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
     private _isThreadOpen = false;
-    private _isNewMessage = false;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
     }
+
+    private _isNewMessage = false;
 
     get isNewMessage(): boolean {
         return this._isNewMessage;
@@ -53,7 +49,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, { idField: "channelId" }) as Observable<
+            return collectionData(q, {idField: "channelId"}) as Observable<
                 ChannelData[]
             >;
         });
@@ -72,7 +68,6 @@ export class ChatService {
             const channelsRef = collection(firestore, "channels");
             const newDocRef = doc(channelsRef);
             await setDoc(newDocRef, {
-                type: channel.type,
                 channelId: channel.channelId,
                 channelName: channel.channelName,
                 channelDescription: channel.channelDescription || "",
@@ -93,11 +88,6 @@ export class ChatService {
             channel.channelId.toString()
         );
         await updateDoc(channelDoc, {
-            type: {
-                channel: channel.type.channel,
-                directMessage: channel.type.directMessage,
-                thread: channel.type.thread,
-            },
             channelId: channel.channelId,
             channelName: channel.channelName,
             channelDescription: channel.channelDescription,
@@ -145,5 +135,18 @@ export class ChatService {
             const newMsgDoc = doc(messagesRef);
             await setDoc(newMsgDoc, message);
         });
+    }
+
+    async sendThreadMessage(channelId: string, message: Message): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            console.log("send message Thread chat service was Called:");
+            const firestore = inject(Firestore);
+            const messagesRef = collection(
+                firestore,
+                `channels/${channelId}/messages/`
+            );
+            const newMsgDoc = doc(messagesRef);
+            await setDoc(newMsgDoc, message);
+        })
     }
 }
