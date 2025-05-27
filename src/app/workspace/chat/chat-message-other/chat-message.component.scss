@@ -36,6 +36,10 @@
 .author-name {
     font-weight: 700;
     font-size: 18px;
+
+    &:hover {
+        color: variables.$text-hover;
+    }
 }
 
 .message-time {

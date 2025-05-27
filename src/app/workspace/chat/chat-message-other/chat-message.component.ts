@@ -28,4 +28,8 @@ export class ChatMessageComponent implements OnInit {
     toggleHovered(bool: boolean) {
         this.isHovered = bool;
     }
+
+    toggleProfileInfo(bool: boolean) {
+        this.chatService.toggleProfileInfo(bool);
+    }
 }

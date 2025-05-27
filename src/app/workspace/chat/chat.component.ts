@@ -13,7 +13,7 @@ import { Message } from "../../interfaces/message.interface";
 import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
 import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
 import { Timestamp } from "@angular/fire/firestore";
-import { AsyncPipe, NgForOf, NgIf } from "@angular/common";
+import { AsyncPipe, CommonModule, NgForOf, NgIf } from "@angular/common";
 import { UserData } from "../../interfaces/user.interface";
 import { UserService } from "../../services/user.service";
 import { HelperService } from "../../services/helper.service";
@@ -26,7 +26,7 @@ import { FunctionTriggerService } from "../../services/function-trigger.service"
     imports: [
         ChatMessageComponent,
         MessageInputFieldComponent,
-        NgIf,
+        CommonModule,
         FormsModule,
         NgForOf,
         AsyncPipe,

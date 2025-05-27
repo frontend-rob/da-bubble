@@ -26,6 +26,7 @@ export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
     private _isThreadOpen = false;
     private _isNewMessage = false;
+    private _isProfileInfoOpen = false;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
@@ -35,12 +36,21 @@ export class ChatService {
         return this._isNewMessage;
     }
 
+    get isProfileInfoOpen(): boolean {
+        return this._isProfileInfoOpen;
+    }
+
     toggleThread(bool: boolean) {
         this._isThreadOpen = bool;
     }
 
     toggleNewMessageHeader(bool: boolean) {
         this._isNewMessage = bool;
+    }
+
+    toggleProfileInfo(bool: boolean) {
+        this._isProfileInfoOpen = bool;
+        console.log("PROFILE-INFO:", bool);
     }
 
     /**
