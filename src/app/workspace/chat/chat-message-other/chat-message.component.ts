@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from "@angular/core";
-import {IdtMessages, Message} from "../../../interfaces/message.interface";
+import {Component, Input} from "@angular/core";
+import {IdtMessages} from "../../../interfaces/message.interface";
 import {ChatService} from "../../../services/chat.service";
 import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
 import {CommonModule} from "@angular/common";
