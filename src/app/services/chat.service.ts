@@ -1,6 +1,6 @@
 import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
 import {Observable} from "rxjs";
-import {Message} from "../interfaces/message.interface";
+import {Message, ThreadMessages} from "../interfaces/message.interface";
 import {ChannelData} from "../interfaces/channel.interface";
 import {
     collection,
@@ -20,6 +20,9 @@ import {
 export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
     private _isThreadOpen = false;
+    selectedChannel!: ChannelData;
+    selectedChannelsMessages!: Message[];
+    selectedThreadMessageId!: string | undefined;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
@@ -79,6 +82,13 @@ export class ChatService {
         });
     }
 
+
+    /**
+     * Updates the channel document in the Firestore database.
+     *
+     * @param {ChannelData} channel The channel document to update.
+     * @returns {Promise<void>} A promise that resolves when the update is complete.
+     */
     async updateChannel(channel: ChannelData): Promise<void> {
         const firestore = inject(Firestore);
         if (!channel.channelId) return;
@@ -99,13 +109,28 @@ export class ChatService {
     }
 
     /**
+     * Asynchronously marks a message with the 'hasThread' flag.
+     *
+     * This method updates a document in the Firestore database to indicate that a thread has been created for a message.
+     *
+     * @param {string} channelId - The ID of the channel where the message belongs.
+     * @param {string} parentMessageId - The ID of the parent message that this message is associated with.
+     * @return Promise<void> - Returns a Promise that resolves to no value.
+     */
+    async markMessageHasThread(channelId: string, parentMessageId: string | undefined): Promise<void> {
+        const firestore = inject(Firestore);
+        const msgRef = doc(firestore, `channels/${channelId}/messages/${parentMessageId}`);
+        await updateDoc(msgRef, { hasThread: true });
+    }
+
+
+    /**
      * Retrieves a stream of messages for a specified channel, ordered by timestamp in ascending order.
      *
      * @param {string} channelId - The unique identifier of the channel for which messages need to be fetched.
      * @return {Observable<Message[]>} An observable that emits an array of messages for the specified channel.
      */
     getMessages(channelId: string): Observable<Message[]> {
-        console.log(channelId);
         return runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
             const messagesRef = collection(
@@ -113,7 +138,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q) as Observable<Message[]>;
+            return collectionData(q, {idField: "messageId"}) as Observable<Message[]>;
         });
     }
 
@@ -124,9 +149,9 @@ export class ChatService {
      * @param {Message} message - The message object containing the content and details to be sent.
      * @return {Promise<void>} A promise that resolves when the message has been successfully sent.
      */
+
     async sendMessage(channelId: string, message: Message): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
-            console.log("send message chat service triggerted:");
             const firestore = inject(Firestore);
             const messagesRef = collection(
                 firestore,
@@ -137,16 +162,24 @@ export class ChatService {
         });
     }
 
-    async sendThreadMessage(channelId: string, message: Message): Promise<void> {
+    /**
+     * Asynchronously sends a message to a thread within a Firestore channel.
+     *
+     * @param {string} channelId - The ID of the channel to send the message to.
+     * @param {string} parentMessageId - The ID of the parent message for this thread.
+     * @param {Message} message - The message to send.
+     * @returns {Promise<void>} A promise that resolves when the message has been sent.
+     */
+    async sendThreadMessage(channelId: string, parentMessageId: string | undefined, message: Message): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
-            console.log("send message Thread chat service was Called:");
             const firestore = inject(Firestore);
-            const messagesRef = collection(
+            console.log(channelId,parentMessageId,message);
+            const threadRef = collection(
                 firestore,
-                `channels/${channelId}/messages/`
+                `channels/${channelId}/messages/${parentMessageId}/thread`
             );
-            const newMsgDoc = doc(messagesRef);
-            await setDoc(newMsgDoc, message);
-        })
+            const newDocRef = doc(threadRef);
+            await setDoc(newDocRef, message);
+        });
     }
 }

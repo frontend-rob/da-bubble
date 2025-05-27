@@ -9,6 +9,7 @@ import {UserData} from '../../interfaces/user.interface';
 import {Subscription} from 'rxjs';
 import {UserService} from '../../services/user.service';
 
+
 @Component({
     selector: "app-thread",
     imports: [CommonModule, MessageInputFieldComponent],
@@ -18,10 +19,8 @@ import {UserService} from '../../services/user.service';
 export class ThreadComponent implements OnInit, OnDestroy {
     hoverEmoji = false;
     hoverTag = false;
-    selectedChannel: any;
-    currentUser$!: UserData;
+    currentUser!: UserData;
     userSubscription!: Subscription;
-    channelSubscription!: Subscription;
     userService: UserService = inject(UserService);
     helperService: HelperService = inject(HelperService);
     chatService: ChatService = inject(ChatService);
@@ -35,12 +34,10 @@ export class ThreadComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
                 if (userData) {
-                    this.currentUser$ = userData;
+                    this.currentUser = userData;
                 }
             }
         );
-
-        this.channelSubscription
     }
 
     toggleThread() {
@@ -48,25 +45,23 @@ export class ThreadComponent implements OnInit, OnDestroy {
     }
 
     async sendThreadMessage(content: string): Promise<void> {
-        console.log("send message triggerted:");
-
-        console.log(this.selectedChannel || !content.trim());
-        if (!this.selectedChannel || !content.trim()) {
-            return console.log(this.selectedChannel);
+        console.log("Sending thread...");
+        if (!this.chatService.selectedChannel || !content.trim()) {
+            return console.log(this.chatService.selectedChannel);
         }
-        console.log(this.currentUser$);
         const message: Message = {
             text: content,
-            sender: this.currentUser$,
+            sender: this.currentUser,
             timestamp: Timestamp.fromDate(new Date()),
             time: this.helperService.getBerlinTime24h(),
             date: this.helperService.getBerlinDateFormatted(),
             reactions: [],
-            thread: [],
         };
         try {
+            console.log("Sending thread...lol");
             await this.chatService.sendThreadMessage(
-                this.selectedChannel.channelId.toString(),
+                this.chatService.selectedChannel.channelId.toString(),
+                this.chatService.selectedThreadMessageId,
                 message
             );
         } catch (error) {
