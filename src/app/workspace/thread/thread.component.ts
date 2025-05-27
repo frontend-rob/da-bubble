@@ -1,18 +1,19 @@
 import {CommonModule} from "@angular/common";
-import {Component, inject, OnDestroy, OnInit} from "@angular/core";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction} from "@angular/core";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {ChatService} from "../../services/chat.service";
 import {Message} from '../../interfaces/message.interface';
 import {Timestamp} from '@angular/fire/firestore';
 import {HelperService} from '../../services/helper.service';
 import {UserData} from '../../interfaces/user.interface';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {UserService} from '../../services/user.service';
+import {ChatMessageComponent} from '../chat/chat-message-other/chat-message.component';
 
 
 @Component({
     selector: "app-thread",
-    imports: [CommonModule, MessageInputFieldComponent],
+    imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent],
     templateUrl: "./thread.component.html",
     styleUrl: "./thread.component.scss",
 })
@@ -24,11 +25,21 @@ export class ThreadComponent implements OnInit, OnDestroy {
     userService: UserService = inject(UserService);
     helperService: HelperService = inject(HelperService);
     chatService: ChatService = inject(ChatService);
-
+    messages$: Observable<Message[]> | undefined;
 
     constructor() {
-
+        this.messages$ = this.chatService.getThreadMessages(
+            this.chatService.selectedChannel.channelId.toString(),
+            this.chatService.selectedThreadMessageId
+        )
     }
+
+    trackByMessageId: TrackByFunction<Message> = (
+        index: number,
+        message: Message
+    ) => {
+        return (message as any).id || index;
+    };
 
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(
@@ -58,7 +69,10 @@ export class ThreadComponent implements OnInit, OnDestroy {
             reactions: [],
         };
         try {
-            console.log("Sending thread...lol");
+            await this.chatService.markMessageHasThread(
+                this.chatService.selectedChannel.channelId.toString(),
+                this.chatService.selectedThreadMessageId
+            );
             await this.chatService.sendThreadMessage(
                 this.chatService.selectedChannel.channelId.toString(),
                 this.chatService.selectedThreadMessageId,
