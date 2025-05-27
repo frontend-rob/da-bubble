@@ -33,6 +33,10 @@ export class WorkspaceComponent {
         return this.chatService.isThreadOpen;
     }
 
+    get isProfileInfoOpen() {
+        return this.chatService.isProfileInfoOpen;
+    }
+
     logOut(): void {
         this.authService
             .logOut()
