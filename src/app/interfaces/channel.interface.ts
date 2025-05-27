@@ -1,5 +1,4 @@
 import {Timestamp} from '@angular/fire/firestore';
-import {ChannelType} from './channelType';
 import {UserData} from './user.interface';
 
 /**
@@ -7,12 +6,6 @@ import {UserData} from './user.interface';
  * Can be used for public discussions, private groups, or direct chats.
  */
 export interface ChannelData {
-    /**
-     * The type of the channel.
-     * Used to distinguish channel behavior and visibility.
-     */
-    type: ChannelType;
-
     /**
      * Unique identifier for the channel.
      * Used internally to reference the channel in the database.

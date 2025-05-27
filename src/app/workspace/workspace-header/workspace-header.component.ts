@@ -13,14 +13,14 @@ import {UserService} from '../../services/user.service';
     styleUrl: './workspace-header.component.scss'
 })
 export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
-    currentUser$!: UserData;
+    currentUser!: UserData;
     userSubscription!: Subscription;
     private userService: UserService = inject(UserService)
 
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
-                this.currentUser$ = userData;
+                this.currentUser = userData;
             }
         });
     }
