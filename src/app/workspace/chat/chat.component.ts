@@ -1,23 +1,17 @@
-import {
-    Component,
-    inject,
-    OnDestroy,
-    OnInit,
-    TrackByFunction,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { Observable, Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Message, ThreadMessages } from "../../interfaces/message.interface";
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { Timestamp } from "@angular/fire/firestore";
-import { AsyncPipe, CommonModule, NgForOf, NgIf } from "@angular/common";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { HelperService } from "../../services/helper.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {Observable, Subscription} from "rxjs";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Message, ThreadMessages} from "../../interfaces/message.interface";
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {Timestamp} from "@angular/fire/firestore";
+import {AsyncPipe, CommonModule, NgForOf} from "@angular/common";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {HelperService} from "../../services/helper.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
 
 @Component({
     selector: "app-chat",
@@ -44,12 +38,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     currentUser!: UserData;
     userSubscription!: Subscription;
     functionTriggerSubscription!: Subscription;
+    public readonly chatService: ChatService = inject(ChatService);
     private userService: UserService = inject(UserService);
     private helperService: HelperService = inject(HelperService);
     private functionTriggerService: FunctionTriggerService = inject(
         FunctionTriggerService
     );
-    public readonly chatService: ChatService = inject(ChatService);
+
     constructor() {
         this.selectedChannel = this.chatService.selectedChannel;
     }

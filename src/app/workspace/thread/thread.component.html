@@ -11,10 +11,17 @@
     </div>
     <main>
         <!-- <div>chat-messages</div> -->
+        <app-chat-message-other
+            *ngFor="
+                    let message of (messages$ | async) ?? [];
+                    trackBy: trackByMessageId
+                "
+            [message]="message"
+        ></app-chat-message-other>
         <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
         <app-message-input-field
-            (send)="sendThreadMessage($event)"
             (isthread)="true"
+            (send)="sendThreadMessage($event)"
             [placeholderText]="'Antworten...'"
             class="message-input-field"
         ></app-message-input-field>

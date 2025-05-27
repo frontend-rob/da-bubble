@@ -1,5 +1,5 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {Component} from "@angular/core";
 
 @Component({
     selector: "app-profile-card",
@@ -7,4 +7,5 @@ import { Component } from "@angular/core";
     templateUrl: "./profile-card.component.html",
     styleUrl: "./profile-card.component.scss",
 })
-export class ProfileCardComponent {}
+export class ProfileCardComponent {
+}
