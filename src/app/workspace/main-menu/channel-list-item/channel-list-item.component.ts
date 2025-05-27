@@ -17,7 +17,7 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
     @Input() active: boolean = false;
     @Output() activeMenuItem = new EventEmitter<number>();
 
-    currentUser$!: UserData;
+    currentUser!: UserData;
     private userService: UserService = inject(UserService)
     private userSubscription!: Subscription;
 
@@ -31,8 +31,8 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
-                this.currentUser$ = userData;
-                console.log(this.currentUser$);
+                this.currentUser = userData;
+                console.log(this.currentUser);
             }
         });
     }

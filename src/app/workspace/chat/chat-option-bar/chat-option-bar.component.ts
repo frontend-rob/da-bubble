@@ -1,6 +1,6 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ChatService } from "../../../services/chat.service";
+import {CommonModule} from "@angular/common";
+import {Component, Input} from "@angular/core";
+import {ChatService} from "../../../services/chat.service";
 
 @Component({
     selector: "app-chat-option-bar",
@@ -11,7 +11,8 @@ import { ChatService } from "../../../services/chat.service";
 export class ChatOptionBarComponent {
     @Input() isOwnMessage: boolean = false;
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: ChatService) {
+    }
 
     openThread() {
         this.chatService.toggleThread(true);
