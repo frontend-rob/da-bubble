@@ -18,9 +18,19 @@
             src="assets/img/avatars/av-03.svg"
         />
         <img
-            (click)="toggleMenu(true)"
+            (click)="openUserMenu()"
             class="arrow-down"
             src="assets/img/workspace-header/keyboard_arrow_down.svg"
         />
+    </div>
+
+    <div *ngIf="openMenu" class="user-menu">
+        <div (click)="openProfileCard()">Profile</div>
+        <div (click)="logOut()">Logout</div>
+
+        <app-profile-card
+            *ngIf="isProfileCardOpen"
+            class="user-profile"
+        ></app-profile-card>
     </div>
 </div>

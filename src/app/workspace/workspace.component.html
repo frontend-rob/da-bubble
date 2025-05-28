@@ -2,7 +2,10 @@
     <!-- logOut function should be included into workspace header component -->
     <!-- <button (click)="logOut()">LogOut</button> -->
     <div class="workspace-container">
-        <app-workspace-header></app-workspace-header>
+        <app-workspace-header
+            (toggleMenu)="handleProfileMenu($event)"
+            [openMenu]="isProfileMenuOpen"
+        ></app-workspace-header>
         <div>
             <app-main-menu></app-main-menu>
             <app-chat></app-chat>
@@ -17,6 +20,4 @@
     <app-profile-card *ngIf="isProfileInfoOpen"></app-profile-card>
 </div>
 
-<div (click)="close()" *ngIf="isProfileMenuOpen" class="modal-bg">
-    <app-profile-card *ngIf="isProfileMenuOpen"></app-profile-card>
-</div>
+<div (click)="close()" *ngIf="isProfileMenuOpen" class="modal-bg"></div>
