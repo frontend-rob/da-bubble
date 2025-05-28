@@ -38,6 +38,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
+    position: relative;
 
     > span {
         font-size: 32px;
@@ -45,6 +46,23 @@
     }
 
     > img {
+        cursor: pointer;
+    }
+}
+
+.user-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    gap: 24px;
+    position: absolute;
+    right: 400px;
+    top: 400px;
+    background-color: variables.$bg-base-200;
+    box-shadow: 0 -3px 10px 0 #00000033;
+    z-index: 10;
+
+    > div {
         cursor: pointer;
     }
 }

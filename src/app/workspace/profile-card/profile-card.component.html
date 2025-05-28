@@ -16,7 +16,7 @@
                 <div>
                     <h1>Noah Braun</h1>
 
-                    <button>Bearbeiten</button>
+                    <button *ngIf="!isProfileInfoOpen">Bearbeiten</button>
                 </div>
                 <div class="online-status">
                     <div class="status-icon"></div>
@@ -33,7 +33,7 @@
             <a href="mailto: #">noahbraun&#64;test.mail</a>
         </div>
 
-        <div class="button-container">
+        <div *ngIf="isProfileInfoOpen" class="button-container">
             <button>
                 <img src="assets/img/profile-card/bubble.svg" />Message
             </button>
