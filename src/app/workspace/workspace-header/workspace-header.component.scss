@@ -54,16 +54,27 @@
     display: flex;
     flex-direction: column;
     padding: 32px;
-    gap: 24px;
+    gap: 15px;
     position: absolute;
-    right: 400px;
-    top: 400px;
+    justify-self: end;
+    top: 120px;
+    right: 340px;
     background-color: variables.$bg-base-200;
     box-shadow: 0 -3px 10px 0 #00000033;
+    border-bottom-left-radius: 30px;
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 30px;
     z-index: 10;
-
+    font-weight: 600;
+    font-size: 24px;
     > div {
         cursor: pointer;
+        padding: 10px 70px;
+    }
+    :nth-child(2):hover{
+        background-color: variables.$bg-base-100;
+        border-radius: 100px;
+        color: variables.$text-hover;
     }
 }
 
