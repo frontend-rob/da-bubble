@@ -157,7 +157,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             updatedAt: Timestamp.now(),
         };
         this.chatService.createChannel(defaultChannel)
-        console.log("ADD NEW CHANNEL BTN CLICKED!");
     }
 
     toggleModal() {

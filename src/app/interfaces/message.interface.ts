@@ -8,12 +8,13 @@ export interface Message {
     time: string;
     date: string;
     reactions?: any[];
+    hasThread?: boolean;
+    threadLastTime?: string;
+    threadAnswerCount?: number;
 }
 
-export interface ThreadMessages extends Message {
-    threadMessages: Message[];
-}
 
 export interface IdtMessages extends Message {
     messageId?: string;
 }
+

@@ -22,14 +22,6 @@ export class NewChannelComponent {
         // Weitere Benutzer hier hinzufügen
     ];
 
-    openPopup() {
-        this.showPopup = true;
-    }
-
-    setAccessType(type: 'all' | 'selected') {
-        this.accessType = type;
-    }
-
     isValidForCreation(): boolean {
         if (this.accessType === 'all') {
             return true;
@@ -41,13 +33,7 @@ export class NewChannelComponent {
         if (!this.isValidForCreation()) {
             return;
         }
-        const selectedUsers = this.accessType === 'selected' ? this.users.filter(user => user.selected) : this.users;
 
-        const channelData = {
-            name: this.channelName, description: this.description, accessType: this.accessType, users: selectedUsers
-        };
-
-        console.log('Channel erstellt:', channelData);
         this.closePopup();
     }
 

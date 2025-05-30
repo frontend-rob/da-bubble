@@ -1,6 +1,7 @@
 import {CommonModule} from "@angular/common";
 import {Component, Input} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
+import {IdtMessages} from '../../../interfaces/message.interface';
 
 @Component({
     selector: "app-chat-option-bar",
@@ -9,6 +10,7 @@ import {ChatService} from "../../../services/chat.service";
     styleUrl: "./chat-option-bar.component.scss",
 })
 export class ChatOptionBarComponent {
+    @Input() message!: IdtMessages;
     @Input() isOwnMessage: boolean = false;
 
     constructor(private chatService: ChatService) {
@@ -16,5 +18,8 @@ export class ChatOptionBarComponent {
 
     openThread() {
         this.chatService.toggleThread(true);
+        if (this.message.messageId) {
+            this.chatService.selectedThreadMessageId = this.message.messageId
+        }
     }
 }

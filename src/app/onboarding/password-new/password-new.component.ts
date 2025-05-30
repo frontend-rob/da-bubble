@@ -53,7 +53,6 @@ export class PasswordNewComponent {
         if (this.changePWForm.valid) {
             const password = this.changePWForm.value.password;
             this.notificationComponent.showNotification('New password set!');
-            console.log('New password:', password);
 
             // Navigate and reset forms after notification is shown
             setTimeout(() => {

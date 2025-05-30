@@ -16,10 +16,17 @@
         </div>
 
         <div class="message">{{ message.text }}</div>
-        <div class="replies-container">
-            <span (click)="openThread()" class="replies">2 Answers</span>
-            <span class="last-reply">Last Answer 2:56 PM</span>
-        </div>
+        @if (message.hasThread) {
+            <div class="replies-container">
+                <span (click)="openThread()"
+                      class="replies">{{ message.threadAnswerCount }} @if (message.threadAnswerCount === 1) {
+                    Answer
+                } @else {
+                    Answers
+                }</span>
+                <span class="last-reply">Last Answer {{ message.threadLastTime }}</span>
+            </div>
+        }
     </div>
     <div class="chat-message-other">
         <div class="message-header">
@@ -28,5 +35,6 @@
         </div>
     </div>
 
-    <app-chat-option-bar *ngIf="isHovered"></app-chat-option-bar>
+
+    <app-chat-option-bar *ngIf="isHovered" [message]="message"></app-chat-option-bar>
 </div>

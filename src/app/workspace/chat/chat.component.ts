@@ -3,7 +3,7 @@ import {FormsModule} from "@angular/forms";
 import {Observable, Subscription} from "rxjs";
 import {ChatService} from "../../services/chat.service";
 import {ChannelData} from "../../interfaces/channel.interface";
-import {Message, ThreadMessages} from "../../interfaces/message.interface";
+import {Message} from "../../interfaces/message.interface";
 import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {Timestamp} from "@angular/fire/firestore";
@@ -129,14 +129,13 @@ export class ChatComponent implements OnInit, OnDestroy {
         if (!this.chatService.selectedChannel || !content.trim()) {
             return console.log(this.chatService.selectedChannel);
         }
-        const message: ThreadMessages = {
+        const message: Message = {
             text: content,
             sender: this.currentUser,
             timestamp: Timestamp.fromDate(new Date()),
             time: this.helperService.getBerlinTime24h(),
             date: this.helperService.getBerlinDateFormatted(),
             reactions: [],
-            threadMessages: [],
         };
         try {
             await this.chatService.sendMessage(
@@ -156,7 +155,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     onKeyDown(event: KeyboardEvent): void {
         // TODO: ADD LOGIC
         if (event.key === "Enter" && this.isNewMessage) {
-            console.log("CREATE NEW MESSAGE");
         }
 
         if (event.key === "Escape" && this.isNewMessage) {
