@@ -1,16 +1,16 @@
 <div class="header-container">
-    <img alt="" src="assets/img/workspace-header/main-logo.svg" />
+    <img alt="" src="assets/img/workspace-header/main-logo.svg"/>
     <div class="search-bar-container">
-        <input placeholder="Devspace durchsuchen" type="text" />
-        <img src="assets/img/workspace-header/search.svg" />
+        <input placeholder="Devspace durchsuchen" type="text"/>
+        <img src="assets/img/workspace-header/search.svg"/>
     </div>
 
     <div class="profile-container">
         <span *ngIf="undefined | async as user"> userName </span>
         <img
             *ngIf="undefined | async as user"
-            src="assets/img/avatar1.svg"
             class="profile-avatar"
+            src="assets/img/avatar1.svg"
         />
         <img
             *ngIf="!(undefined | async)"
