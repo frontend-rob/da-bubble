@@ -6,18 +6,19 @@ import { ThreadComponent } from "./thread/thread.component";
 import { CommonModule } from "@angular/common";
 import { ChatService } from "../services/chat.service";
 import { ProfileCardComponent } from "./profile-card/profile-card.component";
+import { SearchCardComponent } from "./workspace-header/search-card/search-card.component";
 
 @Component({
     selector: "app-workspace",
     imports: [
-        CommonModule,
-        MainMenuComponent,
-        ChatComponent,
-        ThreadComponent,
-        WorkspaceHeaderComponent,
-        ThreadComponent,
-        ProfileCardComponent,
-    ],
+    CommonModule,
+    MainMenuComponent,
+    ChatComponent,
+    ThreadComponent,
+    WorkspaceHeaderComponent,
+    ThreadComponent,
+    ProfileCardComponent
+],
     templateUrl: "./workspace.component.html",
     styleUrls: ["./workspace.component.scss"],
     providers: [ChatService],
