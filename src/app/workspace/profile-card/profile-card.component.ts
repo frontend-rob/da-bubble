@@ -1,6 +1,6 @@
-import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
-import { ChatService } from "../../services/chat.service";
+import {CommonModule} from "@angular/common";
+import {Component} from "@angular/core";
+import {ChatService} from "../../services/chat.service";
 
 @Component({
     selector: "app-profile-card",
@@ -9,7 +9,8 @@ import { ChatService } from "../../services/chat.service";
     styleUrl: "./profile-card.component.scss",
 })
 export class ProfileCardComponent {
-    constructor(public chatService: ChatService) {}
+    constructor(public chatService: ChatService) {
+    }
 
     get isProfileInfoOpen() {
         return this.chatService.isProfileInfoOpen;

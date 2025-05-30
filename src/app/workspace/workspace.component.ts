@@ -1,11 +1,11 @@
-import { Component } from "@angular/core";
-import { MainMenuComponent } from "./main-menu/main-menu.component";
-import { ChatComponent } from "./chat/chat.component";
-import { WorkspaceHeaderComponent } from "./workspace-header/workspace-header.component";
-import { ThreadComponent } from "./thread/thread.component";
-import { CommonModule } from "@angular/common";
-import { ChatService } from "../services/chat.service";
-import { ProfileCardComponent } from "./profile-card/profile-card.component";
+import {Component} from "@angular/core";
+import {MainMenuComponent} from "./main-menu/main-menu.component";
+import {ChatComponent} from "./chat/chat.component";
+import {WorkspaceHeaderComponent} from "./workspace-header/workspace-header.component";
+import {ThreadComponent} from "./thread/thread.component";
+import {CommonModule} from "@angular/common";
+import {ChatService} from "../services/chat.service";
+import {ProfileCardComponent} from "./profile-card/profile-card.component";
 
 @Component({
     selector: "app-workspace",
@@ -25,7 +25,8 @@ import { ProfileCardComponent } from "./profile-card/profile-card.component";
 export class WorkspaceComponent {
     isProfileMenuOpen = false;
 
-    constructor(public chatService: ChatService) {}
+    constructor(public chatService: ChatService) {
+    }
 
     get isThreadOpen() {
         return this.chatService.isThreadOpen;
