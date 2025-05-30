@@ -58,7 +58,6 @@ export class PasswordResetComponent {
             const email = this.resetPWForm.value.email;
             this.authService.resetPassword(email);
             this.notificationComponent.showNotification('Email sent successfully!');
-            console.log('Form submitted with email:', email);
 
             // Navigate and reset forms after notification is shown
             setTimeout(() => {

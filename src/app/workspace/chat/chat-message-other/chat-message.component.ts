@@ -1,4 +1,4 @@
-import {Component, Input} from "@angular/core";
+import {Component, inject, Input} from "@angular/core";
 import {IdtMessages} from "../../../interfaces/message.interface";
 import {ChatService} from "../../../services/chat.service";
 import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
@@ -13,13 +13,16 @@ import {CommonModule} from "@angular/common";
 export class ChatMessageComponent {
     @Input() message!: IdtMessages;
     isHovered = false;
-
-    constructor(private chatService: ChatService) {
-    }
+    private chatService: ChatService = inject(ChatService);
 
     openThread() {
-        this.chatService.toggleThread(true);
-        this.chatService.selectedThreadMessageId = this.message.messageId
+        this.chatService.toggleThread(this.toggleBoolean(this.chatService.isThreadOpen));
+        if (this.message.messageId)
+            this.chatService.selectedThreadMessageId = this.message.messageId
+    }
+
+    toggleBoolean(bool: boolean) {
+        return !bool;
     }
 
     toggleHovered(bool: boolean) {

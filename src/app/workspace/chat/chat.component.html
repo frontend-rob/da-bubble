@@ -167,7 +167,6 @@
         </main>
         <app-message-input-field
             (send)="sendChatMessage($event)"
-            (isthread)="false"
             [placeholderText]="
             'Nachricht an #' + (this.chatService.selectedChannel.channelName || 'Entwicklerteam')
         "

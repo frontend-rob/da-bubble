@@ -6,7 +6,7 @@ import {Message} from '../../interfaces/message.interface';
 import {Timestamp} from '@angular/fire/firestore';
 import {HelperService} from '../../services/helper.service';
 import {UserData} from '../../interfaces/user.interface';
-import {Observable, Subscription} from 'rxjs';
+import {firstValueFrom, map, Observable, Subscription} from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {ChatMessageComponent} from '../chat/chat-message-other/chat-message.component';
 
@@ -25,7 +25,8 @@ export class ThreadComponent implements OnInit, OnDestroy {
     userService: UserService = inject(UserService);
     helperService: HelperService = inject(HelperService);
     chatService: ChatService = inject(ChatService);
-    messages$: Observable<Message[]> | undefined;
+    messages$: Observable<Message[]>;
+    threadChannelName: string | undefined;
 
     constructor() {
         this.messages$ = this.chatService.getThreadMessages(
@@ -45,14 +46,25 @@ export class ThreadComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
                 if (userData) {
+                    console.log('userData', userData);
                     this.currentUser = userData;
                 }
             }
         );
+        this.threadChannelName = this.chatService.selectedChannel.channelName;
     }
 
     toggleThread() {
         this.chatService.toggleThread(false);
+    }
+
+    async returnThreadAnswerCount(): Promise<number> {
+        if (!this.messages$) return -1;
+        return await firstValueFrom(
+            this.messages$.pipe(
+                map(messages => messages.length + 1)
+            )
+        );
     }
 
     async sendThreadMessage(content: string): Promise<void> {
@@ -69,10 +81,12 @@ export class ThreadComponent implements OnInit, OnDestroy {
             reactions: [],
         };
         try {
-            await this.chatService.markMessageHasThread(
-                this.chatService.selectedChannel.channelId.toString(),
-                this.chatService.selectedThreadMessageId
-            );
+            await this.chatService.updateThreadMessagesInformation(
+                this.helperService.getBerlinTime24h(),
+                await this.returnThreadAnswerCount()
+            )
+            await this.chatService.updateThreadMessagesName()
+            await this.returnThreadAnswerCount()
             await this.chatService.sendThreadMessage(
                 this.chatService.selectedChannel.channelId.toString(),
                 this.chatService.selectedThreadMessageId,

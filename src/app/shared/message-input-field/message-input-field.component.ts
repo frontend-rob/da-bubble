@@ -18,7 +18,7 @@ export class MessageInputFieldComponent {
     @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
     @Output() send: EventEmitter<string> = new EventEmitter<string>();
-    @Output() isthread: EventEmitter<boolean> = new EventEmitter<boolean>;
+    @Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>;
 
     isEmojiModalOpen = false;
     isUserTagModalOpen = false;
@@ -93,13 +93,9 @@ export class MessageInputFieldComponent {
     }
 
     onKeyDown(event: KeyboardEvent): void {
-        if (event.key === "Enter" && !event.shiftKey && !this.isthread) {
+        if (event.key === "Enter" && !event.shiftKey) {
             event.preventDefault();
             this.trySendMessage();
-        }
-        if (event.key === "Enter" && !event.shiftKey && this.isthread) {
-            event.preventDefault();
-            this.trySendThreadMessage()
         }
         if (event.key === "@") {
             this.toggleUserTagModal();
@@ -128,10 +124,6 @@ export class MessageInputFieldComponent {
             this.send.emit(trimmedMessage);
             this.messageInputData = "";
         }
-    }
-
-    trySendThreadMessage() {
-
     }
 
     addUserTag(userName: string) {

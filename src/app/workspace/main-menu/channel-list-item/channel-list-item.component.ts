@@ -32,7 +32,6 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
                 this.currentUser = userData;
-                console.log(this.currentUser);
             }
         });
     }

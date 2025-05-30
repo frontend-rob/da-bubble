@@ -3,14 +3,15 @@
         <div class="thread-description-container">
             <span class="thread-head-text">Thread</span>
             <div class="thread-tag"></div>
-            <span class="thread-description">Development</span>
+
+            <span class="thread-description">{{ threadChannelName }}</span>
+
         </div>
         <div (click)="toggleThread()" class="close-btn">
             <img src="assets/img/thread/close.svg"/>
         </div>
     </div>
     <main>
-        <!-- <div>chat-messages</div> -->
         <app-chat-message-other
             *ngFor="
                     let message of (messages$ | async) ?? [];
@@ -18,9 +19,8 @@
                 "
             [message]="message"
         ></app-chat-message-other>
-        <!-- TODO: Dynamic channel or chat partner name in placeholder text -->
+        <!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
         <app-message-input-field
-            (isthread)="true"
             (send)="sendThreadMessage($event)"
             [placeholderText]="'Antworten...'"
             class="message-input-field"
