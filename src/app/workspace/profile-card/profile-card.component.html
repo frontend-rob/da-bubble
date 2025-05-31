@@ -1,14 +1,14 @@
 <div class="profile-modal" onclick="event.stopPropagation()">
     <div class="container">
         <header>
-            <h2>Profil</h2>
-            <div (click)="toggleProfileInfo(false)" class="button">
-                <img src="assets/img/profile-card/close.svg"/>
+            <h2>Profile</h2>
+            <div (click)="closeProfileCard()" class="button">
+                <img src="assets/img/profile-card/close.svg" />
             </div>
         </header>
 
         <div class="profile-img-container">
-            <img src="assets/img/avatar1.svg"/>
+            <img src="assets/img/avatar1.svg" />
         </div>
 
         <div>
@@ -16,7 +16,7 @@
                 <div>
                     <h1>Noah Braun</h1>
 
-                    <button *ngIf="!isProfileInfoOpen">Bearbeiten</button>
+                    <button *ngIf="isUserProfileCardOpen">Bearbeiten</button>
                 </div>
                 <div class="online-status">
                     <div class="status-icon"></div>
@@ -27,15 +27,15 @@
 
         <div class="email-container">
             <div>
-                <img src="assets/img/profile-card/letter.svg"/>
+                <img src="assets/img/profile-card/letter.svg" />
                 <div>Email-Adress</div>
             </div>
             <a href="mailto: #">noahbraun&#64;test.mail</a>
         </div>
 
-        <div *ngIf="isProfileInfoOpen" class="button-container">
+        <div *ngIf="isProfileCardOpen" class="button-container">
             <button>
-                <img src="assets/img/profile-card/bubble.svg"/>Message
+                <img src="assets/img/profile-card/bubble.svg" />Message
             </button>
         </div>
     </div>

@@ -1,8 +1,8 @@
 <div class="header-container">
-    <img alt="" src="assets/img/workspace-header/main-logo.svg"/>
+    <img alt="" src="assets/img/workspace-header/main-logo.svg" />
     <div class="search-bar-container">
-        <input placeholder="Devspace durchsuchen" type="text"/>
-        <img src="assets/img/workspace-header/search.svg"/>
+        <input placeholder="Devspace durchsuchen" type="text" />
+        <img src="assets/img/workspace-header/search.svg" />
     </div>
 
     <div class="profile-container">
@@ -18,21 +18,23 @@
             src="assets/img/avatars/av-03.svg"
         />
         <img
-            (click)="openUserMenu()"
+            (click)="handleUserMenu(true)"
             class="arrow-down"
             src="assets/img/workspace-header/keyboard_arrow_down.svg"
         />
     </div>
 
-    <div *ngIf="openMenu" class="user-menu">
-        <div (click)="openProfileCard()">Profile</div>
+    <!-- USER MENU -->
+    <div *ngIf="isUserMenuOpen" class="user-menu">
+        <div (click)="handleUserProfileCard(true)">Profile</div>
         <div (click)="logOut()">Logout</div>
-
-        <app-profile-card
-            *ngIf="isProfileCardOpen"
-            class="user-profile"
-        ></app-profile-card>
     </div>
+
+    <!-- USER PROFILE CARD  -->
+    <app-profile-card
+        *ngIf="isUserProfileCardOpen"
+        class="user-profile"
+    ></app-profile-card>
 
     <div>
         <app-search-card></app-search-card>

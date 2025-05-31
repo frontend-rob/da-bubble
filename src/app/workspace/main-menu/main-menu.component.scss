@@ -31,7 +31,7 @@
     gap: 24px;
     // transition: all 250ms ease-in-out;
 
-    >header {
+    > header {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -40,23 +40,23 @@
         border-radius: 20px;
         gap: 10px;
 
-        >div {
+        > div {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 16px;
 
-            >img {
+            > img {
                 display: flex;
                 align-items: center;
                 gap: 10px;
 
-                >img {
+                > img {
                     height: 45px;
                 }
             }
 
-            >h1 {
+            > h1 {
                 font-size: 24px;
                 font-weight: 700;
             }
@@ -74,7 +74,7 @@
                 background-color: variables.$bg-neutral-hover;
             }
 
-            >img {
+            > img {
                 width: 24px;
                 height: 24px;
 
@@ -105,7 +105,7 @@
             background-color: white;
             border-radius: 20px;
 
-            >header {
+            > header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -113,7 +113,7 @@
                 height: 48px;
                 cursor: pointer;
 
-                >div {
+                > div {
                     display: flex;
                     gap: 16px;
 
@@ -145,18 +145,18 @@
                         }
                     }
 
-                    >div {
+                    > div {
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         gap: 10px;
 
-                        >h2 {
+                        > h2 {
                             font-size: 20px;
                             font-weight: 700;
                         }
 
-                        >div {
+                        > div {
                             display: flex;
                             justify-content: center;
                             align-items: center;
@@ -231,10 +231,10 @@
         margin-top: 15px;
         padding: 0 15px;
 
-        >.add-btn {
+        > .add-btn {
             gap: 5px;
 
-            >div {
+            > div {
                 height: 16px;
                 width: 16px;
             }
@@ -243,7 +243,7 @@
                 background-color: transparent;
                 border-radius: 0%;
 
-                >span {
+                > span {
                     color: #535af1;
                 }
             }
@@ -257,7 +257,7 @@
         align-items: center;
         justify-content: center;
 
-        >div {
+        > div {
             height: 20px;
             width: 20px;
             background-position: center;
@@ -276,7 +276,7 @@
             background-color: #eceefe;
             border-radius: 50%;
 
-            >div {
+            > div {
                 height: 18px;
                 width: 18px;
                 background-position: center;
@@ -299,7 +299,7 @@
     bottom: 60px;
     left: 0;
 
-    >.menunav-button {
+    > .menunav-button {
         display: flex;
         gap: 8px;
         align-items: center;
@@ -314,7 +314,7 @@
         box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, 0.1);
         cursor: pointer;
 
-        >.img-field {
+        > .img-field {
             width: 32px;
             height: 32px;
             background-repeat: no-repeat;
@@ -324,31 +324,31 @@
             cursor: pointer;
         }
 
-        >.img-open {
-            background-image: url('/assets/img/main-menu/open_default.svg');
+        > .img-open {
+            background-image: url("/assets/img/main-menu/open_default.svg");
             &:hover {
-                background-image: url('/assets/img/main-menu/open_hover.svg');
+                background-image: url("/assets/img/main-menu/open_hover.svg");
             }
         }
 
-        >.img-close {
-            background-image: url('/assets/img/main-menu/close_default.svg');
+        > .img-close {
+            background-image: url("/assets/img/main-menu/close_default.svg");
             &:hover {
-                background-image: url('/assets/img/main-menu/close_hover.svg');
+                background-image: url("/assets/img/main-menu/close_hover.svg");
             }
         }
 
-        >span {
+        > span {
             white-space: nowrap;
         }
 
-        >a {
+        > a {
             display: flex;
             align-items: center;
             gap: 5px;
             height: 25px;
 
-            >.text-menu-button {
+            > .text-menu-button {
                 width: 151px;
                 height: 25px;
 
@@ -361,15 +361,15 @@
         &:hover {
             color: #535af1;
 
-            >a {
+            > a {
                 height: 25px;
             }
         }
     }
 
     .close-menu-button {
-        >a {
-            >.text-menu-button::before {
+        > a {
+            > .text-menu-button::before {
                 content: "Workspace-Menu open";
             }
         }
@@ -377,13 +377,11 @@
         &:hover {
             color: #535af1;
 
-            >a {
+            > a {
                 height: 25px;
             }
         }
     }
-
-
 }
 
 .button {
@@ -399,10 +397,6 @@
     &:hover {
         background-color: variables.$bg-neutral-hover;
     }
-}
-
-app-direct-message-list-item {
-    z-index: 10;
 }
 
 .modal-bg {
@@ -453,7 +447,7 @@ app-direct-message-list-item {
                 font-weight: 700;
             }
 
-            >div {
+            > div {
                 display: flex;
                 flex-direction: column;
                 align-items: flex-start;
@@ -491,7 +485,7 @@ app-direct-message-list-item {
             gap: 24px;
             width: 100%;
 
-            >div {
+            > div {
                 display: flex;
                 flex-direction: column;
                 gap: 20px;
@@ -501,7 +495,7 @@ app-direct-message-list-item {
                     font-size: 18px;
                     font-weight: 700;
 
-                    >span {
+                    > span {
                         font-weight: 400;
                         color: variables.$text-secondary;
                     }
@@ -516,7 +510,7 @@ app-direct-message-list-item {
                     border-radius: 40px;
                     width: 100%;
 
-                    >input {
+                    > input {
                         border: none;
                         outline: none;
                         width: 100%;
@@ -524,12 +518,12 @@ app-direct-message-list-item {
                 }
             }
 
-            >div:last-child {
+            > div:last-child {
                 display: flex;
                 flex-direction: unset !important;
                 justify-content: flex-end !important;
 
-                >button {
+                > button {
                     padding: 12px 24px;
                     border-radius: 24px;
                     border: none;

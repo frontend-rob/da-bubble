@@ -1,18 +1,23 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
-import {Observable, of} from 'rxjs';
-import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
-import {UserData} from '../interfaces/user.interface';
-import {doc, docData, Firestore} from '@angular/fire/firestore';
-import {Auth, user} from '@angular/fire/auth';
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable, of } from "rxjs";
+import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
+import { UserData } from "../interfaces/user.interface";
+import { doc, docData, Firestore } from "@angular/fire/firestore";
+import { Auth, user } from "@angular/fire/auth";
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: "root",
 })
 export class UserService {
     private firestore = inject(Firestore);
     private auth = inject(Auth);
     readonly currentUser$: Observable<UserData | null> = user(this.auth).pipe(
-        switchMap(user => {
+        switchMap((user) => {
             if (!user) {
                 return of(null);
             }
@@ -22,6 +27,24 @@ export class UserService {
     );
     private environmentInjector = inject(EnvironmentInjector);
     private userCache = new Map<string, Observable<UserData | null>>();
+    private _isUserMenuOpen = false;
+    private _isUserProfileCardOpen = false;
+
+    get isUserMenuOpen(): boolean {
+        return this._isUserMenuOpen;
+    }
+
+    get isUserProfileCardOpen(): boolean {
+        return this._isUserProfileCardOpen;
+    }
+
+    handleUserMenu(bool: boolean) {
+        this._isUserMenuOpen = bool;
+    }
+
+    handleUserProfileCard(bool: boolean) {
+        this._isUserProfileCardOpen = bool;
+    }
 
     /**
      * Gets user data by user ID with caching
@@ -37,17 +60,20 @@ export class UserService {
             return this.userCache.get(uid)!;
         }
 
-        const userObservable = runInInjectionContext(this.environmentInjector, () => {
-            const userDocRef = doc(this.firestore, `users/${uid}`);
-            return docData(userDocRef).pipe(
-                map(data => data as UserData),
-                catchError(error => {
-                    console.error('Error fetching user data:', error);
-                    return of(null);
-                }),
-                shareReplay(1)
-            );
-        });
+        const userObservable = runInInjectionContext(
+            this.environmentInjector,
+            () => {
+                const userDocRef = doc(this.firestore, `users/${uid}`);
+                return docData(userDocRef).pipe(
+                    map((data) => data as UserData),
+                    catchError((error) => {
+                        console.error("Error fetching user data:", error);
+                        return of(null);
+                    }),
+                    shareReplay(1)
+                );
+            }
+        );
 
         this.userCache.set(uid, userObservable);
         return userObservable;
@@ -60,8 +86,8 @@ export class UserService {
      */
     getUserName(uid: string): Observable<string> {
         return this.getUserData(uid).pipe(
-            map(userData => userData?.userName || ''),
-            catchError(() => of(''))
+            map((userData) => userData?.userName || ""),
+            catchError(() => of(""))
         );
     }
 
@@ -71,8 +97,8 @@ export class UserService {
      */
     getCurrentUserName(): Observable<string> {
         return this.currentUser$.pipe(
-            map(userData => userData?.userName || ''),
-            catchError(() => of(''))
+            map((userData) => userData?.userName || ""),
+            catchError(() => of(""))
         );
     }
 
@@ -81,9 +107,6 @@ export class UserService {
      * @returns Observable with the current user's ID or null if not logged in
      */
     getCurrentUserId(): Observable<string | null> {
-
-        return user(this.auth).pipe(
-            map(user => user?.uid || null)
-        );
+        return user(this.auth).pipe(map((user) => user?.uid || null));
     }
 }
