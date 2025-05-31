@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -22,29 +27,20 @@ export class ChatService {
     selectedChannelsMessages!: Message[];
     selectedThreadMessageId!: string;
     private environmentInjector = inject(EnvironmentInjector);
-
     private _isThreadOpen = false;
+    private _isNewMessage = false;
+    private _isProfileCardOpen = false;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
     }
 
-    private _isNewMessage = false;
-
     get isNewMessage(): boolean {
         return this._isNewMessage;
     }
 
-    private _isProfileInfoOpen = false;
-
-    get isProfileInfoOpen(): boolean {
-        return this._isProfileInfoOpen;
-    }
-
-    private _isProfilMenuOpen = false;
-
-    get isProfilMenuOpen(): boolean {
-        return this._isProfilMenuOpen;
+    get isProfileCardOpen(): boolean {
+        return this._isProfileCardOpen;
     }
 
     toggleThread(bool: boolean) {
@@ -55,38 +51,41 @@ export class ChatService {
         this._isNewMessage = bool;
     }
 
-    toggleProfileInfo(bool: boolean) {
-        this._isProfileInfoOpen = bool;
+    handleProfileCard(bool: boolean) {
+        this._isProfileCardOpen = bool;
     }
 
-    toggleProfileMenu(bool: boolean) {
-        this._isProfilMenuOpen = bool;
-    }
-
-    updateThreadMessagesInformation(time: string, count: number): Promise<void> {
+    updateThreadMessagesInformation(
+        time: string,
+        count: number
+    ): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
-            const messageId = this.selectedThreadMessageId
+            const messageId = this.selectedThreadMessageId;
             const channelId = this.selectedChannel.channelId.toString();
             const firestore = inject(Firestore);
             const msgRef = doc(
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, {threadLastTime: time, threadAnswerCount: count, hasThread: true});
+            await updateDoc(msgRef, {
+                threadLastTime: time,
+                threadAnswerCount: count,
+                hasThread: true,
+            });
         });
     }
 
     updateThreadMessagesName(): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
-            let name = this.selectedChannel.channelName
-            const messageId = this.selectedThreadMessageId
+            let name = this.selectedChannel.channelName;
+            const messageId = this.selectedThreadMessageId;
             const channelId = this.selectedChannel.channelId.toString();
             const firestore = inject(Firestore);
             const msgRef = doc(
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, {threadChannelName: name});
+            await updateDoc(msgRef, { threadChannelName: name });
         });
     }
 
@@ -100,7 +99,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, {idField: "channelId"}) as Observable<
+            return collectionData(q, { idField: "channelId" }) as Observable<
                 ChannelData[]
             >;
         });
@@ -169,7 +168,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -216,7 +215,7 @@ export class ChatService {
                 `channels/${channelId}/messages/${parentMessageId}/thread`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });

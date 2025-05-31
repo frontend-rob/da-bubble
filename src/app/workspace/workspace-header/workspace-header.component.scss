@@ -56,9 +56,9 @@
     padding: 32px;
     gap: 15px;
     position: absolute;
+    top: 118px;
+    right: 20px;
     justify-self: end;
-    top: 120px;
-    right: 340px;
     background-color: variables.$bg-base-200;
     box-shadow: 0 -3px 10px 0 #00000033;
     border-bottom-left-radius: 30px;
@@ -71,11 +71,18 @@
         cursor: pointer;
         padding: 10px 70px;
     }
-    :nth-child(2):hover{
+    :nth-child(2):hover {
         background-color: variables.$bg-base-100;
         border-radius: 100px;
         color: variables.$text-hover;
     }
+}
+
+.user-profile {
+    position: absolute;
+    top: 427px;
+    right: 270px;
+    z-index: 10;
 }
 
 .profile-avatar {

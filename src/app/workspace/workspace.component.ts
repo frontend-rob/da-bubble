@@ -6,6 +6,7 @@ import { ThreadComponent } from "./thread/thread.component";
 import { CommonModule } from "@angular/common";
 import { ChatService } from "../services/chat.service";
 import { ProfileCardComponent } from "./profile-card/profile-card.component";
+import { UserService } from "../services/user.service";
 
 @Component({
     selector: "app-workspace",
@@ -23,31 +24,40 @@ import { ProfileCardComponent } from "./profile-card/profile-card.component";
     providers: [ChatService],
 })
 export class WorkspaceComponent {
-    isProfileMenuOpen = false;
+    isProfileInfoCardOpen = false;
 
-    constructor(public chatService: ChatService) {}
+    constructor(
+        private chatService: ChatService,
+        private userService: UserService
+    ) {}
 
     get isThreadOpen() {
         return this.chatService.isThreadOpen;
     }
 
-    get isProfileInfoOpen() {
-        return this.chatService.isProfileInfoOpen;
+    get isProfileCardOpen() {
+        return this.chatService.isProfileCardOpen;
     }
 
-    toggleProfileInfo(bool: boolean) {
-        this.chatService.toggleProfileInfo(bool);
+    get isUserMenuOpen() {
+        return this.userService.isUserMenuOpen;
     }
 
-    handleProfileMenu(bool: boolean) {
-        this.isProfileMenuOpen = bool;
+    get isUserProfileCardOpen() {
+        return this.userService.isUserProfileCardOpen;
     }
 
-    close() {
-        if (this.isProfileInfoOpen) {
-            this.chatService.toggleProfileInfo(false);
-        } else if (this.isProfileMenuOpen) {
-            this.isProfileMenuOpen = false;
-        }
+    handleProfileCard(bool: boolean) {
+        this.chatService.handleProfileCard(bool);
+    }
+
+    handleUserProfileCard(bool: boolean) {
+        this.userService.handleUserProfileCard(bool);
+    }
+
+    closeProfileModals() {
+        this.handleProfileCard(false);
+        this.handleUserProfileCard(false);
+        this.userService.handleUserMenu(false);
     }
 }

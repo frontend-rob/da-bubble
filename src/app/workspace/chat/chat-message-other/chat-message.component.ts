@@ -1,8 +1,8 @@
-import {Component, inject, Input} from "@angular/core";
-import {IdtMessages} from "../../../interfaces/message.interface";
-import {ChatService} from "../../../services/chat.service";
-import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
-import {CommonModule} from "@angular/common";
+import { Component, inject, Input } from "@angular/core";
+import { IdtMessages } from "../../../interfaces/message.interface";
+import { ChatService } from "../../../services/chat.service";
+import { ChatOptionBarComponent } from "../chat-option-bar/chat-option-bar.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
     selector: "app-chat-message-other",
@@ -16,9 +16,11 @@ export class ChatMessageComponent {
     private chatService: ChatService = inject(ChatService);
 
     openThread() {
-        this.chatService.toggleThread(this.toggleBoolean(this.chatService.isThreadOpen));
+        this.chatService.toggleThread(
+            this.toggleBoolean(this.chatService.isThreadOpen)
+        );
         if (this.message.messageId)
-            this.chatService.selectedThreadMessageId = this.message.messageId
+            this.chatService.selectedThreadMessageId = this.message.messageId;
     }
 
     toggleBoolean(bool: boolean) {
@@ -29,7 +31,7 @@ export class ChatMessageComponent {
         this.isHovered = bool;
     }
 
-    toggleProfileInfo(bool: boolean) {
-        this.chatService.toggleProfileInfo(bool);
+    handleProfileCard(bool: boolean) {
+        this.chatService.handleProfileCard(bool);
     }
 }

@@ -23,16 +23,17 @@ import { SearchCardComponent } from "./search-card/search-card.component";
     styleUrl: "./workspace-header.component.scss",
 })
 export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
-    @Input() openMenu!: boolean;
-    @Output() toggleMenu = new EventEmitter<boolean>();
-
-    isUserMenuOpen = false;
-    isProfileCardOpen = false;
+    // isUserMenuOpen = false;
+    // isProfileCardOpen = false;
     currentUser!: UserData;
     userSubscription!: Subscription;
-    private userService: UserService = inject(UserService);
+    // private userService: UserService = inject(UserService);
 
-    constructor(private router: Router, private authService: AuthService) { }
+    constructor(
+        private router: Router,
+        private authService: AuthService,
+        private userService: UserService
+    ) {}
 
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(
@@ -50,21 +51,24 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         }
     }
 
-    openUserMenu() {
-        this.isUserMenuOpen = true;
-        this.toggleMenu.emit(true);
-
-        if (!this.openMenu) {
-            this.isProfileCardOpen = false;
-        }
+    get isUserMenuOpen() {
+        return this.userService.isUserMenuOpen;
     }
 
-    openProfileCard() {
-        this.isProfileCardOpen = true;
+    get isUserProfileCardOpen() {
+        return this.userService.isUserProfileCardOpen;
+    }
+
+    handleUserMenu(bool: boolean) {
+        this.userService.handleUserMenu(bool);
+    }
+
+    handleUserProfileCard(bool: boolean) {
+        this.userService.handleUserProfileCard(bool);
     }
 
     logOut(): void {
-        this.toggleMenu.emit(false);
+        // this.toggleMenu.emit(false);
 
         this.authService
             .logOut()

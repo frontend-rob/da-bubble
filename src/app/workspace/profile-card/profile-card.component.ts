@@ -1,6 +1,7 @@
-import {CommonModule} from "@angular/common";
-import {Component} from "@angular/core";
-import {ChatService} from "../../services/chat.service";
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { ChatService } from "../../services/chat.service";
+import { UserService } from "../../services/user.service";
 
 @Component({
     selector: "app-profile-card",
@@ -9,14 +10,21 @@ import {ChatService} from "../../services/chat.service";
     styleUrl: "./profile-card.component.scss",
 })
 export class ProfileCardComponent {
-    constructor(public chatService: ChatService) {
+    constructor(
+        private userService: UserService,
+        private chatService: ChatService
+    ) {}
+
+    get isUserProfileCardOpen() {
+        return this.userService.isUserProfileCardOpen;
     }
 
-    get isProfileInfoOpen() {
-        return this.chatService.isProfileInfoOpen;
+    get isProfileCardOpen() {
+        return this.chatService.isProfileCardOpen;
     }
 
-    toggleProfileInfo(bool: boolean) {
-        this.chatService.toggleProfileInfo(bool);
+    closeProfileCard() {
+        this.userService.handleUserProfileCard(false);
+        this.chatService.handleProfileCard(false);
     }
 }
