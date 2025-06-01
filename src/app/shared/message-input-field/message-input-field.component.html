@@ -3,7 +3,7 @@
         <textarea
             (keydown)="onKeyDown($event)"
             [(ngModel)]="messageInputData"
-            placeholder="Message to #channelname"
+            placeholder="{{ selectedChannel }}"
             rows="2"
         ></textarea>
 

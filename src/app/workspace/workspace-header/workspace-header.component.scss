@@ -5,12 +5,17 @@
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    gap: 2rem;
+    // justify-content: space-between;
+    // padding: 0 20px;
+    gap: 20px;
 }
 
-.search-bar-container {
+.logo-container {
+    padding-left: 20px;
+    width: 366px;
+}
+
+.search-bar-input-container {
     display: flex;
     background-color: variables.$bg-base-200;
     width: 989px;
@@ -34,10 +39,12 @@
     }
 }
 
-.profile-container {
+.user-profile-container {
     display: flex;
-    gap: 20px;
+    justify-content: flex-end;
     align-items: center;
+    flex: 1;
+    gap: 20px;
     position: relative;
 
     > span {
