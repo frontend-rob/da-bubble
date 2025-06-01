@@ -1,12 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { Subscription } from "rxjs";
 import { UserData } from "../../interfaces/user.interface";
@@ -32,6 +24,14 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         private userService: UserService
     ) {}
 
+    get isUserMenuOpen() {
+        return this.userService.isUserMenuOpen;
+    }
+
+    get isUserProfileCardOpen() {
+        return this.userService.isUserProfileCardOpen;
+    }
+
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
@@ -46,14 +46,6 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
         }
-    }
-
-    get isUserMenuOpen() {
-        return this.userService.isUserMenuOpen;
-    }
-
-    get isUserProfileCardOpen() {
-        return this.userService.isUserProfileCardOpen;
     }
 
     handleUserMenu(bool: boolean) {

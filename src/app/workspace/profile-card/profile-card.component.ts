@@ -1,7 +1,7 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { ChatService } from "../../services/chat.service";
-import { UserService } from "../../services/user.service";
+import {CommonModule} from "@angular/common";
+import {Component} from "@angular/core";
+import {ChatService} from "../../services/chat.service";
+import {UserService} from "../../services/user.service";
 
 @Component({
     selector: "app-profile-card",
@@ -13,7 +13,8 @@ export class ProfileCardComponent {
     constructor(
         private userService: UserService,
         private chatService: ChatService
-    ) {}
+    ) {
+    }
 
     get isUserProfileCardOpen() {
         return this.userService.isUserProfileCardOpen;

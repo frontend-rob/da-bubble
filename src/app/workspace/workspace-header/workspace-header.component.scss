@@ -74,10 +74,12 @@
     z-index: 10;
     font-weight: 600;
     font-size: 24px;
+
     > div {
         cursor: pointer;
         padding: 10px 70px;
     }
+
     :nth-child(2):hover {
         background-color: variables.$bg-base-100;
         border-radius: 100px;
