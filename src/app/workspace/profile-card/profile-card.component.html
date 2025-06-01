@@ -3,39 +3,52 @@
         <header>
             <h2>Profile</h2>
             <div (click)="closeProfileCard()" class="button">
-                <img src="assets/img/profile-card/close.svg"/>
+                <img src="assets/img/profile-card/close.svg" />
             </div>
         </header>
 
         <div class="profile-img-container">
-            <img src="assets/img/avatar1.svg"/>
+            <img src="assets/img/avatar1.svg" />
         </div>
 
         <div>
             <div class="name-container">
                 <div>
-                    <h1>Noah Braun</h1>
+                    <h1 *ngIf="currentUser">{{ currentUser.userName }}</h1>
 
-                    <button *ngIf="isUserProfileCardOpen">Bearbeiten</button>
+                    <button
+                        *ngIf="
+                            isUserProfileCardOpen && currentUser.role == 'user'
+                        "
+                    >
+                        Bearbeiten
+                    </button>
                 </div>
                 <div class="online-status">
-                    <div class="status-icon"></div>
-                    Active
+                    <div
+                        [class]="
+                            currentUser.status === 'online'
+                                ? 'online'
+                                : 'offline'
+                        "
+                        class="status-icon"
+                    ></div>
+                    {{ currentUser.status === "online" ? "Active" : "Offline" }}
                 </div>
             </div>
         </div>
 
         <div class="email-container">
             <div>
-                <img src="assets/img/profile-card/letter.svg"/>
+                <img src="assets/img/profile-card/letter.svg" />
                 <div>Email-Adress</div>
             </div>
-            <a href="mailto: #">noahbraun&#64;test.mail</a>
+            <a *ngIf="currentUser" href="mailto: #">{{ currentUser.email }}</a>
         </div>
 
         <div *ngIf="isProfileCardOpen" class="button-container">
             <button>
-                <img src="assets/img/profile-card/bubble.svg"/>Message
+                <img src="assets/img/profile-card/bubble.svg" />Message
             </button>
         </div>
     </div>

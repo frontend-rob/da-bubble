@@ -96,7 +96,14 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
+        }
+
+        .online {
             background-color: variables.$online;
+        }
+
+        .offline {
+            background-color: variables.$offline;
         }
     }
 }
