@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output,} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
-import {UserData} from "../../interfaces/user.interface";
-import {Subscription} from 'rxjs';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
+import { UserData } from "../../interfaces/user.interface";
+import { Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
 
 @Component({
     selector: "app-message-input-field",
@@ -18,7 +19,7 @@ export class MessageInputFieldComponent {
     @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
     @Output() send: EventEmitter<string> = new EventEmitter<string>();
-    @Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>;
+    @Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     isEmojiModalOpen = false;
     isUserTagModalOpen = false;
@@ -28,23 +29,25 @@ export class MessageInputFieldComponent {
     userSubscription!: Subscription;
     users: UserData[] = [];
     emojiList: string[] = [
-        '\u{1F60A}', // 😊
-        '\u{1F602}', // 😂
-        '\u{1F60D}', // 😍
-        '\u{1F60E}', // 😎
-        '\u{1F914}', // 🤔
-        '\u{1F973}', // 🥳
-        '\u{1F389}', // 🎉
-        '\u{1F9D1}\u{200D}\u{1F4BB}', // 🧑‍💻
-        '\u{1F44D}', // 👍
-        '\u{1F44C}', // 👌
-        '\u{2764}\u{FE0F}', // ❤️
-        '\u{1F525}', // 🔥
-        '\u{2B50}', // ⭐
-        '\u{1F4AF}', // 💯
-        '\u{2705}', // ✅
-        '\u{1F680}', // 🚀
+        "\u{1F60A}", // 😊
+        "\u{1F602}", // 😂
+        "\u{1F60D}", // 😍
+        "\u{1F60E}", // 😎
+        "\u{1F914}", // 🤔
+        "\u{1F973}", // 🥳
+        "\u{1F389}", // 🎉
+        "\u{1F9D1}\u{200D}\u{1F4BB}", // 🧑‍💻
+        "\u{1F44D}", // 👍
+        "\u{1F44C}", // 👌
+        "\u{2764}\u{FE0F}", // ❤️
+        "\u{1F525}", // 🔥
+        "\u{2B50}", // ⭐
+        "\u{1F4AF}", // 💯
+        "\u{2705}", // ✅
+        "\u{1F680}", // 🚀
     ];
+
+    // constructor(private chatService: ChatService){}
 
     toggleEmojiModal() {
         if (

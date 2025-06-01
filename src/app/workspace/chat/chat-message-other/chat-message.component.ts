@@ -13,7 +13,8 @@ import { CommonModule } from "@angular/common";
 export class ChatMessageComponent {
     @Input() message!: IdtMessages;
     isHovered = false;
-    private chatService: ChatService = inject(ChatService);
+
+    constructor(private chatService: ChatService) {}
 
     openThread() {
         this.chatService.toggleThread(

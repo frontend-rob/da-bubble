@@ -23,11 +23,8 @@ import { SearchCardComponent } from "./search-card/search-card.component";
     styleUrl: "./workspace-header.component.scss",
 })
 export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
-    // isUserMenuOpen = false;
-    // isProfileCardOpen = false;
     currentUser!: UserData;
     userSubscription!: Subscription;
-    // private userService: UserService = inject(UserService);
 
     constructor(
         private router: Router,

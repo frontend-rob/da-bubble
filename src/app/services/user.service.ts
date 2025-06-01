@@ -30,22 +30,6 @@ export class UserService {
     private _isUserMenuOpen = false;
     private _isUserProfileCardOpen = false;
 
-    get isUserMenuOpen(): boolean {
-        return this._isUserMenuOpen;
-    }
-
-    get isUserProfileCardOpen(): boolean {
-        return this._isUserProfileCardOpen;
-    }
-
-    handleUserMenu(bool: boolean) {
-        this._isUserMenuOpen = bool;
-    }
-
-    handleUserProfileCard(bool: boolean) {
-        this._isUserProfileCardOpen = bool;
-    }
-
     /**
      * Gets user data by user ID with caching
      * @param uid The user ID to look up
@@ -108,5 +92,21 @@ export class UserService {
      */
     getCurrentUserId(): Observable<string | null> {
         return user(this.auth).pipe(map((user) => user?.uid || null));
+    }
+
+    get isUserMenuOpen(): boolean {
+        return this._isUserMenuOpen;
+    }
+
+    get isUserProfileCardOpen(): boolean {
+        return this._isUserProfileCardOpen;
+    }
+
+    handleUserMenu(bool: boolean) {
+        this._isUserMenuOpen = bool;
+    }
+
+    handleUserProfileCard(bool: boolean) {
+        this._isUserProfileCardOpen = bool;
     }
 }
