@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -40,7 +45,7 @@ export class ChatService {
         return this._isProfileCardOpen;
     }
 
-    toggleThread(bool: boolean) {
+    handleThread(bool: boolean) {
         this._isThreadOpen = bool;
     }
 
@@ -82,7 +87,7 @@ export class ChatService {
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, {threadChannelName: name});
+            await updateDoc(msgRef, { threadChannelName: name });
         });
     }
 
@@ -96,7 +101,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, {idField: "channelId"}) as Observable<
+            return collectionData(q, { idField: "channelId" }) as Observable<
                 ChannelData[]
             >;
         });
@@ -165,7 +170,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -212,7 +217,7 @@ export class ChatService {
                 `channels/${channelId}/messages/${parentMessageId}/thread`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });

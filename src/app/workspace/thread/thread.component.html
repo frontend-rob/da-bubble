@@ -5,18 +5,17 @@
             <div class="thread-tag"></div>
 
             <span class="thread-description">{{ threadChannelName }}</span>
-
         </div>
-        <div (click)="toggleThread()" class="close-btn">
-            <img src="assets/img/thread/close.svg"/>
+        <div (click)="handleThread()" class="close-btn">
+            <img src="assets/img/thread/close.svg" />
         </div>
     </div>
     <main>
         <app-chat-message-other
             *ngFor="
-                    let message of (messages$ | async) ?? [];
-                    trackBy: trackByMessageId
-                "
+                let message of (messages$ | async) ?? [];
+                trackBy: trackByMessageId
+            "
             [message]="message"
         ></app-chat-message-other>
         <!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->

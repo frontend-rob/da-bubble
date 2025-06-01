@@ -11,15 +11,15 @@
     </div>
 
     <div class="user-profile-container">
-        <div>{{ currentUser }}</div>
-        <!-- <div *ngIf="user | async as user">{{ currentUser }}</div> -->
+        <div>{{ currentUser.userName }}</div>
+        <!-- <div *ngIf="null | async as user">{{ user }}</div> -->
         <img
             *ngIf="null | async as user"
             class="profile-avatar"
             src="assets/img/avatar1.svg"
         />
         <img
-            *ngIf="!(undefined | async)"
+            *ngIf="!(null | async)"
             class="profile-avatar"
             src="assets/img/avatars/av-03.svg"
         />
@@ -40,6 +40,7 @@
     <app-profile-card
         *ngIf="isUserProfileCardOpen"
         class="user-profile"
+        [currentUser]="currentUser"
     ></app-profile-card>
 
     <div>
