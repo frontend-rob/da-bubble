@@ -14,9 +14,20 @@
                         src="assets/img/shared/message-input-field/emoji.svg"
                     />
                 </div>
-                <div (click)="toggleUserTagModal()" class="options-link tag">
+                <div
+                    (click)="toggleUserTagModal()"
+                    class="options-link user-tag"
+                >
                     <img
                         src="assets/img/shared/message-input-field/user-tag.svg"
+                    />
+                </div>
+                <div
+                    (click)="toggleChannelTagModal()"
+                    class="options-link channel-tag"
+                >
+                    <img
+                        src="assets/img/shared/message-input-field/channel-tag_grey.svg"
                     />
                 </div>
             </div>
@@ -40,6 +51,7 @@
         <app-message-input-modal
             (choosenChannelTag)="addChannelTag($event)"
             [isChannelTagModalOpen]="isChannelTagModalOpen"
+            [channels]="channels"
         >
         </app-message-input-modal>
     </div>

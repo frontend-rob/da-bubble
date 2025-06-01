@@ -63,23 +63,18 @@
     }
 }
 
-.tag {
+.user-tag {
     &:hover {
         img {
             content: url("/assets/img/shared/message-input-field/user-tag_hover.svg");
         }
     }
+}
 
-    .send-button {
-        background-image: url("/assets/img/send.svg");
-        background-size: cover;
-        background-position: center;
-        height: 18.77px;
-        width: 21.78px;
-
-        &:hover {
-            cursor: pointer;
-            background-image: url("/assets/img/send_hover.svg");
+.channel-tag {
+    &:hover {
+        img {
+            content: url("/assets/img/shared/message-input-field/channel-tag_hover.svg");
         }
     }
 }

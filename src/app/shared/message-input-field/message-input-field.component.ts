@@ -28,6 +28,7 @@ export class MessageInputFieldComponent {
     messageInputData = "";
     userSubscription!: Subscription;
     users: UserData[] = [];
+    channels: ChannelData[] = [];
     emojiList: string[] = [
         "\u{1F60A}", // 😊
         "\u{1F602}", // 😂
