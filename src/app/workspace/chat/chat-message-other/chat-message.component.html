@@ -6,26 +6,30 @@
     (mouseleave)="toggleHovered(false)"
     class="message-container"
 >
-    <img [src]="message.sender.photoURL" alt="assets/img/avatars/av-04.svg" />
+    <img [src]="message.sender.photoURL" alt="assets/img/avatars/av-04.svg"/>
     <div class="message-content-container">
         <div class="author-container">
             <span (click)="handleProfileCard(true)" class="author-name">{{
-                message.sender.userName
-            }}</span>
+                    message.sender.userName
+                }}</span>
             <span class="message-time">{{ message.time }} Uhr</span>
         </div>
 
         <div class="message">{{ message.text }}</div>
         @if (message.hasThread) {
-        <div class="replies-container">
+            <div class="replies-container">
             <span (click)="openThread()" class="replies"
-                >{{ message.threadAnswerCount }} @if (message.threadAnswerCount
-                === 1) { Answer } @else { Answers }</span
+            >{{ message.threadAnswerCount }} @if (message.threadAnswerCount
+            === 1) {
+                Answer
+            } @else {
+                Answers
+            }</span
             >
-            <span class="last-reply"
+                <span class="last-reply"
                 >Last Answer {{ message.threadLastTime }}</span
-            >
-        </div>
+                >
+            </div>
         }
     </div>
     <div class="chat-message-other">

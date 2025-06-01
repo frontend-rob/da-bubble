@@ -1,20 +1,12 @@
-import {
-    Component,
-    EventEmitter,
-    inject,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Subscription } from "rxjs";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { ProfileCardComponent } from "../profile-card/profile-card.component";
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
-import { SearchCardComponent } from "./search-card/search-card.component";
+import {Component, OnDestroy, OnInit,} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {Subscription} from "rxjs";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {ProfileCardComponent} from "../profile-card/profile-card.component";
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
+import {SearchCardComponent} from "./search-card/search-card.component";
 
 @Component({
     selector: "app-workspace-header",
@@ -27,13 +19,23 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
     // isProfileCardOpen = false;
     currentUser!: UserData;
     userSubscription!: Subscription;
+
     // private userService: UserService = inject(UserService);
 
     constructor(
         private router: Router,
         private authService: AuthService,
         private userService: UserService
-    ) {}
+    ) {
+    }
+
+    get isUserMenuOpen() {
+        return this.userService.isUserMenuOpen;
+    }
+
+    get isUserProfileCardOpen() {
+        return this.userService.isUserProfileCardOpen;
+    }
 
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(
@@ -49,14 +51,6 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
         }
-    }
-
-    get isUserMenuOpen() {
-        return this.userService.isUserMenuOpen;
-    }
-
-    get isUserProfileCardOpen() {
-        return this.userService.isUserProfileCardOpen;
     }
 
     handleUserMenu(bool: boolean) {
