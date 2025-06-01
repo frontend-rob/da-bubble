@@ -1,14 +1,9 @@
-import {
-    EnvironmentInjector,
-    inject,
-    Injectable,
-    runInInjectionContext,
-} from "@angular/core";
-import { Observable, of } from "rxjs";
-import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
-import { UserData } from "../interfaces/user.interface";
-import { doc, docData, Firestore } from "@angular/fire/firestore";
-import { Auth, user } from "@angular/fire/auth";
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
+import {Observable, of} from "rxjs";
+import {catchError, map, shareReplay, switchMap} from "rxjs/operators";
+import {UserData} from "../interfaces/user.interface";
+import {doc, docData, Firestore} from "@angular/fire/firestore";
+import {Auth, user} from "@angular/fire/auth";
 
 @Injectable({
     providedIn: "root",
@@ -28,7 +23,6 @@ export class UserService {
     private environmentInjector = inject(EnvironmentInjector);
     private userCache = new Map<string, Observable<UserData | null>>();
     private _isUserMenuOpen = false;
-    private _isUserProfileCardOpen = false;
 
     /**
      * Gets user data by user ID with caching

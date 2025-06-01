@@ -326,6 +326,7 @@
 
         > .img-open {
             background-image: url("/assets/img/main-menu/open_default.svg");
+
             &:hover {
                 background-image: url("/assets/img/main-menu/open_hover.svg");
             }
@@ -333,6 +334,7 @@
 
         > .img-close {
             background-image: url("/assets/img/main-menu/close_default.svg");
+
             &:hover {
                 background-image: url("/assets/img/main-menu/close_hover.svg");
             }
