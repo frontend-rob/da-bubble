@@ -2,7 +2,7 @@ import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@
 import {Observable, of} from "rxjs";
 import {catchError, map, shareReplay, switchMap} from "rxjs/operators";
 import {UserData} from "../interfaces/user.interface";
-import {doc, docData, Firestore} from "@angular/fire/firestore";
+import {collection, collectionData, doc, docData, Firestore} from "@angular/fire/firestore";
 import {Auth, user} from "@angular/fire/auth";
 
 @Injectable({
@@ -17,6 +17,15 @@ export class UserService {
                 return of(null);
             }
             return this.getUserData(user.uid);
+        }),
+        shareReplay(1)
+    );
+    readonly allUsers$: Observable<UserData[] | null> = user(this.auth).pipe(
+        switchMap((users) => {
+            if (!users) {
+                return of(null);
+            }
+            return this.getAllUserData();
         }),
         shareReplay(1)
     );
@@ -65,6 +74,14 @@ export class UserService {
 
         this.userCache.set(uid, userObservable);
         return userObservable;
+    }
+
+
+    getAllUserData(): Observable<UserData[]> {
+        return runInInjectionContext(this.environmentInjector, () => {
+            const usersCollectionRef = collection(this.firestore, 'users');
+            return collectionData(usersCollectionRef, { idField: 'uid' }) as Observable<UserData[]>;
+        });
     }
 
     /**

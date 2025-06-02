@@ -64,7 +64,7 @@
                 <div [class.close-list]="showUserList" class="menu-list-container">
                     <div class="menu-list">
                         <app-direct-message-list-item (activeMenuItem)="setActiveChat($event)"
-                                                      *ngFor="let chat of chats" [active]="chat.id === activeMenuItem"
+                                                      *ngFor="let chat of chats" [active]="chat.uid === activeMenuItem"
                                                       [chat]="chat"></app-direct-message-list-item>
                     </div>
                 </div>

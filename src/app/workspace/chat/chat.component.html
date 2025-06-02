@@ -22,7 +22,7 @@
                         "
                             class="member"
                         >
-                            <img [src]="'assets/img/avatars/' + member + '.svg'"/>
+                            <img [src]="member.photoURL"/>
                         </div>
                         <div class="member-counter">
                             {{
@@ -177,7 +177,7 @@
                 <ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
                     <ng-container *ngIf="shouldShowDate(messages, i)">
                         <div class="message-time-seperator">
-                            <div class="time">{{message.date}}</div>
+                            <div class="time">{{ message.date }}</div>
                         </div>
                     </ng-container>
 

@@ -1,10 +1,10 @@
 <div
-    (click)="setActiveChat(chat.id)"
+    (click)="setActiveChat(chat.uid)"
     [class.activate]="active"
     class="menu-item"
 >
     <div class="avatar">
-        <img src="{{ chat.img }}"/>
+        <img src="{{ chat.photoURL }}"/>
         <div
             [ngClass]="{
                 online: chat.status === 'online',
@@ -13,5 +13,5 @@
             class="status"
         ></div>
     </div>
-    <div>{{ chat.name }}</div>
+    <div>{{ chat.userName }}</div>
 </div>

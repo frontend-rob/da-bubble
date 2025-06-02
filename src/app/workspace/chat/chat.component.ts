@@ -23,11 +23,9 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
         CommonModule,
         FormsModule,
         NgForOf,
-        AsyncPipe,
     ],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-    channels$: Observable<ChannelData[]> | undefined;
     messages$: Observable<Message[]> | undefined;
     messages!:Message[];
     selectedChannel!: ChannelData;
@@ -75,13 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.channels$ = this.chatService.getChannels();
 
-        this.channels$?.subscribe((channels) => {
-            if (channels.length > 0 && !this.selectedChannel) {
-                this.selectChannel(channels[0]);
-            }
-        });
     }
 
     selectChannel(channel: ChannelData): void {
