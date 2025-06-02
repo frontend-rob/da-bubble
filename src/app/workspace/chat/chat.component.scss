@@ -11,7 +11,7 @@
     background-color: variables.$bg-base-200;
     gap: 20px;
 
-    header {
+    .header {
         display: flex;
         align-items: center;
         padding: 32px;
@@ -69,6 +69,7 @@
                 display: flex;
                 align-items: center;
                 gap: 16px;
+                position: relative;
 
                 .members {
                     display: flex;
@@ -127,19 +128,73 @@
                         content: url("/assets/img/chat/add_member_hover.svg");
                     }
                 }
-            }
 
-            .modal-bg {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100vw;
-                height: 100vh;
-                position: fixed;
-                top: 0;
-                left: 0;
-                background-color: #00000050;
-                z-index: 1;
+                .add-member-modal {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 32px;
+                    gap: 20px;
+                    position: absolute;
+                    top: 64px;
+                    right: 0px;
+                    width: 500px;
+                    border-radius: 30px;
+                    border-top-right-radius: 0;
+                    background-color: variables.$bg-base-200;
+                    z-index: 10;
+                    font-size: 18px;
+                    font-weight: 400;
+
+                    .add-member-modal-header {
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 8px;
+
+                        h1 {
+                            font-size: 24px;
+                            font-weight: 700;
+                        }
+
+                        .add-member-channel-name {
+                            display: flex;
+                            align-items: center;
+                            gap: 16px;
+                            color: variables.$bg-primary-accent;
+
+                            > img {
+                                width: 16px;
+                                height: 16px;
+                            }
+                        }
+                    }
+
+                    .add-member-input {
+                        padding: 16px 20px;
+                        border: 1px solid variables.$border;
+                        border-radius: 50px;
+                        outline: none;
+                    }
+
+                    > div:last-child {
+                        display: flex;
+                        justify-content: flex-end;
+
+                        button {
+                            padding: 12px 24px;
+                            width: fit-content;
+                            border-radius: 24px;
+                            border: none;
+                            background-color: variables.$bg-primary;
+                            color: variables.$text-inverse;
+                            font-size: 18px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: variables.$bg-primary-accent;
+                            }
+                        }
+                    }
+                }
             }
 
             .modal {
@@ -186,24 +241,6 @@
                         .tag {
                             width: 20px;
                             height: 20px;
-                        }
-
-                        .close-btn {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: variables.$bg-base-100;
-
-                                img {
-                                    content: url("/assets/img/chat/close_hover.svg");
-                                }
-                            }
                         }
                     }
 
@@ -422,4 +459,49 @@
     width: fit-content;
     justify-self: center;
     white-space: nowrap;
+}
+
+.modal-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #00000050;
+    z-index: 1;
+}
+
+.close-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: variables.$bg-base-100;
+
+        img {
+            content: url("/assets/img/chat/close_hover.svg");
+        }
+    }
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:hover {
+        background-color: variables.$bg-neutral-hover;
+    }
 }
