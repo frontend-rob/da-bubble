@@ -29,6 +29,7 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
 export class ChatComponent implements OnInit, OnDestroy {
     channels$: Observable<ChannelData[]> | undefined;
     messages$: Observable<Message[]> | undefined;
+    messages!:Message[];
     selectedChannel!: ChannelData;
     modalIsOpen = false;
     nameIsEdit = false;
@@ -92,6 +93,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         );
         this.messages$.subscribe((messages) => {
             this.chatService.selectedChannelsMessages = messages;
+            this.messages = messages;
         });
     }
 
@@ -146,6 +148,12 @@ export class ChatComponent implements OnInit, OnDestroy {
             console.error("Error sending message:", error);
         }
     }
+
+    shouldShowDate(messages: Message[], index: number): boolean {
+        if (index === 0) return true;
+        return messages[index].date !== messages[index - 1].date;
+    }
+
 
     ngOnDestroy() {
         this.userSubscription.unsubscribe();
