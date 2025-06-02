@@ -56,28 +56,16 @@
     background-color: variables.$bg-neutral-hover;
 }
 
-.message-time-seperator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 32px;
-    width: 100%;
-
-    &::before,
-    &::after {
-        content: "";
-        flex: 1;
-        border-bottom: 1px solid variables.$border;
+.own-message {
+    .message {
+        background-color: variables.$bg-primary-accent!important;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 0;
     }
-}
-
-.time {
-    border: solid 1px variables.$border;
-    border-radius: 30px;
-    padding: 5px 15px;
-    width: fit-content;
-    justify-self: center;
-    white-space: nowrap;
+    .author-container {
+        justify-content: end;
+    }
+    flex-direction: row-reverse;
 }
 
 .replies-container {
