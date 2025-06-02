@@ -1,11 +1,10 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
-import { UserData } from "../../interfaces/user.interface";
-import { Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
+import {UserData} from "../../interfaces/user.interface";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: "app-message-input-field",
