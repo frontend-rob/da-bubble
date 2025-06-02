@@ -1,20 +1,14 @@
-import { CommonModule } from "@angular/common";
-import {
-    Component,
-    inject,
-    OnDestroy,
-    OnInit,
-    TrackByFunction,
-} from "@angular/core";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { ChatService } from "../../services/chat.service";
-import { Message } from "../../interfaces/message.interface";
-import { Timestamp } from "@angular/fire/firestore";
-import { HelperService } from "../../services/helper.service";
-import { UserData } from "../../interfaces/user.interface";
-import { firstValueFrom, map, Observable, Subscription } from "rxjs";
-import { UserService } from "../../services/user.service";
-import { ChatMessageComponent } from "../chat/chat-message-other/chat-message.component";
+import {CommonModule} from "@angular/common";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {ChatService} from "../../services/chat.service";
+import {Message} from "../../interfaces/message.interface";
+import {Timestamp} from "@angular/fire/firestore";
+import {HelperService} from "../../services/helper.service";
+import {UserData} from "../../interfaces/user.interface";
+import {firstValueFrom, map, Observable, Subscription} from "rxjs";
+import {UserService} from "../../services/user.service";
+import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
 
 @Component({
     selector: "app-thread",

@@ -1,49 +1,51 @@
-<div class="header-container">
-    <div class="logo-container">
-        <img src="assets/img/workspace-header/main-logo.svg" />
-    </div>
+@if (currentUser) {
+    <div class="header-container">
+        <div class="logo-container">
+            <img src="assets/img/workspace-header/main-logo.svg"/>
+        </div>
 
-    <div class="search-bar-container">
-        <div class="search-bar-input-container">
-            <input placeholder="Devspace durchsuchen" type="text" />
-            <img src="assets/img/workspace-header/search.svg" />
+        <div class="search-bar-container">
+            <div class="search-bar-input-container">
+                <input placeholder="Devspace durchsuchen" type="text"/>
+                <img src="assets/img/workspace-header/search.svg"/>
+            </div>
+        </div>
+
+        <div class="user-profile-container">
+            <div>{{ currentUser.userName }}</div>
+            <!-- <div *ngIf="null | async as user">{{ user }}</div> -->
+            <img
+                *ngIf="null | async as user"
+                class="profile-avatar"
+                src="assets/img/avatar1.svg"
+            />
+            <img
+                *ngIf="!(null | async)"
+                class="profile-avatar"
+                src="assets/img/avatars/av-03.svg"
+            />
+            <img
+                (click)="handleUserMenu(true)"
+                class="arrow-down"
+                src="assets/img/workspace-header/keyboard_arrow_down.svg"
+            />
+        </div>
+
+        <!-- USER MENU -->
+        <div *ngIf="isUserMenuOpen" class="user-menu">
+            <div (click)="handleUserProfileCard(true)">Profile</div>
+            <div (click)="logOut()">Logout</div>
+        </div>
+
+        <!-- USER PROFILE CARD  -->
+        <app-profile-card
+            *ngIf="isUserProfileCardOpen"
+            class="user-profile"
+            [currentUser]="currentUser"
+        ></app-profile-card>
+
+        <div>
+            <app-search-card></app-search-card>
         </div>
     </div>
-
-    <div class="user-profile-container">
-        <div>{{ currentUser.userName }}</div>
-        <!-- <div *ngIf="null | async as user">{{ user }}</div> -->
-        <img
-            *ngIf="null | async as user"
-            class="profile-avatar"
-            src="assets/img/avatar1.svg"
-        />
-        <img
-            *ngIf="!(null | async)"
-            class="profile-avatar"
-            src="assets/img/avatars/av-03.svg"
-        />
-        <img
-            (click)="handleUserMenu(true)"
-            class="arrow-down"
-            src="assets/img/workspace-header/keyboard_arrow_down.svg"
-        />
-    </div>
-
-    <!-- USER MENU -->
-    <div *ngIf="isUserMenuOpen" class="user-menu">
-        <div (click)="handleUserProfileCard(true)">Profile</div>
-        <div (click)="logOut()">Logout</div>
-    </div>
-
-    <!-- USER PROFILE CARD  -->
-    <app-profile-card
-        *ngIf="isUserProfileCardOpen"
-        class="user-profile"
-        [currentUser]="currentUser"
-    ></app-profile-card>
-
-    <div>
-        <app-search-card></app-search-card>
-    </div>
-</div>
+}

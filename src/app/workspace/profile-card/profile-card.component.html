@@ -3,12 +3,12 @@
         <header>
             <h2>Profile</h2>
             <div (click)="closeProfileCard()" class="button">
-                <img src="assets/img/profile-card/close.svg" />
+                <img src="assets/img/profile-card/close.svg"/>
             </div>
         </header>
 
         <div class="profile-img-container">
-            <img src="assets/img/avatar1.svg" />
+            <img src="assets/img/avatar1.svg"/>
         </div>
 
         <div>
@@ -40,7 +40,7 @@
 
         <div class="email-container">
             <div>
-                <img src="assets/img/profile-card/letter.svg" />
+                <img src="assets/img/profile-card/letter.svg"/>
                 <div>Email-Adress</div>
             </div>
             <a *ngIf="currentUser" href="mailto: #">{{ currentUser.email }}</a>
@@ -48,7 +48,7 @@
 
         <div *ngIf="isProfileCardOpen" class="button-container">
             <button>
-                <img src="assets/img/profile-card/bubble.svg" />Message
+                <img src="assets/img/profile-card/bubble.svg"/>Message
             </button>
         </div>
     </div>
