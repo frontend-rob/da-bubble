@@ -1,17 +1,23 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
-import {ChatService} from "../../services/chat.service";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
-import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {Timestamp} from "@angular/fire/firestore";
-import {AsyncPipe, CommonModule, NgForOf} from "@angular/common";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {HelperService} from "../../services/helper.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {
+    Component,
+    inject,
+    OnDestroy,
+    OnInit,
+    TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { AsyncPipe, CommonModule, NgForOf } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
 
 @Component({
     selector: "app-chat",
@@ -27,16 +33,20 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
 })
 export class ChatComponent implements OnInit, OnDestroy {
     messages$: Observable<Message[]> | undefined;
-    messages!:Message[];
+    messages!: Message[];
     selectedChannel!: ChannelData;
-    modalIsOpen = false;
-    nameIsEdit = false;
-    descriptionIsEdit = false;
     newChannelName: string = "";
     newChannelDescription: string = "";
     currentUser!: UserData;
     userSubscription!: Subscription;
     functionTriggerSubscription!: Subscription;
+
+    isModalBGOpen = false;
+    isModalOpen = false;
+    isNameEdit = false;
+    isDescriptionEdit = false;
+    isAddNewChannel = false;
+    isAddMemberModalOpen = false;
 
     private userService: UserService = inject(UserService);
     private helperService: HelperService = inject(HelperService);
@@ -72,8 +82,6 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
-
     }
 
     selectChannel(channel: ChannelData): void {
@@ -90,13 +98,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     toggleModal(): void {
-        this.modalIsOpen = !this.modalIsOpen;
-        this.nameIsEdit = false;
-        this.descriptionIsEdit = false;
+        this.isModalBGOpen = true;
+        this.isModalOpen = !this.isModalOpen;
+        this.isAddNewChannel = !this.isAddNewChannel;
+        this.isNameEdit = false;
+        this.isDescriptionEdit = false;
     }
 
     toggleNameEdit(): void {
-        if (this.nameIsEdit && this.chatService.selectedChannel) {
+        if (this.isNameEdit && this.chatService.selectedChannel) {
             const updatedChannel = {
                 ...this.chatService.selectedChannel,
                 channelName: this.newChannelName,
@@ -104,11 +114,11 @@ export class ChatComponent implements OnInit, OnDestroy {
             };
             this.updateChannel(updatedChannel);
         }
-        this.nameIsEdit = !this.nameIsEdit;
+        this.isNameEdit = !this.isNameEdit;
     }
 
     toggleDescriptionEdit(): void {
-        if (this.descriptionIsEdit && this.chatService.selectedChannel) {
+        if (this.isDescriptionEdit && this.chatService.selectedChannel) {
             const updatedChannel = {
                 ...this.chatService.selectedChannel,
                 channelDescription: this.newChannelDescription,
@@ -116,7 +126,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             };
             this.updateChannel(updatedChannel);
         }
-        this.descriptionIsEdit = !this.descriptionIsEdit;
+        this.isDescriptionEdit = !this.isDescriptionEdit;
     }
 
     async sendChatMessage(content: string): Promise<void> {
@@ -146,7 +156,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         return messages[index].date !== messages[index - 1].date;
     }
 
-
     ngOnDestroy() {
         this.userSubscription.unsubscribe();
         this.functionTriggerSubscription.unsubscribe();
@@ -172,5 +181,24 @@ export class ChatComponent implements OnInit, OnDestroy {
         } catch (error) {
             console.error("Error updating channel:", error);
         }
+    }
+
+    addMemberModal() {
+        this.isModalBGOpen = true;
+        this.isAddMemberModalOpen = true;
+    }
+
+    addNewMember() {
+        console.log("ADD NEW MEMBER");
+        this.closeModals();
+    }
+
+    closeModals() {
+        this.isModalBGOpen = false;
+        this.isModalOpen = false;
+        this.isNameEdit = false;
+        this.isDescriptionEdit = false;
+        this.isAddNewChannel = false;
+        this.isAddMemberModalOpen = false;
     }
 }
