@@ -15,7 +15,7 @@ import {ChannelData} from '../../../interfaces/channel.interface';
 export class ChannelListItemComponent implements OnInit, OnDestroy {
     @Input() channel!: ChannelData;
     @Input() active: boolean = false;
-    @Output() activeMenuItem = new EventEmitter<number>();
+    @Output() activeMenuItem:EventEmitter<string> = new EventEmitter<string>();
 
     currentUser!: UserData;
     private userService: UserService = inject(UserService)
@@ -24,7 +24,7 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
     constructor() {
     }
 
-    setActiveChat(id: number) {
+    setActiveChat(id: string) {
         this.activeMenuItem.emit(id);
     }
 

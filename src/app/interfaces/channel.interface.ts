@@ -10,8 +10,9 @@ export interface ChannelData {
      * Unique identifier for the channel.
      * Used internally to reference the channel in the database.
      */
-    channelId: number;
+    channelId: string;
 
+    channelType: ChannelType
     /**
      * The display name of the channel shown to users.
      * Example: "Developer Team".
@@ -45,4 +46,9 @@ export interface ChannelData {
      * Firestore timestamp of the last update to the channel (e.g., name or members).
      */
     updatedAt: Timestamp;
+}
+
+export interface ChannelType {
+    channel: boolean;
+    directMessage: boolean;
 }

@@ -1,5 +1,6 @@
 import {CommonModule} from "@angular/common";
 import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {UserData} from '../../../interfaces/user.interface';
 
 @Component({
     selector: "app-direct-message-list-item",
@@ -8,11 +9,11 @@ import {Component, EventEmitter, Input, Output} from "@angular/core";
     styleUrl: "./direct-message-list-item.component.scss",
 })
 export class DirectMessageListItemComponent {
-    @Input() chat: any;
+    @Input() chat!: UserData;
     @Input() active: boolean = false;
-    @Output() activeMenuItem = new EventEmitter<number>();
+    @Output() activeMenuItem:EventEmitter<string> = new EventEmitter<string>();
 
-    setActiveChat(id: number) {
+    setActiveChat(id: string) {
         this.activeMenuItem.emit(id);
     }
 }

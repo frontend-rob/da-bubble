@@ -58,7 +58,7 @@ export class ChatService {
     ): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const messageId = this.selectedThreadMessageId;
-            const channelId = this.selectedChannel.channelId.toString();
+            const channelId = this.selectedChannel.channelId;
             const firestore = inject(Firestore);
             const msgRef = doc(
                 firestore,
@@ -117,9 +117,9 @@ export class ChatService {
             await setDoc(newDocRef, {
                 channelId: channel.channelId,
                 channelName: channel.channelName,
-                channelDescription: channel.channelDescription || "",
+                channelDescription: channel.channelDescription,
                 createdBy: channel.createdBy,
-                channelMembers: channel.channelMembers || [],
+                channelMembers: channel.channelMembers,
                 createdAt: channel.createdAt || Timestamp.fromDate(new Date()),
                 updatedAt: Timestamp.fromDate(new Date()),
             });

@@ -28,53 +28,20 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     showUserList = false;
     isOpen = false;
     isModalOpen = false;
-    activeMenuItem: number | null = null;
-    activeUser: number | null = null;
+    activeMenuItem!: string;
 
     isOpenText = "Close workspace menu";
-    isOpenImg = "./assets/img/workspaces_close_default.svg";
     isClosedText = "Open workspace menu";
-    isClosedImg = "./assets/img/workspaces_open_default.svg";
     currentUser!: UserData;
     userSubscription!: Subscription;
+    userDataSubscription!: Subscription;
     channelFormData = {
         name: '',
         description: ''
     }
     channels: ChannelData[] = [];
 
-    chats = [
-        {
-            name: "John Doe",
-            id: 1,
-            img: "assets/img/avatar1.svg",
-            status: "online",
-        },
-        {
-            name: "Jane Smith",
-            id: 2,
-            img: "assets/img/avatar1.svg",
-            status: "online",
-        },
-        {
-            name: "Alice Johnson",
-            id: 3,
-            img: "assets/img/avatar1.svg",
-            status: "offline",
-        },
-        {
-            name: "Bob Brown",
-            id: 4,
-            img: "assets/img/avatar1.svg",
-            status: "online",
-        },
-        {
-            name: "Charlie Davis",
-            id: 5,
-            img: "assets/img/avatar1.svg",
-            status: "offline",
-        },
-    ];
+    chats!: UserData[];
     private helperService: HelperService = inject(HelperService);
     private userService: UserService = inject(UserService)
     private channelsSubscription!: Subscription;
@@ -83,40 +50,43 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     constructor(private chatService: ChatService) {
     }
 
-    ngOnInit(): void {
-        this.loadChannels();
-
+    ngOnInit():void {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
                 this.currentUser = userData;
+                this.loadChannels();
             }
         });
+
+        this.userDataSubscription = this.userService.allUsers$.subscribe(userData => {
+            if (userData) {
+                this.chats = userData;
+            }
+        })
     }
 
     ngOnDestroy(): void {
         if (this.channelsSubscription) {
             this.channelsSubscription.unsubscribe();
+            this.userDataSubscription.unsubscribe();
         }
 
         if (this.userSubscription) {
             this.userSubscription.unsubscribe();
+        }
+
+        if (this.userDataSubscription) {
+            this.userDataSubscription.unsubscribe();
         }
     }
 
     loadChannels(): void {
         this.channelsSubscription = this.chatService.getChannels().subscribe(
             (channelsData: ChannelData[]) => {
-                // Transform the ChannelData to match the expected format in the template
-                this.channels = channelsData.map(channel => ({
-                    channelId: channel.channelId,
-                    channelName: channel.channelName,
-                    channelDescription: channel.channelDescription,
-                    createdBy: channel.createdBy,
-                    channelMembers: channel.channelMembers,
-                    createdAt: channel.createdAt,
-                    updatedAt: channel.updatedAt
-                }));
-                this.setActiveChat(this.channels[0].channelId)
+                for (const channel of channelsData) {
+                    const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
+                    if (isMember) this.channels.push(channel);
+                }
             },
             error => {
                 console.error('Error loading channels:', error);
@@ -136,9 +106,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.showUserList = !this.showUserList;
     }
 
-    setActiveChat(id: number) {
-        this.activeMenuItem = id;
-        this.channels.forEach(channel => {
+    setActiveChat(id: string) {
+        this.activeMenuItem = id
+        this.channels.forEach((channel:ChannelData) => {
             if (channel.channelId === id) {
                 this.functionTriggerService.callSelectChannel(channel)
             }
@@ -147,16 +117,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     addNewChannel(name: string, description: string) {
         this.toggleModal();
-        const defaultChannel: ChannelData = {
-            channelId: this.helperService.getRandomNumber(),
+        const newChannel: ChannelData = {
+            channelId: this.helperService.getRandomNumber().toString(),
             channelName: name,
+            channelType: {channel: true, directMessage: false},
             channelDescription: description,
             createdBy: this.currentUser,
-            channelMembers: [],
+            channelMembers: [this.currentUser],
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
         };
-        this.chatService.createChannel(defaultChannel)
+        this.chatService.createChannel(newChannel)
     }
 
     toggleModal() {
