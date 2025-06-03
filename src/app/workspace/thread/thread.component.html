@@ -11,13 +11,18 @@
         </div>
     </div>
     <main>
-        <app-chat-message-other
-            *ngFor="
-                let message of (messages$ | async) ?? [];
-                trackBy: trackByMessageId
-            "
-            [message]="message"
-        ></app-chat-message-other>
+        <ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
+            <ng-container *ngIf="shouldShowDate(messages, i)">
+                <div class="message-time-seperator">
+                    <div class="time">{{ message.date }}</div>
+                </div>
+            </ng-container>
+
+            <app-chat-message-other
+                [message]="message"
+            ></app-chat-message-other>
+        </ng-container>
+
         <!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
         <app-message-input-field
             (send)="sendThreadMessage($event)"
