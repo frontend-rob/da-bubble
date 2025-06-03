@@ -25,6 +25,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
     helperService: HelperService = inject(HelperService);
     chatService: ChatService = inject(ChatService);
     messages$: Observable<Message[]>;
+    messages!: Message[];
     threadChannelName: string | undefined;
 
     constructor() {
@@ -41,6 +42,11 @@ export class ThreadComponent implements OnInit, OnDestroy {
         return (message as any).id || index;
     };
 
+    shouldShowDate(messages: Message[], index: number): boolean {
+        if (index === 0) return true;
+        return messages[index].date !== messages[index - 1].date;
+    }
+
     ngOnInit() {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
@@ -51,6 +57,10 @@ export class ThreadComponent implements OnInit, OnDestroy {
             }
         );
         this.threadChannelName = this.chatService.selectedChannel.channelName;
+
+        this.messages$.subscribe((msgs) => {
+            this.messages = msgs;
+        });
     }
 
     handleThread() {

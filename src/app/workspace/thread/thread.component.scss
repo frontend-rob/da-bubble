@@ -182,3 +182,27 @@ main {
         background-image: url("/assets/img/send_hover.svg");
     }
 }
+
+.message-time-seperator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 32px;
+    width: 100%;
+
+    &::before,
+    &::after {
+        content: "";
+        flex: 1;
+        border-bottom: 1px solid variables.$border;
+    }
+}
+
+.time {
+    border: solid 1px variables.$border;
+    border-radius: 30px;
+    padding: 5px 15px;
+    width: fit-content;
+    justify-self: center;
+    white-space: nowrap;
+}
