@@ -1,5 +1,5 @@
 import {CommonModule} from "@angular/common";
-import {Component, Input} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
 import {IdtMessages} from "../../../interfaces/message.interface";
 
@@ -12,6 +12,11 @@ import {IdtMessages} from "../../../interfaces/message.interface";
 export class ChatOptionBarComponent {
     @Input() message!: IdtMessages;
     @Input() isOwnMessage: boolean = false;
+    @Input() emojiList!: string[];
+
+    isEmojiModalOpen: boolean = false;
+
+    @Output() chosenEmoji = new EventEmitter<string>();
 
     constructor(private chatService: ChatService) {
     }
@@ -21,5 +26,14 @@ export class ChatOptionBarComponent {
         if (this.message.messageId) {
             this.chatService.selectedThreadMessageId = this.message.messageId;
         }
+    }
+
+    toggleEmojiModal() {
+        this.isEmojiModalOpen = !this.isEmojiModalOpen;
+    }
+
+    addEmoji(emojiName: string) {
+        this.chosenEmoji.emit(emojiName);
+        this.isEmojiModalOpen = false;
     }
 }

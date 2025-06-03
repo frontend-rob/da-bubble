@@ -14,6 +14,15 @@
         </div>
 
         <div class="message">{{ message.text }}</div>
+        <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
+            <div *ngFor="let group of groupedReactions" class="reaction"
+                 [class.user-reacted]="hasUserReacted(group.emoji)"
+                 (click)="handleEmojiReaction(group.emoji, message)">
+                <span class="emoji">{{ group.emoji }}</span>
+                <span class="count">{{ group.count }}</span>
+            </div>
+        </div>
+
         @if (message.hasThread) {
             <div class="replies-container">
             <span (click)="openThread()" class="replies"
@@ -39,8 +48,11 @@
 
     <div>
         <app-chat-option-bar
-            *ngIf="isHovered"
             [message]="message"
-        ></app-chat-option-bar>
+            [isOwnMessage]="isOwnMessage"
+            [emojiList]="emojiList"
+            (chosenEmoji)="handleEmojiReaction($event, message)">
+            >
+        </app-chat-option-bar>
     </div>
 </div>

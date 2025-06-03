@@ -125,7 +125,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         const newChannel: ChannelData = {
             channelId: this.helperService.getRandomNumber().toString(),
             channelName: name,
-            channelType: {channel: true, directMessage: false},
+            channelType: {
+                channel: true,
+                directMessage: false
+            },
             channelDescription: description,
             createdBy: this.currentUser,
             channelMembers: [this.currentUser],

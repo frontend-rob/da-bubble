@@ -14,3 +14,39 @@
     top: -16px;
     right: 48px;
 }
+
+.modal {
+    position: absolute;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 8px;
+
+    // Position anpassen
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.emoji-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+        cursor: pointer;
+        padding: 4px;
+
+        &:hover {
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+    }
+
+    .emoji {
+        font-size: 18px;
+    }
+}
