@@ -133,22 +133,20 @@ export class ChatService {
      * @returns {Promise<void>} A promise that resolves when the update is complete.
      */
     async updateChannel(channel: ChannelData): Promise<void> {
-        const firestore = inject(Firestore);
-        if (!channel.channelId) return;
-        const channelDoc = doc(
-            firestore,
-            "channels",
-            channel.channelId.toString()
-        );
-        await updateDoc(channelDoc, {
-            channelId: channel.channelId,
-            channelName: channel.channelName,
-            channelDescription: channel.channelDescription,
-            createdBy: channel.createdBy,
-            channelMembers: channel.channelMembers,
-            createdAt: channel.createdAt,
-            updatedAt: Timestamp.fromDate(new Date()),
-        });
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            if (!channel.channelId) return;
+            const channelDoc = doc(firestore, "channels", channel.channelId.toString());
+            await updateDoc(channelDoc, {
+                channelId: channel.channelId,
+                channelName: channel.channelName,
+                channelDescription: channel.channelDescription,
+                createdBy: channel.createdBy,
+                channelMembers: channel.channelMembers,
+                createdAt: channel.createdAt,
+                updatedAt: Timestamp.fromDate(new Date()),
+            });
+        })
     }
 
     /**

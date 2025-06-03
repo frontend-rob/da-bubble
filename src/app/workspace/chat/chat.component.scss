@@ -505,3 +505,46 @@
         background-color: variables.$bg-neutral-hover;
     }
 }
+
+.member-input-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+}
+
+.selected-user-chip {
+    display: flex;
+    align-items: center;
+    background-color: #e0f7fa;
+    border-radius: 16px;
+    padding: 4px 8px;
+    gap: 6px;
+
+    img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+    }
+
+    button {
+        border: none;
+        background: transparent;
+        font-size: 16px;
+        cursor: pointer;
+    }
+}
+
+.add-member-input {
+    border: none;
+    flex: 1;
+    min-width: 120px;
+
+    &:focus {
+        outline: none;
+    }
+}
