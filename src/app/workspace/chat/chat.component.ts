@@ -100,8 +100,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     selectChannel(channel: ChannelData): void {
         this.chatService.selectedChannel = channel;
-        this.newChannelName = channel.channelName || "";
-        this.newChannelDescription = channel.channelDescription || "";
+        this.newChannelName = channel.channelName;
+        this.newChannelDescription = channel.channelDescription;
         this.messages$ = this.chatService.getMessages(
             channel.channelId.toString()
         );

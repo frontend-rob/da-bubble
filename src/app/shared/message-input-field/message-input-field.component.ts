@@ -1,10 +1,11 @@
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChannelData} from "../../interfaces/channel.interface";
 import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
 import {UserData} from "../../interfaces/user.interface";
 import {Subscription} from "rxjs";
+import {ChatService} from '../../services/chat.service';
 
 @Component({
     selector: "app-message-input-field",
@@ -13,9 +14,8 @@ import {Subscription} from "rxjs";
     templateUrl: "./message-input-field.component.html",
     styleUrl: "./message-input-field.component.scss",
 })
-export class MessageInputFieldComponent {
+export class MessageInputFieldComponent implements OnInit {
     @Input() selectedChannel!: ChannelData;
-    @Input() channels$: any;
     @Input() placeholderText = "Type a message...";
     @Output() send: EventEmitter<string> = new EventEmitter<string>();
     @Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -25,9 +25,9 @@ export class MessageInputFieldComponent {
     isChannelTagModalOpen = false;
 
     messageInputData = "";
-    userSubscription!: Subscription;
-    users: UserData[] = [];
-    channels: ChannelData[] = [];
+    users!: UserData[];
+    channelsSubscription!: Subscription;
+    channels!: ChannelData[];
     emojiList: string[] = [
         "\u{1F60A}", // 😊
         "\u{1F602}", // 😂
@@ -47,7 +47,14 @@ export class MessageInputFieldComponent {
         "\u{1F680}", // 🚀
     ];
 
-    // constructor(private chatService: ChatService){}
+    constructor(private chatService: ChatService){}
+
+    ngOnInit() {
+        this.users = this.chatService.selectedChannel.channelMembers;
+        this.channelsSubscription = this.chatService.getChannels().subscribe(channels => {
+            this.channels = channels.filter(channel => !channel.channelType.directMessage);
+        });
+    }
 
     toggleEmojiModal() {
         if (

@@ -1,6 +1,6 @@
 import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
 import {Observable} from "rxjs";
-import {Message} from "../interfaces/message.interface";
+import {Message, Reaction} from "../interfaces/message.interface";
 import {ChannelData} from "../interfaces/channel.interface";
 import {
     collection,
@@ -118,6 +118,7 @@ export class ChatService {
                 channelId: channel.channelId,
                 channelName: channel.channelName,
                 channelDescription: channel.channelDescription,
+                channelType: channel.channelType,
                 createdBy: channel.createdBy,
                 channelMembers: channel.channelMembers,
                 createdAt: channel.createdAt || Timestamp.fromDate(new Date()),
@@ -141,6 +142,7 @@ export class ChatService {
                 channelId: channel.channelId,
                 channelName: channel.channelName,
                 channelDescription: channel.channelDescription,
+                channelType: channel.channelType,
                 createdBy: channel.createdBy,
                 channelMembers: channel.channelMembers,
                 createdAt: channel.createdAt,
@@ -237,6 +239,25 @@ export class ChatService {
             );
             const newDocRef = doc(threadRef);
             await setDoc(newDocRef, message);
+        });
+    }
+
+    /**
+     * Aktualisiert die Reaktionen einer Nachricht in Firestore.
+     *
+     * @param channelId Die ID des Kanals, in dem sich die Nachricht befindet
+     * @param messageId Die ID der Nachricht
+     * @param reactions Das aktualisierte Reaktionen-Array
+     * @returns Promise<void>
+     */
+    async updateMessageReactions(channelId: string, messageId: string, reactions: Reaction[]): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const messageRef = doc(firestore, `channels/${channelId}/messages/${messageId}`);
+
+            await updateDoc(messageRef, {
+                reactions: reactions
+            });
         });
     }
 }

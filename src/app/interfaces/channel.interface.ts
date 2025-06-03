@@ -1,10 +1,6 @@
 import {Timestamp} from '@angular/fire/firestore';
 import {UserData} from './user.interface';
 
-/**
- * Represents a communication channel within the application.
- * Can be used for public discussions, private groups, or direct chats.
- */
 export interface ChannelData {
     /**
      * Unique identifier for the channel.
@@ -12,6 +8,9 @@ export interface ChannelData {
      */
     channelId: string;
 
+    /**
+     * The type of communication channel (group channel or direct message).
+     */
     channelType: ChannelType
     /**
      * The display name of the channel shown to users.

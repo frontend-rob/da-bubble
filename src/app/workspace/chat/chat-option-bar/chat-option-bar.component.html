@@ -1,7 +1,16 @@
 <div class="options-container">
     <img src="assets/img/chat/check.svg"/>
     <img src="assets/img/chat/top.svg"/>
-    <img src="assets/img/chat/reaction.svg"/>
+    <img (click)="toggleEmojiModal()" src="assets/img/chat/reaction.svg"/>
     <img (click)="openThread()" src="assets/img/chat/comment.svg"/>
-    <!-- <img *ngIf="isOwnMessage" src="assets/img/chat/more_vert.svg"/> -->
+    <img *ngIf="isOwnMessage" src="assets/img/chat/more_vert.svg"/>
+</div>
+
+<!-- Emoji-Modal einbinden -->
+<div *ngIf="isEmojiModalOpen" class="modal">
+    <ul class="emoji-list">
+        <li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
+            <span class="emoji">{{ emoji }}</span>
+        </li>
+    </ul>
 </div>
