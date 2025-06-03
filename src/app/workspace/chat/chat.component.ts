@@ -46,12 +46,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     isNameEdit = false;
     isDescriptionEdit = false;
     isAddNewChannel = false;
+    isMembersMenuOpen = false;
     isAddMemberModalOpen = false;
     allUserDataSubscription!: Subscription;
     allUserData!: UserData[];
     selectedUsersToAdd: UserData[] = [];
 
-    searchText: string = '';
+    searchText: string = "";
     filteredUsers: UserData[] = [];
 
     private userService: UserService = inject(UserService);
@@ -88,14 +89,17 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
             }
         );
-        this.allUserDataSubscription = this.userService.allUsers$.subscribe(userData => {
-            if (userData) {
-                this.allUserData = userData.filter(user =>
-                    user.uid !== this.currentUser.uid &&
-                    user.userName !== 'Guest'
-                );
+        this.allUserDataSubscription = this.userService.allUsers$.subscribe(
+            (userData) => {
+                if (userData) {
+                    this.allUserData = userData.filter(
+                        (user) =>
+                            user.uid !== this.currentUser.uid &&
+                            user.userName !== "Guest"
+                    );
+                }
             }
-        })
+        );
     }
 
     selectChannel(channel: ChannelData): void {
@@ -197,8 +201,14 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
     }
 
-    addMemberModal() {
+    openMembersMenu() {
         this.isModalBGOpen = true;
+        this.isMembersMenuOpen = true;
+    }
+
+    openAddMemberModal() {
+        this.isModalBGOpen = true;
+        this.isMembersMenuOpen = false;
         this.isAddMemberModalOpen = true;
     }
 
@@ -206,22 +216,25 @@ export class ChatComponent implements OnInit, OnDestroy {
         const text = this.searchText.trim().toLowerCase();
         const currentMembers = this.chatService.selectedChannel.channelMembers;
 
-        this.filteredUsers = this.allUserData.filter(user =>
-            user.userName.toLowerCase().includes(text) &&
-            !this.selectedUsersToAdd.some(sel => sel.uid === user.uid) &&
-            !currentMembers.some(member => member.uid === user.uid)
+        this.filteredUsers = this.allUserData.filter(
+            (user) =>
+                user.userName.toLowerCase().includes(text) &&
+                !this.selectedUsersToAdd.some((sel) => sel.uid === user.uid) &&
+                !currentMembers.some((member) => member.uid === user.uid)
         );
     }
 
     addUserToSelection(user: UserData): void {
         this.selectedUsersToAdd.push(user);
         console.log(this.selectedUsersToAdd);
-        this.searchText = '';
+        this.searchText = "";
         this.onSearchInputChange();
     }
 
     removeUser(user: UserData): void {
-        this.selectedUsersToAdd = this.selectedUsersToAdd.filter(u => u.uid !== user.uid);
+        this.selectedUsersToAdd = this.selectedUsersToAdd.filter(
+            (u) => u.uid !== user.uid
+        );
     }
 
     async addNewMember() {
@@ -229,8 +242,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
         if (!channel || this.selectedUsersToAdd.length === 0) return;
 
-        const newUsers = this.selectedUsersToAdd.filter(newUser =>
-            !channel.channelMembers.some(existing => existing.uid === newUser.uid)
+        const newUsers = this.selectedUsersToAdd.filter(
+            (newUser) =>
+                !channel.channelMembers.some(
+                    (existing) => existing.uid === newUser.uid
+                )
         );
 
         const updatedChannel: ChannelData = {
@@ -247,7 +263,7 @@ export class ChatComponent implements OnInit, OnDestroy {
             this.selectedUsersToAdd = [];
             this.closeModals();
         } catch (error) {
-            console.error('Error adding members:', error);
+            console.error("Error adding members:", error);
         }
     }
 
@@ -257,6 +273,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.isNameEdit = false;
         this.isDescriptionEdit = false;
         this.isAddNewChannel = false;
+        this.isMembersMenuOpen = false;
         this.isAddMemberModalOpen = false;
     }
 }
