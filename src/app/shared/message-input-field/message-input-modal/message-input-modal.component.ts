@@ -16,19 +16,19 @@ export class MessageInputModalComponent {
     @Input() users!: UserData[];
     @Input() channels!: ChannelData[];
     @Input() emojiList!: string[];
-    @Output() choosenChannelTag = new EventEmitter<string>();
-    @Output() choosenUserTag = new EventEmitter<string>();
-    @Output() choosenEmoji = new EventEmitter<string>();
+    @Output() chosenChannelTag = new EventEmitter<string>();
+    @Output() chosenUserTag = new EventEmitter<string>();
+    @Output() chosenEmoji = new EventEmitter<string>();
 
     addUserTag(userName: string) {
-        this.choosenUserTag.emit(userName);
+        this.chosenUserTag.emit(userName);
     }
 
     addChannelTag(channelName: string) {
-        this.choosenChannelTag.emit(channelName);
+        this.chosenChannelTag.emit(channelName);
     }
 
     addEmoji(emojiName: string) {
-        this.choosenEmoji.emit(emojiName);
+        this.chosenEmoji.emit(emojiName);
     }
 }

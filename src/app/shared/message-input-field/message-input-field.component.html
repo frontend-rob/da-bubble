@@ -35,21 +35,21 @@
         </div>
 
         <app-message-input-modal
-            (choosenEmoji)="addEmoji($event)"
+            (chosenEmoji)="addEmoji($event)"
             [emojiList]="emojiList"
             [isEmojiModalOpen]="isEmojiModalOpen"
         >
         </app-message-input-modal>
 
         <app-message-input-modal
-            (choosenUserTag)="addUserTag($event)"
+            (chosenUserTag)="addUserTag($event)"
             [isUserTagModalOpen]="isUserTagModalOpen"
             [users]="users"
         >
         </app-message-input-modal>
 
         <app-message-input-modal
-            (choosenChannelTag)="addChannelTag($event)"
+            (chosenChannelTag)="addChannelTag($event)"
             [channels]="channels"
             [isChannelTagModalOpen]="isChannelTagModalOpen"
         >
