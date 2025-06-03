@@ -50,7 +50,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     constructor(private chatService: ChatService) {
     }
 
-    ngOnInit():void {
+    ngOnInit(): void {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
             if (userData) {
                 this.currentUser = userData;
@@ -60,7 +60,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
         this.userDataSubscription = this.userService.allUsers$.subscribe(userData => {
             if (userData) {
-                this.chats = userData;
+                this.chats = userData.filter(user =>
+                    user.uid !== this.currentUser.uid &&
+                    user.userName !== 'Guest'
+                );
             }
         })
     }
@@ -83,6 +86,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     loadChannels(): void {
         this.channelsSubscription = this.chatService.getChannels().subscribe(
             (channelsData: ChannelData[]) => {
+                this.channels = [];
                 for (const channel of channelsData) {
                     const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
                     if (isMember) this.channels.push(channel);
@@ -92,6 +96,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                 console.error('Error loading channels:', error);
             }
         );
+        if (this.channels.length !== 0) {this.setActiveChat(this.channels[0].channelId)}
     }
 
     toggleNav() {
@@ -108,7 +113,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     setActiveChat(id: string) {
         this.activeMenuItem = id
-        this.channels.forEach((channel:ChannelData) => {
+        this.channels.forEach((channel: ChannelData) => {
             if (channel.channelId === id) {
                 this.functionTriggerService.callSelectChannel(channel)
             }
