@@ -91,12 +91,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                     const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
                     if (isMember) this.channels.push(channel);
                 }
+                if (this.channels.length !== 0) {this.setActiveChat(this.channels[0].channelId)}
+
             },
             error => {
                 console.error('Error loading channels:', error);
             }
         );
-        if (this.channels.length !== 0) {this.setActiveChat(this.channels[0].channelId)}
     }
 
     toggleNav() {
