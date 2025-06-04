@@ -1,5 +1,19 @@
 @use "../../../../styles/variables" as variables;
 
+:host.option-bar-own .options-container {
+    right: auto;
+    left: 48px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 0;
+}
+
+:host.option-bar-other .options-container {
+    right: 48px;
+    left: auto;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 24px;
+}
+
 .options-container {
     display: flex;
     justify-content: center;
@@ -49,4 +63,47 @@
     .emoji {
         font-size: 18px;
     }
+}
+
+.options-menu {
+    position: absolute;
+    top: 8px;
+    right: 48px;
+    background-color: #ffffff;
+    border: 1px solid #adb0d9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f5f5f5;
+            }
+
+            img {
+                width: 18px;
+                height: 18px;
+                margin-right: 8px;
+            }
+
+            span {
+                font-size: 14px;
+            }
+        }
+    }
+}
+
+:host-context(.own-message) .options-menu {
+    right: auto;
+    left: 48px;
 }

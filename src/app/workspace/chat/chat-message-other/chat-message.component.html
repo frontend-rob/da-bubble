@@ -7,13 +7,28 @@
     <img [src]="message.sender.photoURL" alt="assets/img/avatars/av-04.svg"/>
     <div class="message-content-container">
         <div class="author-container">
-            <span (click)="handleProfileCard(true)" class="author-name">{{
-                    message.sender.userName
-                }}</span>
+        <span (click)="handleProfileCard(true)" class="author-name">{{
+                message.sender.userName
+            }}</span>
             <span class="message-time">{{ message.time }} Uhr</span>
         </div>
 
-        <div class="message">{{ message.text }}</div>
+
+        <div *ngIf="!isEditing" class="message">
+            {{ message.text }}
+            <span *ngIf="message.edited" class="edited-indicator">(bearbeitet)</span>
+        </div>
+        <div *ngIf="isEditing" class="message-edit-container">
+        <textarea
+            [(ngModel)]="editedText"
+            class="message-edit-input"
+            autoFocus>
+        </textarea>
+            <div class="edit-actions">
+                <button (click)="saveEditedMessage()" class="edit-save-btn">Speichern</button>
+                <button (click)="cancelEditing()" class="edit-cancel-btn">Abbrechen</button>
+            </div>
+        </div>
         <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
             <div *ngFor="let group of groupedReactions" class="reaction"
                  [class.user-reacted]="hasUserReacted(group.emoji)"
@@ -51,8 +66,9 @@
             [message]="message"
             [isOwnMessage]="isOwnMessage"
             [emojiList]="emojiList"
-            (chosenEmoji)="handleEmojiReaction($event, message)">
-            >
+            [ngClass]="isOwnMessage ? 'option-bar-own' : 'option-bar-other'"
+            (chosenEmoji)="handleEmojiReaction($event, message)"
+            (editMessage)="startEditingMessage($event)">
         </app-chat-option-bar>
     </div>
 </div>

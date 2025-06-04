@@ -260,4 +260,18 @@ export class ChatService {
             });
         });
     }
+
+    // Methode zum Aktualisieren des Nachrichtentexts
+    updateMessageText(channelId: string, messageId: string, newText: string) {
+        runInInjectionContext(this.environmentInjector, () => {
+            const firestore = inject(Firestore);
+            const messageRef = doc(firestore, 'channels', channelId, 'messages', messageId);
+
+            return updateDoc(messageRef, {
+                text: newText,
+                edited: true,
+                editedAt: Timestamp.fromDate(new Date())
+            });
+        })
+    }
 }

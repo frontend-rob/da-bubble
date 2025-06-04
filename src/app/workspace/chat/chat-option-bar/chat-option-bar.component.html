@@ -3,14 +3,29 @@
     <img src="assets/img/chat/top.svg"/>
     <img (click)="toggleEmojiModal()" src="assets/img/chat/reaction.svg"/>
     <img (click)="openThread()" src="assets/img/chat/comment.svg"/>
-    <img *ngIf="isOwnMessage" src="assets/img/chat/more_vert.svg"/>
+    <img *ngIf="isOwnMessage" (click)="toggleOptionsMenu()" src="assets/img/chat/more_vert.svg"/>
 </div>
 
-<!-- Emoji-Modal einbinden -->
+<!-- Emoji-Modal -->
 <div *ngIf="isEmojiModalOpen" class="modal">
     <ul class="emoji-list">
         <li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
             <span class="emoji">{{ emoji }}</span>
+        </li>
+    </ul>
+</div>
+
+<!-- Options-Menü für eigene Nachrichten -->
+<div *ngIf="isOptionsMenuOpen && isOwnMessage" class="options-menu">
+    <ul>
+        <li (click)="startEditing()">
+            <img src="" alt="Edit"/>
+            <span>Nachricht bearbeiten</span>
+        </li>
+        <!-- Weitere Optionen können hier hinzugefügt werden -->
+        <li (click)="toggleOptionsMenu()">
+            <img src="assets/img/chat/close.svg" alt="Cancel"/>
+            <span>Abbrechen</span>
         </li>
     </ul>
 </div>
