@@ -36,7 +36,11 @@
                 </div>
 
                 <!-- MEMBERS MENU MODAL -->
-                <div *ngIf="isMembersMenuOpen" class="members-menu-modal">
+                <div
+                    *ngIf="isMembersMenuOpen"
+                    [ngStyle]="{ 'z-index': isProfileCardOpen ? 1 : 10 }"
+                    class="members-menu-modal"
+                >
                     <header class="members-menu-modal-header">
                         <div>
                             <h1>Members</h1>
@@ -47,6 +51,7 @@
                     </header>
                     <div class="members-list">
                         <div
+                            (click)="handleProfileCard(true, member)"
                             *ngFor="
                                 let member of this.chatService.selectedChannel
                                     .channelMembers
@@ -64,7 +69,14 @@
                                         class="status"
                                     ></div>
                                 </div>
-                                <div>{{ member.userName }}</div>
+                                <div>
+                                    {{ member.userName }}
+                                    <span
+                                        *ngIf="currentUser.uid === member.uid"
+                                    >
+                                        (You)</span
+                                    >
+                                </div>
                             </div>
                         </div>
                     </div>
