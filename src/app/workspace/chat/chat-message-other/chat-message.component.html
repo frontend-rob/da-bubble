@@ -61,7 +61,7 @@
         </div>
     </div>
 
-    <div>
+    <div *ngIf="hovered">
         <app-chat-option-bar
             [message]="message"
             [isOwnMessage]="isOwnMessage"

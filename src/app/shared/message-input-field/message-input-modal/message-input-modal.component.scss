@@ -2,7 +2,6 @@
 @use "./../../../../styles/variables" as variables;
 
 .modal {
-    padding: 20px;
     width: fit-content;
     height: fit-content;
     background-color: variables.$bg-base-200;
@@ -15,14 +14,14 @@
 }
 
 .emoji-list {
-    display: flex;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 16px;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
-    width: 200px;
-    flex-wrap: wrap;
 
-    > li {
+    >li {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -30,15 +29,17 @@
         gap: 16px;
         width: calc(25% - 12px);
         height: 40px;
+        width: 40px;
         border-radius: 32px;
         list-style-type: none;
+        font-size: 24px;
 
         &:hover {
             background-color: variables.$bg-neutral-hover;
             cursor: pointer;
         }
 
-        > img {
+        >img {
             width: 20px;
             height: 20px;
         }
@@ -53,7 +54,7 @@
     gap: 16px;
     width: 100%;
 
-    > li {
+    >li {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -68,10 +69,10 @@
             cursor: pointer;
         }
 
-        > div {
+        >div {
             position: relative;
 
-            > img {
+            >img {
                 width: 50px;
                 height: 50px;
             }
@@ -106,7 +107,7 @@
     gap: 16px;
     width: 100%;
 
-    > li {
+    >li {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -121,7 +122,7 @@
             cursor: pointer;
         }
 
-        > img {
+        >img {
             width: 16px;
             height: 16px;
         }
