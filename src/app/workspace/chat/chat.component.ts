@@ -69,6 +69,16 @@ export class ChatComponent implements OnInit, OnDestroy {
         return this.chatService.isNewMessage;
     }
 
+    get isProfileCardOpen() {
+        return this.chatService.isProfileCardOpen;
+    }
+
+    handleProfileCard(bool: boolean, memberObj: UserData) {
+        if (this.currentUser.uid !== memberObj.uid) {
+            this.chatService.handleProfileCard(bool);
+        }
+    }
+
     trackByMessageId: TrackByFunction<Message> = (
         index: number,
         message: Message
