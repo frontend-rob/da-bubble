@@ -42,6 +42,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     // Neue Eigenschaften hinzufügen
     isEditing: boolean = false;
     editedText: string = '';
+    hovered: boolean = false;
 
     constructor(
         private chatService: ChatService,
@@ -67,7 +68,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     }
 
     toggleHovered(bool: boolean) {
-        this.isHovered = bool;
+        this.hovered = bool;
     }
 
     handleProfileCard(bool: boolean) {

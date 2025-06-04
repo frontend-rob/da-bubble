@@ -3,7 +3,7 @@
 :host.option-bar-own .options-container {
     right: auto;
     left: 48px;
-    border-bottom-right-radius: 24px;
+    border-bottom-right-radius: 30px;
     border-bottom-left-radius: 0;
 }
 
@@ -11,67 +11,97 @@
     right: 48px;
     left: auto;
     border-bottom-right-radius: 0;
-    border-bottom-left-radius: 24px;
+    border-bottom-left-radius: 30px;
 }
 
 .options-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 16px;
-    gap: 8px;
+    padding: 16px;
+    gap: 16px;
     border: 1px solid variables.$border;
-    border-radius: 24px;
+    border-radius: 30px;
     border-bottom-right-radius: 0;
     background-color: variables.$bg-base-200;
     position: absolute;
     top: -16px;
     right: 48px;
+
+    span {
+        font-size: 24px;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
 }
 
 .modal {
     position: absolute;
-    background-color: white;
-    border-radius: 8px;
+    background-color: variables.$bg-base-200;
+    border: 1px solid variables.$border;
+    border-radius: 20px;
+    border-top-left-radius: 0;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    padding: 8px;
-
-    // Position anpassen
-    bottom: 40px;
-    left: 50%;
+    top: 16px;
+    left: 25%;
     transform: translateX(-50%);
 }
 
 .emoji-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
     list-style: none;
-    padding: 0;
-    margin: 0;
 
-    li {
-        cursor: pointer;
+    >li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 4px;
+        gap: 16px;
+        width: calc(25% - 12px);
+        height: 40px;
+        width: 40px;
+        border-radius: 32px;
+        list-style-type: none;
+        font-size: 24px;
 
         &:hover {
-            background-color: #f5f5f5;
-            border-radius: 4px;
+            background-color: variables.$bg-neutral-hover;
+            cursor: pointer;
         }
-    }
 
-    .emoji {
-        font-size: 18px;
+        >img {
+            width: 20px;
+            height: 20px;
+        }
     }
 }
 
 .options-menu {
     position: absolute;
-    top: 8px;
-    right: 48px;
+    top: 16px;
+    left: 48px;
     background-color: #ffffff;
     border: 1px solid #adb0d9;
-    border-radius: 8px;
+    border-radius: 30px;
+    border-top-left-radius: 0;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
 
@@ -87,7 +117,9 @@
             cursor: pointer;
 
             &:hover {
-                background-color: #f5f5f5;
+                background-color: variables.$bg-base-100;
+                border-radius: 30px;
+                color: variables.$bg-primary-accent;
             }
 
             img {
@@ -97,13 +129,21 @@
             }
 
             span {
-                font-size: 14px;
+                font-size: 18px;
+                text-align: center;
+                width: 100%;
+
+                &:hover {
+                    font-weight: 600;
+                }
             }
         }
     }
 }
 
 :host-context(.own-message) .options-menu {
+    width: 200px;
+    padding: 1rem;
     right: auto;
-    left: 48px;
+    left: 208px;
 }

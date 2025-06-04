@@ -49,4 +49,10 @@ export class ChatOptionBarComponent {
         this.editMessage.emit(this.message);
         this.isOptionsMenuOpen = false;
     }
+
+    deleteMessage() {}
+
+    addQuickReaction() {
+        this.chosenEmoji.emit("\u{1F44D}");
+    }
 }
