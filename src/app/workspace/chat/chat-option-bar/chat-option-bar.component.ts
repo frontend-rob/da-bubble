@@ -15,8 +15,10 @@ export class ChatOptionBarComponent {
     @Input() emojiList!: string[];
 
     isEmojiModalOpen: boolean = false;
+    isOptionsMenuOpen: boolean = false;
 
     @Output() chosenEmoji = new EventEmitter<string>();
+    @Output() editMessage = new EventEmitter<IdtMessages>();
 
     constructor(private chatService: ChatService) {
     }
@@ -30,10 +32,21 @@ export class ChatOptionBarComponent {
 
     toggleEmojiModal() {
         this.isEmojiModalOpen = !this.isEmojiModalOpen;
+        this.isOptionsMenuOpen = false;
+    }
+
+    toggleOptionsMenu() {
+        this.isOptionsMenuOpen = !this.isOptionsMenuOpen;
+        this.isEmojiModalOpen = false;
     }
 
     addEmoji(emojiName: string) {
         this.chosenEmoji.emit(emojiName);
         this.isEmojiModalOpen = false;
+    }
+
+    startEditing() {
+        this.editMessage.emit(this.message);
+        this.isOptionsMenuOpen = false;
     }
 }

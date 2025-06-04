@@ -82,6 +82,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
         const message: Message = {
             text: content,
             sender: this.currentUser,
+            edited: false,
             timestamp: Timestamp.fromDate(new Date()),
             time: this.helperService.getBerlinTime24h(),
             date: this.helperService.getBerlinDateFormatted(),

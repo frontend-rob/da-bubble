@@ -16,6 +16,7 @@ export interface Message {
     time: string;
     date: string;
     reactions: Reaction[];
+    edited: boolean;
     hasThread?: boolean;
     threadLastTime?: string;
     threadAnswerCount?: number;

@@ -7,10 +7,11 @@ import {UserService} from '../../../services/user.service';
 import {Subscription} from 'rxjs';
 import {UserData} from '../../../interfaces/user.interface';
 import {Timestamp} from '@angular/fire/firestore';
+import {FormsModule} from '@angular/forms';
 
 @Component({
     selector: "app-chat-message-other",
-    imports: [CommonModule, ChatOptionBarComponent],
+    imports: [CommonModule, ChatOptionBarComponent, FormsModule],
     templateUrl: "./chat-message.component.html",
     styleUrl: "./chat-message.component.scss",
 })
@@ -37,6 +38,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         "\u{2705}", // ✅
         "\u{1F680}", // 🚀
     ];
+
+    // Neue Eigenschaften hinzufügen
+    isEditing: boolean = false;
+    editedText: string = '';
 
     constructor(
         private chatService: ChatService,
@@ -130,5 +135,28 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         return this.message.reactions.some(
             r => r.emoji === emoji && r.userId === this.currentUser.uid
         );
+    }
+
+    // Neue Methode für das Starten der Bearbeitung
+    startEditingMessage(message: IdtMessages) {
+        this.isEditing = true;
+        this.editedText = message.text;
+    }
+
+    // Methode zum Speichern der bearbeiteten Nachricht
+    saveEditedMessage() {
+        if (this.message.messageId && this.editedText.trim() !== '') {
+            this.chatService.updateMessageText(
+                this.chatService.selectedChannel.channelId,
+                this.message.messageId,
+                this.editedText
+            );
+            this.isEditing = false;
+        }
+    }
+
+    // Methode zum Abbrechen der Bearbeitung
+    cancelEditing() {
+        this.isEditing = false;
     }
 }
