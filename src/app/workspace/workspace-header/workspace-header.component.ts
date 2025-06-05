@@ -68,5 +68,7 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
             .catch((error) => {
                 console.error("Logout failed:", error);
             });
+
+        this.userService.handleUserMenu(false);
     }
 }
