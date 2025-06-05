@@ -47,8 +47,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private channelsSubscription!: Subscription;
     private functionTriggerService: FunctionTriggerService = inject(FunctionTriggerService);
 
-    constructor(private chatService: ChatService) {
-    }
+    constructor(private chatService: ChatService) {}
 
     ngOnInit(): void {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {

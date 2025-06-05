@@ -2,12 +2,12 @@
     <div class="main-menu-container">
         <header>
             <div>
-                <img src="assets/img/main-menu/logo.svg"/>
+                <img src="assets/img/main-menu/logo.svg" />
                 <h1>Devspace</h1>
             </div>
 
             <div class="add-new-channel-btn">
-                <img (click)="toogleNewMessageHeader()" src="assets/img/main-menu/edit_square.svg"/>
+                <img (click)="toogleNewMessageHeader()" src="assets/img/main-menu/edit_square.svg" />
             </div>
         </header>
 
@@ -16,29 +16,30 @@
                 <header>
                     <div (click)="toggleChannelList()" [class.close-list-btn]="showChannelList">
                         <div>
-                            <img class="dropdown-img" src="assets/img/main-menu/arrow_close_dropdown.svg"/>
+                            <img class="dropdown-img" src="assets/img/main-menu/arrow_close_dropdown.svg" />
                         </div>
                         <div>
                             <div>
-                                <img class="channel-img" src="assets/img/main-menu/channels.svg"/>
+                                <img class="channel-img" src="assets/img/main-menu/channels.svg" />
                             </div>
                             <h2>Channels</h2>
                         </div>
                     </div>
 
                     <div (click)="toggleModal()" class="button">
-                        <img src="assets/img/main-menu/add.svg"/>
+                        <img src="assets/img/main-menu/add.svg" />
                     </div>
                 </header>
 
                 <div [class.close-list]="showChannelList" class="menu-list-container">
                     <div class="menu-list">
-                        <app-channel-list-item (activeMenuItem)="setActiveChat($event)" *ngFor="let channel of channels"
-                                               [active]="channel.channelId === activeMenuItem" [channel]="channel"
-                                               class="channel-list-item"></app-channel-list-item>
+                        <app-channel-list-item class="channel-list-item" (activeMenuItem)="setActiveChat($event)"
+                            *ngFor="let channel of channels" [active]="channel.channelId === activeMenuItem"
+                            [channel]="channel">
+                        </app-channel-list-item>
                         <div (click)="toggleModal();" class="add-channel-btn">
                             <div>
-                                <img src="assets/img/main-menu/add_circle.svg"/>
+                                <img src="assets/img/main-menu/add_circle.svg" />
                             </div>
                             <h3>New Channel</h3>
                         </div>
@@ -50,11 +51,11 @@
                 <header>
                     <div (click)="toggleDirectMessageList()" [class.close-list-btn]="showUserList">
                         <div>
-                            <img class="dropdown-img" src="assets/img/main-menu/arrow_close_dropdown.svg"/>
+                            <img class="dropdown-img" src="assets/img/main-menu/arrow_close_dropdown.svg" />
                         </div>
                         <div>
                             <div>
-                                <img class="direct-messages-img" src="assets/img/main-menu/direct_messages.svg"/>
+                                <img class="direct-messages-img" src="assets/img/main-menu/direct_messages.svg" />
                             </div>
                             <h2>Direct Messages</h2>
                         </div>
@@ -64,8 +65,9 @@
                 <div [class.close-list]="showUserList" class="menu-list-container">
                     <div class="menu-list">
                         <app-direct-message-list-item (activeMenuItem)="setActiveChat($event)"
-                                                      *ngFor="let chat of chats" [active]="chat.uid === activeMenuItem"
-                                                      [chat]="chat"></app-direct-message-list-item>
+                            *ngFor="let chat of chats" [active]="chat.uid === activeMenuItem"
+                            [chat]="chat">
+                        </app-direct-message-list-item>
                     </div>
                 </div>
             </div>
@@ -86,18 +88,18 @@
                             </div>
                         </div>
                         <div (click)="toggleModal()" class="close-btn">
-                            <img src="assets/img/chat/close.svg"/>
+                            <img src="assets/img/chat/close.svg" />
                         </div>
                     </header>
                     <form #channelForm="ngForm"
-                          (ngSubmit)="addNewChannel(channelFormData.name, channelFormData.description)"
-                          class="modal-main">
+                        (ngSubmit)="addNewChannel(channelFormData.name, channelFormData.description)"
+                        class="modal-main">
                         <div>
                             <h2>Channel-Name</h2>
                             <div class="input-container">
-                                <img src="/assets/img/main-menu/channel_tag_grey.svg"/>
+                                <img src="/assets/img/main-menu/channel_tag_grey.svg" />
                                 <input [(ngModel)]="channelFormData.name" id="name" name="name"
-                                       placeholder="e.g. marketing" required type="text"/>
+                                    placeholder="e.g. marketing" required type="text" />
                             </div>
                         </div>
 
@@ -105,7 +107,7 @@
                             <h2>Description <span>(optional)</span></h2>
                             <div class="input-container">
                                 <input [(ngModel)]="channelFormData.description" id="description" name="description"
-                                       placeholder="Your description text" type="text"/>
+                                    placeholder="Your description text" type="text" />
                             </div>
                         </div>
 
@@ -122,7 +124,7 @@
 <div class="menunav-button-container">
     <div (click)="toggleNav()" [class.close-menu-button]="isOpen" class="menunav-button">
         <span class="text-menu-button">{{
-                isOpen ? isClosedText : isOpenText
+            isOpen ? isClosedText : isOpenText
             }}</span>
         <div [ngClass]="isOpen ? 'img-close' : 'img-open'" class="img-field"></div>
     </div>

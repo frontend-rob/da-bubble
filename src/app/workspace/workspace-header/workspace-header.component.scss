@@ -23,7 +23,7 @@
     justify-content: space-between;
     padding: 17.5px 45px;
 
-    > input {
+    >input {
         border: none;
         width: 100%;
         font-size: 24px;
@@ -46,14 +46,21 @@
     flex: 1;
     gap: 20px;
     position: relative;
+    cursor: pointer;
 
-    > span {
+    >span {
         font-size: 32px;
         font-weight: 700;
     }
 
-    > img {
+    >img {
         cursor: pointer;
+    }
+
+    &:hover {
+        span {
+            color: variables.$text-hover;
+        }
     }
 }
 
@@ -75,15 +82,15 @@
     font-weight: 600;
     font-size: 24px;
 
-    > div {
+    >div {
         cursor: pointer;
         padding: 10px 70px;
-    }
 
-    :nth-child(2):hover {
-        background-color: variables.$bg-base-100;
-        border-radius: 100px;
-        color: variables.$text-hover;
+        &:hover {
+            background-color: variables.$bg-base-100;
+            border-radius: 100px;
+            color: variables.$text-hover;
+        }
     }
 }
 
@@ -94,17 +101,21 @@
     z-index: 10;
 }
 
-.profile-avatar {
+.avatar {
     position: relative;
-    height: 75px;
-    width: 75px;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    > .status {
-        width: 10px;
-        height: 10px;
+    img {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+    }
+
+    >.status {
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
         position: absolute;
         bottom: 0px;
@@ -121,7 +132,7 @@
         }
     }
 
-    > img {
+    >img {
         border-radius: 50%;
     }
 }

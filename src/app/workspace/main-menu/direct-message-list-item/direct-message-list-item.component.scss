@@ -1,12 +1,12 @@
 @use "../../../../styles/variables" as variables;
 
 .menu-item {
-    padding: 2px 15px;
+    padding: 8px 16px;
     display: flex;
     justify-self: flex-start;
     align-items: center;
     gap: 10px;
-    border-radius: 20px;
+    border-radius: 32px;
     cursor: pointer;
 
     > .avatar {
@@ -23,7 +23,7 @@
             border-radius: 50%;
             position: absolute;
             bottom: 0px;
-            right: 0px;
+            right: -2px;
             border: 2px solid variables.$bg-base-200;
 
             &.online {
