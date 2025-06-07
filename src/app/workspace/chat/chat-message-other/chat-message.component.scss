@@ -53,11 +53,12 @@
     border-bottom-left-radius: 30px;
     padding: 15px;
     background-color: variables.$bg-neutral-hover;
+    color: variables.$text-inverse;
 }
 
 .own-message {
     .message {
-        background-color: variables.$bg-primary-accent!important;
+        background-color: variables.$bg-primary-accent !important;
         border-top-left-radius: 30px;
         border-top-right-radius: 0;
     }
@@ -97,30 +98,30 @@
 }
 
 .reaction {
-  display: flex;
-  align-items: center;
-  background-color: #f2f2f2;
-  border-radius: 12px;
-  padding: 2px 8px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    background-color: #f2f2f2;
+    border-radius: 12px;
+    padding: 2px 8px;
+    cursor: pointer;
 
-  &:hover {
-    background-color: #e6e6e6;
-  }
+    &:hover {
+        background-color: #e6e6e6;
+    }
 
-  &.user-reacted {
-    background-color: #e1f5fe;
-    border: 1px solid #81d4fa;
-  }
+    &.user-reacted {
+        background-color: #e1f5fe;
+        border: 1px solid #81d4fa;
+    }
 
-  .emoji {
-    margin-right: 4px;
-  }
+    .emoji {
+        margin-right: 4px;
+    }
 
-  .count {
-    font-size: 12px;
-    color: #666;
-  }
+    .count {
+        font-size: 12px;
+        color: #666;
+    }
 }
 
 .message-edit-container {
@@ -175,5 +176,6 @@
 .edited-indicator {
     font-size: 12px;
     color: #6c757d;
+    color: variables.$text-inverse;
     margin-left: 4px;
 }

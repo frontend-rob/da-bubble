@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message, Reaction} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message, Reaction } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -13,6 +18,8 @@ import {
     Timestamp,
     updateDoc,
 } from "@angular/fire/firestore";
+import { UserData } from "../interfaces/user.interface";
+import { User } from "@angular/fire/auth";
 
 @Injectable({
     providedIn: "root",
@@ -23,21 +30,28 @@ export class ChatService {
     selectedThreadMessageId!: string;
     private environmentInjector = inject(EnvironmentInjector);
     private _isThreadOpen = false;
+    private _isNewMessage = false;
+    private _isProfileCardOpen = false;
+    private _currentPerson!: UserData;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
     }
 
-    private _isNewMessage = false;
-
     get isNewMessage(): boolean {
         return this._isNewMessage;
     }
 
-    private _isProfileCardOpen = false;
-
     get isProfileCardOpen(): boolean {
         return this._isProfileCardOpen;
+    }
+
+    get currentPerson(): UserData {
+        return this._currentPerson;
+    }
+
+    setCurrentPerson(person: UserData) {
+        this._currentPerson = person;
     }
 
     handleThread(bool: boolean) {
@@ -82,7 +96,7 @@ export class ChatService {
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, {threadChannelName: name});
+            await updateDoc(msgRef, { threadChannelName: name });
         });
     }
 
@@ -96,7 +110,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, {idField: "channelId"}) as Observable<
+            return collectionData(q, { idField: "channelId" }) as Observable<
                 ChannelData[]
             >;
         });
@@ -137,7 +151,11 @@ export class ChatService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             if (!channel.channelId) return;
-            const channelDoc = doc(firestore, "channels", channel.channelId.toString());
+            const channelDoc = doc(
+                firestore,
+                "channels",
+                channel.channelId.toString()
+            );
             await updateDoc(channelDoc, {
                 channelId: channel.channelId,
                 channelName: channel.channelName,
@@ -148,7 +166,7 @@ export class ChatService {
                 createdAt: channel.createdAt,
                 updatedAt: Timestamp.fromDate(new Date()),
             });
-        })
+        });
     }
 
     /**
@@ -165,7 +183,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -212,7 +230,7 @@ export class ChatService {
                 `channels/${channelId}/messages/${parentMessageId}/thread`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -250,13 +268,20 @@ export class ChatService {
      * @param reactions Das aktualisierte Reaktionen-Array
      * @returns Promise<void>
      */
-    async updateMessageReactions(channelId: string, messageId: string, reactions: Reaction[]): Promise<void> {
+    async updateMessageReactions(
+        channelId: string,
+        messageId: string,
+        reactions: Reaction[]
+    ): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
-            const messageRef = doc(firestore, `channels/${channelId}/messages/${messageId}`);
+            const messageRef = doc(
+                firestore,
+                `channels/${channelId}/messages/${messageId}`
+            );
 
             await updateDoc(messageRef, {
-                reactions: reactions
+                reactions: reactions,
             });
         });
     }
@@ -265,13 +290,19 @@ export class ChatService {
     updateMessageText(channelId: string, messageId: string, newText: string) {
         runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
-            const messageRef = doc(firestore, 'channels', channelId, 'messages', messageId);
+            const messageRef = doc(
+                firestore,
+                "channels",
+                channelId,
+                "messages",
+                messageId
+            );
 
             return updateDoc(messageRef, {
                 text: newText,
                 edited: true,
-                editedAt: Timestamp.fromDate(new Date())
+                editedAt: Timestamp.fromDate(new Date()),
             });
-        })
+        });
     }
 }
