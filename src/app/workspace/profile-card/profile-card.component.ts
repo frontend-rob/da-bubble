@@ -1,8 +1,8 @@
-import {CommonModule} from "@angular/common";
-import {Component, Input} from "@angular/core";
-import {ChatService} from "../../services/chat.service";
-import {UserService} from "../../services/user.service";
-import {UserData} from "../../interfaces/user.interface";
+import { CommonModule } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { ChatService } from "../../services/chat.service";
+import { UserService } from "../../services/user.service";
+import { UserData } from "../../interfaces/user.interface";
 
 @Component({
     selector: "app-profile-card",
@@ -11,13 +11,12 @@ import {UserData} from "../../interfaces/user.interface";
     styleUrl: "./profile-card.component.scss",
 })
 export class ProfileCardComponent {
-    @Input() currentUser!: UserData;
+    @Input() currentPerson!: UserData;
 
     constructor(
         private userService: UserService,
         private chatService: ChatService
-    ) {
-    }
+    ) {}
 
     get isUserProfileCardOpen() {
         return this.userService.isUserProfileCardOpen;
@@ -26,6 +25,10 @@ export class ProfileCardComponent {
     get isProfileCardOpen() {
         return this.chatService.isProfileCardOpen;
     }
+
+    // get currentMember() {
+    //     return this.chatService.currentMember;
+    // }
 
     closeProfileCard() {
         this.userService.handleUserProfileCard(false);

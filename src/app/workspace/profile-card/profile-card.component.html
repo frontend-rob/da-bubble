@@ -3,22 +3,23 @@
         <header>
             <h2>Profile</h2>
             <div (click)="closeProfileCard()" class="button">
-                <img src="assets/img/profile-card/close.svg"/>
+                <img src="assets/img/profile-card/close.svg" />
             </div>
         </header>
 
         <div class="profile-img-container">
-            <img src="assets/img/avatar1.svg"/>
+            <img [src]="currentPerson.photoURL" />
         </div>
 
         <div>
             <div class="name-container">
                 <div>
-                    <h1 *ngIf="currentUser">{{ currentUser.userName }}</h1>
+                    <h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
 
                     <button
                         *ngIf="
-                            isUserProfileCardOpen && currentUser.role == 'user'
+                            isUserProfileCardOpen &&
+                            currentPerson.role == 'user'
                         "
                     >
                         Bearbeiten
@@ -27,28 +28,32 @@
                 <div class="online-status">
                     <div
                         [class]="
-                            currentUser.status === 'online'
+                            currentPerson.status === 'online'
                                 ? 'online'
                                 : 'offline'
                         "
                         class="status-icon"
                     ></div>
-                    {{ currentUser.status === "online" ? "Active" : "Offline" }}
+                    {{
+                        currentPerson.status === "online" ? "Active" : "Offline"
+                    }}
                 </div>
             </div>
         </div>
 
         <div class="email-container">
             <div>
-                <img src="assets/img/profile-card/letter.svg"/>
+                <img src="assets/img/profile-card/letter.svg" />
                 <div>Email-Adress</div>
             </div>
-            <a *ngIf="currentUser" href="mailto: #">{{ currentUser.email }}</a>
+            <a *ngIf="currentPerson" href="mailto: {{ currentPerson.email }}">{{
+                currentPerson.email
+            }}</a>
         </div>
 
         <div *ngIf="isProfileCardOpen" class="button-container">
             <button>
-                <img src="assets/img/profile-card/bubble.svg"/>Message
+                <img src="assets/img/profile-card/bubble.svg" />Message
             </button>
         </div>
     </div>

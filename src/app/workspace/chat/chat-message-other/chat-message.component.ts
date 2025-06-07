@@ -1,13 +1,13 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
-import {IdtMessages, Reaction} from "../../../interfaces/message.interface";
-import {ChatService} from "../../../services/chat.service";
-import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
-import {CommonModule} from "@angular/common";
-import {UserService} from '../../../services/user.service';
-import {Subscription} from 'rxjs';
-import {UserData} from '../../../interfaces/user.interface';
-import {Timestamp} from '@angular/fire/firestore';
-import {FormsModule} from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { IdtMessages, Reaction } from "../../../interfaces/message.interface";
+import { ChatService } from "../../../services/chat.service";
+import { ChatOptionBarComponent } from "../chat-option-bar/chat-option-bar.component";
+import { CommonModule } from "@angular/common";
+import { UserService } from "../../../services/user.service";
+import { Subscription } from "rxjs";
+import { UserData } from "../../../interfaces/user.interface";
+import { Timestamp } from "@angular/fire/firestore";
+import { FormsModule } from "@angular/forms";
 
 @Component({
     selector: "app-chat-message-other",
@@ -41,29 +41,28 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
 
     // Neue Eigenschaften hinzufügen
     isEditing: boolean = false;
-    editedText: string = '';
+    editedText: string = "";
     hovered: boolean = false;
 
     constructor(
         private chatService: ChatService,
         private userService: UserService
-    ) {
-
-    }
+    ) {}
 
     ngOnInit() {
-        this.currentUserSubscription = this.userService.currentUser$.subscribe(user => {
-            if (user) {
-                this.currentUser = user
+        this.currentUserSubscription = this.userService.currentUser$.subscribe(
+            (user) => {
+                if (user) {
+                    this.currentUser = user;
+                }
             }
-        })
+        );
     }
 
     openThread() {
         this.chatService.handleThread(true);
         if (this.message.messageId) {
             this.chatService.selectedThreadMessageId = this.message.messageId;
-
         }
     }
 
@@ -71,17 +70,16 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         this.hovered = bool;
     }
 
-    handleProfileCard(bool: boolean) {
+    handleProfileCard(bool: boolean, person: UserData) {
         this.chatService.handleProfileCard(bool);
+        this.chatService.setCurrentPerson(person);
     }
 
     get isOwnMessage(): boolean {
         return this.message.sender.uid === this.currentUser.uid;
     }
 
-    ngOnDestroy() {
-
-    }
+    ngOnDestroy() {}
 
     handleEmojiReaction(emoji: string, message: IdtMessages) {
         if (!message.reactions) {
@@ -92,11 +90,11 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
             emoji: emoji,
             userId: this.currentUser.uid,
             userName: this.currentUser.userName,
-            timestamp: Timestamp.fromDate(new Date())
+            timestamp: Timestamp.fromDate(new Date()),
         };
 
         const existingReactionIndex = message.reactions.findIndex(
-            r => r.emoji === emoji && r.userId === this.currentUser.uid
+            (r) => r.emoji === emoji && r.userId === this.currentUser.uid
         );
 
         if (existingReactionIndex === -1) {
@@ -114,7 +112,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         }
     }
 
-    get groupedReactions(): { emoji: string, count: number }[] {
+    get groupedReactions(): { emoji: string; count: number }[] {
         if (!this.message.reactions) return [];
 
         const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
@@ -127,14 +125,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
 
         return Object.entries(groupedEmojis).map(([emoji, count]) => ({
             emoji,
-            count
+            count,
         }));
     }
 
     hasUserReacted(emoji: string): boolean {
         if (!this.message.reactions) return false;
         return this.message.reactions.some(
-            r => r.emoji === emoji && r.userId === this.currentUser.uid
+            (r) => r.emoji === emoji && r.userId === this.currentUser.uid
         );
     }
 
@@ -146,7 +144,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
 
     // Methode zum Speichern der bearbeiteten Nachricht
     saveEditedMessage() {
-        if (this.message.messageId && this.editedText.trim() !== '') {
+        if (this.message.messageId && this.editedText.trim() !== "") {
             this.chatService.updateMessageText(
                 this.chatService.selectedChannel.channelId,
                 this.message.messageId,
