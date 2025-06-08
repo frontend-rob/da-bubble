@@ -238,7 +238,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     addUserToSelection(user: UserData): void {
         this.selectedUsersToAdd.push(user);
-        console.log(this.selectedUsersToAdd);
         this.searchText = "";
         this.onSearchInputChange();
     }
@@ -268,7 +267,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         };
 
         try {
-            console.log(updatedChannel);
             await this.chatService.updateChannel(updatedChannel);
             this.chatService.selectedChannel = updatedChannel;
 

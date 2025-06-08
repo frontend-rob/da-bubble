@@ -162,7 +162,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             }
 
             this.chatService.selectedChannel = dmChannel;
-            console.log('dmChannel', dmChannel);
             this.activeMenuItem = dmChannel.channelId;
 
             this.functionTriggerService.callSelectChannel(dmChannel);
