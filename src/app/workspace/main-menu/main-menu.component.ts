@@ -40,6 +40,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         description: ''
     }
     channels: ChannelData[] = [];
+    directMessageChannels: ChannelData[] = [];
 
     chats!: UserData[];
     private helperService: HelperService = inject(HelperService);
@@ -47,7 +48,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     private channelsSubscription!: Subscription;
     private functionTriggerService: FunctionTriggerService = inject(FunctionTriggerService);
 
-    constructor(private chatService: ChatService) {}
+    constructor(private chatService: ChatService) {
+    }
 
     ngOnInit(): void {
         this.userSubscription = this.userService.currentUser$.subscribe(userData => {
@@ -70,7 +72,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         if (this.channelsSubscription) {
             this.channelsSubscription.unsubscribe();
-            this.userDataSubscription.unsubscribe();
         }
 
         if (this.userSubscription) {
@@ -85,13 +86,27 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     loadChannels(): void {
         this.channelsSubscription = this.chatService.getChannels().subscribe(
             (channelsData: ChannelData[]) => {
+                const currentActiveId = this.activeMenuItem;
+
                 this.channels = [];
+                this.directMessageChannels = [];
+
                 for (const channel of channelsData) {
                     const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
-                    if (isMember) this.channels.push(channel);
+                    if (isMember) {
+                        if (channel.channelType.directMessage) {
+                            this.directMessageChannels.push(channel);
+                        } else {
+                            this.channels.push(channel);
+                        }
+                    }
                 }
-                if (this.channels.length !== 0) {this.setActiveChat(this.channels[0].channelId)}
 
+                if (!this.activeMenuItem && this.channels.length !== 0) {
+                    this.setActiveChat(this.channels[0].channelId);
+                } else if (currentActiveId) {
+                    this.activeMenuItem = currentActiveId;
+                }
             },
             error => {
                 console.error('Error loading channels:', error);
@@ -112,12 +127,64 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     }
 
     setActiveChat(id: string) {
-        this.activeMenuItem = id
+        this.activeMenuItem = id;
+
         this.channels.forEach((channel: ChannelData) => {
             if (channel.channelId === id) {
-                this.functionTriggerService.callSelectChannel(channel)
+                this.functionTriggerService.callSelectChannel(channel);
             }
-        })
+        });
+
+        this.directMessageChannels.forEach((channel: ChannelData) => {
+            if (channel.channelId === id) {
+                this.functionTriggerService.callSelectChannel(channel);
+            }
+        });
+    }
+
+    /**
+     * Alternative onUserClickForDirectMessage mit sofortiger Channel-Aktivierung
+     */
+    async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
+        try {
+            if (typeof data === 'string') {
+                this.setActiveChat(data);
+                return;
+            }
+
+            const clickedUser = data as UserData;
+
+            let dmChannel = await this.chatService.findDirectMessageChannel(this.currentUser, clickedUser);
+
+            if (!dmChannel) {
+                dmChannel = await this.chatService.createDirectMessageChannel(this.currentUser, clickedUser);
+                this.directMessageChannels.push(dmChannel);
+            }
+
+            this.chatService.selectedChannel = dmChannel;
+            console.log('dmChannel', dmChannel);
+            this.activeMenuItem = dmChannel.channelId;
+
+            this.functionTriggerService.callSelectChannel(dmChannel);
+
+        } catch (error) {
+            console.error('Error creating/finding direct message channel:', error);
+        }
+    }
+
+    getDirectMessageUserData(dmChannel: ChannelData): UserData {
+        const otherUser = dmChannel.channelMembers.find(member => member.uid !== this.currentUser.uid);
+        return otherUser || this.currentUser;
+    }
+
+    getAvailableUsersForDM(): UserData[] {
+        if (!this.chats) return [];
+
+        return this.chats.filter(user => {
+            return !this.directMessageChannels.some(dmChannel =>
+                dmChannel.channelMembers.some(member => member.uid === user.uid)
+            );
+        });
     }
 
     addNewChannel(name: string, description: string) {
@@ -142,7 +209,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.isModalOpen = !this.isModalOpen;
     }
 
-    toogleNewMessageHeader() {
+    toggleNewMessageHeader() {
         this.chatService.toggleNewMessageHeader(true);
     }
 }

@@ -11,9 +11,14 @@ import {UserData} from '../../../interfaces/user.interface';
 export class DirectMessageListItemComponent {
     @Input() chat!: UserData;
     @Input() active: boolean = false;
-    @Output() activeMenuItem:EventEmitter<string> = new EventEmitter<string>();
+    @Output() activeMenuItem: EventEmitter<any> = new EventEmitter<any>();
+    @Input() channelId?: string;
 
-    setActiveChat(id: string) {
-        this.activeMenuItem.emit(id);
+    setActiveChat() {
+        if (this.channelId) {
+            this.activeMenuItem.emit(this.channelId);
+        } else {
+            this.activeMenuItem.emit(this.chat);
+        }
     }
 }
