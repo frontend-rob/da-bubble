@@ -1,25 +1,22 @@
-import {
-    EnvironmentInjector,
-    inject,
-    Injectable,
-    runInInjectionContext,
-} from "@angular/core";
-import { Observable } from "rxjs";
-import { Message, Reaction } from "../interfaces/message.interface";
-import { ChannelData } from "../interfaces/channel.interface";
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
+import {Observable} from "rxjs";
+import {Message, Reaction} from "../interfaces/message.interface";
+import {ChannelData} from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
     doc,
     Firestore,
+    getDocs,
     orderBy,
     query,
     setDoc,
     Timestamp,
     updateDoc,
+    where,
 } from "@angular/fire/firestore";
-import { UserData } from "../interfaces/user.interface";
-import { User } from "@angular/fire/auth";
+import {UserData} from "../interfaces/user.interface";
+import {HelperService} from './helper.service';
 
 @Injectable({
     providedIn: "root",
@@ -29,6 +26,7 @@ export class ChatService {
     selectedChannelsMessages!: Message[];
     selectedThreadMessageId!: string;
     private environmentInjector = inject(EnvironmentInjector);
+    private helperService: any = inject(HelperService);
     private _isThreadOpen = false;
     private _isNewMessage = false;
     private _isProfileCardOpen = false;
@@ -66,6 +64,13 @@ export class ChatService {
         this._isProfileCardOpen = bool;
     }
 
+    /**
+     * Updates the thread messages information in Firestore for a selected thread message.
+     *
+     * @param {string} time - The last timestamp of the thread activity.
+     * @param {number} count - The total number of answers in the thread.
+     * @return {Promise<void>} A promise that resolves when the thread information is successfully updated in Firestore.
+     */
     updateThreadMessagesInformation(
         time: string,
         count: number
@@ -86,6 +91,14 @@ export class ChatService {
         });
     }
 
+    /**
+     * Updates the name of thread messages in the Firestore database.
+     * The method retrieves the current channel's name, identifies the targeted
+     * thread message via its ID, and updates the respective document's
+     * thread channel name in the Firestore database.
+     *
+     * @return {Promise<void>} A promise that resolves when the thread messages' name has been successfully updated.
+     */
     updateThreadMessagesName(): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             let name = this.selectedChannel.channelName;
@@ -96,7 +109,7 @@ export class ChatService {
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, { threadChannelName: name });
+            await updateDoc(msgRef, {threadChannelName: name});
         });
     }
 
@@ -110,7 +123,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, { idField: "channelId" }) as Observable<
+            return collectionData(q, {idField: "channelId"}) as Observable<
                 ChannelData[]
             >;
         });
@@ -183,7 +196,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, { idField: "messageId" }) as Observable<
+            return collectionData(q, {idField: "messageId"}) as Observable<
                 Message[]
             >;
         });
@@ -230,7 +243,7 @@ export class ChatService {
                 `channels/${channelId}/messages/${parentMessageId}/thread`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, { idField: "messageId" }) as Observable<
+            return collectionData(q, {idField: "messageId"}) as Observable<
                 Message[]
             >;
         });
@@ -286,7 +299,14 @@ export class ChatService {
         });
     }
 
-    // Methode zum Aktualisieren des Nachrichtentexts
+    /**
+     * Updates the text of a specific message in a channel.
+     *
+     * @param {string} channelId - The unique identifier of the channel containing the message to be updated.
+     * @param {string} messageId - The unique identifier of the message to update.
+     * @param {string} newText - The new text content to replace the existing message text.
+     * @return {Promise<void>} A Promise that resolves when the message text is successfully updated.
+     */
     updateMessageText(channelId: string, messageId: string, newText: string) {
         runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
@@ -304,5 +324,62 @@ export class ChatService {
                 editedAt: Timestamp.fromDate(new Date()),
             });
         });
+    }
+
+
+    /**
+     * Finds a direct message channel between two users.
+     *
+     * @param {UserData} user1 The first user data object.
+     * @param {UserData} user2 The second user data object.
+     * @return {Promise<ChannelData | null>} A promise that resolves to the direct message channel data if found, or null if no such channel exists.
+     */
+    async findDirectMessageChannel(user1: UserData, user2: UserData): Promise<ChannelData | null> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const channelsRef = collection(firestore, "channels");
+            const q = query(channelsRef, where('channelType.directMessage', '==', true));
+
+            const querySnapshot = await getDocs(q);
+
+            for (const doc of querySnapshot.docs) {
+                const channel = doc.data() as ChannelData;
+                const memberUids = channel.channelMembers.map(member => member.uid);
+
+                if (memberUids.length === 2 &&
+                    memberUids.includes(user1.uid) &&
+                    memberUids.includes(user2.uid)) {
+                    return channel;
+                }
+            }
+
+            return null;
+        });
+    }
+
+    /**
+     * Creates a direct message channel between two users.
+     *
+     * @param {UserData} user1 - The first user who will be part of the direct message channel.
+     * @param {UserData} user2 - The second user who will be part of the direct message channel.
+     * @return {Promise<ChannelData>} A promise that resolves to the newly created direct message channel data.
+     */
+    async createDirectMessageChannel(user1: UserData, user2: UserData): Promise<ChannelData> {
+        const newChannel: ChannelData = {
+            channelId: this.helperService.getRandomNumber().toString(),
+            channelName: `${user2.userName}`,
+            channelType: {
+                channel: false,
+                directMessage: true
+            },
+            channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
+            createdBy: user1,
+            channelMembers: [user1, user2],
+            createdAt: Timestamp.now(),
+            updatedAt: Timestamp.now(),
+        };
+
+        await this.createChannel(newChannel);
+        return newChannel;
     }
 }
