@@ -51,7 +51,6 @@ export class ThreadComponent implements OnInit, OnDestroy {
         this.userSubscription = this.userService.currentUser$.subscribe(
             (userData) => {
                 if (userData) {
-                    console.log("userData", userData);
                     this.currentUser = userData;
                 }
             }
