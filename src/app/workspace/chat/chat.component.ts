@@ -73,6 +73,10 @@ export class ChatComponent implements OnInit, OnDestroy {
         return this.chatService.isProfileCardOpen;
     }
 
+    handleUserProfileCard(bool: boolean) {
+        this.userService.handleUserProfileCard(bool);
+    }
+
     handleProfileCard(bool: boolean, person: UserData) {
         if (this.currentUser.uid !== person.uid) {
             this.chatService.handleProfileCard(bool);
