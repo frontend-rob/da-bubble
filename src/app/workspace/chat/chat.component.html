@@ -9,6 +9,7 @@
                     </h1>
                     <img class="arrow" src="assets/img/chat/arrow_down.svg"/>
                 </div>
+                @if (this.chatService.selectedChannel.channelType.channel) {
 
                 <div class="chat-members">
                     <div (click)="openMembersMenu()" class="members">
@@ -144,7 +145,7 @@
                         </div>
                     </div>
                 </div>
-
+                }
                 <div *ngIf="isAddNewChannel" class="modal">
                     <!-- <div *ngIf="isModalOpen" class="modal"> -->
                     <div class="container">
