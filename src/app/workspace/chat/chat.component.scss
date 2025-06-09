@@ -249,7 +249,12 @@
                     .add-member-modal-header {
                         display: flex;
                         justify-content: space-between;
-                        gap: 8px;
+
+                        > div {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 16px;
+                        }
 
                         h1 {
                             font-size: 24px;
@@ -272,11 +277,8 @@
                     .member-input-container {
                         display: flex;
                         align-items: center;
-                        flex-wrap: wrap;
-                        padding: 16px 20px;
-                        gap: 8px;
-                        border: 1px solid variables.$border;
-                        border-radius: 50px;
+                        flex-flow: row wrap;
+                        gap: 16px;
                         background-color: variables.$bg-base-200;
 
                         &:focus-within {
@@ -285,8 +287,9 @@
 
                         .add-member-input {
                             display: flex;
-                            // border: 1px solid variables.$border;
-                            border: none;
+                            padding: 16px 20px;
+                            border: 1px solid variables.$border;
+                            border-radius: 50px;
                             outline: none;
                             flex: 1;
                         }
@@ -687,12 +690,8 @@
     }
 }
 
-// .add-member-input {
-//     border: none;
-//     flex: 1;
-//     min-width: 120px;
-
-//     &:focus {
-//         outline: none;
-//     }
-// }
+.chat-partner {
+    color: variables.$text-hover;
+    text-decoration: underline;
+    cursor: pointer;
+}

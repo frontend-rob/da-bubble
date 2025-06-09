@@ -21,7 +21,7 @@
     justify-content: center;
     align-items: center;
 
-    >li {
+    > li {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -39,7 +39,7 @@
             cursor: pointer;
         }
 
-        >img {
+        > img {
             width: 20px;
             height: 20px;
         }
@@ -51,10 +51,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    padding: 20px;
     gap: 16px;
     width: 100%;
 
-    >li {
+    > li {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -69,10 +70,10 @@
             cursor: pointer;
         }
 
-        >div {
+        > div {
             position: relative;
 
-            >img {
+            > img {
                 width: 50px;
                 height: 50px;
             }
@@ -107,7 +108,7 @@
     gap: 16px;
     width: 100%;
 
-    >li {
+    > li {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -122,7 +123,7 @@
             cursor: pointer;
         }
 
-        >img {
+        > img {
             width: 16px;
             height: 16px;
         }
