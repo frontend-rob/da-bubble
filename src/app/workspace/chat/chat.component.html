@@ -61,8 +61,8 @@
                                     <img [src]="member.photoURL" />
                                     <div
                                         [ngClass]="{
-                                            online: member.status === 'online',
-                                            offline: member.status === 'offline'
+                                            online: member.status,
+                                            offline: member.status
                                         }"
                                         class="status"
                                     ></div>

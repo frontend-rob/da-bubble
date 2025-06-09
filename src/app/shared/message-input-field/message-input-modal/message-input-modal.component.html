@@ -11,7 +11,7 @@
         <li (click)="addUserTag(user.userName)" *ngFor="let user of users">
             <div>
                 <img class="user-img" src="{{ user.photoURL }}"/>
-                <div [ngClass]="{ online: user.status === 'online', offline: user.status === 'offline' }"
+                <div [ngClass]="{ online: user.status, offline: user.status }"
                      class="status">
                 </div>
             </div>

@@ -19,24 +19,15 @@
                     <button
                         *ngIf="
                             isUserProfileCardOpen &&
-                            currentPerson.role == 'user'
+                            currentPerson.role.user
                         "
                     >
                         Bearbeiten
                     </button>
                 </div>
                 <div class="online-status">
-                    <div
-                        [class]="
-                            currentPerson.status === 'online'
-                                ? 'online'
-                                : 'offline'
-                        "
-                        class="status-icon"
-                    ></div>
-                    {{
-                        currentPerson.status === "online" ? "Active" : "Offline"
-                    }}
+                    <div [ngClass]="{ online: currentPerson.status, offline: currentPerson.status }" class="status-icon"></div>
+                    {{ currentPerson.status }}
                 </div>
             </div>
         </div>

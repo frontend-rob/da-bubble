@@ -39,12 +39,18 @@ export interface UserData {
      * Can be 'online' or 'offline'. Designed to be extensible to support other statuses
      * such as 'away', 'busy', or 'invisible' in the future.
      */
-    status?: 'online' | 'offline';
+    status: boolean;
 
     /**
      * The role of the user in the system.
      * Can be 'user', 'admin', 'moderator', 'guest', etc. (optional).
      */
-    role?: 'user' | 'admin' | 'moderator' | 'guest';
+    role: userRole;
+}
 
+export interface userRole {
+    user: boolean;
+    admin: boolean;
+    moderator: boolean;
+    guest: boolean;
 }
