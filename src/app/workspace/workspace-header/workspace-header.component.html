@@ -15,13 +15,7 @@
         <span>{{ currentPerson.userName }}</span>
         <div class="avatar">
             <img src="{{ currentPerson.photoURL }}" />
-            <div
-                class="status"
-                [ngClass]="{
-                    online: currentPerson.status,
-                    offline: currentPerson.status
-                }"
-            ></div>
+            <div class="status" [ngClass]="{online: currentPerson.status, offline: !currentPerson.status}"></div>
         </div>
         <img
             class="arrow-down"
