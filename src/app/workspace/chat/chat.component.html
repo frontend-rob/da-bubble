@@ -2,13 +2,42 @@
 <section class="chat-section">
     <header class="header">
         <div *ngIf="!isNewMessage" class="chat-header">
-            <div (click)="toggleModal()" class="chat-title">
+            <div
+                *ngIf="this.chatService.selectedChannel.channelType.channel"
+                (click)="openModal()"
+                class="chat-title"
+            >
                 <img class="icon" src="assets/img/chat/channel_tag.svg" />
                 <h1>
                     {{ this.chatService.selectedChannel.channelName }}
                 </h1>
                 <img class="arrow" src="assets/img/chat/arrow_down.svg" />
             </div>
+
+            <div
+                *ngIf="
+                    this.chatService.selectedChannel.channelType.directMessage
+                "
+                (click)="
+                    handleProfileCard(
+                        true,
+                        this.chatService.selectedChannel.channelMembers[1]
+                    )
+                "
+                class="chat-title"
+            >
+                <img
+                    class="avatar-icon"
+                    [src]="
+                        this.chatService.selectedChannel.channelMembers[1]
+                            .photoURL
+                    "
+                />
+                <h1>
+                    {{ this.chatService.selectedChannel.channelName }}
+                </h1>
+            </div>
+
             @if (this.chatService.selectedChannel.channelType.channel) {
 
             <div class="chat-members">

@@ -131,7 +131,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         });
     }
 
-    toggleModal(): void {
+    openModal(): void {
         this.isModalBGOpen = true;
         this.isModalOpen = !this.isModalOpen;
         this.isAddNewChannel = !this.isAddNewChannel;
