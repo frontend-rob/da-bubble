@@ -331,7 +331,15 @@
         />
         <h2>
             Diese Unterhaltung findet nur zwischen
-            <div (click)="this.handleUserProfileCard(true)">
+            <div
+                (click)="
+                    this.handleProfileCard(
+                        true,
+                        this.chatService.selectedChannel.channelMembers[1]
+                    )
+                "
+                class="chat-partner"
+            >
                 &#64;{{
                     this.chatService.selectedChannel.channelMembers[1].userName
                 }}

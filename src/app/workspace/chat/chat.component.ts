@@ -239,6 +239,10 @@ export class ChatComponent implements OnInit, OnDestroy {
                 !this.selectedUsersToAdd.some((sel) => sel.uid === user.uid) &&
                 !currentMembers.some((member) => member.uid === user.uid)
         );
+
+        if (this.searchText.length === 0) {
+            this.filteredUsers = [];
+        }
     }
 
     addUserToSelection(user: UserData): void {
@@ -246,7 +250,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.filteredUsers = [];
         this.searchText = "";
         this.disabledButton = false;
-        // this.onSearchInputChange();
     }
 
     removeUserFromSelection(user: UserData): void {
