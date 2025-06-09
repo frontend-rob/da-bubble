@@ -48,6 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     isAddNewChannel = false;
     isMembersMenuOpen = false;
     isAddMemberModalOpen = false;
+    disabledButton = true;
     allUserDataSubscription!: Subscription;
     allUserData!: UserData[];
     selectedUsersToAdd: UserData[] = [];
@@ -242,11 +243,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     addUserToSelection(user: UserData): void {
         this.selectedUsersToAdd.push(user);
+        this.filteredUsers = [];
         this.searchText = "";
-        this.onSearchInputChange();
+        this.disabledButton = false;
+        // this.onSearchInputChange();
     }
 
-    removeUser(user: UserData): void {
+    removeUserFromSelection(user: UserData): void {
         this.selectedUsersToAdd = this.selectedUsersToAdd.filter(
             (u) => u.uid !== user.uid
         );
@@ -289,5 +292,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.isAddNewChannel = false;
         this.isMembersMenuOpen = false;
         this.isAddMemberModalOpen = false;
+        this.searchText = "";
+        this.selectedUsersToAdd = [];
+        this.filteredUsers = [];
+        this.disabledButton = true;
     }
 }
