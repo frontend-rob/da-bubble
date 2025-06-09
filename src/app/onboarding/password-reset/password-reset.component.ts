@@ -28,23 +28,20 @@ export class PasswordResetComponent {
      */
     resetPWForm: FormGroup;
 
+
     /**
-     * Initializes the component and sets up the form group.
-     * @param fb - Instance of FormBuilder for creating the form.
-     * @param router - Router instance for navigation.
+     * Constructor for the class that initializes the reset password form
+     * and injects the required services.
+     *
+     * @param {FormBuilder} fb - Instance of FormBuilder used to create and manage forms.
+     * @param {Router} router - Angular Router instance for navigation.
+     * @param {AuthService} authService - Service to handle authentication-related tasks.
+     * @return {void}
      */
     constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {
         this.resetPWForm = this.fb.group({
             email: ['', [Validators.required, FormValidationService.emailValidator]],
         });
-    }
-
-    /**
-     * Validates the form.
-     * @returns True if the form is valid, otherwise false.
-     */
-    isFormValid(): boolean {
-        return this.resetPWForm.valid;
     }
 
     /**
@@ -56,13 +53,13 @@ export class PasswordResetComponent {
     resetPassword() {
         if (this.resetPWForm.valid) {
             const email = this.resetPWForm.value.email;
-            this.authService.resetPassword(email);
+            this.authService.resetPassword(email).then(r => console.log(r, 'reset password success'));
             this.notificationComponent.showNotification('Email sent successfully!');
 
             // Navigate and reset forms after notification is shown
             setTimeout(() => {
                 this.resetPWForm.reset();
-                this.router.navigate(['']);
+                this.router.navigate(['']).then(r => {console.log(r, 'navigated to home')});
             }, 3000);
         } else {
             console.log('Form is invalid');

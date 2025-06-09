@@ -7,8 +7,6 @@ import { CommonModule } from "@angular/common";
 import { ChatService } from "../services/chat.service";
 import { ProfileCardComponent } from "./profile-card/profile-card.component";
 import { UserService } from "../services/user.service";
-import { Message } from "../interfaces/message.interface";
-import { UserData } from "../interfaces/user.interface";
 
 @Component({
     selector: "app-workspace",
@@ -26,7 +24,6 @@ import { UserData } from "../interfaces/user.interface";
     providers: [ChatService],
 })
 export class WorkspaceComponent {
-    isProfileInfoCardOpen = false;
 
     constructor(
         private chatService: ChatService,
@@ -45,16 +42,8 @@ export class WorkspaceComponent {
         return this.userService.isUserMenuOpen;
     }
 
-    get isUserProfileCardOpen() {
-        return this.userService.isUserProfileCardOpen;
-    }
-
     get currentPerson() {
         return this.chatService.currentPerson;
-    }
-
-    setCurrentPerson(person: UserData) {
-        this.chatService.setCurrentPerson(person);
     }
 
     handleProfileCard(bool: boolean) {

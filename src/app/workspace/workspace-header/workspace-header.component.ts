@@ -62,7 +62,7 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         this.authService
             .logOut()
             .then(() => {
-                this.router.navigate(["/"]);
+                this.router.navigate(["/"]).then(r => {console.log(r, 'navigated to home')});
             })
             .catch((error) => {
                 console.error("Logout failed:", error);

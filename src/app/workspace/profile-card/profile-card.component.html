@@ -26,8 +26,12 @@
                     </button>
                 </div>
                 <div class="online-status">
-                    <div [ngClass]="{ online: currentPerson.status, offline: currentPerson.status }" class="status-icon"></div>
-                    {{ currentPerson.status }}
+                    <div [ngClass]="{ online: currentPerson.status, offline: !currentPerson.status }" class="status-icon"></div>
+                    @if (currentPerson.status) {
+                        <p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">Aktiv</p>
+                    } @else {
+                        <p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">Abwesend</p>
+                    }
                 </div>
             </div>
         </div>

@@ -61,16 +61,6 @@ export class AvatarsComponent {
     private router = inject(Router);
 
     /**
-     * Lifecycle hook to initialize component data.
-     * Retrieves user data from the UserDataService.
-     */
-    ngOnInit() {
-        const userData = this.userDataService.getUserData();
-        this.userName = userData.name;
-        this.selectedUserAvatar = userData.avatar || 'assets/img/avatars/av-00.svg';
-    }
-
-    /**
      * Handles avatar selection by updating the selected avatar and storing it in the UserDataService.
      * @param path - The path of the selected avatar image.
      */
@@ -153,7 +143,7 @@ export class AvatarsComponent {
         setTimeout(() => {
             this.userDataService.resetUserData();
             this.selectedUserAvatar = 'assets/img/avatars/av-00.svg';
-            this.router.navigate(['']);
+            this.router.navigate(['']).then(r => {console.log(r, 'navigated to home')});
         }, 3000);
     }
 }
