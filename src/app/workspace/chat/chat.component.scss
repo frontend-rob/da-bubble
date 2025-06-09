@@ -162,10 +162,10 @@
                         gap: 16px;
 
                         .menu-item {
-                            padding: 4px 20px;
                             display: flex;
                             justify-self: flex-start;
                             align-items: center;
+                            padding: 4px 20px;
                             gap: 10px;
                             border-radius: 100px;
                             cursor: pointer;
@@ -269,11 +269,55 @@
                         }
                     }
 
-                    .add-member-input {
+                    .member-input-container {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
                         padding: 16px 20px;
+                        gap: 8px;
                         border: 1px solid variables.$border;
                         border-radius: 50px;
-                        outline: none;
+                        background-color: variables.$bg-base-200;
+
+                        &:focus-within {
+                            border-color: variables.$bg-primary;
+                        }
+
+                        .add-member-input {
+                            display: flex;
+                            // border: 1px solid variables.$border;
+                            border: none;
+                            outline: none;
+                            flex: 1;
+                        }
+
+                        .selected-user-chip {
+                            display: flex;
+                            align-items: center;
+                            background-color: variables.$bg-neutral-hover;
+                            border-radius: 16px;
+                            padding: 4px 20px;
+                            gap: 16px;
+
+                            > img {
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                            }
+
+                            > div {
+                                display: flex;
+                                word-wrap: nowrap;
+                                width: fit-content;
+                            }
+
+                            button {
+                                border: none;
+                                background: transparent;
+                                font-size: 16px;
+                                cursor: pointer;
+                            }
+                        }
                     }
 
                     > div:last-child {
@@ -292,6 +336,30 @@
 
                             &:hover {
                                 background-color: variables.$bg-primary-accent;
+                            }
+                        }
+                    }
+
+                    .user-suggestion-list {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 16px;
+
+                        .user-suggestion {
+                            display: flex;
+                            align-items: center;
+                            padding: 4px 20px;
+                            gap: 16px;
+                            border-radius: 100px;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: variables.$bg-base-100;
+                            }
+
+                            > img {
+                                width: 48px;
+                                height: 48px;
                             }
                         }
                     }
@@ -610,45 +678,21 @@
     }
 }
 
-.member-input-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    background-color: #fff;
-}
+.disabled-button {
+    background-color: variables.$bg-neutral !important;
 
-.selected-user-chip {
-    display: flex;
-    align-items: center;
-    background-color: #e0f7fa;
-    border-radius: 16px;
-    padding: 4px 8px;
-    gap: 6px;
-
-    img {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-    }
-
-    button {
-        border: none;
-        background: transparent;
-        font-size: 16px;
-        cursor: pointer;
+    &:hover {
+        cursor: not-allowed !important;
+        background-color: variables.$bg-neutral !important;
     }
 }
 
-.add-member-input {
-    border: none;
-    flex: 1;
-    min-width: 120px;
+// .add-member-input {
+//     border: none;
+//     flex: 1;
+//     min-width: 120px;
 
-    &:focus {
-        outline: none;
-    }
-}
+//     &:focus {
+//         outline: none;
+//     }
+// }
