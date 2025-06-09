@@ -70,7 +70,7 @@ export class AuthService {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            await this.setUserOnlineStatus(userCredential.user.uid, 'online');
+            await this.setUserOnlineStatus(userCredential.user.uid, true);
         });
     }
 
@@ -85,7 +85,7 @@ export class AuthService {
             const currentUser = auth.currentUser;
 
             if (currentUser) {
-                await this.setUserOnlineStatus(currentUser.uid, 'offline');
+                await this.setUserOnlineStatus(currentUser.uid, false);
             }
 
             await runInInjectionContext(this.environmentInjector, async () => {
@@ -122,8 +122,8 @@ export class AuthService {
                 email: auth.currentUser?.email || '',
                 photoURL: 'assets/img/avatars/av-01.svg',
                 createdAt: Timestamp.fromDate(new Date()),
-                status: 'online',
-                role: 'user'
+                status: true,
+                role: {user: true, admin: false, guest: false, moderator: false}
             };
             this.userDataService.setUserData({
                 name: auth.currentUser?.displayName || '',
@@ -190,8 +190,8 @@ export class AuthService {
             email: 'dabubble-406.firebaseapp.com',
             photoURL: 'assets/img/avatars/av-01.svg',
             createdAt: Timestamp.fromDate(new Date()),
-            status: 'online',
-            role: 'guest'
+            status: true,
+            role: {user: false, admin: false, guest: true, moderator: false}
         };
     }
 
@@ -214,7 +214,7 @@ export class AuthService {
      * @param uid - The unique ID of the user.
      * @param status - The status to set ('online' or 'offline').
      */
-    private async setUserOnlineStatus(uid: string, status: 'online' | 'offline'): Promise<void> {
+    private async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const userRef = doc(firestore, `users/${uid}`);

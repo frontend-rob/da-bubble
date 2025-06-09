@@ -62,8 +62,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         this.userDataSubscription = this.userService.allUsers$.subscribe(userData => {
             if (userData) {
                 this.chats = userData.filter(user =>
-                    user.uid !== this.currentUser.uid &&
-                    user.userName !== 'Guest'
+                    user.uid !== this.currentUser.uid && user.role.user
                 );
             }
         })
@@ -90,11 +89,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
                 this.channels = [];
                 this.directMessageChannels = [];
-
+                console.log(this.directMessageChannels)
                 for (const channel of channelsData) {
                     const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
                     if (isMember) {
                         if (channel.channelType.directMessage) {
+                            console.log(channel)
                             this.directMessageChannels.push(channel);
                         } else {
                             this.channels.push(channel);
@@ -142,9 +142,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
         });
     }
 
-    /**
-     * Alternative onUserClickForDirectMessage mit sofortiger Channel-Aktivierung
-     */
     async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
         try {
             if (typeof data === 'string') {
@@ -153,6 +150,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             }
 
             const clickedUser = data as UserData;
+
+            // Prüfe ob der User ein Guest ist
+            if (clickedUser.role && clickedUser.role.guest) {
+                console.log('Cannot create DM with guest user:', clickedUser.userName);
+                return; // Verhindere DM-Erstellung mit Guests
+            }
 
             let dmChannel = await this.chatService.findDirectMessageChannel(this.currentUser, clickedUser);
 
