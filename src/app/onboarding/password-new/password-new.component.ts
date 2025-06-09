@@ -39,25 +39,15 @@ export class PasswordNewComponent {
     }
 
     /**
-     * Checks if the form is valid.
-     * @returns True if the form is valid, otherwise false.
-     */
-    isFormValid(): boolean {
-        return this.changePWForm.valid;
-    }
-
-    /**
      * Sets a new password if the form is valid, shows a notification, and navigates to the home page.
      */
     setNewPassword() {
         if (this.changePWForm.valid) {
-            const password = this.changePWForm.value.password;
             this.notificationComponent.showNotification('New password set!');
 
-            // Navigate and reset forms after notification is shown
             setTimeout(() => {
                 this.changePWForm.reset();
-                this.router.navigate(['']);
+                this.router.navigate(['']).then(r => {console.log(r, 'navigated to home')});
             }, 3000);
         } else {
             console.log('Form is invalid');

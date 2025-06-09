@@ -13,7 +13,7 @@ import { Message } from "../../interfaces/message.interface";
 import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
 import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
 import { Timestamp } from "@angular/fire/firestore";
-import { AsyncPipe, CommonModule, NgForOf } from "@angular/common";
+import { CommonModule, NgForOf } from "@angular/common";
 import { UserData } from "../../interfaces/user.interface";
 import { UserService } from "../../services/user.service";
 import { HelperService } from "../../services/helper.service";
@@ -72,10 +72,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     get isProfileCardOpen() {
         return this.chatService.isProfileCardOpen;
-    }
-
-    handleUserProfileCard(bool: boolean) {
-        this.userService.handleUserProfileCard(bool);
     }
 
     handleProfileCard(bool: boolean, person: UserData) {
@@ -146,7 +142,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 channelName: this.newChannelName,
                 updatedAt: Timestamp.now(),
             };
-            this.updateChannel(updatedChannel);
+            this.updateChannel(updatedChannel).then(r => {console.log(r)});
         }
         this.isNameEdit = !this.isNameEdit;
     }
@@ -158,7 +154,7 @@ export class ChatComponent implements OnInit, OnDestroy {
                 channelDescription: this.newChannelDescription,
                 updatedAt: Timestamp.now(),
             };
-            this.updateChannel(updatedChannel);
+            this.updateChannel(updatedChannel).then(r => {console.log(r)});
         }
         this.isDescriptionEdit = !this.isDescriptionEdit;
     }

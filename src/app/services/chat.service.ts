@@ -299,16 +299,17 @@ export class ChatService {
         });
     }
 
+
     /**
-     * Updates the text of a specific message in a channel.
+     * Updates the text of an existing message in a specific channel.
      *
-     * @param {string} channelId - The unique identifier of the channel containing the message to be updated.
-     * @param {string} messageId - The unique identifier of the message to update.
-     * @param {string} newText - The new text content to replace the existing message text.
-     * @return {Promise<void>} A Promise that resolves when the message text is successfully updated.
+     * @param {string} channelId - The unique identifier of the channel containing the message.
+     * @param {string} messageId - The unique identifier of the message to be updated.
+     * @param {string} newText - The new text content to update the message with.
+     * @return {Promise<void>} A promise that resolves when the update operation is complete.
      */
-    updateMessageText(channelId: string, messageId: string, newText: string) {
-        runInInjectionContext(this.environmentInjector, () => {
+    async updateMessageText(channelId: string, messageId: string, newText: string): Promise<void> {
+        const r = await runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
             const messageRef = doc(
                 firestore,
@@ -324,6 +325,7 @@ export class ChatService {
                 editedAt: Timestamp.fromDate(new Date()),
             });
         });
+        console.log(r);
     }
 
 

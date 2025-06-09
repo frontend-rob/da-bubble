@@ -108,7 +108,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
                 this.chatService.selectedChannel.channelId,
                 message.messageId,
                 message.reactions
-            );
+            ).then(r => {console.log(r)});
         }
     }
 

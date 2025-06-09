@@ -54,7 +54,7 @@ export class LogInComponent {
 
         this.authService.logIn(email, password)
             .then(() => {
-                this.router.navigate(['/workspace']);
+                this.router.navigate(['/workspace']).then(r => {console.log('navigated to workspace')});
             })
             .catch((error) => {
                 this.handleLoginError(error);
@@ -71,7 +71,7 @@ export class LogInComponent {
 
         this.authService.signInAnonymously()
             .then(() => {
-                this.router.navigate(['/workspace']);
+                this.router.navigate(['/workspace']).then(r => {console.log(r,'navigated to workspace')});
             })
             .catch((error) => {
                 this.serverError = 'global: *Failed to log in as guest. Please try again.';
@@ -89,7 +89,7 @@ export class LogInComponent {
 
         this.authService.signInWithGoogle()
             .then(() => {
-                this.router.navigate(['/workspace']);
+                this.router.navigate(['/workspace']).then(r => console.log(r,'navigated to workspace'));
             })
             .catch((error) => {
                 this.serverError = 'global: *Failed to log in with Google. Please try again.';

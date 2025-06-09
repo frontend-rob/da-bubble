@@ -66,6 +66,13 @@
                 <div [class.close-list]="showUserList" class="menu-list-container">
                     <div class="menu-list">
                         <app-direct-message-list-item
+                            *ngIf="currentUser"
+                            [active]="false"
+                            [chat]="currentUser">
+                        </app-direct-message-list-item>
+
+
+                        <app-direct-message-list-item
                             (activeMenuItem)="setActiveChat($event)"
                             *ngFor="let dmChannel of directMessageChannels"
                             [active]="dmChannel.channelId === activeMenuItem"

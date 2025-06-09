@@ -62,14 +62,6 @@ export class SignUpComponent implements OnInit {
     }
 
     /**
-     * Checks if the form is valid.
-     * @returns True if the form is valid, otherwise false.
-     */
-    isFormValid(): boolean {
-        return this.signUpForm.valid;
-    }
-
-    /**
      * Handles the form submission by saving user data and navigating to the avatar selection step.
      */
     async onSubmit() {
@@ -88,7 +80,7 @@ export class SignUpComponent implements OnInit {
                     password: this.signUpForm.value.password,
                     policy: this.signUpForm.value.policy
                 });
-                this.router.navigate(['/avatars']);
+                await this.router.navigate(['/avatars']);
             } catch (error) {
                 console.error('Error checking email registration:', error);
             }

@@ -33,7 +33,7 @@
             div {
                 &:hover {
                     img {
-                        content: url("/assets/img/profile-card/close_hover.svg");
+                        content: url("/public/assets/img/close_hover.svg");
                     }
                 }
             }
@@ -96,6 +96,14 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
+        }
+
+        .onlineText {
+            color: variables.$online;
+        }
+
+        .offlineText {
+            color: variables.$offline;
         }
 
         .online {
