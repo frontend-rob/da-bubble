@@ -2,11 +2,7 @@
 <section class="chat-section">
     <header class="header">
         <div *ngIf="!isNewMessage" class="chat-header">
-            <div
-                *ngIf="this.chatService.selectedChannel.channelType.channel"
-                (click)="openModal()"
-                class="chat-title"
-            >
+            <div *ngIf="this.chatService.selectedChannel.channelType.channel" (click)="openModal()" class="chat-title">
                 <img class="icon" src="assets/img/chat/channel_tag.svg" />
                 <h1>
                     {{ this.chatService.selectedChannel.channelName }}
@@ -14,25 +10,18 @@
                 <img class="arrow" src="assets/img/chat/arrow_down.svg" />
             </div>
 
-            <div
-                *ngIf="
+            <div *ngIf="
                     this.chatService.selectedChannel.channelType.directMessage
-                "
-                (click)="
+                " (click)="
                     handleProfileCard(
                         true,
                         this.chatService.selectedChannel.channelMembers[1]
                     )
-                "
-                class="chat-title"
-            >
-                <img
-                    class="avatar-icon"
-                    [src]="
+                " class="chat-title">
+                <img class="avatar-icon" [src]="
                         this.chatService.selectedChannel.channelMembers[1]
                             .photoURL
-                    "
-                />
+                    " />
                 <h1>
                     {{ this.chatService.selectedChannel.channelName }}
                 </h1>
@@ -42,19 +31,16 @@
 
             <div class="chat-members">
                 <div (click)="openMembersMenu()" class="members">
-                    <div
-                        *ngFor="
+                    <div *ngFor="
                             let member of this.chatService.selectedChannel
                                 .channelMembers
-                        "
-                        class="member"
-                    >
+                        " class="member">
                         <img [src]="member.photoURL" />
                     </div>
                     <div class="member-counter">
                         {{
-                            this.chatService.selectedChannel.channelMembers
-                                .length || 0
+                        this.chatService.selectedChannel.channelMembers
+                        .length || 0
                         }}
                     </div>
                 </div>
@@ -63,11 +49,8 @@
                 </div>
 
                 <!-- MEMBERS MENU MODAL -->
-                <div
-                    *ngIf="isMembersMenuOpen"
-                    [ngStyle]="{ 'z-index': isProfileCardOpen ? 1 : 10 }"
-                    class="members-menu-modal"
-                >
+                <div *ngIf="isMembersMenuOpen" [ngStyle]="{ 'z-index': isProfileCardOpen ? 1 : 10 }"
+                    class="members-menu-modal">
                     <header class="members-menu-modal-header">
                         <div>
                             <h1>Members</h1>
@@ -77,40 +60,27 @@
                         </div>
                     </header>
                     <div class="members-list">
-                        <div
-                            (click)="handleProfileCard(true, member)"
-                            *ngFor="
+                        <div (click)="handleProfileCard(true, member)" *ngFor="
                                 let member of this.chatService.selectedChannel
                                     .channelMembers
-                            "
-                            class="member-list-item"
-                        >
+                            " class="member-list-item">
                             <div class="menu-item">
                                 <div class="avatar">
                                     <img [src]="member.photoURL" />
-                                    <div
-                                        [ngClass]="{
+                                    <div [ngClass]="{
                                             online: member.status,
                                             offline: member.status
-                                        }"
-                                        class="status"
-                                    ></div>
+                                        }" class="status"></div>
                                 </div>
                                 <div>
                                     {{ member.userName }}
-                                    <span
-                                        *ngIf="currentUser.uid === member.uid"
-                                    >
-                                        (You)</span
-                                    >
+                                    <span *ngIf="currentUser.uid === member.uid">
+                                        (You)</span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div
-                        (click)="openAddMemberModal()"
-                        class="button-container"
-                    >
+                    <div (click)="openAddMemberModal()" class="button-container">
                         <div class="add-member">
                             <img src="assets/img/chat/add_member.svg" />
                         </div>
@@ -124,12 +94,10 @@
                         <div>
                             <h1>Add Member</h1>
                             <div class="add-member-channel-name">
-                                <img
-                                    src="assets/img/chat/channel_tag_hover.svg"
-                                />
+                                <img src="assets/img/chat/channel_tag_hover.svg" />
                                 {{
-                                    this.chatService.selectedChannel
-                                        .channelName || "Development"
+                                this.chatService.selectedChannel
+                                .channelName || "Development"
                                 }}
                             </div>
                         </div>
@@ -138,44 +106,26 @@
                         </div>
                     </header>
                     <div class="member-input-container">
-                        <div
-                            class="selected-user-chip"
-                            *ngFor="let user of selectedUsersToAdd"
-                        >
+                        <div class="selected-user-chip" *ngFor="let user of selectedUsersToAdd">
                             <img [src]="user.photoURL" alt="avatar" />
                             <div>{{ user.userName }}</div>
                             <button (click)="removeUserFromSelection(user)">
                                 ×
                             </button>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Add Name"
-                            class="add-member-input"
-                            [(ngModel)]="searchText"
-                            (ngModelChange)="onSearchInputChange()"
-                        />
+                        <input type="text" placeholder="Add Name" class="add-member-input" [(ngModel)]="searchText"
+                            (ngModelChange)="onSearchInputChange()" />
                     </div>
-                    <div
-                        *ngIf="filteredUsers.length > 0"
-                        class="user-suggestion-list"
-                    >
-                        <div
-                            *ngFor="let user of filteredUsers"
-                            (click)="addUserToSelection(user)"
-                            class="user-suggestion"
-                        >
+                    <div *ngIf="filteredUsers.length > 0" class="user-suggestion-list">
+                        <div *ngFor="let user of filteredUsers" (click)="addUserToSelection(user)"
+                            class="user-suggestion">
                             <img [src]="user.photoURL" />
                             <span>{{ user.userName }}</span>
                         </div>
                     </div>
                     <div>
-                        <button
-                            (click)="addNewMember()"
-                            [disabled]="disabledButton"
-                            [class]="disabledButton ? 'disabled-button' : ''"
-                            class="button"
-                        >
+                        <button (click)="addNewMember()" [disabled]="disabledButton"
+                            [class]="disabledButton ? 'disabled-button' : ''" class="button">
                             Add
                         </button>
                     </div>
@@ -187,14 +137,11 @@
                 <div class="container">
                     <header class="modal-header">
                         <div>
-                            <img
-                                class="tag"
-                                src="assets/img/chat/channel_tag.svg"
-                            />
+                            <img class="tag" src="assets/img/chat/channel_tag.svg" />
                             <h1>
                                 {{
-                                    this.chatService.selectedChannel
-                                        .channelName || "Development"
+                                this.chatService.selectedChannel
+                                .channelName || "Development"
                                 }}
                             </h1>
                         </div>
@@ -213,7 +160,7 @@
                             <div class="name">
                                 <img src="assets/img/chat/channel_tag.svg" />
                                 {{
-                                    this.chatService.selectedChannel.channelName
+                                this.chatService.selectedChannel.channelName
                                 }}
                             </div>
                         </div>
@@ -227,18 +174,11 @@
                             </div>
                             <div class="input-container">
                                 <img src="assets/img/chat/channel_tag.svg" />
-                                <input
-                                    [(ngModel)]="newChannelName"
-                                    placeholder="Channel Name"
-                                    type="text"
-                                />
+                                <input [(ngModel)]="newChannelName" placeholder="Channel Name" type="text" />
                             </div>
                         </div>
 
-                        <div
-                            *ngIf="!isDescriptionEdit"
-                            class="description-container"
-                        >
+                        <div *ngIf="!isDescriptionEdit" class="description-container">
                             <div>
                                 <h2>Description</h2>
                                 <button (click)="toggleDescriptionEdit()">
@@ -247,9 +187,9 @@
                             </div>
                             <div class="description">
                                 {{
-                                    this.chatService.selectedChannel
-                                        .channelDescription ||
-                                        "Keine Beschreibung"
+                                this.chatService.selectedChannel
+                                .channelDescription ||
+                                "Keine Beschreibung"
                                 }}
                             </div>
 
@@ -258,16 +198,13 @@
                             <h2>Created by</h2>
                             <div class="creator">
                                 {{
-                                    this.chatService.selectedChannel.createdBy
-                                        .userName || "Unbekannt"
+                                this.chatService.selectedChannel.createdBy
+                                .userName || "Unbekannt"
                                 }}
                             </div>
                         </div>
 
-                        <div
-                            *ngIf="isDescriptionEdit"
-                            class="description-container-edit"
-                        >
+                        <div *ngIf="isDescriptionEdit" class="description-container-edit">
                             <div>
                                 <h2>Description</h2>
                                 <button (click)="toggleDescriptionEdit()">
@@ -275,11 +212,7 @@
                                 </button>
                             </div>
                             <div class="input-container">
-                                <input
-                                    [(ngModel)]="newChannelDescription"
-                                    placeholder="Description"
-                                    type="text"
-                                />
+                                <input [(ngModel)]="newChannelDescription" placeholder="Description" type="text" />
                             </div>
 
                             <div class="seperator"></div>
@@ -287,8 +220,8 @@
                             <h2>Created by</h2>
                             <div class="creator">
                                 {{
-                                    this.chatService.selectedChannel
-                                        .createdBy || "Unbekannt"
+                                this.chatService.selectedChannel
+                                .createdBy || "Unbekannt"
                                 }}
                             </div>
                         </div>
@@ -297,91 +230,65 @@
             </div>
         </div>
 
-        <div
-            (keydown)="onKeyDown($event)"
-            *ngIf="isNewMessage"
-            class="new-message-header"
-        >
+        <div (keydown)="onKeyDown($event)" *ngIf="isNewMessage" class="new-message-header">
             <h1>New Message</h1>
             <div>
-                <input
-                    name="description"
-                    placeholder="To: #channel, or @anybody or E-Mail Adress"
-                    type="text"
-                />
+                <input name="description" placeholder="To: #channel, or @anybody or E-Mail Adress" type="text" />
             </div>
         </div>
     </header>
 
     <main class="chat-main">
         <div class="chat-history">
-            <ng-container
-                *ngFor="
+            <ng-container *ngFor="
                     let message of messages;
                     let i = index;
                     trackBy: trackByMessageId
-                "
-            >
+                ">
                 <ng-container *ngIf="shouldShowDate(messages, i)">
                     <div class="message-time-seperator">
                         <div class="time">{{ message.date }}</div>
                     </div>
                 </ng-container>
 
-                <app-chat-message-other
-                    [message]="message"
-                ></app-chat-message-other>
+                <app-chat-message-other [message]="message"></app-chat-message-other>
             </ng-container>
         </div>
     </main>
     @if (this.chatService.selectedChannel.channelType.directMessage &&
     messages.length === 0) {
-    <main>
+    <main class="dm-empty-state">
         @if (this.chatService.selectedChannel.channelMembers[1].uid ===
         currentUser.uid) {
-        <img
-            src="{{
-                this.chatService.selectedChannel.channelMembers[0].photoURL
-            }}"
-            alt="photoURL"
-        />
-        <h2>
-            Dieser Raum ist nur für dich da. Mache dir Notizen, liste deine
-            To-dos auf oder bewahre Links und Dateien griffbereit auf. Du kannst
-            hier auch gerne Dinge mit dir selbst besprechen.
-        </h2>
+
+        <div class="direct-message-contact">
+            <img src="{{ this.chatService.selectedChannel.channelMembers[0].photoURL }}" alt="photoURL">
+            <h2>OWN NAME</h2>
+        </div>
+
+        <span class="direct-message-info">
+            This space is just for you. Make notes, list your to-dos or keep links and files to hand. You can also
+            discuss things with yourself here.
+        </span>
 
         } @else {
-        <img
-            src="{{
-                this.chatService.selectedChannel.channelMembers[1].photoURL
-            }}"
-            alt="photoURL"
-        />
-        <h2>
-            Diese Unterhaltung findet nur zwischen
-            <div
-                (click)="
-                    this.handleProfileCard(
-                        true,
-                        this.chatService.selectedChannel.channelMembers[1]
-                    )
-                "
-                class="chat-partner"
-            >
-                &#64;{{
-                    this.chatService.selectedChannel.channelMembers[1].userName
-                }}
-            </div>
-            und dir statt.
-        </h2>
+
+        <div class="direct-message-contact">
+            <img src="{{ this.chatService.selectedChannel.channelMembers[0].photoURL }}" alt="photoURL">
+            <h2>{{ this.chatService.selectedChannel.channelName }}</h2>
+        </div>
+        <span class="direct-message-info">
+            This conversation only takes place between
+            <span class="chat-partner"
+                (click)="this.handleProfileCard(true, this.chatService.selectedChannel.channelMembers[1])">
+                &#64;{{ this.chatService.selectedChannel.channelMembers[1].userName }}
+            </span>
+            and you.
+        </span>
         }
     </main>
     }
-    <app-message-input-field
-        (send)="sendChatMessage($event)"
-        class="message-input-field"
-    ></app-message-input-field>
+    <app-message-input-field (send)="sendChatMessage($event)" class="message-input-field"></app-message-input-field>
 </section>
 
 <div (click)="closeModals()" *ngIf="isModalBGOpen" class="modal-bg"></div>
