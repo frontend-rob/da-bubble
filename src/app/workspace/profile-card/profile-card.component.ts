@@ -5,34 +5,34 @@ import {UserService} from "../../services/user.service";
 import {UserData} from "../../interfaces/user.interface";
 
 @Component({
-    selector: "app-profile-card",
-    imports: [CommonModule, NgOptimizedImage],
-    templateUrl: "./profile-card.component.html",
-    styleUrl: "./profile-card.component.scss",
+	selector: "app-profile-card",
+	imports: [CommonModule, NgOptimizedImage],
+	templateUrl: "./profile-card.component.html",
+	styleUrl: "./profile-card.component.scss",
 })
 export class ProfileCardComponent {
-    @Input() currentPerson!: UserData;
+	@Input() currentPerson!: UserData;
 
-    constructor(
-        private userService: UserService,
-        private chatService: ChatService
-    ) {
-    }
+	constructor(
+		private userService: UserService,
+		private chatService: ChatService
+	) {
+	}
 
-    get isUserProfileCardOpen() {
-        return this.userService.isUserProfileCardOpen;
-    }
+	get isUserProfileCardOpen() {
+		return this.userService.isUserProfileCardOpen;
+	}
 
-    get isProfileCardOpen() {
-        return this.chatService.isProfileCardOpen;
-    }
+	get isProfileCardOpen() {
+		return this.chatService.isProfileCardOpen;
+	}
 
-    closeProfileCard() {
-        this.userService.handleUserProfileCard(false);
-        this.chatService.handleProfileCard(false);
-    }
+	closeProfileCard() {
+		this.userService.handleUserProfileCard(false);
+		this.chatService.handleProfileCard(false);
+	}
 
-    stopPropagation(event: Event): void {
-        event.stopPropagation();
-    }
+	stopPropagation(event: Event): void {
+		event.stopPropagation();
+	}
 }

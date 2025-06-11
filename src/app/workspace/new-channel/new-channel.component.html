@@ -1,66 +1,75 @@
 <div *ngIf="showPopup" class="popup-modal">
-    <div class="popup-container">
-        <div *ngIf="currentStep === 1" [attr.data-step]="1" class="popup-content">
-            <div class="header">
-                <h2>Create new Channel</h2>
-                <div (click)="closePopup()"></div>
-            </div>
-            <p>
-                Channels are where your team communicates. They're best organized by
-                topic #marketing for example. </p>
-            <form (ngSubmit)="nextStep()">
-                <div class="input-group hash">
-                    <label for="channelName">Channel name</label>
-                    <div class="input-container">
-                        <input [(ngModel)]="channelName" id="channelName" name="channelName"
-                               placeholder="e.g. Office-Team" required type="text"/>
-                        <div class="hash-icon"></div>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label for="description">Description (optional)</label>
-                    <textarea (input)="autoGrow($event)" [(ngModel)]="description" id="description" name="description"
-                              placeholder="Add a description..."></textarea>
-                </div>
-                <div class="button-group">
-                    <button class="btn" type="submit">Create</button>
-                </div>
-            </form>
-        </div>
+	<div class="popup-container">
+		<div *ngIf="currentStep === 1" [attr.data-step]="1" class="popup-content">
+			<div class="header">
+				<h2>Create new Channel</h2>
+				<div (click)="closePopup()"></div>
+			</div>
+			<p>
+				Channels are where your team communicates. They're best organized by
+				topic #marketing for example. </p>
+			<form (ngSubmit)="nextStep()">
+				<div class="input-group hash">
+					<label for="channelName">Channel name</label>
+					<div class="input-container">
+						<input [(ngModel)]="channelName"
+						       id="channelName"
+						       name="channelName"
+						       placeholder="e.g. Office-Team"
+						       required
+						       type="text"/>
+						<div class="hash-icon"></div>
+					</div>
+				</div>
+				<div class="input-group">
+					<label for="description">Description (optional)</label>
+					<textarea (input)="autoGrow($event)"
+					          [(ngModel)]="description"
+					          id="description"
+					          name="description"
+					          placeholder="Add a description..."></textarea>
+				</div>
+				<div class="button-group">
+					<button class="btn" type="submit">Create</button>
+				</div>
+			</form>
+		</div>
 
-        <div *ngIf="currentStep === 2" [attr.data-step]="2" class="popup-content">
-            <div (click)="previousStep()" class="close-btn-mobile"></div>
-            <div class="header">
-                <h2>Add people</h2>
-                <div (click)="closePopup()" class="close-btn"></div>
-            </div>
+		<div *ngIf="currentStep === 2" [attr.data-step]="2" class="popup-content">
+			<div (click)="previousStep()" class="close-btn-mobile"></div>
+			<div class="header">
+				<h2>Add people</h2>
+				<div (click)="closePopup()" class="close-btn"></div>
+			</div>
 
-            <div class="access-options">
-                <div class="option-item">
-                    <input [(ngModel)]="accessType" [value]="'all'" id="all-members" name="access" type="radio"/>
-                    <label for="all-members">
-                        <span>All members of</span>
-                        <span class="team-name"> OfficeTeam </span>
-                        <span>add</span>
-                    </label>
-                </div>
+			<div class="access-options">
+				<div class="option-item">
+					<input [(ngModel)]="accessType" [value]="'all'" id="all-members" name="access" type="radio"/>
+					<label for="all-members">
+						<span>All members of</span>
+						<span class="team-name"> OfficeTeam </span>
+						<span>add</span>
+					</label>
+				</div>
 
-                <div class="option-item">
-                    <input [(ngModel)]="accessType" [value]="'selected'" id="select-people" name="access" type="radio"/>
-                    <label for="select-people">Add certain people</label>
-                </div>
-            </div>
+				<div class="option-item">
+					<input [(ngModel)]="accessType" [value]="'selected'" id="select-people" name="access" type="radio"/>
+					<label for="select-people">Add certain people</label>
+				</div>
+			</div>
 
-            <div *ngIf="accessType === 'selected'" class="input-group">
-                <input [(ngModel)]="searchText" name="search" placeholder="name for search" type="text"/>
-            </div>
+			<div *ngIf="accessType === 'selected'" class="input-group">
+				<input [(ngModel)]="searchText" name="search" placeholder="name for search" type="text"/>
+			</div>
 
-            <div class="button-group">
-                <button (click)="createChannel()" [class.disabled]="!isValidForCreation()"
-                        [disabled]="!isValidForCreation()" class="btn">
-                    Create
-                </button>
-            </div>
-        </div>
-    </div>
+			<div class="button-group">
+				<button (click)="createChannel()"
+				        [class.disabled]="!isValidForCreation()"
+				        [disabled]="!isValidForCreation()"
+				        class="btn">
+					Create
+				</button>
+			</div>
+		</div>
+	</div>
 </div>

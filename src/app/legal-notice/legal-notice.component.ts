@@ -8,16 +8,16 @@ import {RouterModule} from '@angular/router';
  * und bietet Navigationsmöglichkeiten zurück zur vorherigen Seite.
  */
 @Component({
-    selector: 'app-legal-notice',
-    imports: [RouterModule],
-    templateUrl: './legal-notice.component.html',
-    styleUrl: './legal-notice.component.scss'
+	selector: 'app-legal-notice',
+	imports: [RouterModule],
+	templateUrl: './legal-notice.component.html',
+	styleUrl: './legal-notice.component.scss'
 })
 
 export class LegalNoticeComponent {
 
-    navigateBack() {
-        window.history.back();
-    }
+	navigateBack() {
+		window.history.back();
+	}
 
 }

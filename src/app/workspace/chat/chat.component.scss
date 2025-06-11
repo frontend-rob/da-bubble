@@ -609,6 +609,40 @@
   @include mixins.hover-bg(variables.$bg-neutral-hover);
 }
 
+
+.dm-empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  padding: 32px;
+}
+
+
+.direct-message-contact {
+  display: flex;
+  align-items: end;
+  gap: 16px;
+
+  img {
+    height: 80px;
+    width: 80px;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: variables.$text-primary;
+  }
+}
+
+.direct-message-info {
+  font-size: 18px;
+  color: variables.$text-secondary;
+}
+
 .chat-partner {
   color: variables.$text-hover;
   text-decoration: underline;

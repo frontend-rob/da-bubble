@@ -9,66 +9,66 @@ import {Router} from "@angular/router";
 import {SearchCardComponent} from "./search-card/search-card.component";
 
 @Component({
-    selector: "app-workspace-header",
-    imports: [CommonModule, ProfileCardComponent, SearchCardComponent, NgOptimizedImage],
-    templateUrl: "./workspace-header.component.html",
-    styleUrl: "./workspace-header.component.scss",
+	selector: "app-workspace-header",
+	imports: [CommonModule, ProfileCardComponent, SearchCardComponent, NgOptimizedImage],
+	templateUrl: "./workspace-header.component.html",
+	styleUrl: "./workspace-header.component.scss",
 })
 export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
-    currentPerson!: UserData;
-    userSubscription!: Subscription;
+	currentPerson!: UserData;
+	userSubscription!: Subscription;
 
-    constructor(
-        private router: Router,
-        private authService: AuthService,
-        private userService: UserService
-    ) {
-    }
+	constructor(
+		private router: Router,
+		private authService: AuthService,
+		private userService: UserService
+	) {
+	}
 
-    get isUserMenuOpen() {
-        return this.userService.isUserMenuOpen;
-    }
+	get isUserMenuOpen() {
+		return this.userService.isUserMenuOpen;
+	}
 
-    get isUserProfileCardOpen() {
-        return this.userService.isUserProfileCardOpen;
-    }
+	get isUserProfileCardOpen() {
+		return this.userService.isUserProfileCardOpen;
+	}
 
-    ngOnInit() {
-        this.userSubscription = this.userService.currentUser$.subscribe(
-            (userData) => {
-                if (userData) {
-                    this.currentPerson = userData;
-                }
-            }
-        );
-    }
+	ngOnInit() {
+		this.userSubscription = this.userService.currentUser$.subscribe(
+			(userData) => {
+				if (userData) {
+					this.currentPerson = userData;
+				}
+			}
+		);
+	}
 
-    ngOnDestroy() {
-        if (this.userSubscription) {
-            this.userSubscription.unsubscribe();
-        }
-    }
+	ngOnDestroy() {
+		if (this.userSubscription) {
+			this.userSubscription.unsubscribe();
+		}
+	}
 
-    handleUserMenu(bool: boolean) {
-        this.userService.handleUserMenu(bool);
-    }
+	handleUserMenu(bool: boolean) {
+		this.userService.handleUserMenu(bool);
+	}
 
-    handleUserProfileCard(bool: boolean) {
-        this.userService.handleUserProfileCard(bool);
-    }
+	handleUserProfileCard(bool: boolean) {
+		this.userService.handleUserProfileCard(bool);
+	}
 
-    logOut(): void {
-        this.authService
-            .logOut()
-            .then(() => {
-                this.router.navigate(["/"]).then(r => {
-                    console.log(r, 'navigated to home');
-                });
-            })
-            .catch((error) => {
-                console.error("Logout failed:", error);
-            });
+	logOut(): void {
+		this.authService
+			.logOut()
+			.then(() => {
+				this.router.navigate(["/"]).then(r => {
+					console.log(r, 'navigated to home');
+				});
+			})
+			.catch((error) => {
+				console.error("Logout failed:", error);
+			});
 
-        this.userService.handleUserMenu(false);
-    }
+		this.userService.handleUserMenu(false);
+	}
 }

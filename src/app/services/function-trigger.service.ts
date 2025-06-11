@@ -3,13 +3,13 @@ import {Subject} from 'rxjs';
 import {ChannelData} from '../interfaces/channel.interface';
 
 @Injectable({
-    providedIn: 'root'
+	providedIn: 'root'
 })
 export class FunctionTriggerService {
-    private trigger = new Subject<ChannelData>();
-    trigger$ = this.trigger.asObservable();
+	private trigger = new Subject<ChannelData>();
+	trigger$ = this.trigger.asObservable();
 
-    callSelectChannel(channel: ChannelData): void {
-        this.trigger.next(channel);
-    }
+	callSelectChannel(channel: ChannelData): void {
+		this.trigger.next(channel);
+	}
 }

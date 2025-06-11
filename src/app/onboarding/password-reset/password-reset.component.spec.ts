@@ -3,21 +3,21 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {PasswordResetComponent} from './password-reset.component';
 
 describe('PasswordResetComponent', () => {
-    let component: PasswordResetComponent;
-    let fixture: ComponentFixture<PasswordResetComponent>;
+	let component: PasswordResetComponent;
+	let fixture: ComponentFixture<PasswordResetComponent>;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [PasswordResetComponent]
-        })
-            .compileComponents();
+	beforeEach(async () => {
+		await TestBed.configureTestingModule({
+			imports: [PasswordResetComponent]
+		})
+			.compileComponents();
 
-        fixture = TestBed.createComponent(PasswordResetComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+		fixture = TestBed.createComponent(PasswordResetComponent);
+		component = fixture.componentInstance;
+		fixture.detectChanges();
+	});
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
+	it('should create', () => {
+		expect(component).toBeTruthy();
+	});
 });

@@ -1,17 +1,17 @@
 <div class="workspace">
-    <div class="workspace-container">
-        <app-workspace-header></app-workspace-header>
-        <div>
-            <app-main-menu></app-main-menu>
-            <app-chat></app-chat>
-            <app-thread *ngIf="isThreadOpen"></app-thread>
-        </div>
-    </div>
+	<div class="workspace-container">
+		<app-workspace-header></app-workspace-header>
+		<div>
+			<app-main-menu></app-main-menu>
+			<app-chat></app-chat>
+			<app-thread *ngIf="isThreadOpen"></app-thread>
+		</div>
+	</div>
 </div>
 
 <!-- PROFILE CARD -->
 <div (click)="closeProfileModals()" *ngIf="isProfileCardOpen" class="modal-bg">
-    <app-profile-card *ngIf="isProfileCardOpen" [currentPerson]="currentPerson"></app-profile-card>
+	<app-profile-card *ngIf="isProfileCardOpen" [currentPerson]="currentPerson"></app-profile-card>
 </div>
 
 <div (click)="closeProfileModals()" *ngIf="isUserMenuOpen" class="modal-bg"></div>

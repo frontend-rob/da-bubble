@@ -1,55 +1,55 @@
 <div (click)="stopPropagation($event)" class="profile-modal">
-    <div class="container">
-        <header>
-            <h2>Profile</h2>
-            <div (click)="closeProfileCard()" class="button">
-                <img alt="close" height="14" ngSrc="/assets/img/profile-card/close.svg" width="14"/>
-            </div>
-        </header>
+	<div class="container">
+		<header>
+			<h2>Profile</h2>
+			<div (click)="closeProfileCard()" class="button">
+				<img alt="close" height="14" ngSrc="/assets/img/profile-card/close.svg" width="14"/>
+			</div>
+		</header>
 
-        <div class="profile-img-container">
-            <img [ngSrc]="currentPerson.photoURL" alt="photoURL" height="200" width="200"/>
-        </div>
+		<div class="profile-img-container">
+			<img [ngSrc]="currentPerson.photoURL" alt="photoURL" height="200" width="200"/>
+		</div>
 
-        <div>
-            <div class="name-container">
-                <div>
-                    <h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
+		<div>
+			<div class="name-container">
+				<div>
+					<h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
 
-                    <button *ngIf="
+					<button *ngIf="
                             isUserProfileCardOpen &&
                             currentPerson.role.user
                         ">
-                        Bearbeiten
-                    </button>
-                </div>
-                <div class="online-status">
-                    <div [ngClass]="{ online: currentPerson.status, offline: !currentPerson.status }"
-                         class="status-icon"></div>
-                    @if (currentPerson.status) {
-                        <p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">Aktiv</p>
-                    } @else {
-                        <p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">
-                            Abwesend</p>
-                    }
-                </div>
-            </div>
-        </div>
+						Bearbeiten
+					</button>
+				</div>
+				<div class="online-status">
+					<div [ngClass]="{ online: currentPerson.status, offline: !currentPerson.status }"
+					     class="status-icon"></div>
+					@if (currentPerson.status) {
+						<p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">Aktiv</p>
+					} @else {
+						<p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">
+							Abwesend</p>
+					}
+				</div>
+			</div>
+		</div>
 
-        <div class="email-container">
-            <div>
-                <img alt="letter" height="20" ngSrc="/assets/img/profile-card/letter.svg" width="26"/>
-                <div>Email-Address</div>
-            </div>
-            <a *ngIf="currentPerson" href="mailto: {{ currentPerson.email }}">{{
-                    currentPerson.email
-                }}</a>
-        </div>
+		<div class="email-container">
+			<div>
+				<img alt="letter" height="20" ngSrc="/assets/img/profile-card/letter.svg" width="26"/>
+				<div>Email-Address</div>
+			</div>
+			<a *ngIf="currentPerson" href="mailto: {{ currentPerson.email }}">{{
+					currentPerson.email
+				}}</a>
+		</div>
 
-        <div *ngIf="isProfileCardOpen" class="button-container">
-            <button>
-                <img alt="bubble" height="20" ngSrc="/assets/img/profile-card/bubble.svg" width="20"/>Message
-            </button>
-        </div>
-    </div>
+		<div *ngIf="isProfileCardOpen" class="button-container">
+			<button>
+				<img alt="bubble" height="20" ngSrc="/assets/img/profile-card/bubble.svg" width="20"/>Message
+			</button>
+		</div>
+	</div>
 </div>
