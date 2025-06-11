@@ -18,7 +18,7 @@
         <div *ngIf="!isEditing" class="message">
             {{ message.text }}
             <span *ngIf="message.edited" class="edited-indicator"
-                >(bearbeitet)</span
+                >(edited)</span
             >
         </div>
         <div *ngIf="isEditing" class="message-edit-container">
@@ -30,10 +30,10 @@
             </textarea>
             <div class="edit-actions">
                 <button (click)="saveEditedMessage()" class="edit-save-btn">
-                    Speichern
+                    Save
                 </button>
                 <button (click)="cancelEditing()" class="edit-cancel-btn">
-                    Abbrechen
+                    Cancel
                 </button>
             </div>
         </div>
