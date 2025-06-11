@@ -1,93 +1,72 @@
 @use "./../../../styles/fonts" as fonts;
 @use "./../../../styles/variables" as variables;
+@use "./../../../styles/mixins" as mixins;
 
 .message-input-wrapper {
-    padding: 1.25rem;
+  padding: 1.25rem;
+  width: 100%;
 
-    .message-input-section {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        width: 100%;
-        border: 1px solid variables.$border;
-        border-radius: 20px;
-        position: relative;
+  .message-input-section {
+    @include mixins.flex-column;
+    padding: 20px;
+    width: 100%;
+    border: 1px solid variables.$border;
+    border-radius: 20px;
+    position: relative;
 
-        textarea {
-            margin-bottom: 20px;
-            width: 100%;
-            height: 100%;
-            border: none;
-            outline: none;
-            resize: none;
-        }
+    textarea {
+      margin-bottom: 20px;
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      resize: none;
     }
+  }
 }
 
 .options-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  width: 100%;
+  @include mixins.flex-between;
 }
 
 .options {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+  @include mixins.flex-center;
+  gap: 8px;
 
-    &:has(:hover) :not(:hover).options-link {
-        filter: brightness(0);
-    }
+  &:has(:hover) :not(:hover).options-link {
+    filter: brightness(0);
+  }
 }
 
 .options-link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+  @include mixins.circle-button;
 
-    &:hover {
-        background-color: variables.$bg-neutral-hover;
-    }
+  &:hover {
+    background-color: variables.$bg-neutral-hover;
+  }
 }
 
 .emoji {
-    &:hover {
-        img {
-            content: url("/assets/img/shared/message-input-field/emoji_hover.svg");
-        }
-    }
+  @include mixins.hover-image("/assets/img/shared/message-input-field/emoji_hover.svg");
 }
 
 .user-tag {
-    &:hover {
-        img {
-            content: url("/assets/img/shared/message-input-field/user-tag_hover.svg");
-        }
-    }
+  @include mixins.hover-image("/assets/img/shared/message-input-field/user-tag_hover.svg");
 }
 
 .channel-tag {
-    &:hover {
-        img {
-            content: url("/assets/img/shared/message-input-field/channel-tag_hover.svg");
-        }
-    }
+  @include mixins.hover-image("/assets/img/shared/message-input-field/channel-tag_hover.svg");
 }
 
 .send-button {
-    background-image: url("/assets/img/send.svg");
-    background-size: cover;
-    background-position: center;
-    height: 18.77px;
-    width: 21.78px;
+  @include mixins.image-hover("/assets/img/send.svg", "/assets/img/send_hover.svg");
+  background-size: cover;
+  background-position: center;
+  height: 18.77px;
+  width: 21.78px;
 
-    &:hover {
-        cursor: pointer;
-        background-image: url("/assets/img/send_hover.svg");
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }

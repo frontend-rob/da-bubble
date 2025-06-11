@@ -1,11 +1,11 @@
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {ChannelData} from "../../../interfaces/channel.interface";
 import {UserData} from "../../../interfaces/user.interface";
 
 @Component({
     selector: "app-message-input-modal",
-    imports: [CommonModule],
+    imports: [CommonModule, NgOptimizedImage],
     templateUrl: "./message-input-modal.component.html",
     styleUrl: "./message-input-modal.component.scss",
 })

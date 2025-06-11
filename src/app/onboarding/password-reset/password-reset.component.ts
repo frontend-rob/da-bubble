@@ -56,10 +56,11 @@ export class PasswordResetComponent {
             this.authService.resetPassword(email).then(r => console.log(r, 'reset password success'));
             this.notificationComponent.showNotification('Email sent successfully!');
 
-            // Navigate and reset forms after notification is shown
             setTimeout(() => {
                 this.resetPWForm.reset();
-                this.router.navigate(['']).then(r => {console.log(r, 'navigated to home')});
+                this.router.navigate(['']).then(r => {
+                    console.log(r, 'navigated to home');
+                });
             }, 3000);
         } else {
             console.log('Form is invalid');

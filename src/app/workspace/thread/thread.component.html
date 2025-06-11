@@ -7,27 +7,22 @@
             <span class="thread-description">{{ threadChannelName }}</span>
         </div>
         <div (click)="handleThread()" class="close-btn">
-            <img src="assets/img/thread/close.svg"/>
+            <img alt="Close thread" height="24" ngSrc="/assets/img/thread/close.svg" width="24"/>
         </div>
     </div>
     <main>
         <ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
             <ng-container *ngIf="shouldShowDate(messages, i)">
-                <div class="message-time-seperator">
+                <div class="message-time-separator">
                     <div class="time">{{ message.date }}</div>
                 </div>
             </ng-container>
 
-            <app-chat-message-other
-                [message]="message"
-            ></app-chat-message-other>
+            <app-chat-message-other [message]="message"></app-chat-message-other>
         </ng-container>
 
         <!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
-        <app-message-input-field
-            (send)="sendThreadMessage($event)"
-            [placeholderText]="'Antworten...'"
-            class="message-input-field"
-        ></app-message-input-field>
+        <app-message-input-field (send)="sendThreadMessage($event)" [placeholderText]="'Antworten...'"
+                                 class="message-input-field"></app-message-input-field>
     </main>
 </div>

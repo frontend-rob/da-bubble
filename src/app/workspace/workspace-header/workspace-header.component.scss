@@ -2,137 +2,135 @@
 @use "../../../styles/variables" as variables;
 
 .header-container {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    // justify-content: space-between;
-    // padding: 0 20px;
-    gap: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .logo-container {
-    padding-left: 20px;
-    width: 366px;
+  padding-left: 20px;
+  width: 366px;
 }
 
 .search-bar-input-container {
-    display: flex;
-    background-color: variables.$bg-base-200;
-    width: 989px;
-    border-radius: 42px;
-    justify-content: space-between;
-    padding: 17.5px 45px;
+  display: flex;
+  background-color: variables.$bg-base-200;
+  width: 989px;
+  border-radius: 42px;
+  justify-content: space-between;
+  padding: 17.5px 45px;
 
-    >input {
-        border: none;
-        width: 100%;
-        font-size: 24px;
+  > input {
+    border: none;
+    width: 100%;
+    font-size: 24px;
 
-        &:focus {
-            outline: none;
-        }
+    &:focus {
+      outline: none;
     }
+  }
 
-    img {
-        width: 32px;
-        height: 32px;
-    }
+  img {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .user-profile-container {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex: 1;
-    gap: 20px;
-    position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+  gap: 20px;
+  position: relative;
+  cursor: pointer;
+
+  > span {
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  > img {
     cursor: pointer;
+  }
 
-    >span {
-        font-size: 32px;
-        font-weight: 700;
+  &:hover {
+    span {
+      color: variables.$text-hover;
     }
-
-    >img {
-        cursor: pointer;
-    }
-
-    &:hover {
-        span {
-            color: variables.$text-hover;
-        }
-    }
+  }
 }
 
 .user-menu {
-    display: flex;
-    flex-direction: column;
-    padding: 32px;
-    gap: 15px;
-    position: absolute;
-    top: 118px;
-    right: 20px;
-    justify-self: end;
-    background-color: variables.$bg-base-200;
-    box-shadow: 0 -3px 10px 0 #00000033;
-    border-bottom-left-radius: 30px;
-    border-top-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    z-index: 10;
-    font-weight: 600;
-    font-size: 24px;
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  gap: 15px;
+  position: absolute;
+  top: 118px;
+  right: 20px;
+  justify-self: end;
+  background-color: variables.$bg-base-200;
+  box-shadow: 0 -3px 10px 0 #00000033;
+  border-bottom-left-radius: 30px;
+  border-top-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  z-index: 10;
+  font-weight: 600;
+  font-size: 24px;
 
-    >div {
-        cursor: pointer;
-        padding: 10px 70px;
+  > div {
+    cursor: pointer;
+    padding: 10px 70px;
 
-        &:hover {
-            background-color: variables.$bg-base-100;
-            border-radius: 100px;
-            color: variables.$text-hover;
-        }
+    &:hover {
+      background-color: variables.$bg-base-100;
+      border-radius: 100px;
+      color: variables.$text-hover;
     }
+  }
 }
 
 .user-profile {
-    position: absolute;
-    top: 427px;
-    right: 270px;
-    z-index: 10;
+  position: absolute;
+  top: 427px;
+  right: 270px;
+  z-index: 10;
 }
 
 .avatar {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    img {
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
+  img {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+  }
+
+  > .status {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 5;
+    border: 2px solid variables.$bg-base-200;
+
+    &.online {
+      background-color: variables.$online;
     }
 
-    >.status {
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        position: absolute;
-        bottom: 0px;
-        right: 0px;
-        z-index: 5;
-        border: 2px solid variables.$bg-base-200;
-
-        &.online {
-            background-color: variables.$online;
-        }
-
-        &.offline {
-            background-color: variables.$offline;
-        }
+    &.offline {
+      background-color: variables.$offline;
     }
+  }
 
-    >img {
-        border-radius: 50%;
-    }
+  > img {
+    border-radius: 50%;
+  }
 }

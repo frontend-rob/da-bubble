@@ -1,185 +1,182 @@
 @use "../../../../styles/variables" as variables;
 
 .message-container {
-    display: flex;
-    padding: 8px 48px;
-    gap: 30px;
-    position: relative;
+  display: flex;
+  padding: 8px 48px;
+  gap: 30px;
+  position: relative;
 
-    > img {
-        max-height: 70px;
-        max-width: 70px;
+  > img {
+    max-height: 70px;
+    max-width: 70px;
+  }
+
+  &:hover {
+    background-color: variables.$bg-neutral-hover;
+
+    .message {
+      background-color: variables.$bg-base-200;
     }
-
-    &:hover {
-        background-color: variables.$bg-neutral-hover;
-
-        .message {
-            background-color: variables.$bg-base-200;
-        }
-    }
+  }
 }
 
 .author-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .message-content-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .author-name {
-    font-weight: 700;
-    font-size: 18px;
+  font-weight: 700;
+  font-size: 18px;
 
-    &:hover {
-        color: variables.$text-hover;
-    }
+  &:hover {
+    color: variables.$text-hover;
+  }
 }
 
 .message-time {
-    font-weight: 400;
-    font-size: 14px;
-    color: variables.$bg-neutral;
+  font-weight: 400;
+  font-size: 14px;
+  color: variables.$bg-neutral;
 }
 
 .message {
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    border-bottom-left-radius: 30px;
-    padding: 15px;
-    background-color: variables.$bg-neutral-hover;
-    color: variables.$text-inverse;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  padding: 15px;
+  background-color: variables.$bg-neutral-hover;
+  color: variables.$text-primary;
 }
 
 .own-message {
-    .message {
-        background-color: variables.$bg-primary-accent !important;
-        border-top-left-radius: 30px;
-        border-top-right-radius: 0;
-    }
-    .author-container {
-        justify-content: end;
-    }
-    flex-direction: row-reverse;
+  .message {
+    background-color: variables.$bg-primary-accent !important;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 0;
+    color: variables.$text-inverse;
+  }
+
+  .author-container {
+    justify-content: end;
+  }
+
+  flex-direction: row-reverse;
 }
 
 .replies-container {
-    display: flex;
-    align-items: center;
-    // gap: 20px;
+  display: flex;
+  align-items: center;
+  // gap: 20px;
 }
 
 .replies {
-    min-width: 128px;
-    font-size: 18px;
-    font-weight: 400;
-    color: variables.$text-hover;
+  min-width: 128px;
+  font-size: 18px;
+  font-weight: 400;
+  color: variables.$text-hover;
 
-    &:hover {
-        font-weight: 700;
-    }
+  &:hover {
+    font-weight: 700;
+  }
 }
 
 .last-reply {
-    color: variables.$bg-neutral;
-    font-size: 14px;
+  color: variables.$bg-neutral;
+  font-size: 14px;
 }
 
 .reactions-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
 }
 
 .reaction {
-    display: flex;
-    align-items: center;
-    background-color: #f2f2f2;
-    border-radius: 12px;
-    padding: 2px 8px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #f2f2f2;
+  border-radius: 12px;
+  padding: 2px 8px;
+  cursor: pointer;
 
-    &:hover {
-        background-color: #e6e6e6;
-    }
+  &:hover {
+    background-color: #e6e6e6;
+  }
 
-    &.user-reacted {
-        background-color: #e1f5fe;
-        border: 1px solid #81d4fa;
-    }
+  .emoji {
+    margin-right: 4px;
+  }
 
-    .emoji {
-        margin-right: 4px;
-    }
-
-    .count {
-        font-size: 12px;
-        color: #666;
-    }
+  .count {
+    font-size: 12px;
+    color: #666;
+  }
 }
 
 .message-edit-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .message-edit-input {
-    width: 100%;
-    min-height: 60px;
-    padding: 10px;
-    border: 1px solid #adb0d9;
-    border-radius: 8px;
-    resize: vertical;
-    font-family: inherit;
-    font-size: inherit;
+  width: 100%;
+  min-height: 60px;
+  padding: 10px;
+  border: 1px solid #adb0d9;
+  border-radius: 8px;
+  resize: vertical;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 .edit-actions {
-    display: flex;
-    gap: 8px;
+  display: flex;
+  gap: 8px;
 
-    button {
-        padding: 6px 12px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 14px;
+  button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+
+  .edit-save-btn {
+    background-color: #007bff;
+    color: white;
+
+    &:hover {
+      background-color: #0069d9;
     }
+  }
 
-    .edit-save-btn {
-        background-color: #007bff;
-        color: white;
+  .edit-cancel-btn {
+    background-color: #6c757d;
+    color: white;
 
-        &:hover {
-            background-color: #0069d9;
-        }
+    &:hover {
+      background-color: #5a6268;
     }
-
-    .edit-cancel-btn {
-        background-color: #6c757d;
-        color: white;
-
-        &:hover {
-            background-color: #5a6268;
-        }
-    }
+  }
 }
 
 .edited-indicator {
-    font-size: 12px;
-    color: #6c757d;
-    color: variables.$text-inverse;
-    margin-left: 4px;
+  font-size: 12px;
+  color: variables.$text-inverse;
+  margin-left: 4px;
 }

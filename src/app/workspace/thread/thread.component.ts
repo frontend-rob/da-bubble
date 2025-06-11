@@ -1,4 +1,4 @@
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {ChatService} from "../../services/chat.service";
@@ -12,13 +12,11 @@ import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.comp
 
 @Component({
     selector: "app-thread",
-    imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent],
+    imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage],
     templateUrl: "./thread.component.html",
     styleUrl: "./thread.component.scss",
 })
 export class ThreadComponent implements OnInit, OnDestroy {
-    hoverEmoji = false;
-    hoverTag = false;
     currentUser!: UserData;
     userSubscription!: Subscription;
     userService: UserService = inject(UserService);
@@ -57,8 +55,8 @@ export class ThreadComponent implements OnInit, OnDestroy {
         );
         this.threadChannelName = this.chatService.selectedChannel.channelName;
 
-        this.messages$.subscribe((msgs) => {
-            this.messages = msgs;
+        this.messages$.subscribe((megs) => {
+            this.messages = megs;
         });
     }
 
@@ -74,7 +72,6 @@ export class ThreadComponent implements OnInit, OnDestroy {
     }
 
     async sendThreadMessage(content: string): Promise<void> {
-        console.log("Sending thread...");
         if (!this.chatService.selectedChannel || !content.trim()) {
             return console.log(this.chatService.selectedChannel);
         }

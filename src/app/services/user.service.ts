@@ -80,39 +80,8 @@ export class UserService {
     getAllUserData(): Observable<UserData[]> {
         return runInInjectionContext(this.environmentInjector, () => {
             const usersCollectionRef = collection(this.firestore, 'users');
-            return collectionData(usersCollectionRef, { idField: 'uid' }) as Observable<UserData[]>;
+            return collectionData(usersCollectionRef, {idField: 'uid'}) as Observable<UserData[]>;
         });
-    }
-
-    /**
-     * Gets a username by user ID
-     * @param uid The user ID to look up
-     * @returns Observable with the username or empty string if not found
-     */
-    getUserName(uid: string): Observable<string> {
-        return this.getUserData(uid).pipe(
-            map((userData) => userData?.userName || ""),
-            catchError(() => of(""))
-        );
-    }
-
-    /**
-     * Gets the current logged-in user's name
-     * @returns Observable with the current user's name or empty string if not logged in
-     */
-    getCurrentUserName(): Observable<string> {
-        return this.currentUser$.pipe(
-            map((userData) => userData?.userName || ""),
-            catchError(() => of(""))
-        );
-    }
-
-    /**
-     * Gets the current logged-in user's ID
-     * @returns Observable with the current user's ID or null if not logged in
-     */
-    getCurrentUserId(): Observable<string | null> {
-        return user(this.auth).pipe(map((user) => user?.uid || null));
     }
 
     handleUserMenu(bool: boolean) {

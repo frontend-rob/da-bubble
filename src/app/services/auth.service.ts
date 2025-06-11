@@ -19,6 +19,7 @@ import {UserData} from '../interfaces/user.interface';
 import {collection, doc, Firestore, getDocs, query, setDoc, Timestamp, where} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {UserDataService} from './user-data.service';
+import {UserService} from './user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -27,7 +28,11 @@ export class AuthService {
 
     user$: Observable<User | null>;
 
-    constructor(private environmentInjector: EnvironmentInjector, private firebaseAuth: Auth, private userDataService: UserDataService) {
+    constructor(
+        private environmentInjector: EnvironmentInjector,
+        private firebaseAuth: Auth,
+        private userDataService: UserDataService,
+    ) {
         this.user$ = user(this.firebaseAuth);
     }
 
@@ -66,11 +71,20 @@ export class AuthService {
      * @param password - The password for the user.
      * @returns A promise that resolves when the user is successfully logged in.
      */
+    /**
+     * Logs in a user with Firebase Authentication and updates online status.
+     * Ensures the method runs within an Angular injection context.
+     * @param email - The email address of the user.
+     * @param password - The password for the user.
+     * @returns A promise that resolves when the user is successfully logged in.
+     */
     async logIn(email: string, password: string): Promise<void> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const auth = inject(Auth);
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
             await this.setUserOnlineStatus(userCredential.user.uid, true);
+            this.setupPresenceTracking(userCredential.user.uid);
         });
     }
 
@@ -130,7 +144,7 @@ export class AuthService {
                 email: auth.currentUser?.email || '',
                 password: '',
                 policy: false
-            })
+            });
             await this.saveUserToFirestore(auth.currentUser?.uid || '', googleData);
         });
     }
@@ -179,6 +193,32 @@ export class AuthService {
     }
 
     /**
+     * Updates the user's status in Firestore.
+     * @param uid - The unique ID of the user.
+     * @param status - The status to set (true for online, false for offline).
+     */
+    async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const userRef = doc(firestore, `users/${uid}`);
+            await setDoc(userRef, {status}, {merge: true});
+
+            this.broadcastUserStatusChange(uid, status);
+        });
+    }
+
+    /**
+     * Sets up presence tracking for a user to automatically detect
+     * when they go offline (browser close, etc.)
+     * @param uid - The user ID to track
+     */
+    private setupPresenceTracking(uid: string): void {
+        window.addEventListener('beforeunload', async () => {
+            await this.setUserOnlineStatus(uid, false);
+        });
+    }
+
+    /**
      * Creates guest user data for anonymous authentication.
      * @param uid - The unique ID of the guest user.
      * @returns A UserData object containing guest user information.
@@ -187,7 +227,7 @@ export class AuthService {
         return {
             uid,
             userName: 'Guest',
-            email: 'dabubble-406.firebaseapp.com',
+            email: `guest-${uid}@dabubble-app.firebaseapp.com`,
             photoURL: 'assets/img/avatars/av-01.svg',
             createdAt: Timestamp.fromDate(new Date()),
             status: true,
@@ -210,15 +250,12 @@ export class AuthService {
     }
 
     /**
-     * Updates the user's status in Firestore.
+     * Broadcasts user status change for real-time updates across the app.
+     * This can be extended to use a messaging system or state management.
      * @param uid - The unique ID of the user.
-     * @param status - The status to set ('online' or 'offline').
+     * @param status - The new status.
      */
-    private async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
-        return runInInjectionContext(this.environmentInjector, async () => {
-            const firestore = inject(Firestore);
-            const userRef = doc(firestore, `users/${uid}`);
-            await setDoc(userRef, {status}, {merge: true});
-        });
+    private broadcastUserStatusChange(uid: string, status: boolean): void {
+        console.log(`User ${uid} status changed to ${status ? 'online' : 'offline'}`);
     }
 }

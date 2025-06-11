@@ -1,23 +1,22 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { IdtMessages, Reaction } from "../../../interfaces/message.interface";
-import { ChatService } from "../../../services/chat.service";
-import { ChatOptionBarComponent } from "../chat-option-bar/chat-option-bar.component";
-import { CommonModule } from "@angular/common";
-import { UserService } from "../../../services/user.service";
-import { Subscription } from "rxjs";
-import { UserData } from "../../../interfaces/user.interface";
-import { Timestamp } from "@angular/fire/firestore";
-import { FormsModule } from "@angular/forms";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {IdtMessages, Reaction} from "../../../interfaces/message.interface";
+import {ChatService} from "../../../services/chat.service";
+import {ChatOptionBarComponent} from "../chat-option-bar/chat-option-bar.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {UserService} from "../../../services/user.service";
+import {Subscription} from "rxjs";
+import {UserData} from "../../../interfaces/user.interface";
+import {Timestamp} from "@angular/fire/firestore";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: "app-chat-message-other",
-    imports: [CommonModule, ChatOptionBarComponent, FormsModule],
+    imports: [CommonModule, ChatOptionBarComponent, FormsModule, NgOptimizedImage],
     templateUrl: "./chat-message.component.html",
     styleUrl: "./chat-message.component.scss",
 })
 export class ChatMessageComponent implements OnInit, OnDestroy {
     @Input() message!: IdtMessages;
-    isHovered = true;
     currentUserSubscription!: Subscription;
     currentUser!: UserData;
     emojiList: string[] = [
@@ -39,7 +38,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         "\u{1F680}", // 🚀
     ];
 
-    // Neue Eigenschaften hinzufügen
     isEditing: boolean = false;
     editedText: string = "";
     hovered: boolean = false;
@@ -47,7 +45,29 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
     constructor(
         private chatService: ChatService,
         private userService: UserService
-    ) {}
+    ) {
+    }
+
+    get isOwnMessage(): boolean {
+        return this.message.sender.uid === this.currentUser.uid;
+    }
+
+    get groupedReactions(): { emoji: string; count: number }[] {
+        if (!this.message.reactions) return [];
+
+        const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
+            if (!acc[reaction.emoji]) {
+                acc[reaction.emoji] = 0;
+            }
+            acc[reaction.emoji]++;
+            return acc;
+        }, {} as Record<string, number>);
+
+        return Object.entries(groupedEmojis).map(([emoji, count]) => ({
+            emoji,
+            count,
+        }));
+    }
 
     ngOnInit() {
         this.currentUserSubscription = this.userService.currentUser$.subscribe(
@@ -75,11 +95,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         this.chatService.setCurrentPerson(person);
     }
 
-    get isOwnMessage(): boolean {
-        return this.message.sender.uid === this.currentUser.uid;
+    ngOnDestroy() {
     }
-
-    ngOnDestroy() {}
 
     handleEmojiReaction(emoji: string, message: IdtMessages) {
         if (!message.reactions) {
@@ -108,25 +125,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
                 this.chatService.selectedChannel.channelId,
                 message.messageId,
                 message.reactions
-            ).then(r => {console.log(r)});
+            ).then(r => {
+                console.log(r);
+            });
         }
-    }
-
-    get groupedReactions(): { emoji: string; count: number }[] {
-        if (!this.message.reactions) return [];
-
-        const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
-            if (!acc[reaction.emoji]) {
-                acc[reaction.emoji] = 0;
-            }
-            acc[reaction.emoji]++;
-            return acc;
-        }, {} as Record<string, number>);
-
-        return Object.entries(groupedEmojis).map(([emoji, count]) => ({
-            emoji,
-            count,
-        }));
     }
 
     hasUserReacted(emoji: string): boolean {
@@ -136,25 +138,24 @@ export class ChatMessageComponent implements OnInit, OnDestroy {
         );
     }
 
-    // Neue Methode für das Starten der Bearbeitung
     startEditingMessage(message: IdtMessages) {
         this.isEditing = true;
         this.editedText = message.text;
     }
 
-    // Methode zum Speichern der bearbeiteten Nachricht
     saveEditedMessage() {
         if (this.message.messageId && this.editedText.trim() !== "") {
             this.chatService.updateMessageText(
                 this.chatService.selectedChannel.channelId,
                 this.message.messageId,
                 this.editedText
-            );
+            ).then(r => {
+                console.log(r);
+            });
             this.isEditing = false;
         }
     }
 
-    // Methode zum Abbrechen der Bearbeitung
     cancelEditing() {
         this.isEditing = false;
     }

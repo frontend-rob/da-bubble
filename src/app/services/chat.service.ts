@@ -28,21 +28,24 @@ export class ChatService {
     private environmentInjector = inject(EnvironmentInjector);
     private helperService: any = inject(HelperService);
     private _isThreadOpen = false;
-    private _isNewMessage = false;
-    private _isProfileCardOpen = false;
-    private _currentPerson!: UserData;
 
     get isThreadOpen(): boolean {
         return this._isThreadOpen;
     }
 
+    private _isNewMessage = false;
+
     get isNewMessage(): boolean {
         return this._isNewMessage;
     }
 
+    private _isProfileCardOpen = false;
+
     get isProfileCardOpen(): boolean {
         return this._isProfileCardOpen;
     }
+
+    private _currentPerson!: UserData;
 
     get currentPerson(): UserData {
         return this._currentPerson;

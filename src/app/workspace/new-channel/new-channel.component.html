@@ -7,32 +7,20 @@
             </div>
             <p>
                 Channels are where your team communicates. They're best organized by
-                topic #marketing for example.
-            </p>
+                topic #marketing for example. </p>
             <form (ngSubmit)="nextStep()">
                 <div class="input-group hash">
                     <label for="channelName">Channel name</label>
                     <div class="input-container">
-                        <input
-                            [(ngModel)]="channelName"
-                            id="channelName"
-                            name="channelName"
-                            placeholder="e.g. Office-Team"
-                            required
-                            type="text"
-                        />
+                        <input [(ngModel)]="channelName" id="channelName" name="channelName"
+                               placeholder="e.g. Office-Team" required type="text"/>
                         <div class="hash-icon"></div>
                     </div>
                 </div>
                 <div class="input-group">
                     <label for="description">Description (optional)</label>
-                    <textarea
-                        (input)="autoGrow($event)"
-                        [(ngModel)]="description"
-                        id="description"
-                        name="description"
-                        placeholder="Add a description..."
-                    ></textarea>
+                    <textarea (input)="autoGrow($event)" [(ngModel)]="description" id="description" name="description"
+                              placeholder="Add a description..."></textarea>
                 </div>
                 <div class="button-group">
                     <button class="btn" type="submit">Create</button>
@@ -49,13 +37,7 @@
 
             <div class="access-options">
                 <div class="option-item">
-                    <input
-                        [(ngModel)]="accessType"
-                        [value]="'all'"
-                        id="all-members"
-                        name="access"
-                        type="radio"
-                    />
+                    <input [(ngModel)]="accessType" [value]="'all'" id="all-members" name="access" type="radio"/>
                     <label for="all-members">
                         <span>All members of</span>
                         <span class="team-name"> OfficeTeam </span>
@@ -64,33 +46,18 @@
                 </div>
 
                 <div class="option-item">
-                    <input
-                        [(ngModel)]="accessType"
-                        [value]="'selected'"
-                        id="select-people"
-                        name="access"
-                        type="radio"
-                    />
+                    <input [(ngModel)]="accessType" [value]="'selected'" id="select-people" name="access" type="radio"/>
                     <label for="select-people">Add certain people</label>
                 </div>
             </div>
 
             <div *ngIf="accessType === 'selected'" class="input-group">
-                <input
-                    [(ngModel)]="searchText"
-                    name="search"
-                    placeholder="name for search"
-                    type="text"
-                />
+                <input [(ngModel)]="searchText" name="search" placeholder="name for search" type="text"/>
             </div>
 
             <div class="button-group">
-                <button
-                    (click)="createChannel()"
-                    [class.disabled]="!isValidForCreation()"
-                    [disabled]="!isValidForCreation()"
-                    class="btn"
-                >
+                <button (click)="createChannel()" [class.disabled]="!isValidForCreation()"
+                        [disabled]="!isValidForCreation()" class="btn">
                     Create
                 </button>
             </div>

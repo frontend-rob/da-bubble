@@ -11,7 +11,7 @@ export interface ChannelData {
     /**
      * The type of communication channel (group channel or direct message).
      */
-    channelType: ChannelType
+    channelType: ChannelType;
     /**
      * The display name of the channel shown to users.
      * Example: "Developer Team".

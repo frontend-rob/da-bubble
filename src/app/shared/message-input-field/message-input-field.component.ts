@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChannelData} from "../../interfaces/channel.interface";
 import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
@@ -10,7 +10,7 @@ import {ChatService} from '../../services/chat.service';
 @Component({
     selector: "app-message-input-field",
     standalone: true,
-    imports: [CommonModule, FormsModule, MessageInputModalComponent],
+    imports: [CommonModule, FormsModule, MessageInputModalComponent, NgOptimizedImage, NgOptimizedImage],
     templateUrl: "./message-input-field.component.html",
     styleUrl: "./message-input-field.component.scss",
 })
@@ -47,7 +47,8 @@ export class MessageInputFieldComponent implements OnInit {
         "\u{1F680}", // 🚀
     ];
 
-    constructor(private chatService: ChatService){}
+    constructor(private chatService: ChatService) {
+    }
 
     ngOnInit() {
         this.users = this.chatService.selectedChannel.channelMembers;
@@ -57,15 +58,9 @@ export class MessageInputFieldComponent implements OnInit {
     }
 
     toggleEmojiModal() {
-        if (
-            !this.isEmojiModalOpen &&
+        this.isEmojiModalOpen = !this.isEmojiModalOpen &&
             !this.isUserTagModalOpen &&
-            !this.isChannelTagModalOpen
-        ) {
-            this.isEmojiModalOpen = true;
-        } else {
-            this.isEmojiModalOpen = false;
-        }
+            !this.isChannelTagModalOpen;
     }
 
     toggleUserTagModal() {

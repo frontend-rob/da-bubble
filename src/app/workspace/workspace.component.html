@@ -1,27 +1,17 @@
 <div class="workspace">
-    <!-- logOut function should be included into workspace header component -->
-    <!-- <button (click)="logOut()">LogOut</button> -->
     <div class="workspace-container">
         <app-workspace-header></app-workspace-header>
         <div>
             <app-main-menu></app-main-menu>
             <app-chat></app-chat>
             <app-thread *ngIf="isThreadOpen"></app-thread>
-            <!-- <app-new-channel [showPopup]="false"></app-new-channel> -->
         </div>
     </div>
 </div>
 
 <!-- PROFILE CARD -->
 <div (click)="closeProfileModals()" *ngIf="isProfileCardOpen" class="modal-bg">
-    <app-profile-card
-        *ngIf="isProfileCardOpen"
-        [currentPerson]="currentPerson"
-    ></app-profile-card>
+    <app-profile-card *ngIf="isProfileCardOpen" [currentPerson]="currentPerson"></app-profile-card>
 </div>
 
-<div
-    (click)="closeProfileModals()"
-    *ngIf="isUserMenuOpen"
-    class="modal-bg"
-></div>
+<div (click)="closeProfileModals()" *ngIf="isUserMenuOpen" class="modal-bg"></div>

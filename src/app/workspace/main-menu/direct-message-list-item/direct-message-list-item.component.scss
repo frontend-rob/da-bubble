@@ -1,57 +1,57 @@
 @use "../../../../styles/variables" as variables;
 
 .menu-item {
-    padding: 8px 16px;
+  padding: 8px 16px;
+  display: flex;
+  justify-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  border-radius: 32px;
+  cursor: pointer;
+
+  > .avatar {
+    position: relative;
+    height: 35px;
+    width: 35px;
     display: flex;
-    justify-self: flex-start;
+    justify-content: center;
     align-items: center;
-    gap: 10px;
-    border-radius: 32px;
-    cursor: pointer;
 
-    > .avatar {
-        position: relative;
-        height: 35px;
-        width: 35px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    > .status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 0;
+      right: -2px;
+      border: 2px solid variables.$bg-base-200;
 
-        > .status {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 0px;
-            right: -2px;
-            border: 2px solid variables.$bg-base-200;
+      &.online {
+        background-color: variables.$online;
+      }
 
-            &.online {
-                background-color: variables.$online;
-            }
-
-            &.offline {
-                background-color: variables.$offline;
-            }
-        }
-
-        > img {
-            height: 35px;
-            width: 35px;
-            border-radius: 50%;
-        }
+      &.offline {
+        background-color: variables.$offline;
+      }
     }
 
-    &:hover {
-        background-color: variables.$bg-base-100;
+    > img {
+      height: 35px;
+      width: 35px;
+      border-radius: 50%;
     }
+  }
+
+  &:hover {
+    background-color: variables.$bg-base-100;
+  }
 }
 
 .activate {
-    background-color: variables.$bg-base-100;
+  background-color: variables.$bg-base-100;
 
-    > div {
-        color: variables.$text-hover;
-        font-weight: 700;
-    }
+  > div {
+    color: variables.$text-hover;
+    font-weight: 700;
+  }
 }
