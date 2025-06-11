@@ -9,55 +9,55 @@ import {ProfileCardComponent} from "./profile-card/profile-card.component";
 import {UserService} from "../services/user.service";
 
 @Component({
-    selector: "app-workspace",
-    imports: [
-        CommonModule,
-        MainMenuComponent,
-        ChatComponent,
-        ThreadComponent,
-        WorkspaceHeaderComponent,
-        ThreadComponent,
-        ProfileCardComponent,
-    ],
-    templateUrl: "./workspace.component.html",
-    styleUrls: ["./workspace.component.scss"],
-    providers: [ChatService],
+	selector: "app-workspace",
+	imports: [
+		CommonModule,
+		MainMenuComponent,
+		ChatComponent,
+		ThreadComponent,
+		WorkspaceHeaderComponent,
+		ThreadComponent,
+		ProfileCardComponent,
+	],
+	templateUrl: "./workspace.component.html",
+	styleUrls: ["./workspace.component.scss"],
+	providers: [ChatService],
 })
 export class WorkspaceComponent {
 
-    constructor(
-        private chatService: ChatService,
-        private userService: UserService
-    ) {
-    }
+	constructor(
+		private chatService: ChatService,
+		private userService: UserService
+	) {
+	}
 
-    get isThreadOpen() {
-        return this.chatService.isThreadOpen;
-    }
+	get isThreadOpen() {
+		return this.chatService.isThreadOpen;
+	}
 
-    get isProfileCardOpen() {
-        return this.chatService.isProfileCardOpen;
-    }
+	get isProfileCardOpen() {
+		return this.chatService.isProfileCardOpen;
+	}
 
-    get isUserMenuOpen() {
-        return this.userService.isUserMenuOpen;
-    }
+	get isUserMenuOpen() {
+		return this.userService.isUserMenuOpen;
+	}
 
-    get currentPerson() {
-        return this.chatService.currentPerson;
-    }
+	get currentPerson() {
+		return this.chatService.currentPerson;
+	}
 
-    handleProfileCard(bool: boolean) {
-        this.chatService.handleProfileCard(bool);
-    }
+	handleProfileCard(bool: boolean) {
+		this.chatService.handleProfileCard(bool);
+	}
 
-    handleUserProfileCard(bool: boolean) {
-        this.userService.handleUserProfileCard(bool);
-    }
+	handleUserProfileCard(bool: boolean) {
+		this.userService.handleUserProfileCard(bool);
+	}
 
-    closeProfileModals() {
-        this.handleProfileCard(false);
-        this.handleUserProfileCard(false);
-        this.userService.handleUserMenu(false);
-    }
+	closeProfileModals() {
+		this.handleProfileCard(false);
+		this.handleUserProfileCard(false);
+		this.userService.handleUserMenu(false);
+	}
 }

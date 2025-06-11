@@ -11,43 +11,43 @@ import {LegalNoticeComponent} from './legal-notice/legal-notice.component';
 import {PrivacyPolicyComponent} from './privacy-policy/privacy-policy.component';
 
 export const routes: Routes = [
-    {
-        path: 'workspace',
-        component: WorkspaceComponent,
-        canActivate: [authGuard],
-    },
-    {
-        path: '',
-        component: OnboardingComponent,
-        children: [
-            {
-                path: '',
-                component: LogInComponent,
-            },
-            {
-                path: 'signup',
-                component: SignUpComponent,
-            },
-            {
-                path: 'avatars',
-                component: AvatarsComponent,
-            },
-            {
-                path: 'reset-password',
-                component: PasswordResetComponent,
-            },
-            {
-                path: 'change-password',
-                component: PasswordNewComponent,
-            },
-            {
-                path: 'legal-notice',
-                component: LegalNoticeComponent,
-            },
-            {
-                path: 'privacy-policy',
-                component: PrivacyPolicyComponent,
-            },
-        ],
-    },
+	{
+		path: 'workspace',
+		component: WorkspaceComponent,
+		canActivate: [authGuard],
+	},
+	{
+		path: '',
+		component: OnboardingComponent,
+		children: [
+			{
+				path: '',
+				component: LogInComponent,
+			},
+			{
+				path: 'signup',
+				component: SignUpComponent,
+			},
+			{
+				path: 'avatars',
+				component: AvatarsComponent,
+			},
+			{
+				path: 'reset-password',
+				component: PasswordResetComponent,
+			},
+			{
+				path: 'change-password',
+				component: PasswordNewComponent,
+			},
+			{
+				path: 'legal-notice',
+				component: LegalNoticeComponent,
+			},
+			{
+				path: 'privacy-policy',
+				component: PrivacyPolicyComponent,
+			},
+		],
+	},
 ];
