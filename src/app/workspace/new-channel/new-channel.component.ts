@@ -19,7 +19,6 @@ export class NewChannelComponent {
     users = [
         {id: 1, name: 'Max Mustermann', selected: false},
         {id: 2, name: 'Anna Schmidt', selected: false},
-        // Weitere Benutzer hier hinzufügen
     ];
 
     isValidForCreation(): boolean {

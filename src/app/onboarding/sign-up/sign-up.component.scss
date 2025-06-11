@@ -1,32 +1,32 @@
 @use '../../../styles/variables' as variables;
 @use '../../../styles/fonts' as fonts;
 @use '../../../styles/inputs' as inputs;
-@use '../../../styles/shared-styles';
+@use '../../../styles/shared-styles' as shared;
 
 .signup-card {
-    @extend %card-base;
+  @include shared.card-base;
 }
 
 @media screen and (max-width: 40rem) {
-    .signup-card {
-        gap: 1.25rem;
-        padding: 1.25rem;
-    }
+  .signup-card {
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
 
-    .card-header {
-        gap: 1rem;
-    }
+  .card-header {
+    gap: 1rem;
+  }
 
-    .btn-back {
-        top: 1.25rem;
-        left: 0.875rem;
-    }
+  .btn-back {
+    top: 1.25rem;
+    left: 0.875rem;
+  }
 
-    .card-header h2 {
-        font-size: 1.75rem;
-    }
+  .card-header h2 {
+    font-size: 1.75rem;
+  }
 
-    .form-group {
-        gap: 0.25rem;
-    }
+  .form-group {
+    gap: 0.25rem;
+  }
 }

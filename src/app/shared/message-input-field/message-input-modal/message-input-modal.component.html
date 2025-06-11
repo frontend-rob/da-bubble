@@ -10,10 +10,8 @@
     <ul class="user-list">
         <li (click)="addUserTag(user.userName)" *ngFor="let user of users">
             <div>
-                <img class="user-img" src="{{ user.photoURL }}"/>
-                <div [ngClass]="{ online: user.status, offline: user.status }"
-                     class="status">
-                </div>
+                <img [ngSrc]="user.photoURL" alt="User avatar" class="user-img" height="50" width="50"/>
+                <div [ngClass]="{ online: user.status, offline: !user.status }" class="status"></div>
             </div>
             <div class="user-name">{{ user.userName }}</div>
         </li>

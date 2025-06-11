@@ -1,702 +1,616 @@
 @use "./../../../styles/variables" as variables;
 @use "./../../../styles/fonts" as fonts;
+@use "./../../../styles/shared-styles" as shared;
+@use "./../../../styles/mixins" as mixins;
 
 .chat-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-    background-color: variables.$bg-base-200;
-    gap: 20px;
+  @include mixins.flex-column;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  border-radius: 30px;
+  background-color: variables.$bg-base-200;
+  gap: 20px;
 
-    .header {
+  .message-input-field {
+    padding: 32px;
+    width: 100%;
+  }
+
+  .header {
+    @include mixins.flex-row;
+    width: 100%;
+    padding: 32px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    box-shadow: 0 2px 10px 0 #00000014;
+    position: relative;
+
+    .chat-header {
+      @include mixins.flex-between;
+      width: 100%;
+      position: relative;
+
+      .chat-title {
+        @include mixins.badge;
+        cursor: pointer;
+
+        &:hover {
+          background-color: variables.$bg-base-100;
+
+          h1 {
+            color: variables.$text-hover;
+          }
+
+          .icon {
+            content: url("../../../../public/assets/img/chat/channel_tag_hover.svg");
+          }
+
+          .arrow {
+            content: url("../../../../public/assets/img/chat/arrow_down_hover.svg");
+          }
+        }
+
+        h1 {
+          font-size: 24px;
+          font-weight: 700;
+          transition: color 0.3s ease;
+        }
+
+        .icon,
+        .arrow {
+          transition: all 0.3s ease;
+        }
+
+        .avatar-icon {
+          width: 50px;
+          height: 50px;
+        }
+      }
+
+      .chat-members {
         display: flex;
         align-items: center;
-        padding: 32px;
-        border-top-left-radius: 30px;
-        border-top-right-radius: 30px;
-        box-shadow: 0 2px 10px 0 #00000014;
+        gap: 16px;
         position: relative;
-        // max-height: 6rem;
-        // height: 100%;
 
-        .chat-header {
+        .members {
+          display: flex;
+          align-items: center;
+          padding: 4px 10px;
+          gap: 10px;
+          border-radius: 100px;
+
+          &:hover {
+            background-color: variables.$bg-base-100;
+
+            .member-counter {
+              color: variables.$text-hover;
+            }
+          }
+
+          .member {
+            margin-left: -24px;
+            width: 40px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 100%;
+
+            &:first-child {
+              margin-left: 0 !important;
+            }
+
+            img {
+              width: 36px;
+              height: 36px;
+            }
+          }
+
+          .member-counter {
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+
+        .add-member {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 45px;
+          height: 45px;
+          border-radius: 100%;
+          background-color: variables.$bg-base-100;
+          cursor: pointer;
+
+          img {
+            width: 22px;
+            height: 17px;
+          }
+
+          &:hover img {
+            content: url("../../../../public/assets/img/chat/add_member_hover.svg");
+          }
+        }
+
+        .members-menu-modal {
+          @include mixins.modal-container;
+          position: absolute;
+          top: 64px;
+          right: 64px;
+          width: 400px;
+          background-color: variables.$bg-base-200;
+          @include mixins.body-text;
+
+          .members-menu-modal-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+
+            h1 {
+              font-size: 24px;
+              font-weight: 700;
+            }
+          }
+
+          .members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .menu-item {
+              @include mixins.list-item;
+              justify-self: flex-start;
+              gap: 10px;
+
+              > .avatar {
+                @include mixins.flex-center;
+                position: relative;
+                height: 48px;
+                width: 48px;
+
+                > .status {
+                  width: 14px;
+                  height: 14px;
+                  border-radius: 50%;
+                  position: absolute;
+                  bottom: 0;
+                  right: 0;
+                  border: 2px solid variables.$bg-base-200;
+
+                  &.online {
+                    background-color: variables.$online;
+                  }
+
+                  &.offline {
+                    background-color: variables.$offline;
+                  }
+                }
+
+                > img {
+                  @include mixins.avatar(48px);
+                }
+              }
+
+              &:hover {
+                background-color: variables.$bg-base-100;
+              }
+            }
+          }
+
+          .button-container {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            gap: 16px;
+            width: fit-content;
+            border-radius: 100px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: variables.$bg-neutral-hover;
+              color: variables.$text-hover;
+
+              div {
+                img {
+                  content: url("../../../../public/assets/img/chat/add_member_hover.svg");
+                }
+              }
+            }
+          }
+        }
+
+        .add-member-modal {
+          display: flex;
+          flex-direction: column;
+          padding: 32px;
+          gap: 20px;
+          position: absolute;
+          top: 64px;
+          right: 0;
+          width: 500px;
+          border-radius: 30px 0 30px 30px;
+          background-color: variables.$bg-base-200;
+          z-index: 10;
+          font-size: 18px;
+          font-weight: 400;
+
+          .add-member-modal-header {
+            display: flex;
+            justify-content: space-between;
+
+            > div {
+              display: flex;
+              flex-direction: column;
+              gap: 16px;
+            }
+
+            h1 {
+              @include mixins.heading-large;
+            }
+
+            .add-member-channel-name {
+              display: flex;
+              align-items: center;
+              gap: 16px;
+              color: variables.$bg-primary-accent;
+
+              > img {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+
+          .member-input-container {
+            display: flex;
+            align-items: center;
+            flex-flow: row wrap;
+            gap: 16px;
+            background-color: variables.$bg-base-200;
+
+            &:focus-within {
+              border-color: variables.$bg-primary;
+            }
+
+            .add-member-input {
+              display: flex;
+              padding: 16px 20px;
+              border: 1px solid variables.$border;
+              border-radius: 50px;
+              outline: none;
+              flex: 1;
+            }
+
+            .selected-user-chip {
+              display: flex;
+              align-items: center;
+              background-color: variables.$bg-neutral-hover;
+              border-radius: 16px;
+              padding: 4px 20px;
+              gap: 16px;
+
+              > img {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+              }
+
+              > div {
+                display: flex;
+                white-space: nowrap;
+                width: fit-content;
+              }
+
+              button {
+                border: none;
+                background: transparent;
+                font-size: 16px;
+                cursor: pointer;
+              }
+            }
+          }
+
+          > div:last-child {
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+              @include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
+              width: fit-content;
+
+              &:hover {
+                background-color: variables.$bg-primary-accent;
+              }
+            }
+          }
+
+          .user-suggestion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+
+            .user-suggestion {
+              @include mixins.list-item;
+
+              @include mixins.hover-bg(variables.$bg-base-100);
+
+              > img {
+                @include mixins.avatar(48px);
+              }
+            }
+          }
+        }
+      }
+
+      .modal {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        width: 872px;
+        position: absolute;
+        top: 72px;
+        left: 48px;
+        z-index: 2;
+        border-radius: 0 30px 30px 30px;
+        box-shadow: 0 6px 10px 0 #00000033;
+        background-color: variables.$bg-base-200;
+
+        .container {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
+          padding: 32px;
+          gap: 24px;
+          width: 100%;
+          height: 100%;
+
+          .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            position: relative;
 
-            .chat-title {
-                display: flex;
-                align-items: center;
-                padding: 6px 10px;
-                gap: 10px;
-                border-radius: 100px;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: variables.$bg-base-100;
-
-                    h1 {
-                        color: variables.$text-hover;
-                    }
-
-                    .icon {
-                        content: url("/assets/img/chat/channel_tag_hover.svg");
-                    }
-
-                    .arrow {
-                        content: url("/assets/img/chat/arrow_down_hover.svg");
-                    }
-                }
-
-                h1 {
-                    font-size: 24px;
-                    font-weight: 700;
-                    transition: color 0.3s ease;
-                }
-
-                .icon,
-                .arrow {
-                    transition: all 0.3s ease;
-                }
-
-                .avatar-icon {
-                    width: 50px;
-                    height: 50px;
-                }
-            }
-
-            .chat-members {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                position: relative;
-
-                .members {
-                    display: flex;
-                    align-items: center;
-                    padding: 4px 10px;
-                    gap: 10px;
-                    border-radius: 100px;
-
-                    &:hover {
-                        background-color: variables.$bg-base-100;
-
-                        .member-counter {
-                            color: variables.$text-hover;
-                        }
-                    }
-
-                    .member {
-                        margin-left: -24px;
-                        width: 40px;
-                        height: 40px;
-                        border: 2px solid white;
-                        border-radius: 100%;
-
-                        &:first-child {
-                            margin-left: 0 !important;
-                        }
-
-                        img {
-                            width: 36px;
-                            height: 36px;
-                        }
-                    }
-
-                    .member-counter {
-                        font-size: 20px;
-                        font-weight: 600;
-                    }
-                }
-
-                .add-member {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: 45px;
-                    height: 45px;
-                    border-radius: 100%;
-                    background-color: variables.$bg-base-100;
-                    cursor: pointer;
-
-                    img {
-                        width: 24px;
-                        height: 24px;
-                    }
-
-                    &:hover img {
-                        content: url("/assets/img/chat/add_member_hover.svg");
-                    }
-                }
-
-                .members-menu-modal {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 32px;
-                    gap: 20px;
-                    position: absolute;
-                    top: 64px;
-                    right: 64px;
-                    width: 400px;
-                    border-radius: 30px;
-                    border-top-right-radius: 0;
-                    background-color: variables.$bg-base-200;
-                    z-index: 10;
-                    font-size: 18px;
-                    font-weight: 400;
-
-                    .members-menu-modal-header {
-                        display: flex;
-                        justify-content: space-between;
-                        gap: 8px;
-
-                        h1 {
-                            font-size: 24px;
-                            font-weight: 700;
-                        }
-                    }
-
-                    .members-list {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 16px;
-
-                        .menu-item {
-                            display: flex;
-                            justify-self: flex-start;
-                            align-items: center;
-                            padding: 4px 20px;
-                            gap: 10px;
-                            border-radius: 100px;
-                            cursor: pointer;
-
-                            > .avatar {
-                                position: relative;
-                                height: 48px;
-                                width: 48px;
-                                display: flex;
-                                justify-content: center;
-                                align-items: center;
-
-                                > .status {
-                                    width: 14px;
-                                    height: 14px;
-                                    border-radius: 50%;
-                                    position: absolute;
-                                    bottom: 0px;
-                                    right: 0px;
-                                    border: 2px solid variables.$bg-base-200;
-
-                                    &.online {
-                                        background-color: variables.$online;
-                                    }
-
-                                    &.offline {
-                                        background-color: variables.$offline;
-                                    }
-                                }
-
-                                > img {
-                                    width: 48px;
-                                    height: 48px;
-                                    border-radius: 50%;
-                                }
-                            }
-
-                            &:hover {
-                                background-color: variables.$bg-base-100;
-                            }
-                        }
-                    }
-
-                    .button-container {
-                        display: flex;
-                        align-items: center;
-                        padding: 12px 20px;
-                        gap: 16px;
-                        width: fit-content;
-                        border-radius: 100px;
-                        cursor: pointer;
-
-                        &:hover {
-                            background-color: variables.$bg-neutral-hover;
-                            color: variables.$text-hover;
-                            div {
-                                img {
-                                    content: url("/assets/img/chat/add_member_hover.svg");
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .add-member-modal {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 32px;
-                    gap: 20px;
-                    position: absolute;
-                    top: 64px;
-                    right: 0px;
-                    width: 500px;
-                    border-radius: 30px;
-                    border-top-right-radius: 0;
-                    background-color: variables.$bg-base-200;
-                    z-index: 10;
-                    font-size: 18px;
-                    font-weight: 400;
-
-                    .add-member-modal-header {
-                        display: flex;
-                        justify-content: space-between;
-
-                        > div {
-                            display: flex;
-                            flex-direction: column;
-                            gap: 16px;
-                        }
-
-                        h1 {
-                            font-size: 24px;
-                            font-weight: 700;
-                        }
-
-                        .add-member-channel-name {
-                            display: flex;
-                            align-items: center;
-                            gap: 16px;
-                            color: variables.$bg-primary-accent;
-
-                            > img {
-                                width: 16px;
-                                height: 16px;
-                            }
-                        }
-                    }
-
-                    .member-input-container {
-                        display: flex;
-                        align-items: center;
-                        flex-flow: row wrap;
-                        gap: 16px;
-                        background-color: variables.$bg-base-200;
-
-                        &:focus-within {
-                            border-color: variables.$bg-primary;
-                        }
-
-                        .add-member-input {
-                            display: flex;
-                            padding: 16px 20px;
-                            border: 1px solid variables.$border;
-                            border-radius: 50px;
-                            outline: none;
-                            flex: 1;
-                        }
-
-                        .selected-user-chip {
-                            display: flex;
-                            align-items: center;
-                            background-color: variables.$bg-neutral-hover;
-                            border-radius: 16px;
-                            padding: 4px 20px;
-                            gap: 16px;
-
-                            > img {
-                                width: 32px;
-                                height: 32px;
-                                border-radius: 50%;
-                            }
-
-                            > div {
-                                display: flex;
-                                word-wrap: nowrap;
-                                width: fit-content;
-                            }
-
-                            button {
-                                border: none;
-                                background: transparent;
-                                font-size: 16px;
-                                cursor: pointer;
-                            }
-                        }
-                    }
-
-                    > div:last-child {
-                        display: flex;
-                        justify-content: flex-end;
-
-                        button {
-                            padding: 12px 24px;
-                            width: fit-content;
-                            border-radius: 24px;
-                            border: none;
-                            background-color: variables.$bg-primary;
-                            color: variables.$text-inverse;
-                            font-size: 18px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: variables.$bg-primary-accent;
-                            }
-                        }
-                    }
-
-                    .user-suggestion-list {
-                        display: flex;
-                        flex-direction: column;
-                        gap: 16px;
-
-                        .user-suggestion {
-                            display: flex;
-                            align-items: center;
-                            padding: 4px 20px;
-                            gap: 16px;
-                            border-radius: 100px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: variables.$bg-base-100;
-                            }
-
-                            > img {
-                                width: 48px;
-                                height: 48px;
-                            }
-                        }
-                    }
-                }
-            }
-
-            .modal {
-                display: flex;
-                justify-content: center;
-                align-items: flex-start;
-                width: 872px;
-                position: absolute;
-                top: 72px;
-                left: 48px;
-                z-index: 2;
-                border-radius: 30px;
-                border-top-left-radius: 0;
-                box-shadow: 0 6px 10px 0 #00000033;
-                background-color: variables.$bg-base-200;
-
-                .container {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-                    padding: 32px;
-                    gap: 24px;
-                    width: 100%;
-                    height: 100%;
-
-                    .modal-header {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        width: 100%;
-
-                        h1 {
-                            font-size: 24px;
-                            font-weight: 700;
-                        }
-
-                        > div {
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                        }
-
-                        .tag {
-                            width: 20px;
-                            height: 20px;
-                        }
-                    }
-
-                    .modal-main {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: flex-start;
-                        align-items: center;
-                        gap: 24px;
-                        width: 100%;
-
-                        h2 {
-                            font-size: 18px;
-                            font-weight: 700;
-                        }
-
-                        .name-container,
-                        .description-container {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: flex-start;
-                            align-items: flex-start;
-                            padding: 20px;
-                            gap: 20px;
-                            border: 1px solid variables.$border;
-                            border-radius: 20px;
-                            width: 100%;
-                        }
-
-                        .name-container-edit,
-                        .description-container-edit {
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: flex-start;
-                            align-items: flex-start;
-                            padding: 20px;
-                            gap: 20px;
-                            border: none;
-                            border-radius: 20px;
-                            width: 100%;
-                        }
-
-                        .name-container,
-                        .name-container-edit {
-                            > div:first-child {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                width: 100%;
-                            }
-
-                            button {
-                                background-color: transparent;
-                                border: none;
-                                color: variables.$text-hover;
-                                font-weight: 600;
-                                cursor: pointer;
-
-                                &:hover {
-                                    font-weight: 700;
-                                }
-                            }
-
-                            .name {
-                                display: flex;
-                                align-items: center;
-                                gap: 10px;
-
-                                > img {
-                                    width: 16px;
-                                    height: 16px;
-                                }
-                            }
-                        }
-
-                        .name-container-edit,
-                        .description-container-edit {
-                            display: flex;
-                            padding: 0;
-
-                            button {
-                                margin-right: 20px;
-                            }
-
-                            .input-container {
-                                display: flex;
-                                align-items: center;
-                                gap: 16px;
-                                padding: 18px 20px;
-                                border: 1px solid variables.$border;
-                                border-radius: 40px;
-                                width: 100%;
-
-                                > img {
-                                    width: 16px;
-                                    height: 16px;
-                                }
-
-                                input {
-                                    border: none;
-                                    outline: none;
-                                    width: 100%;
-                                }
-                            }
-                        }
-
-                        .description-container,
-                        .description-container-edit {
-                            > div:first-child {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                width: 100%;
-                            }
-
-                            button {
-                                background-color: transparent;
-                                border: none;
-                                color: variables.$text-hover;
-                                font-weight: 600;
-                                cursor: pointer;
-
-                                &:hover {
-                                    font-weight: 700;
-                                }
-                            }
-
-                            .seperator {
-                                width: 100%;
-                                height: 1px;
-                                background-color: variables.$border;
-                            }
-
-                            .creator {
-                                font-size: 24px;
-                                color: variables.$text-hover;
-                                cursor: pointer;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        .new-message-header {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 20px;
-            width: 100%;
-            position: relative;
-
-            > h1 {
-                font-size: 24px;
-                font-weight: 700;
+            h1 {
+              font-size: 24px;
+              font-weight: 700;
             }
 
             > div {
+              display: flex;
+              align-items: center;
+              gap: 8px;
+            }
+
+            .tag {
+              width: 20px;
+              height: 20px;
+            }
+          }
+
+          .modal-main {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 24px;
+            width: 100%;
+
+            h2 {
+              font-size: 18px;
+              font-weight: 700;
+            }
+
+            .name-container,
+            .description-container {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+              align-items: flex-start;
+              padding: 20px;
+              gap: 20px;
+              border: 1px solid variables.$border;
+              border-radius: 20px;
+              width: 100%;
+            }
+
+            .name-container-edit,
+            .description-container-edit {
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-start;
+              align-items: flex-start;
+              padding: 20px;
+              gap: 20px;
+              border: none;
+              border-radius: 20px;
+              width: 100%;
+            }
+
+            .name-container,
+            .name-container-edit {
+              > div:first-child {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+              }
+
+              button {
+                background-color: transparent;
+                border: none;
+                color: variables.$text-hover;
+                font-weight: 600;
+                cursor: pointer;
+
+                &:hover {
+                  font-weight: 700;
+                }
+              }
+
+              .name {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                > img {
+                  width: 16px;
+                  height: 16px;
+                }
+              }
+            }
+
+            .name-container-edit,
+            .description-container-edit {
+              display: flex;
+              padding: 0;
+
+              button {
+                margin-right: 20px;
+              }
+
+              .input-container {
                 display: flex;
                 align-items: center;
                 gap: 16px;
-                padding: 16px 20px;
+                padding: 18px 20px;
                 border: 1px solid variables.$border;
                 border-radius: 40px;
                 width: 100%;
 
-                > input {
-                    border: none;
-                    outline: none;
-                    width: 100%;
+                > img {
+                  width: 16px;
+                  height: 16px;
                 }
+
+                input {
+                  border: none;
+                  outline: none;
+                  width: 100%;
+                }
+              }
             }
+
+            .description-container,
+            .description-container-edit {
+              > div:first-child {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+              }
+
+              button {
+                background-color: transparent;
+                border: none;
+                color: variables.$text-hover;
+                font-weight: 600;
+                cursor: pointer;
+
+                &:hover {
+                  font-weight: 700;
+                }
+              }
+
+              .separator {
+                width: 100%;
+                height: 1px;
+                background-color: variables.$border;
+              }
+
+              .creator {
+                font-size: 24px;
+                color: variables.$text-hover;
+                cursor: pointer;
+              }
+            }
+          }
         }
+      }
     }
 
-    .chat-main {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        overflow-y: auto;
+    .new-message-header {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      width: 100%;
+      position: relative;
 
-        .message-input-field {
-            padding: 32px;
-            width: 100%;
-        }
-    }
+      > h1 {
+        font-size: 24px;
+        font-weight: 700;
+      }
 
-    .chat-history {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-        margin: 20px 0;
-        width: 100%;
+      > div {
+        @include mixins.input-field;
+        border: 1px solid variables.$border;
+      }
     }
+  }
+
+  .chat-main {
+    @include mixins.flex-column(center, space-between);
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .chat-history {
+    @include mixins.flex-column;
+    gap: 1.5rem;
+    margin: 20px 0;
+    width: 100%;
+  }
 }
 
-.message-time-seperator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 32px;
-    width: 100%;
+.message-time-separator {
+  @include mixins.flex-center;
+  padding: 20px 32px;
+  width: 100%;
 
-    &::before,
-    &::after {
-        content: "";
-        flex: 1;
-        border-bottom: 1px solid variables.$border;
-    }
+  &::before,
+  &::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid variables.$border;
+  }
 }
 
 .time {
-    border: solid 1px variables.$border;
-    border-radius: 30px;
-    padding: 5px 15px;
-    width: fit-content;
-    justify-self: center;
-    white-space: nowrap;
+  border: solid 1px variables.$border;
+  border-radius: 30px;
+  padding: 5px 15px;
+  width: fit-content;
+  justify-self: center;
+  white-space: nowrap;
 }
 
 .modal-bg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #00000050;
-    z-index: 1;
+  @include mixins.modal-bg;
+  backdrop-filter: none;
 }
 
 .close-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+  @include mixins.circle-button;
 
-    &:hover {
-        background-color: variables.$bg-base-100;
+  &:hover {
+    background-color: variables.$bg-base-100;
 
-        img {
-            content: url("/assets/img/chat/close_hover.svg");
-        }
+    img {
+      content: url("../../../../public/assets/img/chat/close_hover.svg");
     }
+  }
 }
 
 .button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
+  @include mixins.circle-button;
 
-    &:hover {
-        background-color: variables.$bg-neutral-hover;
-    }
-}
-
-.disabled-button {
-    background-color: variables.$bg-neutral !important;
-
-    &:hover {
-        cursor: not-allowed !important;
-        background-color: variables.$bg-neutral !important;
-    }
+  @include mixins.hover-bg(variables.$bg-neutral-hover);
 }
 
 .chat-partner {
-    color: variables.$text-hover;
-    text-decoration: underline;
-    cursor: pointer;
+  color: variables.$text-hover;
+  text-decoration: underline;
+  cursor: pointer;
 }

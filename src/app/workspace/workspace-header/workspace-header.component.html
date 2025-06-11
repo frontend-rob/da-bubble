@@ -1,43 +1,39 @@
 @if (currentPerson) {
-<div class="header-container">
-    <div class="logo-container">
-        <img src="assets/img/workspace-header/main-logo.svg" />
-    </div>
+    <div class="header-container">
+        <div class="logo-container">
+            <img ngSrc="/assets/img/workspace-header/main-logo.svg" alt="Main application logo" priority width="242"
+                 height="70"/>
+        </div>
 
-    <div class="search-bar-container">
-        <div class="search-bar-input-container">
-            <input placeholder="Search Devspace..." type="text" />
-            <img src="assets/img/workspace-header/search.svg" />
+        <div class="search-bar-container">
+            <div class="search-bar-input-container">
+                <input placeholder="Search Devspace..." type="text"/>
+                <img ngSrc="/assets/img/workspace-header/search.svg" alt="Search icon" width="32" height="32"/>
+            </div>
+        </div>
+
+        <div class="user-profile-container" (click)="handleUserMenu(true)">
+            <span>{{ currentPerson.userName }}</span>
+            <div class="avatar">
+                <img [ngSrc]="currentPerson.photoURL" alt="User profile picture" width="70" height="70"/>
+                <div class="status" [ngClass]="{online: currentPerson.status, offline: !currentPerson.status}"></div>
+            </div>
+            <img class="arrow-down" ngSrc="/assets/img/workspace-header/keyboard_arrow_down.svg" height="30" width="30"
+                 alt="keyboard_arrow_down"/>
+        </div>
+
+        <!-- USER MENU -->
+        <div *ngIf="isUserMenuOpen" class="user-menu">
+            <div (click)="handleUserProfileCard(true)">Profile</div>
+            <div (click)="logOut()">Logout</div>
+        </div>
+
+        <!-- USER PROFILE CARD  -->
+        <app-profile-card *ngIf="isUserProfileCardOpen" class="user-profile"
+                          [currentPerson]="currentPerson"></app-profile-card>
+
+        <div>
+            <app-search-card></app-search-card>
         </div>
     </div>
-
-    <div class="user-profile-container" (click)="handleUserMenu(true)">
-        <span>{{ currentPerson.userName }}</span>
-        <div class="avatar">
-            <img src="{{ currentPerson.photoURL }}" />
-            <div class="status" [ngClass]="{online: currentPerson.status, offline: !currentPerson.status}"></div>
-        </div>
-        <img
-            class="arrow-down"
-            src="assets/img/workspace-header/keyboard_arrow_down.svg"
-        />
-    </div>
-
-    <!-- USER MENU -->
-    <div *ngIf="isUserMenuOpen" class="user-menu">
-        <div (click)="handleUserProfileCard(true)">Profile</div>
-        <div (click)="logOut()">Logout</div>
-    </div>
-
-    <!-- USER PROFILE CARD  -->
-    <app-profile-card
-        *ngIf="isUserProfileCardOpen"
-        class="user-profile"
-        [currentPerson]="currentPerson"
-    ></app-profile-card>
-
-    <div>
-        <app-search-card></app-search-card>
-    </div>
-</div>
 }

@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Subscription } from "rxjs";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { ProfileCardComponent } from "../profile-card/profile-card.component";
-import { AuthService } from "../../services/auth.service";
-import { Router } from "@angular/router";
-import { SearchCardComponent } from "./search-card/search-card.component";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Subscription} from "rxjs";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {ProfileCardComponent} from "../profile-card/profile-card.component";
+import {AuthService} from "../../services/auth.service";
+import {Router} from "@angular/router";
+import {SearchCardComponent} from "./search-card/search-card.component";
 
 @Component({
     selector: "app-workspace-header",
-    imports: [CommonModule, ProfileCardComponent, SearchCardComponent],
+    imports: [CommonModule, ProfileCardComponent, SearchCardComponent, NgOptimizedImage],
     templateUrl: "./workspace-header.component.html",
     styleUrl: "./workspace-header.component.scss",
 })
@@ -22,7 +22,8 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
         private router: Router,
         private authService: AuthService,
         private userService: UserService
-    ) {}
+    ) {
+    }
 
     get isUserMenuOpen() {
         return this.userService.isUserMenuOpen;
@@ -57,12 +58,12 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
     }
 
     logOut(): void {
-        // this.toggleMenu.emit(false);
-
         this.authService
             .logOut()
             .then(() => {
-                this.router.navigate(["/"]).then(r => {console.log(r, 'navigated to home')});
+                this.router.navigate(["/"]).then(r => {
+                    console.log(r, 'navigated to home');
+                });
             })
             .catch((error) => {
                 console.error("Logout failed:", error);

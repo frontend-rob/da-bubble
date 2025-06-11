@@ -1,11 +1,11 @@
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
 import {IdtMessages} from "../../../interfaces/message.interface";
 
 @Component({
     selector: "app-chat-option-bar",
-    imports: [CommonModule],
+    imports: [CommonModule, NgOptimizedImage],
     templateUrl: "./chat-option-bar.component.html",
     styleUrl: "./chat-option-bar.component.scss",
 })
@@ -50,7 +50,8 @@ export class ChatOptionBarComponent {
         this.isOptionsMenuOpen = false;
     }
 
-    deleteMessage() {}
+    deleteMessage() {
+    }
 
     addQuickReaction() {
         this.chosenEmoji.emit("\u{1F44D}");

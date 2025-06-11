@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormValidationService} from '../../services/form-validation.service';
 import {Router, RouterLink} from '@angular/router';
 import {AuthService} from '../../services/auth.service';
@@ -11,21 +11,22 @@ import {AuthService} from '../../services/auth.service';
     imports: [
         CommonModule,
         RouterLink,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgOptimizedImage
     ],
     templateUrl: './log-in.component.html',
     styleUrl: './log-in.component.scss'
 })
 export class LogInComponent {
     /**
-     * Form group for the log-in form.
+     * Form a group for the log-in form.
      */
     logInForm: FormGroup;
 
     /**
      * Error message to be displayed when the server returns an error.
      */
-    serverError: string | null = null;
+    serverError: string;
 
     /**
      * Constructor initializes the form group and injects required services.
@@ -39,6 +40,7 @@ export class LogInComponent {
             email: ['', [Validators.required, FormValidationService.emailValidator]],
             password: ['', [Validators.required, FormValidationService.passwordValidator]]
         });
+        this.serverError = "";
     }
 
     /**
@@ -50,11 +52,13 @@ export class LogInComponent {
         }
 
         const {email, password} = this.logInForm.value;
-        this.serverError = null;
+        this.serverError = "";
 
         this.authService.logIn(email, password)
             .then(() => {
-                this.router.navigate(['/workspace']).then(r => {console.log('navigated to workspace')});
+                this.router.navigate(['/workspace']).then(r => {
+                    console.log(r, 'navigated to workspace');
+                });
             })
             .catch((error) => {
                 this.handleLoginError(error);
@@ -67,11 +71,13 @@ export class LogInComponent {
      */
     guestLogIn(): void {
         this.logInForm.reset();
-        this.serverError = null;
+        this.serverError = "";
 
         this.authService.signInAnonymously()
             .then(() => {
-                this.router.navigate(['/workspace']).then(r => {console.log(r,'navigated to workspace')});
+                this.router.navigate(['/workspace']).then(r => {
+                    console.log(r, 'navigated to workspace');
+                });
             })
             .catch((error) => {
                 this.serverError = 'global: *Failed to log in as guest. Please try again.';
@@ -80,16 +86,16 @@ export class LogInComponent {
     }
 
     /**
-     * Logs in as a google user using Firebase google authentication.
+     * Logs in as a Google user using Firebase google authentication.
      * Resets form validation and error states.
      */
     googleLogIn(): void {
-        this.logInForm.reset(); // Reset form values and validation states
-        this.serverError = null; // Clear server error messages#
+        this.logInForm.reset();
+        this.serverError = "";
 
         this.authService.signInWithGoogle()
             .then(() => {
-                this.router.navigate(['/workspace']).then(r => console.log(r,'navigated to workspace'));
+                this.router.navigate(['/workspace']).then(r => console.log(r, 'navigated to workspace'));
             })
             .catch((error) => {
                 this.serverError = 'global: *Failed to log in with Google. Please try again.';

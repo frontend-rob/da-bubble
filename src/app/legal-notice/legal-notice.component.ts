@@ -1,6 +1,12 @@
 import {Component} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
+/**
+ * Komponente für die Anzeige der rechtlichen Hinweise.
+ *
+ * Diese Komponente zeigt die rechtlichen Hinweise der Anwendung an
+ * und bietet Navigationsmöglichkeiten zurück zur vorherigen Seite.
+ */
 @Component({
     selector: 'app-legal-notice',
     imports: [RouterModule],
@@ -9,9 +15,7 @@ import {RouterModule} from '@angular/router';
 })
 
 export class LegalNoticeComponent {
-    /**
-     * Navigates back to the previous page in the browser history.
-     */
+
     navigateBack() {
         window.history.back();
     }

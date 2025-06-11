@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {Component, inject, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {UserDataService} from '../../services/user-data.service';
@@ -15,7 +15,8 @@ import {AuthService} from '../../services/auth.service';
     selector: 'app-avatars',
     imports: [
         CommonModule,
-        NotificationsComponent
+        NotificationsComponent,
+        NgOptimizedImage
     ],
     templateUrl: './avatars.component.html',
     styleUrls: ['./avatars.component.scss']
@@ -143,7 +144,9 @@ export class AvatarsComponent {
         setTimeout(() => {
             this.userDataService.resetUserData();
             this.selectedUserAvatar = 'assets/img/avatars/av-00.svg';
-            this.router.navigate(['']).then(r => {console.log(r, 'navigated to home')});
+            this.router.navigate(['']).then(r => {
+                console.log(r, 'navigated to home');
+            });
         }, 3000);
     }
 }

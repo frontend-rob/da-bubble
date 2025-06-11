@@ -1,8 +1,10 @@
 <div class="options-container">
     <span (click)="addQuickReaction()">👍</span>
-    <img (click)="toggleEmojiModal()" src="assets/img/chat/reaction.svg"/>
-    <img (click)="openThread()" src="assets/img/chat/comment.svg"/>
-    <img *ngIf="isOwnMessage" (click)="toggleOptionsMenu()" src="assets/img/chat/more_vert.svg"/>
+    <img (click)="toggleEmojiModal()" alt="Reaction selector" height="24" ngSrc="/assets/img/chat/reaction.svg"
+         width="24"/>
+    <img (click)="openThread()" alt="comment" height="19" ngSrc="/assets/img/chat/comment.svg" width="21"/>
+    <img (click)="toggleOptionsMenu()" *ngIf="isOwnMessage" alt="more_vert" height="24"
+         ngSrc="/assets/img/chat/more_vert.svg" width="24"/>
 </div>
 
 <!-- Emoji-Modal -->

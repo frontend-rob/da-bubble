@@ -1,544 +1,380 @@
 @use "../../../styles/variables" as variables;
 @use "../../../styles/fonts" as fonts;
+@use "../../../styles/mixins" as mixins;
+
+.avatar {
+  @include mixins.status-indicator;
+  @include mixins.flex-center;
+  height: 50px;
+  width: 50px;
+
+  > img {
+    @include mixins.avatar;
+  }
+}
 
 .main-menu-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    height: 100%;
-    width: 366px;
-    flex: 1;
-    // position: relative;
+  @include mixins.flex-column(flex-start, center);
+  height: 100%;
+  width: 366px;
+  flex: 1;
 
-    &.close-menu {
-        display: none;
-        // overflow: hidden;
-        transform: translateX(-100%);
-    }
+  &.close-menu {
+    display: none;
+    transform: translateX(-100%);
+  }
 }
 
 .main-menu-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 100%;
-    position: relative;
-    background-color: white;
-    border-radius: 30px;
-    padding: 20px;
-    gap: 24px;
-    // transition: all 250ms ease-in-out;
+  @include mixins.flex-column(center);
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: white;
+  border-radius: 30px;
+  padding: 20px;
+  gap: 24px;
 
-    > header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        background-color: variables.$bg-base-200;
-        border-radius: 20px;
+  > header {
+    @include mixins.flex-between;
+    width: 100%;
+    background-color: variables.$bg-base-200;
+    border-radius: 20px;
+    gap: 10px;
+
+    > div {
+      @include mixins.flex-center;
+      gap: 16px;
+
+      > img {
+        @include mixins.flex-row;
         gap: 10px;
 
-        > div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-
-            > img {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-
-                > img {
-                    height: 45px;
-                }
-            }
-
-            > h1 {
-                font-size: 24px;
-                font-weight: 700;
-            }
+        > img {
+          height: 45px;
         }
+      }
 
-        .add-new-channel-btn {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            border-radius: 50%;
-            cursor: pointer;
-
-            &:hover {
-                background-color: variables.$bg-neutral-hover;
-            }
-
-            > img {
-                width: 24px;
-                height: 24px;
-
-                &:hover {
-                    content: url("/assets/img/main-menu/edit_square_hover.svg");
-                }
-            }
-        }
+      > h1 {
+        font-size: 24px;
+        font-weight: 700;
+      }
     }
 
-    main {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: flex-start;
+    .add-new-channel-btn {
+      @include mixins.circle-button;
+      padding: 8px;
+      @include mixins.hover-bg(variables.$bg-neutral-hover);
+
+      > img {
+        width: 24px;
+        height: 24px;
+
+        &:hover {
+          content: url("/assets/img/main-menu/edit_square_hover.svg");
+        }
+      }
+    }
+  }
+
+  main {
+    @include mixins.flex-column;
+    gap: 24px;
+    width: 100%;
+    overflow-y: auto;
+
+    .menu-container {
+      @include mixins.flex-column(center, space-between);
+      gap: 24px;
+      width: 100%;
+      position: relative;
+      background-color: white;
+      border-radius: 20px;
+
+      > header {
+        @include mixins.flex-between;
+        width: 100%;
+        height: 48px;
+        cursor: pointer;
+
+        > div {
+          @include mixins.flex-row;
+          gap: 16px;
+
+          &:hover {
+            color: variables.$text-hover;
+
+            .dropdown-img {
+              content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
+            }
+
+            .channel-img {
+              content: url("/assets/img/main-menu/channels_hover.svg");
+            }
+
+            .direct-messages-img {
+              content: url("/assets/img/main-menu/direct_messages_hover.svg");
+            }
+          }
+
+          &.close-list-btn {
+            .dropdown-img {
+              content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
+            }
+
+            &:hover {
+              .dropdown-img {
+                content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
+              }
+            }
+          }
+
+          > div {
+            @include mixins.flex-center;
+            gap: 10px;
+
+            > h2 {
+              @include mixins.heading-medium;
+            }
+
+            > div {
+              @include mixins.flex-center;
+              width: auto;
+              height: 40px;
+            }
+          }
+        }
+      }
+
+      .menu-list-container {
+        @include mixins.flex-column;
+        padding-left: 26px;
         gap: 24px;
         width: 100%;
-        overflow-y: auto;
+        height: auto;
 
-        .menu-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            width: 100%;
-            position: relative;
-            background-color: white;
-            border-radius: 20px;
-
-            > header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                width: 100%;
-                height: 48px;
-                cursor: pointer;
-
-                > div {
-                    display: flex;
-                    gap: 16px;
-
-                    &:hover {
-                        color: variables.$text-hover;
-
-                        .dropdown-img {
-                            content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
-                        }
-
-                        .channel-img {
-                            content: url("/assets/img/main-menu/channels_hover.svg");
-                        }
-
-                        .direct-messages-img {
-                            content: url("/assets/img/main-menu/direct_messages_hover.svg");
-                        }
-                    }
-
-                    &.close-list-btn {
-                        .dropdown-img {
-                            content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
-                        }
-
-                        &:hover {
-                            .dropdown-img {
-                                content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
-                            }
-                        }
-                    }
-
-                    > div {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        gap: 10px;
-
-                        > h2 {
-                            font-size: 20px;
-                            font-weight: 700;
-                        }
-
-                        > div {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            width: auto;
-                            height: 40px;
-                        }
-                    }
-                }
-            }
-
-            .menu-list-container {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                padding-left: 26px;
-                gap: 24px;
-                width: 100%;
-                height: auto;
-                // transition: height 135ms ease-in-out,
-                //     transform 125ms ease-in-out;
-                // transform-origin: top;
-
-                &.close-list {
-                    .menu-list {
-                        display: none;
-                    }
-                }
-
-                .menu-list {
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: flex-start;
-                    align-items: flex-start;
-                    gap: 16px;
-
-                    .add-channel-btn {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 12px;
-                        padding-left: 20px;
-
-                        gap: 10px;
-                        cursor: pointer;
-
-                        div {
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            width: 24px;
-                            height: 24px;
-                        }
-
-                        &:hover {
-                            img {
-                                content: url("/assets/img/main-menu/add_circle_hover.svg");
-                            }
-
-                            h3 {
-                                color: variables.$text-hover;
-                            }
-                        }
-                    }
-                }
-            }
+        &.close-list {
+          .menu-list {
+            display: none;
+          }
         }
-    }
 
-    .new-channnel-button {
-        width: 100%;
-        display: flex;
-        margin-top: 15px;
-        padding: 0 15px;
+        .menu-list {
+          @include mixins.flex-column;
+          gap: 16px;
 
-        > .add-btn {
-            gap: 5px;
+          .add-channel-btn {
+            @include mixins.flex-center;
+            margin-top: 12px;
+            padding-left: 20px;
+            gap: 10px;
+            cursor: pointer;
 
-            > div {
-                height: 16px;
-                width: 16px;
+            div {
+              @include mixins.flex-center;
+              width: 24px;
+              height: 24px;
             }
 
             &:hover {
-                background-color: transparent;
-                border-radius: 0%;
+              img {
+                content: url("/assets/img/main-menu/add_circle_hover.svg");
+              }
 
-                > span {
-                    color: #535af1;
-                }
+              h3 {
+                color: variables.$text-hover;
+              }
             }
+          }
         }
+      }
     }
+  }
 
-    .add-btn {
-        cursor: pointer;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        > div {
-            height: 20px;
-            width: 20px;
-            background-position: center;
-            background-size: cover;
-
-            &.add {
-                background-image: url("/assets/img/add.svg");
-            }
-
-            &.add-circle {
-                background-image: url("/assets/img/add_circle.svg");
-            }
-        }
-
-        &:hover {
-            background-color: #eceefe;
-            border-radius: 50%;
-
-            > div {
-                height: 18px;
-                width: 18px;
-                background-position: center;
-                background-size: cover;
-
-                &.add {
-                    background-image: url("/assets/img/add_hover.svg");
-                }
-
-                &.add-circle {
-                    background-image: url("/assets/img/add_circle_hover.svg");
-                }
-            }
-        }
-    }
 }
 
-.menunav-button-container {
-    position: fixed;
-    bottom: 60px;
-    left: 0;
+.menubar-button-container {
+  position: fixed;
+  bottom: 60px;
+  left: 0;
 
-    > .menunav-button {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        height: 35px;
-        width: 240px;
-        padding: 2px 10px;
-        transform: rotate(-90deg);
-        transform-origin: left top;
-        border-radius: 0 0 15px 15px;
-        border: 1px solid #ccc;
-        background-color: white;
-        box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
+  > .menubar-button {
+    @include mixins.flex-row;
+    gap: 8px;
+    height: 35px;
+    width: 240px;
+    padding: 2px 10px;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    border-radius: 0 0 15px 15px;
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: -2px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 
-        > .img-field {
-            width: 32px;
-            height: 32px;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            transform: rotate(90deg);
-            cursor: pointer;
-        }
-
-        > .img-open {
-            background-image: url("/assets/img/main-menu/open_default.svg");
-
-            &:hover {
-                background-image: url("/assets/img/main-menu/open_hover.svg");
-            }
-        }
-
-        > .img-close {
-            background-image: url("/assets/img/main-menu/close_default.svg");
-
-            &:hover {
-                background-image: url("/assets/img/main-menu/close_hover.svg");
-            }
-        }
-
-        > span {
-            white-space: nowrap;
-        }
-
-        > a {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            height: 25px;
-
-            > .text-menu-button {
-                width: 151px;
-                height: 25px;
-
-                &::before {
-                    content: "Workspace-Menu close";
-                }
-            }
-        }
-
-        &:hover {
-            color: #535af1;
-
-            > a {
-                height: 25px;
-            }
-        }
+    > .img-field {
+      width: 32px;
+      height: 32px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      transform: rotate(90deg);
+      cursor: pointer;
     }
 
-    .close-menu-button {
-        > a {
-            > .text-menu-button::before {
-                content: "Workspace-Menu open";
-            }
-        }
-
-        &:hover {
-            color: #535af1;
-
-            > a {
-                height: 25px;
-            }
-        }
+    > .img-open {
+      @include mixins.image-hover("/assets/img/main-menu/open_default.svg", "/assets/img/main-menu/open_hover.svg");
     }
+
+    > .img-close {
+      @include mixins.image-hover("/assets/img/main-menu/close_default.svg", "/assets/img/main-menu/close_hover.svg");
+    }
+
+    > span {
+      white-space: nowrap;
+    }
+
+    > a {
+      @include mixins.flex-row;
+      gap: 5px;
+      height: 25px;
+
+      > .text-menu-button {
+        width: 151px;
+        height: 25px;
+
+        &::before {
+          content: "Workspace-Menu close";
+        }
+      }
+    }
+
+    &:hover {
+      color: #535af1;
+
+      > a {
+        height: 25px;
+      }
+    }
+  }
+
+  .close-menu-button {
+    > a {
+      > .text-menu-button::before {
+        content: "Workspace-Menu open";
+      }
+    }
+
+    &:hover {
+      color: #535af1;
+
+      > a {
+        height: 25px;
+      }
+    }
+  }
 }
 
 .button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // padding: 4px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-
-    &:hover {
-        background-color: variables.$bg-neutral-hover;
-    }
+  @include mixins.circle-button;
+  @include mixins.hover-bg(variables.$bg-neutral-hover);
 }
 
 .modal-bg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    background-color: #00000050;
-    z-index: 1;
+  @include mixins.flex-center;
+  @include mixins.modal-bg;
+  width: 100vw;
+  height: 100vh;
 }
 
 .modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 872px;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    border-radius: 30px;
-    box-shadow: 0 6px 10px 0 #00000033;
-    background-color: variables.$bg-base-200;
+  @include mixins.flex-center;
+  width: 872px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  border-radius: 30px;
+  box-shadow: 0 6px 10px 0 #00000033;
+  background-color: variables.$bg-base-200;
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        padding: 40px;
+  .container {
+    @include mixins.flex-column;
+    padding: 40px;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+
+    .modal-header {
+      @include mixins.flex-between;
+      align-items: flex-start;
+      width: 100%;
+
+      h1 {
+        @include mixins.heading-large;
+      }
+
+      > div {
+        @include mixins.flex-column;
+        gap: 8px;
+      }
+
+      .header-description {
+        font-size: 18px;
+      }
+
+      .close-btn {
+        @include mixins.circle-button;
+
+        &:hover {
+          background-color: variables.$bg-base-100;
+
+          img {
+            content: url("/assets/img/chat/close_hover.svg");
+          }
+        }
+      }
+    }
+
+    .modal-main {
+      @include mixins.flex-column;
+      gap: 24px;
+      width: 100%;
+
+      > div {
+        @include mixins.flex-column;
         gap: 20px;
         width: 100%;
-        height: 100%;
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            width: 100%;
+        h2 {
+          font-weight: 700;
+          @include mixins.body-text;
 
-            h1 {
-                font-size: 24px;
-                font-weight: 700;
-            }
-
-            > div {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .header-description {
-                font-size: 18px;
-            }
-
-            .close-btn {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: variables.$bg-base-100;
-
-                    img {
-                        content: url("/assets/img/chat/close_hover.svg");
-                    }
-                }
-            }
+          > span {
+            font-weight: 400;
+            color: variables.$text-secondary;
+          }
         }
 
-        .modal-main {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: flex-start;
-            gap: 24px;
-            width: 100%;
-
-            > div {
-                display: flex;
-                flex-direction: column;
-                gap: 20px;
-                width: 100%;
-
-                h2 {
-                    font-size: 18px;
-                    font-weight: 700;
-
-                    > span {
-                        font-weight: 400;
-                        color: variables.$text-secondary;
-                    }
-                }
-
-                .input-container {
-                    display: flex;
-                    align-items: center;
-                    gap: 16px;
-                    padding: 18px 20px;
-                    border: 1px solid variables.$border;
-                    border-radius: 40px;
-                    width: 100%;
-
-                    > input {
-                        border: none;
-                        outline: none;
-                        width: 100%;
-                    }
-                }
-            }
-
-            > div:last-child {
-                display: flex;
-                flex-direction: unset !important;
-                justify-content: flex-end !important;
-
-                > button {
-                    padding: 12px 24px;
-                    border-radius: 24px;
-                    border: none;
-                    background-color: variables.$bg-primary;
-                    color: variables.$text-inverse;
-                    font-size: 18px;
-                    cursor: pointer;
-
-                    &:hover {
-                        background-color: variables.$bg-primary-accent;
-                    }
-                }
-            }
+        .input-container {
+          @include mixins.input-field;
+          border: 1px solid variables.$border;
         }
+      }
+
+      > div:last-child {
+        @include mixins.flex-row;
+        justify-content: flex-end !important;
+
+        > button {
+          @include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
+
+          &:hover {
+            background-color: variables.$bg-primary-accent;
+          }
+        }
+      }
     }
+  }
 }
