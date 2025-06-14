@@ -7,7 +7,7 @@ import {Message} from "../../interfaces/message.interface";
 import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {Timestamp} from "@angular/fire/firestore";
-import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
+import {CommonModule, NgForOf} from "@angular/common";
 import {UserData} from "../../interfaces/user.interface";
 import {UserService} from "../../services/user.service";
 import {HelperService} from "../../services/helper.service";
@@ -22,22 +22,20 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
 		MessageInputFieldComponent,
 		CommonModule,
 		FormsModule,
-		NgForOf,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
+		NgForOf
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
 	messages$: Observable<Message[]> | undefined;
 	messages!: Message[];
+	channels!: ChannelData[];
 	selectedChannel!: ChannelData;
 	newChannelName: string = "";
 	newChannelDescription: string = "";
+	newMessageInputData!: string;
 	currentUser!: UserData;
 	userSubscription!: Subscription;
+	channelsSubscription!: Subscription;
 	functionTriggerSubscription!: Subscription;
 
 	isModalBGOpen = false;
@@ -61,7 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		FunctionTriggerService
 	);
 
-	constructor(public readonly chatService: ChatService) {
+	constructor(public chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
 	}
 
@@ -73,25 +71,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 		return this.chatService.isProfileCardOpen;
 	}
 
-	handleProfileCard(bool: boolean, person: UserData) {
-		if (this.currentUser.uid !== person.uid) {
-			this.chatService.handleProfileCard(bool);
-			this.chatService.setCurrentPerson(person);
-		}
-	}
-
-	trackByMessageId: TrackByFunction<Message> = (
-		index: number,
-		message: Message
-	) => {
-		return (message as any).id || index;
-	};
-
 	ngOnInit(): void {
 		this.functionTriggerSubscription =
 			this.functionTriggerService.trigger$.subscribe((channel) => {
 				this.selectChannel(channel);
-
 			});
 
 		this.userSubscription = this.userService.currentUser$.subscribe(
@@ -112,7 +95,32 @@ export class ChatComponent implements OnInit, OnDestroy {
 				}
 			}
 		);
+
+		this.channelsSubscription = this.chatService.getChannels().subscribe(
+			(channelsData: ChannelData[]) => {
+				if (channelsData) {
+					this.channels = channelsData;
+				}
+			},
+			(error) => {
+				console.error("Error loading channels:", error);
+			}
+		);
 	}
+
+	handleProfileCard(bool: boolean, person: UserData) {
+		if (this.currentUser.uid !== person.uid) {
+			this.chatService.handleProfileCard(bool);
+			this.chatService.setCurrentPerson(person);
+		}
+	}
+
+	trackByMessageId: TrackByFunction<Message> = (
+		index: number,
+		message: Message
+	) => {
+		return (message as any).id || index;
+	};
 
 	selectChannel(channel: ChannelData): void {
 		this.chatService.selectedChannel = channel;
@@ -142,7 +150,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelName: this.newChannelName,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then(r => {
+			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
 		}
@@ -156,7 +164,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelDescription: this.newChannelDescription,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then(r => {
+			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
 		}
@@ -202,7 +210,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		if (event.key === "Escape" && this.isNewMessage) {
-			this.chatService.toggleNewMessageHeader(false);
+			this.chatService.handleNewMessage(false);
 		}
 	}
 
@@ -287,6 +295,34 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.selectedUsersToAdd = [];
 		this.filteredUsers = [];
 		this.disabledButton = true;
+	}
+
+	handleInputData() {
+		if (
+			this.newMessageInputData[0] === "#" &&
+			this.newMessageInputData.length > 1
+		) {
+			console.log("New MessageInput:", "#");
+
+			for (const channel of this.channels) {
+				// Compare input with existing channels
+				if (this.newMessageInputData === "#" + channel.channelName) {
+					//  Set current chat to active
+				} else {
+					// Create Channel
+					// - Channelname without description
+					// - Push to firebase
+					// - Show new channel in chat area
+				}
+			}
+		}
+
+		if (
+			this.newMessageInputData[0] === "@" &&
+			this.newMessageInputData.length > 1
+		) {
+			console.log("New MessageInput:", "@");
+		}
 	}
 
 	private async updateChannel(channel: ChannelData): Promise<void> {
