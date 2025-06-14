@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message, Reaction} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+    EnvironmentInjector,
+    inject,
+    Injectable,
+    runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message, Reaction } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
     collection,
     collectionData,
@@ -15,8 +20,8 @@ import {
     updateDoc,
     where,
 } from "@angular/fire/firestore";
-import {UserData} from "../interfaces/user.interface";
-import {HelperService} from './helper.service';
+import { UserData } from "../interfaces/user.interface";
+import { HelperService } from "./helper.service";
 
 @Injectable({
     providedIn: "root",
@@ -56,7 +61,7 @@ export class ChatService {
         this._isThreadOpen = bool;
     }
 
-    toggleNewMessageHeader(bool: boolean) {
+    handleNewMessage(bool: boolean) {
         this._isNewMessage = bool;
     }
 
@@ -109,7 +114,7 @@ export class ChatService {
                 firestore,
                 `channels/${channelId}/messages/${messageId}`
             );
-            await updateDoc(msgRef, {threadChannelName: name});
+            await updateDoc(msgRef, { threadChannelName: name });
         });
     }
 
@@ -123,7 +128,7 @@ export class ChatService {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
             const q = query(channelsRef, orderBy("createdAt", "desc"));
-            return collectionData(q, {idField: "channelId"}) as Observable<
+            return collectionData(q, { idField: "channelId" }) as Observable<
                 ChannelData[]
             >;
         });
@@ -196,7 +201,7 @@ export class ChatService {
                 `channels/${channelId}/messages`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -243,7 +248,7 @@ export class ChatService {
                 `channels/${channelId}/messages/${parentMessageId}/thread`
             );
             const q = query(messagesRef, orderBy("timestamp", "asc"));
-            return collectionData(q, {idField: "messageId"}) as Observable<
+            return collectionData(q, { idField: "messageId" }) as Observable<
                 Message[]
             >;
         });
@@ -299,7 +304,6 @@ export class ChatService {
         });
     }
 
-
     /**
      * Updates the text of an existing message in a specific channel.
      *
@@ -308,7 +312,11 @@ export class ChatService {
      * @param {string} newText - The new text content to update the message with.
      * @return {Promise<void>} A promise that resolves when the update operation is complete.
      */
-    async updateMessageText(channelId: string, messageId: string, newText: string): Promise<void> {
+    async updateMessageText(
+        channelId: string,
+        messageId: string,
+        newText: string
+    ): Promise<void> {
         const r = await runInInjectionContext(this.environmentInjector, () => {
             const firestore = inject(Firestore);
             const messageRef = doc(
@@ -328,7 +336,6 @@ export class ChatService {
         console.log(r);
     }
 
-
     /**
      * Finds a direct message channel between two users.
      *
@@ -336,21 +343,31 @@ export class ChatService {
      * @param {UserData} user2 The second user data object.
      * @return {Promise<ChannelData | null>} A promise that resolves to the direct message channel data if found, or null if no such channel exists.
      */
-    async findDirectMessageChannel(user1: UserData, user2: UserData): Promise<ChannelData | null> {
+    async findDirectMessageChannel(
+        user1: UserData,
+        user2: UserData
+    ): Promise<ChannelData | null> {
         return runInInjectionContext(this.environmentInjector, async () => {
             const firestore = inject(Firestore);
             const channelsRef = collection(firestore, "channels");
-            const q = query(channelsRef, where('channelType.directMessage', '==', true));
+            const q = query(
+                channelsRef,
+                where("channelType.directMessage", "==", true)
+            );
 
             const querySnapshot = await getDocs(q);
 
             for (const doc of querySnapshot.docs) {
                 const channel = doc.data() as ChannelData;
-                const memberUids = channel.channelMembers.map(member => member.uid);
+                const memberUids = channel.channelMembers.map(
+                    (member) => member.uid
+                );
 
-                if (memberUids.length === 2 &&
+                if (
+                    memberUids.length === 2 &&
                     memberUids.includes(user1.uid) &&
-                    memberUids.includes(user2.uid)) {
+                    memberUids.includes(user2.uid)
+                ) {
                     return channel;
                 }
             }
@@ -366,13 +383,16 @@ export class ChatService {
      * @param {UserData} user2 - The second user who will be part of the direct message channel.
      * @return {Promise<ChannelData>} A promise that resolves to the newly created direct message channel data.
      */
-    async createDirectMessageChannel(user1: UserData, user2: UserData): Promise<ChannelData> {
+    async createDirectMessageChannel(
+        user1: UserData,
+        user2: UserData
+    ): Promise<ChannelData> {
         const newChannel: ChannelData = {
             channelId: this.helperService.getRandomNumber().toString(),
             channelName: `${user2.userName}`,
             channelType: {
                 channel: false,
-                directMessage: true
+                directMessage: true,
             },
             channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
             createdBy: user1,

@@ -1,16 +1,16 @@
-import {CommonModule} from "@angular/common";
-import {Component, inject, OnDestroy, OnInit} from "@angular/core";
-import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
-import {ChannelData} from '../../interfaces/channel.interface';
-import {ChatService} from '../../services/chat.service';
-import {Subscription} from 'rxjs';
-import {HelperService} from '../../services/helper.service';
-import {Timestamp} from 'firebase/firestore';
-import {FormsModule} from '@angular/forms';
-import {UserData} from '../../interfaces/user.interface';
-import {UserService} from '../../services/user.service';
-import {FunctionTriggerService} from '../../services/function-trigger.service';
+import { CommonModule } from "@angular/common";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { ChatService } from "../../services/chat.service";
+import { Subscription } from "rxjs";
+import { HelperService } from "../../services/helper.service";
+import { Timestamp } from "firebase/firestore";
+import { FormsModule } from "@angular/forms";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
 
 @Component({
     selector: "app-main-menu",
@@ -28,7 +28,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     showUserList = false;
     isOpen = false;
     isModalOpen = false;
-    activeMenuItem!: string;
+    activeMenuItem!: string | null;
 
     isOpenText = "Close workspace menu";
     isClosedText = "Open workspace menu";
@@ -36,39 +36,43 @@ export class MainMenuComponent implements OnInit, OnDestroy {
     userSubscription!: Subscription;
     userDataSubscription!: Subscription;
     channelFormData = {
-        name: '',
-        description: ''
-    }
+        name: "",
+        description: "",
+    };
     channels: ChannelData[] = [];
     directMessageChannels: ChannelData[] = [];
 
     chats!: UserData[];
     private helperService: HelperService = inject(HelperService);
-    private userService: UserService = inject(UserService)
+    private userService: UserService = inject(UserService);
     private channelsSubscription!: Subscription;
-    private functionTriggerService: FunctionTriggerService = inject(FunctionTriggerService);
+    private functionTriggerService: FunctionTriggerService = inject(
+        FunctionTriggerService
+    );
 
-    constructor(private chatService: ChatService) {
-    }
+    constructor(private chatService: ChatService) {}
 
     ngOnInit(): void {
-        this.userSubscription = this.userService.currentUser$.subscribe(userData => {
-            if (userData) {
-                this.currentUser = userData;
-                this.loadChannels();
+        this.userSubscription = this.userService.currentUser$.subscribe(
+            (userData) => {
+                if (userData) {
+                    this.currentUser = userData;
+                    this.loadChannels();
+                }
             }
-        });
+        );
 
-        this.userDataSubscription = this.userService.allUsers$.subscribe(userData => {
-            if (userData) {
-                this.chats = userData.filter(user => {
+        this.userDataSubscription = this.userService.allUsers$.subscribe(
+            (userData) => {
+                if (userData) {
+                    this.chats = userData.filter((user) => {
                         if (user) {
-                            user.role.user
+                            user.role.user;
                         }
-                    }
-                );
+                    });
+                }
             }
-        })
+        );
     }
 
     ngOnDestroy(): void {
@@ -91,7 +95,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                 const currentActiveId = this.activeMenuItem;
 
                 for (const channel of channelsData) {
-                    const isMember = channel.channelMembers.some(m => m.uid === this.currentUser.uid);
+                    const isMember = channel.channelMembers.some(
+                        (m) => m.uid === this.currentUser.uid
+                    );
                     if (isMember) {
                         if (channel.channelType.directMessage) {
                             this.directMessageChannels.push(channel);
@@ -107,8 +113,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                     this.activeMenuItem = currentActiveId;
                 }
             },
-            error => {
-                console.error('Error loading channels:', error);
+            (error) => {
+                console.error("Error loading channels:", error);
             }
         );
     }
@@ -143,7 +149,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
     async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
         try {
-            if (typeof data === 'string') {
+            if (typeof data === "string") {
                 this.setActiveChat(data);
                 return;
             }
@@ -154,10 +160,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            let dmChannel = await this.chatService.findDirectMessageChannel(this.currentUser, clickedUser);
+            let dmChannel = await this.chatService.findDirectMessageChannel(
+                this.currentUser,
+                clickedUser
+            );
 
             if (!dmChannel) {
-                dmChannel = await this.chatService.createDirectMessageChannel(this.currentUser, clickedUser);
+                dmChannel = await this.chatService.createDirectMessageChannel(
+                    this.currentUser,
+                    clickedUser
+                );
                 this.directMessageChannels.push(dmChannel);
             }
 
@@ -165,23 +177,29 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             this.activeMenuItem = dmChannel.channelId;
 
             this.functionTriggerService.callSelectChannel(dmChannel);
-
         } catch (error) {
-            console.error('Error creating/finding direct message channel:', error);
+            console.error(
+                "Error creating/finding direct message channel:",
+                error
+            );
         }
     }
 
     getDirectMessageUserData(dmChannel: ChannelData): UserData {
-        const otherUser = dmChannel.channelMembers.find(member => member.uid !== this.currentUser.uid);
+        const otherUser = dmChannel.channelMembers.find(
+            (member) => member.uid !== this.currentUser.uid
+        );
         return otherUser || this.currentUser;
     }
 
     getAvailableUsersForDM(): UserData[] {
         if (!this.chats) return [];
 
-        return this.chats.filter(user => {
-            return !this.directMessageChannels.some(dmChannel =>
-                dmChannel.channelMembers.some(member => member.uid === user.uid)
+        return this.chats.filter((user) => {
+            return !this.directMessageChannels.some((dmChannel) =>
+                dmChannel.channelMembers.some(
+                    (member) => member.uid === user.uid
+                )
             );
         });
     }
@@ -193,7 +211,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             channelName: name,
             channelType: {
                 channel: true,
-                directMessage: false
+                directMessage: false,
             },
             channelDescription: description,
             createdBy: this.currentUser,
@@ -201,14 +219,20 @@ export class MainMenuComponent implements OnInit, OnDestroy {
             createdAt: Timestamp.now(),
             updatedAt: Timestamp.now(),
         };
-        this.chatService.createChannel(newChannel).then(r => {console.log(r)});
+        this.chatService.createChannel(newChannel).then((r) => {
+            console.log(r);
+        });
     }
 
     toggleModal() {
         this.isModalOpen = !this.isModalOpen;
     }
 
-    toggleNewMessageHeader() {
-        this.chatService.toggleNewMessageHeader(true);
+    handleNewMessage(bool: boolean) {
+        this.chatService.handleNewMessage(bool);
+
+        if (bool) {
+            this.activeMenuItem = null;
+        }
     }
 }
