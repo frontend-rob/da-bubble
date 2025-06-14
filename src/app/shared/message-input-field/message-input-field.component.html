@@ -1,8 +1,8 @@
 <section class="message-input-wrapper">
     <div class="message-input-section">
         <textarea
-                (keydown)="onKeyDown($event)"
                 [(ngModel)]="messageInputData"
+                (keydown)="onKeyDown($event)"
                 placeholder="{{ selectedChannel }}"
                 rows="2"
         ></textarea>
