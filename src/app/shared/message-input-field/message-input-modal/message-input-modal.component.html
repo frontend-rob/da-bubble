@@ -8,12 +8,13 @@
 
 <div *ngIf="isUserTagModalOpen" class="modal">
     <ul class="user-list">
-        <li (click)="addUserTag(user.userName)" *ngFor="let user of users">
+        <li (click)="addUserTag(user)" *ngFor="let user of users">
             <div>
-                <img class="user-img" src="{{ user.photoURL }}"/>
-                <div [ngClass]="{ online: user.status, offline: user.status }"
-                     class="status">
-                </div>
+                <img class="user-img" src="{{ user.photoURL }}" />
+                <div
+                    [ngClass]="{ online: user.status, offline: user.status }"
+                    class="status"
+                ></div>
             </div>
             <div class="user-name">{{ user.userName }}</div>
         </li>
@@ -22,9 +23,11 @@
 
 <div *ngIf="isChannelTagModalOpen" class="modal">
     <ul class="channel-list">
-        <li (click)="addChannelTag(channel.channelName)" *ngFor="let channel of channels">
+        <li
+            (click)="addChannelTag(channel.channelName)"
+            *ngFor="let channel of channels"
+        >
             <div class="channel-name">{{ channel.channelName }}</div>
         </li>
     </ul>
 </div>
-

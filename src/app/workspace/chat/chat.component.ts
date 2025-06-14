@@ -34,11 +34,14 @@ import { FunctionTriggerService } from "../../services/function-trigger.service"
 export class ChatComponent implements OnInit, OnDestroy {
     messages$: Observable<Message[]> | undefined;
     messages!: Message[];
+    channels!: ChannelData[];
     selectedChannel!: ChannelData;
     newChannelName: string = "";
     newChannelDescription: string = "";
+    newMessageInputData!: string;
     currentUser!: UserData;
     userSubscription!: Subscription;
+    channelsSubscription!: Subscription;
     functionTriggerSubscription!: Subscription;
 
     isModalBGOpen = false;
@@ -62,31 +65,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         FunctionTriggerService
     );
 
-    constructor(public readonly chatService: ChatService) {
+    constructor(public chatService: ChatService) {
         this.selectedChannel = this.chatService.selectedChannel;
     }
-
-    get isNewMessage() {
-        return this.chatService.isNewMessage;
-    }
-
-    get isProfileCardOpen() {
-        return this.chatService.isProfileCardOpen;
-    }
-
-    handleProfileCard(bool: boolean, person: UserData) {
-        if (this.currentUser.uid !== person.uid) {
-            this.chatService.handleProfileCard(bool);
-            this.chatService.setCurrentPerson(person);
-        }
-    }
-
-    trackByMessageId: TrackByFunction<Message> = (
-        index: number,
-        message: Message
-    ) => {
-        return (message as any).id || index;
-    };
 
     ngOnInit(): void {
         this.functionTriggerSubscription =
@@ -112,7 +93,40 @@ export class ChatComponent implements OnInit, OnDestroy {
                 }
             }
         );
+
+        this.channelsSubscription = this.chatService.getChannels().subscribe(
+            (channelsData: ChannelData[]) => {
+                if (channelsData) {
+                    this.channels = channelsData;
+                }
+            },
+            (error) => {
+                console.error("Error loading channels:", error);
+            }
+        );
     }
+
+    get isNewMessage() {
+        return this.chatService.isNewMessage;
+    }
+
+    get isProfileCardOpen() {
+        return this.chatService.isProfileCardOpen;
+    }
+
+    handleProfileCard(bool: boolean, person: UserData) {
+        if (this.currentUser.uid !== person.uid) {
+            this.chatService.handleProfileCard(bool);
+            this.chatService.setCurrentPerson(person);
+        }
+    }
+
+    trackByMessageId: TrackByFunction<Message> = (
+        index: number,
+        message: Message
+    ) => {
+        return (message as any).id || index;
+    };
 
     selectChannel(channel: ChannelData): void {
         this.chatService.selectedChannel = channel;
@@ -142,7 +156,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                 channelName: this.newChannelName,
                 updatedAt: Timestamp.now(),
             };
-            this.updateChannel(updatedChannel).then(r => {console.log(r)});
+            this.updateChannel(updatedChannel).then((r) => {
+                console.log(r);
+            });
         }
         this.isNameEdit = !this.isNameEdit;
     }
@@ -154,7 +170,9 @@ export class ChatComponent implements OnInit, OnDestroy {
                 channelDescription: this.newChannelDescription,
                 updatedAt: Timestamp.now(),
             };
-            this.updateChannel(updatedChannel).then(r => {console.log(r)});
+            this.updateChannel(updatedChannel).then((r) => {
+                console.log(r);
+            });
         }
         this.isDescriptionEdit = !this.isDescriptionEdit;
     }
@@ -198,7 +216,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
 
         if (event.key === "Escape" && this.isNewMessage) {
-            this.chatService.toggleNewMessageHeader(false);
+            this.chatService.handleNewMessage(false);
         }
     }
 
@@ -295,5 +313,33 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.selectedUsersToAdd = [];
         this.filteredUsers = [];
         this.disabledButton = true;
+    }
+
+    handleInputData() {
+        if (
+            this.newMessageInputData[0] === "#" &&
+            this.newMessageInputData.length > 1
+        ) {
+            console.log("New MessageInput:", "#");
+
+            for (const channel of this.channels) {
+                // Compare input with existing channels
+                if (this.newMessageInputData === "#" + channel.channelName) {
+                    //  Set current chat to active
+                } else {
+                    // Create Channel
+                    // - Channelname without description
+                    // - Push to firebase
+                    // - Show new channel in chat area
+                }
+            }
+        }
+
+        if (
+            this.newMessageInputData[0] === "@" &&
+            this.newMessageInputData.length > 1
+        ) {
+            console.log("New MessageInput:", "@");
+        }
     }
 }

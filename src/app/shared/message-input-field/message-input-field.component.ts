@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {CommonModule} from "@angular/common";
-import {FormsModule} from "@angular/forms";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
-import {UserData} from "../../interfaces/user.interface";
-import {Subscription} from "rxjs";
-import {ChatService} from '../../services/chat.service';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
+import { UserData } from "../../interfaces/user.interface";
+import { Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
 
 @Component({
     selector: "app-message-input-field",
@@ -47,13 +47,17 @@ export class MessageInputFieldComponent implements OnInit {
         "\u{1F680}", // 🚀
     ];
 
-    constructor(private chatService: ChatService){}
+    constructor(private chatService: ChatService) {}
 
     ngOnInit() {
         this.users = this.chatService.selectedChannel.channelMembers;
-        this.channelsSubscription = this.chatService.getChannels().subscribe(channels => {
-            this.channels = channels.filter(channel => !channel.channelType.directMessage);
-        });
+        this.channelsSubscription = this.chatService
+            .getChannels()
+            .subscribe((channels) => {
+                this.channels = channels.filter(
+                    (channel) => !channel.channelType.directMessage
+                );
+            });
     }
 
     toggleEmojiModal() {
@@ -136,8 +140,8 @@ export class MessageInputFieldComponent implements OnInit {
         }
     }
 
-    addUserTag(userName: string) {
-        this.messageInputData += userName;
+    addUserTag(user: UserData) {
+        this.messageInputData += user.userName;
         this.isUserTagModalOpen = false;
     }
 
