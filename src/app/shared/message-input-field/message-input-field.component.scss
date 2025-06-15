@@ -3,70 +3,70 @@
 @use "./../../../styles/mixins" as mixins;
 
 .message-input-wrapper {
-  padding: 1.25rem;
-  width: 100%;
+	padding: 1.25rem;
+	width: 100%;
 
-  .message-input-section {
-    @include mixins.flex-column;
-    padding: 20px;
-    width: 100%;
-    border: 1px solid variables.$border;
-    border-radius: 20px;
-    position: relative;
+	.message-input-section {
+		@include mixins.flex-column;
+		padding: 20px;
+		width: 100%;
+		border: 1px solid variables.$border;
+		border-radius: 20px;
+		position: relative;
 
-    textarea {
-      margin-bottom: 20px;
-      width: 100%;
-      height: 100%;
-      border: none;
-      outline: none;
-      resize: none;
-    }
-  }
+		textarea {
+			margin-bottom: 20px;
+			width: 100%;
+			height: 100%;
+			border: none;
+			outline: none;
+			resize: none;
+		}
+	}
 }
 
 .options-container {
-  width: 100%;
-  @include mixins.flex-between;
+	width: 100%;
+	@include mixins.flex-between;
 }
 
 .options {
-  @include mixins.flex-center;
-  gap: 8px;
+	@include mixins.flex-center;
+	gap: 8px;
 
-  &:has(:hover) :not(:hover).options-link {
-    filter: brightness(0);
-  }
+	&:has(:hover) :not(:hover).options-link {
+		filter: brightness(0);
+	}
 }
 
 .options-link {
-  @include mixins.circle-button;
+	@include mixins.circle-button;
 
-  &:hover {
-    background-color: variables.$bg-neutral-hover;
-  }
+	&:hover {
+		background-color: variables.$bg-neutral-hover;
+	}
 }
 
 .emoji {
-  @include mixins.hover-image("/assets/img/shared/message-input-field/emoji_hover.svg");
+	@include mixins.hover-image("/assets/img/shared/message-input-field/emoji_hover.svg");
 }
 
 .user-tag {
-  @include mixins.hover-image("/assets/img/shared/message-input-field/user-tag_hover.svg");
+	@include mixins.hover-image("/assets/img/shared/message-input-field/user-tag_hover.svg");
 }
 
 .channel-tag {
-  @include mixins.hover-image("/assets/img/shared/message-input-field/channel-tag_hover.svg");
+	@include mixins.hover-image("/assets/img/shared/message-input-field/channel-tag_hover.svg");
 }
 
 .send-button {
-  @include mixins.image-hover("/assets/img/send.svg", "/assets/img/send_hover.svg");
-  background-size: cover;
-  background-position: center;
-  height: 18.77px;
-  width: 21.78px;
+	@include mixins.image-hover("/assets/img/send.svg", "/assets/img/send_hover.svg");
+	background-size: cover;
+	background-position: center;
+	height: 18.77px;
+	width: 21.78px;
 
-  &:hover {
-    cursor: pointer;
-  }
+	&:hover {
+		cursor: pointer;
+	}
 }

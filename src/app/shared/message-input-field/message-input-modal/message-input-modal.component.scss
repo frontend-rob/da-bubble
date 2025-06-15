@@ -2,128 +2,128 @@
 @use "./../../../../styles/variables" as variables;
 
 .modal {
-  width: fit-content;
-  height: fit-content;
-  background-color: variables.$bg-base-200;
-  border: 1px solid variables.$border;
-  border-radius: 20px 20px 20px 0;
-  position: absolute;
-  bottom: 128px;
-  z-index: 1;
+	width: fit-content;
+	height: fit-content;
+	background-color: variables.$bg-base-200;
+	border: 1px solid variables.$border;
+	border-radius: 20px 20px 20px 0;
+	position: absolute;
+	bottom: 128px;
+	z-index: 1;
 }
 
 .emoji-list {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  padding: 16px;
-  justify-content: center;
-  align-items: center;
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	gap: 8px;
+	padding: 16px;
+	justify-content: center;
+	align-items: center;
 
-  > li {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4px;
-    gap: 16px;
-    height: 40px;
-    width: 40px;
-    border-radius: 32px;
-    list-style-type: none;
-    font-size: 24px;
+	> li {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 4px;
+		gap: 16px;
+		height: 40px;
+		width: 40px;
+		border-radius: 32px;
+		list-style-type: none;
+		font-size: 24px;
 
-    &:hover {
-      background-color: variables.$bg-neutral-hover;
-      cursor: pointer;
-    }
+		&:hover {
+			background-color: variables.$bg-neutral-hover;
+			cursor: pointer;
+		}
 
-    > img {
-      width: 20px;
-      height: 20px;
-    }
-  }
+		> img {
+			width: 20px;
+			height: 20px;
+		}
+	}
 }
 
 .user-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  gap: 16px;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 20px;
+	gap: 16px;
+	width: 100%;
 
-  > li {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 4px 20px;
-    gap: 16px;
-    width: 100%;
-    border-radius: 32px;
-    list-style-type: none;
+	> li {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 4px 20px;
+		gap: 16px;
+		width: 100%;
+		border-radius: 32px;
+		list-style-type: none;
 
-    &:hover {
-      background-color: variables.$bg-neutral-hover;
-      cursor: pointer;
-    }
+		&:hover {
+			background-color: variables.$bg-neutral-hover;
+			cursor: pointer;
+		}
 
-    > div {
-      position: relative;
+		> div {
+			position: relative;
 
-      > img {
-        width: 50px;
-        height: 50px;
-      }
+			> img {
+				width: 50px;
+				height: 50px;
+			}
 
-      .status {
-        width: 16px;
-        height: 16px;
-        border: 2px solid variables.$bg-base-200;
-        border-radius: 50%;
-        position: absolute;
-        bottom: 4px;
-        right: 0;
-        z-index: 5;
+			.status {
+				width: 16px;
+				height: 16px;
+				border: 2px solid variables.$bg-base-200;
+				border-radius: 50%;
+				position: absolute;
+				bottom: 4px;
+				right: 0;
+				z-index: 5;
 
-        &.online {
-          background-color: variables.$online;
-        }
+				&.online {
+					background-color: variables.$online;
+				}
 
-        &.offline {
-          background-color: variables.$offline;
-        }
-      }
-    }
-  }
+				&.offline {
+					background-color: variables.$offline;
+				}
+			}
+		}
+	}
 }
 
 .channel-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 16px;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 16px;
+	width: 100%;
 
-  > li {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 4px 20px;
-    gap: 16px;
-    width: 100%;
-    border-radius: 32px;
-    list-style-type: none;
+	> li {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		padding: 4px 20px;
+		gap: 16px;
+		width: 100%;
+		border-radius: 32px;
+		list-style-type: none;
 
-    &:hover {
-      background-color: variables.$bg-neutral-hover;
-      cursor: pointer;
-    }
+		&:hover {
+			background-color: variables.$bg-neutral-hover;
+			cursor: pointer;
+		}
 
-    > img {
-      width: 16px;
-      height: 16px;
-    }
-  }
+		> img {
+			width: 16px;
+			height: 16px;
+		}
+	}
 }

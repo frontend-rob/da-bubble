@@ -3,37 +3,37 @@
 @use "../../../../styles/mixins" as mixins;
 
 .menu-item {
-  @include mixins.flex-row;
-  justify-self: flex-start;
-  padding: 4px 20px;
-  gap: 10px;
-  border-radius: 20px;
-  cursor: pointer;
+	@include mixins.flex-row;
+	justify-self: flex-start;
+	padding: 4px 20px;
+	gap: 10px;
+	border-radius: 20px;
+	cursor: pointer;
 
-  > div {
-    @include mixins.flex-center;
-    justify-self: center;
-  }
+	> div {
+		@include mixins.flex-center;
+		justify-self: center;
+	}
 
-  &:hover {
-    background-color: variables.$bg-base-100;
+	&:hover {
+		background-color: variables.$bg-base-100;
 
-    div {
-      font-weight: 700;
-      color: variables.$text-hover;
+		div {
+			font-weight: 700;
+			color: variables.$text-hover;
 
-      > img {
-        content: url("/assets/img/main-menu/channel_tag_hover.svg");
-      }
-    }
-  }
+			> img {
+				content: url("/assets/img/main-menu/channel_tag_hover.svg");
+			}
+		}
+	}
 }
 
 .activate {
-  background-color: variables.$bg-base-100;
+	background-color: variables.$bg-base-100;
 
-  > div {
-    color: variables.$text-hover;
-    font-weight: 700;
-  }
+	> div {
+		color: variables.$text-hover;
+		font-weight: 700;
+	}
 }

@@ -4,122 +4,122 @@
 @use '../../../styles/shared-styles';
 
 .login-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  max-width: 30rem;
-  width: 100%;
-  padding: 1.5rem 2rem;
-  border-radius: 1.5rem;
-  background-color: variables.$bg-base-200;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	max-width: 30rem;
+	width: 100%;
+	padding: 1.5rem 2rem;
+	border-radius: 1.5rem;
+	background-color: variables.$bg-base-200;
 }
 
 
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	gap: 0.5rem;
 }
 
 .form-group {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 0.5rem;
 }
 
 .password-link {
-  align-self: center;
-  padding: 0.5rem 1rem;
-  border-radius: 999rem;
-  text-decoration: none;
-  color: variables.$bg-primary-accent;
-  font-family: 'Figtree', serif;
-  font-size: 0.875rem;
+	align-self: center;
+	padding: 0.5rem 1rem;
+	border-radius: 999rem;
+	text-decoration: none;
+	color: variables.$bg-primary-accent;
+	font-family: 'Figtree', serif;
+	font-size: 0.875rem;
 }
 
 .password-link:hover {
-  background-color: variables.$bg-base-100;
-  cursor: pointer;
+	background-color: variables.$bg-base-100;
+	cursor: pointer;
 }
 
 .divider {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	padding: 1rem 0;
 }
 
 .divider-line {
-  width: 100%;
-  height: 1px;
-  background-color: variables.$border;
+	width: 100%;
+	height: 1px;
+	background-color: variables.$border;
 }
 
 .login-options {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
 }
 
 .btn-social {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  height: 3rem;
-  padding: 0.5rem 1.5rem;
-  border: 1px solid variables.$bg-base-100;
-  border-radius: 999rem;
-  line-height: 1.25;
-  color: variables.$bg-primary;
-  font-family: 'Nunito', serif;
-  font-size: 0.875rem;
-  font-weight: 400;
-  background-color: variables.$bg-base-100;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	height: 3rem;
+	padding: 0.5rem 1.5rem;
+	border: 1px solid variables.$bg-base-100;
+	border-radius: 999rem;
+	line-height: 1.25;
+	color: variables.$bg-primary;
+	font-family: 'Nunito', serif;
+	font-size: 0.875rem;
+	font-weight: 400;
+	background-color: variables.$bg-base-100;
 }
 
 .btn-social:hover {
-  border: 1px solid variables.$bg-primary;
-  font-weight: 700;
+	border: 1px solid variables.$bg-primary;
+	font-weight: 700;
 }
 
 .google-icon {
-  height: 2rem;
-  width: auto;
+	height: 2rem;
+	width: auto;
 }
 
 .form-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 2rem;
 }
 
 @media screen and (max-width: 40rem) {
-  .login-card {
-    gap: 1.25rem;
-    padding: 1.25rem;
-  }
+	.login-card {
+		gap: 1.25rem;
+		padding: 1.25rem;
+	}
 
-  .card-header {
-    gap: 1rem;
-  }
+	.card-header {
+		gap: 1rem;
+	}
 
-  .card-header h2 {
-    font-size: 1.75rem;
-  }
+	.card-header h2 {
+		font-size: 1.75rem;
+	}
 
-  form {
-    gap: 0.25rem;
-  }
+	form {
+		gap: 0.25rem;
+	}
 
-  .form-group {
-    gap: 0.25rem;
-  }
+	.form-group {
+		gap: 0.25rem;
+	}
 }
