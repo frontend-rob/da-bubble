@@ -1,16 +1,16 @@
-import {CommonModule} from "@angular/common";
-import {Component, inject, OnDestroy, OnInit} from "@angular/core";
-import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {ChatService} from "../../services/chat.service";
-import {Subscription} from "rxjs";
-import {HelperService} from "../../services/helper.service";
-import {Timestamp} from "firebase/firestore";
-import {FormsModule} from "@angular/forms";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
+import { CommonModule } from "@angular/common";
+import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { ChatService } from "../../services/chat.service";
+import { Subscription } from "rxjs";
+import { HelperService } from "../../services/helper.service";
+import { Timestamp } from "firebase/firestore";
+import { FormsModule } from "@angular/forms";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
 
 @Component({
 	selector: "app-main-menu",
@@ -50,8 +50,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		FunctionTriggerService
 	);
 
-	constructor(private chatService: ChatService) {
-	}
+	constructor(private chatService: ChatService) {}
 
 	ngOnInit(): void {
 		this.userSubscription = this.userService.currentUser$.subscribe(

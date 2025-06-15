@@ -315,7 +315,10 @@
 						justify-content: flex-end;
 
 						button {
-							@include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
+							@include mixins.action-button(
+								variables.$bg-primary,
+								variables.$text-inverse
+							);
 							width: fit-content;
 
 							&:hover {
@@ -348,9 +351,9 @@
 				align-items: flex-start;
 				width: 872px;
 				position: absolute;
-				top: 72px;
-				left: 48px;
-				z-index: 2;
+				top: 48px;
+				left: 0;
+				z-index: 10;
 				border-radius: 0 30px 30px 30px;
 				box-shadow: 0 6px 10px 0 #00000033;
 				background-color: variables.$bg-base-200;
@@ -609,7 +612,6 @@
 	@include mixins.hover-bg(variables.$bg-neutral-hover);
 }
 
-
 .dm-empty-state {
 	display: flex;
 	flex-direction: column;
@@ -619,7 +621,6 @@
 	gap: 20px;
 	padding: 32px;
 }
-
 
 .direct-message-contact {
 	display: flex;

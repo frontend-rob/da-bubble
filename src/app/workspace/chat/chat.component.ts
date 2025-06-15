@@ -65,7 +65,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		FunctionTriggerService
 	);
 
-	constructor(public chatService: ChatService) {
+	constructor(public readonly chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
 	}
 
@@ -76,6 +76,20 @@ export class ChatComponent implements OnInit, OnDestroy {
 	get isProfileCardOpen() {
 		return this.chatService.isProfileCardOpen;
 	}
+
+	handleProfileCard(bool: boolean, person: UserData) {
+		if (this.currentUser.uid !== person.uid) {
+			this.chatService.handleProfileCard(bool);
+			this.chatService.setCurrentPerson(person);
+		}
+	}
+
+	trackByMessageId: TrackByFunction<Message> = (
+		index: number,
+		message: Message
+	) => {
+		return (message as any).id || index;
+	};
 
 	ngOnInit(): void {
 		this.functionTriggerSubscription =
@@ -114,20 +128,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	handleProfileCard(bool: boolean, person: UserData) {
-		if (this.currentUser.uid !== person.uid) {
-			this.chatService.handleProfileCard(bool);
-			this.chatService.setCurrentPerson(person);
-		}
-	}
-
-	trackByMessageId: TrackByFunction<Message> = (
-		index: number,
-		message: Message
-	) => {
-		return (message as any).id || index;
-	};
-
 	selectChannel(channel: ChannelData): void {
 		this.chatService.selectedChannel = channel;
 		this.newChannelName = channel.channelName;
@@ -159,6 +159,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
+			this.updateChannel(updatedChannel).then((r) => {
+				console.log(r);
+			});
 		}
 		this.isNameEdit = !this.isNameEdit;
 	}
@@ -170,6 +173,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelDescription: this.newChannelDescription,
 				updatedAt: Timestamp.now(),
 			};
+			this.updateChannel(updatedChannel).then((r) => {
+				console.log(r);
+			});
 			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
@@ -211,12 +217,28 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	onKeyDown(event: KeyboardEvent): void {
-		// TODO: ADD LOGIC
 		if (event.key === "Enter" && this.isNewMessage) {
+			if (this.newMessageInputData[0] === "#") {
+				this.addNewChannel(this.newMessageInputData.slice(1));
+				this.newMessageInputData = "";
+				// Close modals
+			}
 		}
 
 		if (event.key === "Escape" && this.isNewMessage) {
 			this.chatService.handleNewMessage(false);
+		}
+	}
+
+	private async updateChannel(channel: ChannelData): Promise<void> {
+		if (!channel.channelId) {
+			return;
+		}
+		try {
+			await this.chatService.updateChannel(channel);
+			this.selectChannel(channel);
+		} catch (error) {
+			console.error("Error updating channel:", error);
 		}
 	}
 
@@ -314,7 +336,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 				// Compare input with existing channels
 				if (this.newMessageInputData === "#" + channel.channelName) {
 					//  Set current chat to active
-				} else {
+				} else if (this.newMessageInputData[0] === "#") {
+					// this.addNewChannel(this.newMessageInputData.slice(1));
 					// Create Channel
 					// - Channelname without description
 					// - Push to firebase
@@ -331,15 +354,22 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	private async updateChannel(channel: ChannelData): Promise<void> {
-		if (!channel.channelId) {
-			return;
-		}
-		try {
-			await this.chatService.updateChannel(channel);
-			this.selectChannel(channel);
-		} catch (error) {
-			console.error("Error updating channel:", error);
-		}
+	addNewChannel(name: string, description: string = "") {
+		const newChannel: ChannelData = {
+			channelId: this.helperService.getRandomNumber().toString(),
+			channelName: name,
+			channelType: {
+				channel: true,
+				directMessage: false,
+			},
+			channelDescription: description,
+			createdBy: this.currentUser,
+			channelMembers: [this.currentUser],
+			createdAt: Timestamp.now(),
+			updatedAt: Timestamp.now(),
+		};
+		this.chatService.createChannel(newChannel).then((r) => {
+			console.log(r);
+		});
 	}
 }
