@@ -269,7 +269,7 @@
 			</div>
 		</header>
 
-		<main class="chat-main">
+		<main class="chat-main" appAutoScroll [trigger]="messages">
 			<div *ngIf="!isNewMessage" class="chat-history">
 				<ng-container
 					*ngFor="

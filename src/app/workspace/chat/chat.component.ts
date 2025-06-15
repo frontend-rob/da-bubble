@@ -12,6 +12,7 @@ import {UserData} from "../../interfaces/user.interface";
 import {UserService} from "../../services/user.service";
 import {HelperService} from "../../services/helper.service";
 import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 
 @Component({
 	selector: "app-chat",
@@ -24,6 +25,8 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
 		FormsModule,
 		NgForOf,
 		NgOptimizedImage,
+		AutoScrollingDirective,
+		AutoScrollingDirective
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
@@ -312,7 +315,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 			if (this.channels) {
 				for (const channel of this.channels) {
-					// Compare input with existing channels
 					if (
 						this.newMessageInputData ===
 						"#" + channel.channelName

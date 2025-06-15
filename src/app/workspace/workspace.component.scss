@@ -21,14 +21,13 @@ app-chat {
 	max-width: 1920px;
 	width: 100%;
 	height: 100vh;
-	gap: 20px;
 	background-color: variables.$bg-base-100;
 
 	> .workspace-content {
 		display: flex;
 		gap: 20px;
 		height: calc(100vh - 8rem);
-		padding: 20px;
+		padding: 0 20px;
 	}
 }
 

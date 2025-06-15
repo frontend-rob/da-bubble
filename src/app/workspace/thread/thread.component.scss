@@ -131,3 +131,12 @@ main {
 	justify-self: center;
 	white-space: nowrap;
 }
+
+.messages-container {
+	width: 100%;
+	height: calc(100% - 60px);
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
