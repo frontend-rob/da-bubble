@@ -37,7 +37,6 @@ yarn-error.log
 testem.log
 /typings
 ./src/app/app.config.ts
-/src/environments
 
 
 # System files
@@ -54,3 +53,4 @@ up.sh
 
 #Environment
 /src/environments/environment.development.ts
+/src/environments
