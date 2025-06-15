@@ -2,145 +2,145 @@
 @use '../styles/shared-styles' as shared;
 
 .article-card-wrapper {
-  padding: 1rem;
+	padding: 1rem;
 }
 
 .article-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  max-width: 60rem;
-  width: 100%;
-  padding: 1.5rem 2rem;
-  margin-bottom: 4rem;
-  border-radius: 1.5rem;
-  background-color: variables.$bg-base-200;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	max-width: 60rem;
+	width: 100%;
+	padding: 1.5rem 2rem;
+	margin-bottom: 4rem;
+	border-radius: 1.5rem;
+	background-color: variables.$bg-base-200;
 }
 
 .article-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  padding: unset;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2rem;
+	padding: unset;
 }
 
 .btn-back {
-  @include shared.btn-back;
+	@include shared.btn-back;
 }
 
 .btn-back svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: variables.$text-primary;
+	width: 1.5rem;
+	height: 1.5rem;
+	color: variables.$text-primary;
 }
 
 .btn-back:hover {
-  background-color: variables.$bg-base-100;
+	background-color: variables.$bg-base-100;
 }
 
 .btn-back:hover svg {
-  color: variables.$bg-primary;
+	color: variables.$bg-primary;
 }
 
 .article-header h2 {
-  color: variables.$bg-primary;
-  font-size: 2.5rem;
-  font-weight: 700;
+	color: variables.$bg-primary;
+	font-size: 2.5rem;
+	font-weight: 700;
 }
 
 .article-header p {
-  text-align: left;
-  line-height: 1.5;
-  color: variables.$text-primary;
+	text-align: left;
+	line-height: 1.5;
+	color: variables.$text-primary;
 }
 
 .divider-line {
-  width: 100%;
-  height: 1px;
-  background-color: variables.$border;
+	width: 100%;
+	height: 1px;
+	background-color: variables.$border;
 }
 
 .article-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 100%;
-  gap: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+	gap: 0.5rem;
 }
 
 .article-content p {
-  line-height: 1.5;
-  color: variables.$text-primary;
+	line-height: 1.5;
+	color: variables.$text-primary;
 }
 
 .section-headline {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: variables.$bg-primary;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: variables.$bg-primary;
 }
 
 .section-headline::before {
-  content: "";
-  height: 1.5rem;
-  width: 4px;
-  background-color: variables.$bg-primary;
-  border-radius: 4px;
+	content: "";
+	height: 1.5rem;
+	width: 4px;
+	background-color: variables.$bg-primary;
+	border-radius: 4px;
 }
 
 ul {
-  margin: 0.5rem 0;
-  padding-inline-start: 2rem;
-  list-style-type: disc;
+	margin: 0.5rem 0;
+	padding-inline-start: 2rem;
+	list-style-type: disc;
 }
 
 li {
-  padding-inline-start: .5rem;
-  line-height: 1.75;
+	padding-inline-start: .5rem;
+	line-height: 1.75;
 }
 
 @media screen and (max-width: 40rem) {
-  .article-card {
-    padding: 1.25rem;
-  }
+	.article-card {
+		padding: 1.25rem;
+	}
 
-  .btn-back {
-    top: 1.25rem;
-    left: 0.875rem;
-  }
+	.btn-back {
+		top: 1.25rem;
+		left: 0.875rem;
+	}
 
-  .article-header h2 {
-    font-size: 2rem;
-  }
+	.article-header h2 {
+		font-size: 2rem;
+	}
 
-  .section-headline {
-    font-size: 1.5rem;
-  }
+	.section-headline {
+		font-size: 1.5rem;
+	}
 
-  .section-headline::before {
-    display: none;
-  }
+	.section-headline::before {
+		display: none;
+	}
 
-  ul {
-    padding-inline-start: 1rem;
-  }
+	ul {
+		padding-inline-start: 1rem;
+	}
 
-  li {
-    padding-inline-start: 0.25rem;
-  }
+	li {
+		padding-inline-start: 0.25rem;
+	}
 }
 
 @media screen and (max-width: 25rem) {
-  .article-header h2 {
-    font-size: 1.75rem;
-  }
+	.article-header h2 {
+		font-size: 1.75rem;
+	}
 
-  .section-headline {
-    font-size: 1.25rem;
-  }
+	.section-headline {
+		font-size: 1.25rem;
+	}
 }

@@ -2,44 +2,44 @@
 @use "./../../styles/variables" as variables;
 
 .workspace {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
 }
 
 .workspace-container {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-  padding: 20px;
-  width: 1920px;
-  height: 100vh;
-  gap: 1.25rem;
-  background-color: variables.$bg-base-100;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	padding: 20px;
+	width: 1920px;
+	height: 100vh;
+	gap: 1.25rem;
+	background-color: variables.$bg-base-100;
 
-  > div {
-    display: flex;
-    gap: 20px;
-    height: calc(100vh - 8rem);
-  }
+	> div {
+		display: flex;
+		gap: 20px;
+		height: calc(100vh - 8rem);
+	}
 }
 
 .modal-bg {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: #00000050;
-  z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #00000050;
+	z-index: 1;
 }
 
 app-chat {
-  flex: 1;
+	flex: 1;
 }
