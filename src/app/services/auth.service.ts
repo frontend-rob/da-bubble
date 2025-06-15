@@ -4,16 +4,16 @@
  */
 import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
 import {
-    Auth,
-    createUserWithEmailAndPassword,
-    GoogleAuthProvider,
-    sendPasswordResetEmail,
-    signInAnonymously,
-    signInWithEmailAndPassword,
-    signInWithPopup,
-    signOut,
-    user,
-    User
+	Auth,
+	createUserWithEmailAndPassword,
+	GoogleAuthProvider,
+	sendPasswordResetEmail,
+	signInAnonymously,
+	signInWithEmailAndPassword,
+	signInWithPopup,
+	signOut,
+	user,
+	User
 } from '@angular/fire/auth';
 import {UserData} from '../interfaces/user.interface';
 import {collection, doc, Firestore, getDocs, query, setDoc, Timestamp, where} from '@angular/fire/firestore';

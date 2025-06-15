@@ -7,7 +7,8 @@
                                     width="70"/>
 	<div class="message-content-container">
 		<div class="author-container"><span (click)="handleProfileCard(true, message.sender)"
-		                                    class="author-name">{{ message.sender.userName }}</span><span class="message-time">{{ message.time }} Uhr</span>
+		                                    class="author-name">{{ message.sender.userName }}</span><span
+			class="message-time">{{ message.time }} Uhr</span>
 		</div>
 		<div *ngIf="!isEditing" class="message">{{ message.text }}<span *ngIf="message.edited"
 		                                                                class="edited-indicator">(edited)</span>

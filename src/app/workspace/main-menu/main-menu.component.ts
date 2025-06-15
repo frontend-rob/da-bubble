@@ -184,7 +184,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				error
 			);
 		}
-    }
+	}
 
 	getDirectMessageUserData(dmChannel: ChannelData): UserData {
 		const otherUser = dmChannel.channelMembers.find(
