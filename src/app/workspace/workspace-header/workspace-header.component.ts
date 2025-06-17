@@ -62,7 +62,7 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 			.logOut()
 			.then(() => {
 				this.router.navigate(["/"]).then(r => {
-					console.log(r, 'navigated to home');
+					console.log(r, 'navigated to login');
 				});
 			})
 			.catch((error) => {
