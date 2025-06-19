@@ -1,16 +1,20 @@
-@if (chat.photoURL) {
+@if (chatPartner.photoURL) {
 <div
-	(click)="setActiveChat(channelId)"
+	(click)="setActiveChat(chatPartner.uid)"
 	[class.activate]="isActive"
 	class="menu-item"
 >
 	<div class="avatar">
-		<img [ngSrc]="chat.photoURL" alt="User profile picture" fill="true" />
+		<img
+			[ngSrc]="chatPartner.photoURL"
+			alt="User profile picture"
+			fill="true"
+		/>
 		<div
-			[ngClass]="{ online: chat.status, offline: !chat.status }"
+			[ngClass]="{ online: chatPartner.status, offline: !chatPartner.status }"
 			class="status"
 		></div>
 	</div>
-	<div>{{ chat.userName }}</div>
+	<div>{{ chatPartner.userName }}</div>
 </div>
 }

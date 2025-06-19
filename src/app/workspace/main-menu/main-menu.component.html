@@ -117,26 +117,26 @@
 
 				<div [class.close-list]="showUserList" class="menu-list-container">
 					<div class="menu-list">
-						<!-- TODO: Add logic -->
-						<app-direct-message-list-item
+						<!-- <app-direct-message-list-item
 							*ngIf="currentUser"
 							[chat]="currentUser"
 						>
-						</app-direct-message-list-item>
+						</app-direct-message-list-item> -->
 
-						<app-direct-message-list-item
+						<!-- <app-direct-message-list-item
 							*ngFor="let dmChannel of directMessageChannels"
 							[channelId]="dmChannel.channelId"
 							[chat]="getDirectMessageUserData(dmChannel)"
 						>
-						</app-direct-message-list-item>
-
-						<!-- <app-direct-message-list-item
-							(activeMenuItem)="onUserClickForDirectMessage($event)"
-							*ngFor="let user of getAvailableUsersForDM()"
-							[chat]="user"
-						>
 						</app-direct-message-list-item> -->
+
+						<app-direct-message-list-item
+							*ngFor="let chatPartner of getAvailableUsersForDM()"
+							[chatPartner]="chatPartner"
+							[currentUser]="currentUser"
+						>
+						</app-direct-message-list-item>
+						<!-- (activeMenuItem)="onUserClickForDirectMessage($event)" -->
 					</div>
 				</div>
 			</div>
