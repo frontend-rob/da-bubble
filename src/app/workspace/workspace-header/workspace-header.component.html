@@ -25,8 +25,24 @@
 </div>
 <!-- USER MENU -->
 <div *ngIf="isUserMenuOpen" class="user-menu">
-    <div (click)="handleUserProfileCard(true)">Profile</div>
-    <div (click)="logOut()">Logout</div>
+    <button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+            class="lucide lucide-user-round-icon lucide-user-round">
+            <circle cx="12" cy="8" r="5" />
+            <path d="M20 21a8 8 0 0 0-16 0" />
+        </svg>
+        Profile
+    </button>
+    <button class="btn btn-ghost" (click)="logOut()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+        </svg>
+        Logout
+    </button>
 </div>
 
 <!-- USER PROFILE CARD  -->
