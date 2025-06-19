@@ -1,299 +1,341 @@
 @use "../../../styles/variables" as variables;
 @use "../../../styles/fonts" as fonts;
+@use "../../../styles/inputs" as inputs;
 @use "../../../styles/mixins" as mixins;
 
 .avatar {
-	@include mixins.status-indicator;
-	@include mixins.flex-center;
-	height: 50px;
-	width: 50px;
+    @include mixins.status-indicator;
+    @include mixins.flex-center;
+    height: 50px;
+    width: 50px;
 
-	> img {
-		@include mixins.avatar;
-	}
+    >img {
+        @include mixins.avatar;
+    }
 }
 
 .main-menu-section {
-	@include mixins.flex-column(flex-start, center);
-	height: 100%;
-	width: 366px;
-	flex: 1;
+    @include mixins.flex-column(flex-start, center);
+    height: 100%;
+    width: 366px;
+    flex: 1;
 
-	&.close-menu {
-		display: none;
-		transform: translateX(-100%);
-	}
+    &.close-menu {
+        display: none;
+        transform: translateX(-100%);
+    }
 }
 
 .main-menu-container {
-	@include mixins.flex-column(center);
-	height: 100%;
-	width: 100%;
-	position: relative;
-	background-color: white;
-	border-radius: 30px;
-	padding: 20px;
-	gap: 24px;
+    @include mixins.flex-column(center);
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+    gap: 24px;
 
-	> header {
-		@include mixins.flex-between;
-		width: 100%;
-		background-color: variables.$bg-base-200;
-		border-radius: 20px;
-		gap: 10px;
+    // display: none;
+    >header {
+        @include mixins.flex-between;
+        width: 100%;
+        background-color: variables.$bg-base-200;
+        border-radius: 20px;
+        gap: 10px;
 
-		> div {
-			@include mixins.flex-center;
-			gap: 16px;
+        >.desktop-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
 
-			> img {
-				@include mixins.flex-row;
-				gap: 10px;
+            >.logo-container {
+                @include mixins.flex-center;
+                gap: 16px;
 
-				> img {
-					height: 45px;
-				}
-			}
+                >img {
+                    @include mixins.flex-row;
+                    gap: 10px;
 
-			> h1 {
-				font-size: 24px;
-				font-weight: 700;
-			}
-		}
+                    >img {
+                        height: 45px;
+                    }
+                }
 
-		.add-new-channel-btn {
-			@include mixins.circle-button;
-			padding: 8px;
-			@include mixins.hover-bg(variables.$bg-neutral-hover);
+                >h1 {
+                    font-size: 24px;
+                    font-weight: 700;
+                }
+            }
 
-			> img {
-				width: 24px;
-				height: 24px;
+            .add-new-channel-btn {
+                @include mixins.circle-button;
+                padding: 8px;
+                @include mixins.hover-bg(variables.$bg-neutral-hover);
 
-				&:hover {
-					content: url("/assets/img/main-menu/edit_square_hover.svg");
-				}
-			}
-		}
-	}
+                >img {
+                    width: 24px;
+                    height: 24px;
 
-	main {
-		@include mixins.flex-column;
-		gap: 24px;
-		width: 100%;
-		overflow-y: auto;
+                    &:hover {
+                        content: url("/assets/img/main-menu/edit_square_hover.svg");
+                    }
+                }
+            }
+        }
 
-		.menu-container {
-			@include mixins.flex-column(center, space-between);
-			gap: 24px;
-			width: 100%;
-			position: relative;
-			background-color: white;
-			border-radius: 20px;
+        .mobile-search {
+            display: none
+        }
+    }
 
-			> header {
-				@include mixins.flex-between;
-				width: 100%;
-				height: 48px;
-				cursor: pointer;
+    main {
+        @include mixins.flex-column;
+        gap: 24px;
+        width: 100%;
+        overflow-y: auto;
 
-				> div {
-					@include mixins.flex-row;
-					gap: 16px;
+        .menu-container {
+            @include mixins.flex-column(center, space-between);
+            gap: 24px;
+            width: 100%;
+            position: relative;
+            background-color: white;
+            border-radius: 20px;
 
-					&:hover {
-						color: variables.$text-hover;
+            >header {
+                @include mixins.flex-between;
+                width: 100%;
+                height: 48px;
+                cursor: pointer;
 
-						.dropdown-img {
-							content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
-						}
+                >div {
+                    @include mixins.flex-row;
+                    gap: 16px;
 
-						.channel-img {
-							content: url("/assets/img/main-menu/channels_hover.svg");
-						}
+                    &:hover {
+                        color: variables.$text-hover;
 
-						.direct-messages-img {
-							content: url("/assets/img/main-menu/direct_messages_hover.svg");
-						}
-					}
+                        .dropdown-img {
+                            content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
+                        }
 
-					&.close-list-btn {
-						.dropdown-img {
-							content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
-						}
+                        .channel-img {
+                            content: url("/assets/img/main-menu/channels_hover.svg");
+                        }
 
-						&:hover {
-							.dropdown-img {
-								content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
-							}
-						}
-					}
+                        .direct-messages-img {
+                            content: url("/assets/img/main-menu/direct_messages_hover.svg");
+                        }
+                    }
 
-					> div {
-						@include mixins.flex-center;
-						gap: 10px;
+                    &.close-list-btn {
+                        .dropdown-img {
+                            content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
+                        }
 
-						> h2 {
-							@include mixins.heading-medium;
-						}
+                        &:hover {
+                            .dropdown-img {
+                                content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
+                            }
+                        }
+                    }
 
-						> div {
-							@include mixins.flex-center;
-							width: auto;
-							height: 40px;
-						}
-					}
-				}
-			}
+                    >div {
+                        @include mixins.flex-center;
+                        gap: 10px;
 
-			.menu-list-container {
-				@include mixins.flex-column;
-				padding-left: 26px;
-				gap: 24px;
-				width: 100%;
-				height: auto;
+                        >h2 {
+                            @include mixins.heading-medium;
+                        }
 
-				&.close-list {
-					.menu-list {
-						display: none;
-					}
-				}
+                        >div {
+                            @include mixins.flex-center;
+                            width: auto;
+                            height: 40px;
+                        }
+                    }
+                }
+            }
 
-				.menu-list {
-					@include mixins.flex-column;
-					gap: 16px;
+            .menu-list-container {
+                @include mixins.flex-column;
+                padding-left: 26px;
+                gap: 24px;
+                width: 100%;
+                height: auto;
 
-					.add-channel-btn {
-						@include mixins.flex-center;
-						margin-top: 12px;
-						padding-left: 20px;
-						gap: 10px;
-						cursor: pointer;
+                &.close-list {
+                    .menu-list {
+                        display: none;
+                    }
+                }
 
-						div {
-							@include mixins.flex-center;
-							width: 24px;
-							height: 24px;
-						}
+                .menu-list {
+                    @include mixins.flex-column;
+                    gap: 16px;
 
-						&:hover {
-							img {
-								content: url("/assets/img/main-menu/add_circle_hover.svg");
-							}
+                    .add-channel-btn {
+                        @include mixins.flex-center;
+                        margin-top: 12px;
+                        padding-left: 20px;
+                        gap: 10px;
+                        cursor: pointer;
 
-							h3 {
-								color: variables.$text-hover;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+                        div {
+                            @include mixins.flex-center;
+                            width: 24px;
+                            height: 24px;
+                        }
 
+                        &:hover {
+                            img {
+                                content: url("/assets/img/main-menu/add_circle_hover.svg");
+                            }
+
+                            h3 {
+                                color: variables.$text-hover;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .button {
-	@include mixins.circle-button;
-	@include mixins.hover-bg(variables.$bg-neutral-hover);
-	justify-content: center !important;
+    @include mixins.circle-button;
+    @include mixins.hover-bg(variables.$bg-neutral-hover);
+    justify-content: center !important;
 }
 
 .modal-bg {
-	@include mixins.flex-center;
-	@include mixins.modal-bg;
-	width: 100vw;
-	height: 100vh;
+    @include mixins.flex-center;
+    @include mixins.modal-bg;
+    width: 100vw;
+    height: 100vh;
 }
 
 .modal {
-	@include mixins.flex-center;
-	width: 872px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-	border-radius: 30px;
-	box-shadow: 0 6px 10px 0 #00000033;
-	background-color: variables.$bg-base-200;
+    @include mixins.flex-center;
+    width: 872px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 30px;
+    box-shadow: 0 6px 10px 0 #00000033;
+    background-color: variables.$bg-base-200;
 
-	.container {
-		@include mixins.flex-column;
-		padding: 40px;
-		gap: 20px;
-		width: 100%;
-		height: 100%;
+    .container {
+        @include mixins.flex-column;
+        padding: 40px;
+        gap: 20px;
+        width: 100%;
+        height: 100%;
 
-		.modal-header {
-			@include mixins.flex-between;
-			align-items: flex-start;
-			width: 100%;
+        .modal-header {
+            @include mixins.flex-between;
+            align-items: flex-start;
+            width: 100%;
 
-			h1 {
-				@include mixins.heading-large;
-			}
+            h1 {
+                @include mixins.heading-large;
+            }
 
-			> div {
-				@include mixins.flex-column;
-				gap: 8px;
-			}
+            >div {
+                @include mixins.flex-column;
+                gap: 8px;
+            }
 
-			.header-description {
-				font-size: 18px;
-			}
+            .header-description {
+                font-size: 18px;
+            }
 
-			.close-btn {
-				@include mixins.circle-button;
+            .close-btn {
+                @include mixins.circle-button;
 
-				&:hover {
-					background-color: variables.$bg-base-100;
+                &:hover {
+                    background-color: variables.$bg-base-100;
 
-					img {
-						content: url("/assets/img/chat/close_hover.svg");
-					}
-				}
-			}
-		}
+                    img {
+                        content: url("/assets/img/chat/close_hover.svg");
+                    }
+                }
+            }
+        }
 
-		.modal-main {
-			@include mixins.flex-column;
-			gap: 24px;
-			width: 100%;
+        .modal-main {
+            @include mixins.flex-column;
+            gap: 24px;
+            width: 100%;
 
-			> div {
-				@include mixins.flex-column;
-				gap: 20px;
-				width: 100%;
+            >div {
+                @include mixins.flex-column;
+                gap: 20px;
+                width: 100%;
 
-				h2 {
-					font-weight: 700;
-					@include mixins.body-text;
+                h2 {
+                    font-weight: 700;
+                    @include mixins.body-text;
 
-					> span {
-						font-weight: 400;
-						color: variables.$text-secondary;
-					}
-				}
+                    >span {
+                        font-weight: 400;
+                        color: variables.$text-secondary;
+                    }
+                }
 
-				.input-container {
-					@include mixins.input-field;
-					border: 1px solid variables.$border;
-				}
-			}
+                .input-container {
+                    @include mixins.input-field;
+                    border: 1px solid variables.$border;
+                }
+            }
 
-			> div:last-child {
-				@include mixins.flex-row;
-				justify-content: flex-end !important;
+            >div:last-child {
+                @include mixins.flex-row;
+                justify-content: flex-end !important;
 
-				> button {
-					@include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
+                >button {
+                    @include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
 
-					&:hover {
-						background-color: variables.$bg-primary-accent;
-					}
-				}
-			}
-		}
-	}
+                    &:hover {
+                        background-color: variables.$bg-primary-accent;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .main-menu-section {
+        width: 100vw;
+    }
+
+    .main-menu-container {
+        border-radius: 0;
+
+        >header {
+            >.desktop-header {
+                display: none;
+            }
+
+            >.mobile-search {
+                display: flex;
+
+                input {
+                    background-color: variables.$bg-base-200;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .main-menu-container {
+        padding: 16px;
+    }
 }
