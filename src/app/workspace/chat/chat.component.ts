@@ -1,17 +1,23 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
-import {ChatService} from "../../services/chat.service";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
-import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {Timestamp} from "@angular/fire/firestore";
-import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {HelperService} from "../../services/helper.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+	TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
 
 @Component({
 	selector: "app-chat",
@@ -23,7 +29,7 @@ import {FunctionTriggerService} from "../../services/function-trigger.service";
 		CommonModule,
 		FormsModule,
 		NgForOf,
-		NgOptimizedImage
+		NgOptimizedImage,
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
@@ -89,7 +95,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.functionTriggerSubscription =
 			this.functionTriggerService.trigger$.subscribe((channel) => {
 				this.selectChannel(channel);
-
 			});
 
 		this.userSubscription = this.userService.currentUser$.subscribe(
@@ -140,7 +145,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelName: this.newChannelName,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then(r => {
+			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
 		}
@@ -154,7 +159,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelDescription: this.newChannelDescription,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then(r => {
+			this.updateChannel(updatedChannel).then((r) => {
 				console.log(r);
 			});
 		}
@@ -243,12 +248,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 			this.closeModals();
 			this.selectChannel(this.chatService.selectedChannel);
-
 		} catch (error) {
-			console.error('Error leaving channel:', error);
+			console.error("Error leaving channel:", error);
 		}
 	}
-
 
 	async addNewMember() {
 		const channel = this.chatService.selectedChannel;
@@ -310,19 +313,21 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.newMessageInputData[0] === "#" &&
 			this.newMessageInputData.length > 1
 		) {
-			console.log("New MessageInput:", "#");
+			console.log("New MessageInput:", "#", this.channels);
 
-			for (const channel of this.channels) {
-				// Compare input with existing channels
-				if (this.newMessageInputData === "#" + channel.channelName) {
-					//  Set the current chat to active
-				} else if (this.newMessageInputData[0] === "#") {
-					// this.addNewChannel(this.newMessageInputData.slice(1));
-					// Create Channel
-					// - Channelname without description
-					// - Push to firebase
-					// - Show a new channel in the chat area
+			if (this.channels) {
+				for (const channel of this.channels) {
+					// Compare input with existing channels
+					if (
+						this.newMessageInputData ===
+						"#" + channel.channelName
+					) {
+						//  Set the current chat to active
+					}
 				}
+			} else if (this.newMessageInputData[0] === "#") {
+				this.addNewChannel(this.newMessageInputData.slice(1));
+				// - Show the new channel in the chat area -> set to active
 			}
 		}
 
@@ -360,8 +365,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 			createdAt: Timestamp.now(),
 			updatedAt: Timestamp.now(),
 		};
-		this.chatService.createChannel(newChannel).then((r) => {
-			console.log(r);
-		});
+		// this.chatService.createChannel(newChannel).then((r) => {
+		// 	console.log(r);
+		// });
 	}
 }

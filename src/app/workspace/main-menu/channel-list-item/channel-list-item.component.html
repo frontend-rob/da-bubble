@@ -1,6 +1,15 @@
-<div (click)="setActiveChat(channel.channelId)" [class.activate]="active" class="menu-item">
+<div
+	(click)="setActiveChat(channel.channelId)"
+	[class.activate]="isActive"
+	class="menu-item"
+>
 	<div>
-		<img alt="Channel tag icon" height="22" ngSrc="/assets/img/main-menu/channel_tag.svg" width="24"/>
+		<img
+			alt="Channel tag icon"
+			height="22"
+			ngSrc="/assets/img/main-menu/channel_tag.svg"
+			width="24"
+		/>
 	</div>
 	<div>{{ channel.channelName }}</div>
 </div>

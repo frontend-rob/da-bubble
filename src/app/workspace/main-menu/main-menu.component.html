@@ -2,7 +2,12 @@
 	<div class="main-menu-container">
 		<header>
 			<div>
-				<img alt="logo" height="60" ngSrc="assets/img/main-menu/logo.svg" width="60"/>
+				<img
+					alt="logo"
+					height="60"
+					ngSrc="assets/img/main-menu/logo.svg"
+					width="60"
+				/>
 				<h1>Devspace</h1>
 			</div>
 
@@ -10,7 +15,10 @@
 				<img
 					(click)="handleNewMessage(true)"
 					alt="edit square"
-					height="24" ngSrc="assets/img/main-menu/edit_square.svg" width="24"/>
+					height="24"
+					ngSrc="assets/img/main-menu/edit_square.svg"
+					width="24"
+				/>
 			</div>
 		</header>
 
@@ -25,33 +33,39 @@
 							<img
 								class="dropdown-img"
 								alt="arrow close dropdown"
-								height="30" ngSrc="assets/img/main-menu/arrow_close_dropdown.svg" width="30"/>
+								height="30"
+								ngSrc="assets/img/main-menu/arrow_close_dropdown.svg"
+								width="30"
+							/>
 						</div>
 						<div>
 							<div>
 								<img
 									class="channel-img"
 									alt="channels"
-									height="24" ngSrc="assets/img/main-menu/channels.svg" width="24"/>
+									height="24"
+									ngSrc="assets/img/main-menu/channels.svg"
+									width="24"
+								/>
 							</div>
 							<h2>Channels</h2>
 						</div>
 					</div>
 
 					<div (click)="toggleModal()" class="button">
-						<img alt="add" height="14" ngSrc="assets/img/main-menu/add.svg" width="14"/>
+						<img
+							alt="add"
+							height="14"
+							ngSrc="assets/img/main-menu/add.svg"
+							width="14"
+						/>
 					</div>
 				</header>
 
-				<div
-					[class.close-list]="showChannelList"
-					class="menu-list-container"
-				>
+				<div [class.close-list]="showChannelList" class="menu-list-container">
 					<div class="menu-list">
 						<app-channel-list-item
-							(activeMenuItem)="setActiveChat($event)"
 							*ngFor="let channel of channels"
-							[active]="channel.channelId === activeMenuItem"
 							[channel]="channel"
 							class="channel-list-item"
 						>
@@ -60,7 +74,10 @@
 							<div>
 								<img
 									alt="add circle"
-									height="24" ngSrc="assets/img/main-menu/add_circle.svg" width="24"/>
+									height="24"
+									ngSrc="assets/img/main-menu/add_circle.svg"
+									width="24"
+								/>
 							</div>
 							<h3>New Channel</h3>
 						</div>
@@ -78,83 +95,78 @@
 							<img
 								class="dropdown-img"
 								alt="arrow close dropdown"
-								height="30" ngSrc="assets/img/main-menu/arrow_close_dropdown.svg" width="30"/>
+								height="30"
+								ngSrc="assets/img/main-menu/arrow_close_dropdown.svg"
+								width="30"
+							/>
 						</div>
 						<div>
 							<div>
 								<img
 									class="direct-messages-img"
 									alt="direct messages"
-									height="24" ngSrc="assets/img/main-menu/direct_messages.svg" width="24"/>
+									height="24"
+									ngSrc="assets/img/main-menu/direct_messages.svg"
+									width="24"
+								/>
 							</div>
 							<h2>Direct Messages</h2>
 						</div>
 					</div>
 				</header>
 
-				<div
-					[class.close-list]="showUserList"
-					class="menu-list-container"
-				>
+				<div [class.close-list]="showUserList" class="menu-list-container">
 					<div class="menu-list">
+						<!-- TODO: Add logic -->
 						<app-direct-message-list-item
 							*ngIf="currentUser"
-							[active]="false"
 							[chat]="currentUser"
 						>
 						</app-direct-message-list-item>
 
 						<app-direct-message-list-item
-							(activeMenuItem)="setActiveChat($event)"
 							*ngFor="let dmChannel of directMessageChannels"
-							[active]="dmChannel.channelId === activeMenuItem"
 							[channelId]="dmChannel.channelId"
 							[chat]="getDirectMessageUserData(dmChannel)"
 						>
 						</app-direct-message-list-item>
 
-						<app-direct-message-list-item
-							(activeMenuItem)="
-                                onUserClickForDirectMessage($event)
-                            "
+						<!-- <app-direct-message-list-item
+							(activeMenuItem)="onUserClickForDirectMessage($event)"
 							*ngFor="let user of getAvailableUsersForDM()"
-							[active]="false"
 							[chat]="user"
 						>
-						</app-direct-message-list-item>
+						</app-direct-message-list-item> -->
 					</div>
 				</div>
 			</div>
 		</main>
 
 		<div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">
-			<div
-				*ngIf="isModalOpen"
-				class="modal"
-				(click)="stopPropagation($event)"
-			>
+			<div *ngIf="isModalOpen" class="modal" (click)="stopPropagation($event)">
 				<div class="container">
 					<header class="modal-header">
 						<div>
 							<h1>Create Channel</h1>
 							<div class="header-description">
-								Channels serve your team for communication. It
-								is best to be topic related #marketing for
-								example.
+								Channels serve your team for communication. It is best to be
+								topic related #marketing for example.
 							</div>
 						</div>
 						<div (click)="toggleModal()" class="close-btn">
-							<img alt="close" height="14" ngSrc="assets/img/chat/close.svg" width="14"/>
+							<img
+								alt="close"
+								height="14"
+								ngSrc="assets/img/chat/close.svg"
+								width="14"
+							/>
 						</div>
 					</header>
 					<form
 						#channelForm="ngForm"
 						(ngSubmit)="
-                            addNewChannel(
-                                channelFormData.name,
-                                channelFormData.description
-                            )
-                        "
+							addNewChannel(channelFormData.name, channelFormData.description)
+						"
 						class="modal-main"
 					>
 						<div>
@@ -164,7 +176,8 @@
 									alt="channel tag grey"
 									height="16"
 									ngSrc="/assets/img/main-menu/channel_tag_grey.svg"
-									width="16"/>
+									width="16"
+								/>
 								<input
 									[(ngModel)]="channelFormData.name"
 									id="name"
@@ -190,10 +203,7 @@
 						</div>
 
 						<div>
-							<button
-								[disabled]="channelForm.invalid"
-								type="submit"
-							>
+							<button [disabled]="channelForm.invalid" type="submit">
 								Erstellen
 							</button>
 						</div>
@@ -210,12 +220,13 @@
 		[class.close-menu-button]="isOpen"
 		class="menunav-button"
 	>
-        <span class="text-menu-button">{{
-		        isOpen ? isClosedText : isOpenText
-	        }}</span>
+		<span class="text-menu-button">{{
+			isOpen ? isClosedText : isOpenText
+		}}</span>
 		<div
 			[ngClass]="isOpen ? 'img-close' : 'img-open' //noinspection Annotator"
 			class="img-field"
-		></div><!-- TODO add img close / open ? -->
+		></div>
+		<!-- TODO add img close / open ? -->
 	</div>
 </div>

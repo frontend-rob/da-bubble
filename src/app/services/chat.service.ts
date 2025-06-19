@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message, Reaction} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+	EnvironmentInjector,
+	inject,
+	Injectable,
+	runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message, Reaction } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
 	collection,
 	collectionData,
@@ -16,8 +21,8 @@ import {
 	updateDoc,
 	where,
 } from "@angular/fire/firestore";
-import {UserData} from "../interfaces/user.interface";
-import {HelperService} from "./helper.service";
+import { UserData } from "../interfaces/user.interface";
+import { HelperService } from "./helper.service";
 
 @Injectable({
 	providedIn: "root",
@@ -46,6 +51,12 @@ export class ChatService {
 		return this._isProfileCardOpen;
 	}
 
+	private _activeChat!: string;
+
+	get activeChat(): string {
+		return this._activeChat;
+	}
+
 	private _currentPerson!: UserData;
 
 	get currentPerson(): UserData {
@@ -66,6 +77,10 @@ export class ChatService {
 
 	handleProfileCard(bool: boolean) {
 		this._isProfileCardOpen = bool;
+	}
+
+	setActiveChat(str: string) {
+		this._activeChat = str;
 	}
 
 	/**
@@ -113,7 +128,7 @@ export class ChatService {
 				firestore,
 				`channels/${channelId}/messages/${messageId}`
 			);
-			await updateDoc(msgRef, {threadChannelName: name});
+			await updateDoc(msgRef, { threadChannelName: name });
 		});
 	}
 
@@ -127,7 +142,7 @@ export class ChatService {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
 			const q = query(channelsRef, orderBy("createdAt", "desc"));
-			return collectionData(q, {idField: "channelId"}) as Observable<
+			return collectionData(q, { idField: "channelId" }) as Observable<
 				ChannelData[]
 			>;
 		});
@@ -200,7 +215,7 @@ export class ChatService {
 				`channels/${channelId}/messages`
 			);
 			const q = query(messagesRef, orderBy("timestamp", "asc"));
-			return collectionData(q, {idField: "messageId"}) as Observable<
+			return collectionData(q, { idField: "messageId" }) as Observable<
 				Message[]
 			>;
 		});
@@ -247,7 +262,7 @@ export class ChatService {
 				`channels/${channelId}/messages/${parentMessageId}/thread`
 			);
 			const q = query(messagesRef, orderBy("timestamp", "asc"));
-			return collectionData(q, {idField: "messageId"}) as Observable<
+			return collectionData(q, { idField: "messageId" }) as Observable<
 				Message[]
 			>;
 		});
@@ -410,7 +425,10 @@ export class ChatService {
 	 * @param userId - The ID of the user to remove.
 	 * @returns Promise<void>
 	 */
-	async removeUserFromChannel(channelId: string, userId: string): Promise<void> {
+	async removeUserFromChannel(
+		channelId: string,
+		userId: string
+	): Promise<void> {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			const firestore = inject(Firestore);
 			const channelRef = doc(firestore, `channels/${channelId}`);
@@ -418,21 +436,20 @@ export class ChatService {
 				const channelDoc = await getDoc(channelRef);
 				const channelData = channelDoc.data() as ChannelData;
 				const updatedMembers = channelData.channelMembers.filter(
-					member => member.uid !== userId
+					(member) => member.uid !== userId
 				);
 				await updateDoc(channelRef, {
 					channelMembers: updatedMembers,
-					updatedAt: Timestamp.fromDate(new Date())
+					updatedAt: Timestamp.fromDate(new Date()),
 				});
 				if (this.selectedChannel?.channelId === channelId) {
 					this.selectedChannel = {
 						...this.selectedChannel,
-						channelMembers: updatedMembers
+						channelMembers: updatedMembers,
 					};
 				}
-
 			} catch (error) {
-				console.error('Error removing user from channel:', error);
+				console.error("Error removing user from channel:", error);
 				throw error;
 			}
 		});
