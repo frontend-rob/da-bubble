@@ -1,6 +1,7 @@
-import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {UserData} from '../../../interfaces/user.interface';
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { Component, Input } from "@angular/core";
+import { UserData } from "../../../interfaces/user.interface";
+import { ChatService } from "../../../services/chat.service";
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -10,15 +11,20 @@ import {UserData} from '../../../interfaces/user.interface';
 })
 export class DirectMessageListItemComponent {
 	@Input() chat!: UserData;
-	@Input() active: boolean = false;
-	@Output() activeMenuItem: EventEmitter<any> = new EventEmitter<any>();
-	@Input() channelId?: string;
+	@Input() channelId!: string;
 
-	setActiveChat() {
+	constructor(private chatService: ChatService) {}
+
+	get isActive(): boolean {
 		if (this.channelId) {
-			this.activeMenuItem.emit(this.channelId);
+			return this.channelId === this.chatService.activeChat;
 		} else {
-			this.activeMenuItem.emit(this.chat);
+			return false;
 		}
+	}
+
+	setActiveChat(id: string) {
+		this.chatService.setActiveChat(id);
+		this.chatService.handleNewMessage(false);
 	}
 }
