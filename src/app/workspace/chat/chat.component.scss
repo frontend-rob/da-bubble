@@ -433,10 +433,7 @@
 						.name-container,
 						.name-container-edit {
 							> div:first-child {
-								display: flex;
-								justify-content: space-between;
-								align-items: center;
-								width: 100%;
+								@include mixins.div-first-child
 							}
 
 							button {
@@ -497,10 +494,7 @@
 						.description-container,
 						.description-container-edit {
 							> div:first-child {
-								display: flex;
-								justify-content: space-between;
-								align-items: center;
-								width: 100%;
+								@include mixins.div-first-child
 							}
 
 							button {
@@ -564,6 +558,10 @@
 		gap: 1.5rem;
 		margin: 20px 0;
 		width: 100%;
+
+		app-chat-message-other {
+			width: 100%;
+		}
 	}
 }
 

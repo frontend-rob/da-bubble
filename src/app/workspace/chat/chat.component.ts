@@ -1,23 +1,17 @@
-import {
-	Component,
-	inject,
-	OnDestroy,
-	OnInit,
-	TrackByFunction,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { Observable, Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Message } from "../../interfaces/message.interface";
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { Timestamp } from "@angular/fire/firestore";
-import { CommonModule, NgForOf } from "@angular/common";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { HelperService } from "../../services/helper.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {Observable, Subscription} from "rxjs";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Message} from "../../interfaces/message.interface";
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {Timestamp} from "@angular/fire/firestore";
+import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {HelperService} from "../../services/helper.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
 
 @Component({
 	selector: "app-chat",
@@ -29,19 +23,17 @@ import { FunctionTriggerService } from "../../services/function-trigger.service"
 		CommonModule,
 		FormsModule,
 		NgForOf,
+		NgOptimizedImage
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
 	messages$: Observable<Message[]> | undefined;
-	messages!: Message[];
-	channels!: ChannelData[];
+	messages: Message[] = [];
 	selectedChannel!: ChannelData;
 	newChannelName: string = "";
 	newChannelDescription: string = "";
-	newMessageInputData!: string;
 	currentUser!: UserData;
 	userSubscription!: Subscription;
-	channelsSubscription!: Subscription;
 	functionTriggerSubscription!: Subscription;
 
 	isModalBGOpen = false;
@@ -52,6 +44,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	isMembersMenuOpen = false;
 	isAddMemberModalOpen = false;
 	disabledButton = true;
+	channels!: ChannelData[];
+	newMessageInputData!: string;
 	allUserDataSubscription!: Subscription;
 	allUserData!: UserData[];
 	selectedUsersToAdd: UserData[] = [];
@@ -95,6 +89,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.functionTriggerSubscription =
 			this.functionTriggerService.trigger$.subscribe((channel) => {
 				this.selectChannel(channel);
+
 			});
 
 		this.userSubscription = this.userService.currentUser$.subscribe(
@@ -113,17 +108,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 							user.userName !== "Guest"
 					);
 				}
-			}
-		);
-
-		this.channelsSubscription = this.chatService.getChannels().subscribe(
-			(channelsData: ChannelData[]) => {
-				if (channelsData) {
-					this.channels = channelsData;
-				}
-			},
-			(error) => {
-				console.error("Error loading channels:", error);
 			}
 		);
 	}
@@ -156,10 +140,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelName: this.newChannelName,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then((r) => {
-				console.log(r);
-			});
-			this.updateChannel(updatedChannel).then((r) => {
+			this.updateChannel(updatedChannel).then(r => {
 				console.log(r);
 			});
 		}
@@ -173,10 +154,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				channelDescription: this.newChannelDescription,
 				updatedAt: Timestamp.now(),
 			};
-			this.updateChannel(updatedChannel).then((r) => {
-				console.log(r);
-			});
-			this.updateChannel(updatedChannel).then((r) => {
+			this.updateChannel(updatedChannel).then(r => {
 				console.log(r);
 			});
 		}
@@ -214,32 +192,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.userSubscription.unsubscribe();
 		this.functionTriggerSubscription.unsubscribe();
-	}
-
-	onKeyDown(event: KeyboardEvent): void {
-		if (event.key === "Enter" && this.isNewMessage) {
-			if (this.newMessageInputData[0] === "#") {
-				this.addNewChannel(this.newMessageInputData.slice(1));
-				this.newMessageInputData = "";
-				// Close modals
-			}
-		}
-
-		if (event.key === "Escape" && this.isNewMessage) {
-			this.chatService.handleNewMessage(false);
-		}
-	}
-
-	private async updateChannel(channel: ChannelData): Promise<void> {
-		if (!channel.channelId) {
-			return;
-		}
-		try {
-			await this.chatService.updateChannel(channel);
-			this.selectChannel(channel);
-		} catch (error) {
-			console.error("Error updating channel:", error);
-		}
 	}
 
 	openMembersMenu() {
@@ -282,6 +234,22 @@ export class ChatComponent implements OnInit, OnDestroy {
 		);
 	}
 
+	async leaveChannel() {
+		try {
+			await this.chatService.removeUserFromChannel(
+				this.chatService.selectedChannel.channelId,
+				this.currentUser.uid
+			);
+
+			this.closeModals();
+			this.selectChannel(this.chatService.selectedChannel);
+
+		} catch (error) {
+			console.error('Error leaving channel:', error);
+		}
+	}
+
+
 	async addNewMember() {
 		const channel = this.chatService.selectedChannel;
 
@@ -311,6 +279,18 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	onKeyDown(event: KeyboardEvent): void {
+		if (event.key === "Enter" && this.isNewMessage) {
+			if (this.newMessageInputData[0] === "#") {
+				this.addNewChannel(this.newMessageInputData.slice(1));
+				this.newMessageInputData = "";
+			}
+		}
+
+		if (event.key === "Escape" && this.isNewMessage) {
+			this.chatService.handleNewMessage(false);
+		}
+	}
 	closeModals() {
 		this.isModalBGOpen = false;
 		this.isModalOpen = false;
@@ -335,13 +315,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 			for (const channel of this.channels) {
 				// Compare input with existing channels
 				if (this.newMessageInputData === "#" + channel.channelName) {
-					//  Set current chat to active
+					//  Set the current chat to active
 				} else if (this.newMessageInputData[0] === "#") {
 					// this.addNewChannel(this.newMessageInputData.slice(1));
 					// Create Channel
 					// - Channelname without description
 					// - Push to firebase
-					// - Show new channel in chat area
+					// - Show a new channel in the chat area
 				}
 			}
 		}
@@ -351,6 +331,18 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.newMessageInputData.length > 1
 		) {
 			console.log("New MessageInput:", "@");
+		}
+	}
+
+	private async updateChannel(channel: ChannelData): Promise<void> {
+		if (!channel.channelId) {
+			return;
+		}
+		try {
+			await this.chatService.updateChannel(channel);
+			this.selectChannel(channel);
+		} catch (error) {
+			console.error("Error updating channel:", error);
 		}
 	}
 

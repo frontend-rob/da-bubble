@@ -19,7 +19,8 @@
 		</div>
 		<div class="avatar-selection-container">
 			<div class="chosen-avatar">
-				<img [ngClass]="getAvatarClass()" [ngSrc]="selectedUserAvatar" alt="Selected user avatar" fill="true">
+				<img [ngClass]="getAvatarClass()" [ngSrc]="selectedUserAvatar" alt="Selected user avatar" height="168"
+				     priority="true" width="168">
 			</div>
 			<div class="user-information">
 				<h3>{{ userName }}</h3>
@@ -31,7 +32,9 @@
 				     [ngSrc]="avatar"
 				     alt="Avatar option"
 				     height="64"
-				     width="64">
+				     priority="true"
+				     width="64"
+				>
 			</div>
 		</div>
 		<div class="form-control">

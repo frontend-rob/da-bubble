@@ -10,7 +10,7 @@
 	<ul class="user-list">
 		<li (click)="addUserTag(user)" *ngFor="let user of users">
 			<div>
-				<img class="user-img" src="{{ user.photoURL }}"/>
+				<img [ngSrc]="user.photoURL" alt="avatar" class="user-img" height="64" width="64"/>
 				<div
 					[ngClass]="{ online: user.status, offline: user.status }"
 					class="status"
@@ -27,7 +27,10 @@
 			(click)="addChannelTag(channel.channelName)"
 			*ngFor="let channel of channels"
 		>
-			<div class="channel-name">{{ channel.channelName }}</div>
+
+			<div class="channel-name"><img alt="channel tag" class="" height="12"
+			                               ngSrc="assets/img/chat/channel_tag.svg" width="12">  {{ channel.channelName }}
+			</div>
 		</li>
 	</ul>
 </div>

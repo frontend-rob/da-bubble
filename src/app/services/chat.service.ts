@@ -7,6 +7,7 @@ import {
 	collectionData,
 	doc,
 	Firestore,
+	getDoc,
 	getDocs,
 	orderBy,
 	query,
@@ -401,5 +402,39 @@ export class ChatService {
 
 		await this.createChannel(newChannel);
 		return newChannel;
+	}
+
+	/**
+	 * Removes a user from a channel's member list.
+	 * @param channelId - The ID of the channel to remove the user from.
+	 * @param userId - The ID of the user to remove.
+	 * @returns Promise<void>
+	 */
+	async removeUserFromChannel(channelId: string, userId: string): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const channelRef = doc(firestore, `channels/${channelId}`);
+			try {
+				const channelDoc = await getDoc(channelRef);
+				const channelData = channelDoc.data() as ChannelData;
+				const updatedMembers = channelData.channelMembers.filter(
+					member => member.uid !== userId
+				);
+				await updateDoc(channelRef, {
+					channelMembers: updatedMembers,
+					updatedAt: Timestamp.fromDate(new Date())
+				});
+				if (this.selectedChannel?.channelId === channelId) {
+					this.selectedChannel = {
+						...this.selectedChannel,
+						channelMembers: updatedMembers
+					};
+				}
+
+			} catch (error) {
+				console.error('Error removing user from channel:', error);
+				throw error;
+			}
+		});
 	}
 }
