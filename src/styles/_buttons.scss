@@ -4,14 +4,14 @@
 	cursor: pointer;
 	user-select: none;
 	display: inline-flex;
-	gap: 0.5rem;
+	gap: 0.75rem;
 	align-items: center;
 	width: fit-content;
 	height: 3rem;
-	padding: 0 1.5rem;
+	padding: 0 2rem;
 	border: unset;
 	border-radius: 999rem;
-	font-size: 1rem;
+	font-size: 1.25rem;
 	font-weight: 700;
 	border: 1px solid transparent;
 }
@@ -22,6 +22,8 @@
 
 	svg {
 		color: $text-color;
+        width: 1.5rem;
+        height: 1.5rem
 	}
 }
 
@@ -67,4 +69,16 @@
 
 .btn-secondary:hover {
 	@include button-hover(variables.$bg-primary, variables.$text-inverse);
+}
+
+.btn-ghost {
+    width: 100%;
+    justify-content: center;
+    color: variables.$text-secondary;
+    background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+    @include button-hover(variables.$bg-base-100, variables.$bg-primary-accent);
 }

@@ -82,9 +82,9 @@
     display: flex;
     flex-direction: column;
     padding: 32px;
-    gap: 15px;
+    gap: 16px;
     position: absolute;
-    top: 118px;
+    top: 120px;
     right: 20px;
     justify-self: end;
     background-color: variables.$bg-base-200;
@@ -93,19 +93,6 @@
     border-top-left-radius: 30px;
     border-bottom-right-radius: 30px;
     z-index: 10;
-    font-weight: 600;
-    font-size: 24px;
-
-    >div {
-        cursor: pointer;
-        padding: 10px 70px;
-
-        &:hover {
-            background-color: variables.$bg-base-100;
-            border-radius: 100px;
-            color: variables.$text-hover;
-        }
-    }
 }
 
 .user-profile {
@@ -161,6 +148,7 @@
     .header-container {
         padding: 16px;
     }
+
     .logo-container {
         gap: 16px;
 
@@ -201,4 +189,13 @@
         }
     }
 
+    .user-menu {
+        top: unset;
+        right: unset;
+        left: 0 !important;
+        bottom: 0 !important;
+        width: 100%;
+        padding: 20px;
+        border-radius: 24px 24px 0 0;
+    }
 }
