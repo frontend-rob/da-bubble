@@ -1,4 +1,4 @@
-// Button und Interaktions-Mixins
+// Button und Interaction-Mixins
 @mixin flex-center {
 	display: flex;
 	justify-content: center;
@@ -189,4 +189,22 @@
 	background-color: rgba(0, 0, 0, 0.5);
 	backdrop-filter: blur(4px);
 	z-index: 6;
+}
+
+@mixin div-first-child {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+@mixin user-list-li {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	padding: 4px 20px;
+	gap: 16px;
+	width: 100%;
+	border-radius: 32px;
+	list-style-type: none;
 }

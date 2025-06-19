@@ -2,15 +2,15 @@
 	<div class="main-menu-container">
 		<header>
 			<div>
-				<img src="assets/img/main-menu/logo.svg"/>
+				<img alt="logo" height="60" ngSrc="assets/img/main-menu/logo.svg" width="60"/>
 				<h1>Devspace</h1>
 			</div>
 
 			<div class="add-new-channel-btn">
 				<img
 					(click)="handleNewMessage(true)"
-					src="assets/img/main-menu/edit_square.svg"
-				/>
+					alt="edit square"
+					height="24" ngSrc="assets/img/main-menu/edit_square.svg" width="24"/>
 			</div>
 		</header>
 
@@ -24,22 +24,22 @@
 						<div>
 							<img
 								class="dropdown-img"
-								src="assets/img/main-menu/arrow_close_dropdown.svg"
-							/>
+								alt="arrow close dropdown"
+								height="30" ngSrc="assets/img/main-menu/arrow_close_dropdown.svg" width="30"/>
 						</div>
 						<div>
 							<div>
 								<img
 									class="channel-img"
-									src="assets/img/main-menu/channels.svg"
-								/>
+									alt="channels"
+									height="24" ngSrc="assets/img/main-menu/channels.svg" width="24"/>
 							</div>
 							<h2>Channels</h2>
 						</div>
 					</div>
 
 					<div (click)="toggleModal()" class="button">
-						<img src="assets/img/main-menu/add.svg"/>
+						<img alt="add" height="14" ngSrc="assets/img/main-menu/add.svg" width="14"/>
 					</div>
 				</header>
 
@@ -59,8 +59,8 @@
 						<div (click)="toggleModal()" class="add-channel-btn">
 							<div>
 								<img
-									src="assets/img/main-menu/add_circle.svg"
-								/>
+									alt="add circle"
+									height="24" ngSrc="assets/img/main-menu/add_circle.svg" width="24"/>
 							</div>
 							<h3>New Channel</h3>
 						</div>
@@ -77,15 +77,15 @@
 						<div>
 							<img
 								class="dropdown-img"
-								src="assets/img/main-menu/arrow_close_dropdown.svg"
-							/>
+								alt="arrow close dropdown"
+								height="30" ngSrc="assets/img/main-menu/arrow_close_dropdown.svg" width="30"/>
 						</div>
 						<div>
 							<div>
 								<img
 									class="direct-messages-img"
-									src="assets/img/main-menu/direct_messages.svg"
-								/>
+									alt="direct messages"
+									height="24" ngSrc="assets/img/main-menu/direct_messages.svg" width="24"/>
 							</div>
 							<h2>Direct Messages</h2>
 						</div>
@@ -131,7 +131,7 @@
 			<div
 				*ngIf="isModalOpen"
 				class="modal"
-				onclick="event.stopPropagation()"
+				(click)="stopPropagation($event)"
 			>
 				<div class="container">
 					<header class="modal-header">
@@ -144,7 +144,7 @@
 							</div>
 						</div>
 						<div (click)="toggleModal()" class="close-btn">
-							<img src="assets/img/chat/close.svg"/>
+							<img alt="close" height="14" ngSrc="assets/img/chat/close.svg" width="14"/>
 						</div>
 					</header>
 					<form
@@ -161,8 +161,10 @@
 							<h2>Channel-Name</h2>
 							<div class="input-container">
 								<img
-									src="/assets/img/main-menu/channel_tag_grey.svg"
-								/>
+									alt="channel tag grey"
+									height="16"
+									ngSrc="/assets/img/main-menu/channel_tag_grey.svg"
+									width="16"/>
 								<input
 									[(ngModel)]="channelFormData.name"
 									id="name"
@@ -212,8 +214,8 @@
 		        isOpen ? isClosedText : isOpenText
 	        }}</span>
 		<div
-			[ngClass]="isOpen ? 'img-close' : 'img-open'"
+			[ngClass]="isOpen ? 'img-close' : 'img-open' //noinspection Annotator"
 			class="img-field"
-		></div>
+		></div><!-- TODO add img close / open ? -->
 	</div>
 </div>

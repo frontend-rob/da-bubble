@@ -14,7 +14,7 @@ export class FormValidationService {
 	}
 
 	/**
-	 * Validates if a name contains only letters and a space between first and last name.
+	 * Validates if a name contains only letters and a space between the first and last name.
 	 * @param control - The form control to validate.
 	 * @returns Validation errors if invalid, otherwise null.
 	 */

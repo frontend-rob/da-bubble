@@ -1,3 +1,5 @@
+// noinspection SpellCheckingInspection
+
 /**
  * Service for handling authentication and user-related operations.
  * Provides methods to register users and save user data to firestore.
@@ -7,6 +9,7 @@ import {
 	Auth,
 	createUserWithEmailAndPassword,
 	GoogleAuthProvider,
+	onAuthStateChanged,
 	sendPasswordResetEmail,
 	signInAnonymously,
 	signInWithEmailAndPassword,
@@ -83,7 +86,6 @@ export class AuthService {
 			const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
 			await this.setUserOnlineStatus(userCredential.user.uid, true);
-			this.setupPresenceTracking(userCredential.user.uid);
 		});
 	}
 
@@ -95,10 +97,9 @@ export class AuthService {
 	async logOut(): Promise<void> {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			const auth = inject(Auth);
-			const currentUser = auth.currentUser;
 
-			if (currentUser) {
-				await this.setUserOnlineStatus(currentUser.uid, false);
+			if (auth.currentUser) {
+				await this.setUserOnlineStatus(auth.currentUser.uid, false);
 			}
 
 			await runInInjectionContext(this.environmentInjector, async () => {
@@ -145,6 +146,7 @@ export class AuthService {
 				policy: false
 			});
 			await this.saveUserToFirestore(auth.currentUser?.uid || '', googleData);
+			await this.setUserOnlineStatus(auth.currentUser?.uid || '', true);
 		});
 	}
 
@@ -163,6 +165,7 @@ export class AuthService {
 
 			const guestData = this.createGuestData(uid);
 			await this.saveGuestDataToFirestore(firestore, uid, guestData);
+			await this.setUserOnlineStatus(userCredential.user.uid, true);
 		});
 	}
 
@@ -207,17 +210,6 @@ export class AuthService {
 	}
 
 	/**
-	 * Sets up presence tracking for a user to automatically detect
-	 * when they go offline (browser close, etc.)
-	 * @param uid - The user ID to track
-	 */
-	private setupPresenceTracking(uid: string): void {
-		window.addEventListener('beforeunload', async () => {
-			await this.setUserOnlineStatus(uid, false);
-		});
-	}
-
-	/**
 	 * Creates guest user data for anonymous authentication.
 	 * @param uid - The unique ID of the guest user.
 	 * @returns A UserData object containing guest user information.
@@ -249,12 +241,71 @@ export class AuthService {
 	}
 
 	/**
+	 * Initializes the authentication state listener and sets up online/offline status monitoring.
+	 */
+	initializeAuthStateListener(): void {
+		return runInInjectionContext(this.environmentInjector, () => {
+			const auth = inject(Auth);
+
+			onAuthStateChanged(auth, async (user) => {
+				if (user) {
+					await this.setUserOnlineStatus(user.uid, true);
+					this.setupOfflineStatusListener(user.uid);
+					this.setupVisibilityListener(user.uid);
+				}
+			});
+		});
+	}
+
+	/**
 	 * Broadcasts user status change for real-time updates across the app.
 	 * This can be extended to use a messaging system or state management.
 	 * @param uid - The unique ID of the user.
 	 * @param status - The new status.
 	 */
 	private broadcastUserStatusChange(uid: string, status: boolean): void {
-		console.log(`User ${uid} status changed to ${status ? 'online' : 'offline'}`);
+		console.info(`User ${uid} status changed to ${status ? 'online' : 'offline'}`);
+	}
+
+	/**
+	 * Sets up listeners for when the user goes offline.
+	 */
+	private setupOfflineStatusListener(uid: string): void {
+		window.addEventListener('beforeunload', () => {
+			this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'beforeunload event fired. status set to offline.'));
+		});
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden') {
+				this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'visibilitychange event fired. status set to offline.'));
+			} else if (document.visibilityState === 'visible') {
+				this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'visibilitychange event fired. status set to online.'));
+			}
+		});
+	}
+
+	/**
+	 * Enhanced visibility listener for better online/offline detection.
+	 */
+	private setupVisibilityListener(uid: string): void {
+		window.addEventListener('online', () => {
+			this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'online event fired. status set to online.'));
+		});
+
+		window.addEventListener('offline', () => {
+			this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'offline event fired. status set to offline.'));
+		});
+
+		window.addEventListener('focus', () => {
+			this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'focus event fired. status set to online.'));
+		});
+
+		window.addEventListener('blur', () => {
+			setTimeout(() => {
+				if (document.visibilityState === 'hidden') {
+					this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'blur event fired. status set to offline.'));
+				}
+			}, 5000); // 5 Sekunden Delay
+		});
 	}
 }

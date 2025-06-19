@@ -1,4 +1,4 @@
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output,} from "@angular/core";
 import {Subscription} from "rxjs";
 import {UserData} from "../../../interfaces/user.interface";
@@ -8,7 +8,7 @@ import {ChatService} from "../../../services/chat.service";
 
 @Component({
 	selector: "app-channel-list-item",
-	imports: [CommonModule],
+	imports: [CommonModule, NgOptimizedImage],
 	templateUrl: "./channel-list-item.component.html",
 	styleUrl: "./channel-list-item.component.scss",
 })

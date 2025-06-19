@@ -1,14 +1,14 @@
 @use '../../../styles/variables' as variables;
 @use '../../../styles/fonts' as fonts;
 @use '../../../styles/shared-styles' as shared;
+@use '../../../styles/mixins' as mixins;
 
 .avatar-card {
 	@include shared.card-base;
 }
 
 .avatar-selection-container {
-	display: flex;
-	flex-direction: column;
+	@include mixins.flex-column(center, unset);
 	gap: 2rem;
 	width: 100%;
 }
@@ -19,8 +19,7 @@
 }
 
 .user-information {
-	display: flex;
-	flex-direction: column;
+	@include mixins.flex-column(unset, unset);
 	gap: 1rem;
 }
 
@@ -30,9 +29,7 @@
 }
 
 .avatar-img-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	@include mixins.flex-row(center);
 	gap: 1rem;
 	width: 100%;
 	flex-wrap: wrap;
