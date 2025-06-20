@@ -1,16 +1,16 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
-import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
-import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { ChatService } from "../../services/chat.service";
-import { HelperService } from "../../services/helper.service";
-import { Timestamp } from "firebase/firestore";
-import { FormsModule } from "@angular/forms";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
-import { combineLatest, Subject, takeUntil } from "rxjs";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, inject, OnDestroy, OnInit} from "@angular/core";
+import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
+import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {ChatService} from "../../services/chat.service";
+import {HelperService} from "../../services/helper.service";
+import {Timestamp} from "firebase/firestore";
+import {FormsModule} from "@angular/forms";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {combineLatest, Subject, takeUntil} from "rxjs";
 
 @Component({
 	selector: "app-main-menu",
@@ -53,6 +53,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject<void>();
 
+	get activeChat() {
+		return this.chatService.activeChat;
+	}
+
 	ngOnInit() {
 		this.initializeCurrentUser();
 		this.subscribeToData();
@@ -88,10 +92,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			(member) => member.uid !== this.currentUser.uid
 		);
 		return otherUser || this.currentUser;
-	}
-
-	get activeChat() {
-		return this.chatService.activeChat;
 	}
 
 	setActiveChat(id: string) {
@@ -168,7 +168,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			.createChannel(newChannel)
 			.then((result) => {
 				console.log("Channel created successfully:", result);
-				this.channelFormData = { name: "", description: "" };
+				this.channelFormData = {name: "", description: ""};
 			})
 			.catch((error) => {
 				console.error("Error creating channel:", error);
@@ -177,6 +177,14 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	stopPropagation(event: Event): void {
 		event.stopPropagation();
+	}
+
+	handleNewMessage(bool: boolean) {
+		this.chatService.handleNewMessage(bool);
+
+		if (bool) {
+			this.chatService.setActiveChat("");
+		}
 	}
 
 	private initializeCurrentUser() {
@@ -204,14 +212,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				this.updateAvailableUsers();
 				this.selectFirstChannelIfNoneActive();
 			});
-	}
-
-	handleNewMessage(bool: boolean) {
-		this.chatService.handleNewMessage(bool);
-
-		if (bool) {
-			this.chatService.setActiveChat("");
-		}
 	}
 
 	private handleChannelsUpdate(channelsData: ChannelData[]) {
@@ -276,7 +276,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 					(user) => user.uid === member.uid
 				);
 				return currentUser
-					? { ...member, status: currentUser.status }
+					? {...member, status: currentUser.status}
 					: member;
 			}),
 		}));

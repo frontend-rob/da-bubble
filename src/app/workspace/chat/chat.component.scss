@@ -315,8 +315,8 @@
 
 						button {
 							@include mixins.action-button(
-								variables.$bg-primary,
-								variables.$text-inverse
+									variables.$bg-primary,
+									variables.$text-inverse
 							);
 							width: fit-content;
 

@@ -1,11 +1,11 @@
 <section class="message-input-wrapper">
 	<div class="message-input-section">
         <textarea
-	        (keydown)="onKeyDown($event)"
-	        [(ngModel)]="messageInputData"
-	        placeholder="{{ selectedChannel }}"
-	        rows="2"
-        ></textarea>
+					(keydown)="onKeyDown($event)"
+					[(ngModel)]="messageInputData"
+					placeholder="{{ selectedChannel }}"
+					rows="2"
+				></textarea>
 
 		<div class="options-container">
 			<div class="options">
@@ -23,7 +23,7 @@
 					class="options-link channel-tag"
 				>
 					<img alt="channel tag gray" height="16" ngSrc="assets/img/shared/message-input-field/channel-tag_grey.svg"
-					     width="17"/>
+							 width="17"/>
 				</div>
 			</div>
 			<div (click)="trySendMessage()" class="send-button"></div>
