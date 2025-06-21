@@ -36,7 +36,6 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-/src/app/app.config.ts
 
 
 # System files
@@ -50,3 +49,7 @@ Thumbs.db
 
 # Personal
 up.sh
+
+# Environments
+**/*environment.development.ts
+**/*environment.ts
