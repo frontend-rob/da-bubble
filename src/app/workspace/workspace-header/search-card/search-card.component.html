@@ -1,1 +1,172 @@
-<div class="search-bar-container"></div>
+<div class="search-container">
+	<div [className]="showResults ? 'search-input-wrapper search-input-active' : 'search-input-wrapper search-input-inactive'">
+
+		<input #searchInput
+					 (blur)="onSearchBlur()"
+					 (focus)="onSearchFocus()"
+					 (input)="onSearchInput($event)"
+					 (keydown)="onKeyDown($event)"
+					 [(ngModel)]="searchTerm"
+					 [className]="showResults ? 'search-input-active search-input' : 'search-input-inactive search-input'"
+					 [placeholder]="getSearchPlaceholder()"
+					 autocomplete="off"
+					 type="text">
+		<img
+			alt="Search"
+			class="search-icon"
+			src="assets/img/workspace-header/search.svg">
+		<button
+			(click)="clearSearch()"
+			*ngIf="searchTerm.length > 0"
+			[className]="showResults ? 'clear-button search-input-active' : 'clear-button search-input-inactive'">
+			×
+		</button>
+	</div>
+
+	<!-- Suchergebnisse -->
+	<div (mousedown)="onResultsMouseDown($event)"
+			 *ngIf="showResults"
+			 class="search-results-container">
+		<div class="search-results">
+
+			<!-- Loading State -->
+			<div *ngIf="isSearching" class="search-loading">
+				<div class="loading-spinner"></div>
+				<span>Suche läuft...</span>
+			</div>
+
+			<!-- No Results -->
+			<div *ngIf="!isSearching && !hasResults()" class="no-results">
+				<span>Keine Ergebnisse für "{{ searchTerm }}"</span>
+				<div class="search-tips">
+					<p>Tipps:</p>
+					<ul>
+						<li>Verwende <strong>#</strong> um nur in Channels zu suchen</li>
+						<li>Verwende <strong>&#64;</strong> um nur nach Personen zu suchen</li>
+					</ul>
+				</div>
+			</div>
+
+			<!-- Results -->
+			<div *ngIf="!isSearching && hasResults()">
+
+				<!-- Users -->
+				<div *ngIf="searchResults.users.length > 0" class="result-category">
+					<h3 class="category-title">
+						<img alt="Channels" src="assets/img/avatars/av-00.svg">
+						Personen ({{ searchResults.users.length }})
+					</h3>
+					<div
+						(click)="selectResult(result)"
+						*ngFor="let result of searchResults.users; let i = index"
+						[class.selected]="selectedIndex === i"
+						class="result-item user-result">
+						<div class="result-content">
+							<div class="user-info">
+								<img
+									[alt]="result.userName"
+									[src]="result.photoURL || 'assets/img/default-avatar.svg'"
+									class="user-avatar">
+								<div class="user-details">
+									<span class="user-name">{{ result.userName }}</span>
+									<span class="user-email">{{ result.email }}</span>
+								</div>
+								<div [class.online]="result.status" class="user-status">
+									<span class="status-indicator"></span>
+									<span class="status-text">{{ result.status ? 'Online' : 'Offline' }}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Channels -->
+				<div *ngIf="searchResults.channels.length > 0" class="result-category">
+					<h3 class="category-title">
+						<img alt="Channels" src="assets/img/chat/channel_tag.svg">
+						Channels ({{ searchResults.channels.length }})
+					</h3>
+					<div
+						(click)="selectResult(result)"
+						*ngFor="let result of searchResults.channels; let i = index"
+						[class.selected]="selectedIndex === (searchResults.users.length + i)"
+						class="result-item channel-result">
+						<div class="result-content">
+							<div class="result-header">
+								<span class="channel-name"># {{ result.channelName }}</span>
+								<span class="member-count">{{ result.channelMembers?.length || 0 }} Mitglieder</span>
+							</div>
+							<div *ngIf="result.channelDescription" class="channel-description">
+								{{ result.channelDescription }}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Nachrichten in Channels -->
+				<div *ngIf="searchResults.messages.length > 0" class="result-category">
+					<h3 class="category-title">
+						<img alt="Messages" src="assets/img/chat/comment.svg">
+						Nachrichten ({{ searchResults.messages.length }})
+					</h3>
+					<div
+						(click)="selectResult(result)"
+						*ngFor="let result of searchResults.messages; let i = index"
+						[class.selected]="selectedIndex === (searchResults.users.length + searchResults.channels.length + i)"
+						class="result-item message-result">
+						<div class="result-content">
+							<div class="result-header">
+								<span class="channel-name"># {{ result.channelName }}</span>
+								<span class="result-time">{{ result.time?.toDate() | date:'short' }}</span>
+							</div>
+							<div class="message-preview">{{ result.messageContent }}</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Direct Messages -->
+				<div *ngIf="searchResults.directMessages.length > 0" class="result-category">
+					<h3 class="category-title">
+						<img alt="Direct Messages" src="assets/img/main-menu/direct_messages.svg">
+						Direktnachrichten ({{ searchResults.directMessages.length }})
+					</h3>
+					<div
+						(click)="selectResult(result)"
+						*ngFor="let result of searchResults.directMessages; let i = index"
+						[class.selected]="selectedIndex === (searchResults.users.length + searchResults.channels.length + searchResults.messages.length + i)"
+						class="result-item dm-result">
+						<div class="result-content">
+							<div class="result-header">
+								<span class="dm-user">{{ result.directMessageUserName }}</span>
+								<span class="result-time">{{ result.time?.toDate() | date:'short' }}</span>
+							</div>
+							<div class="message-preview">{{ result.messageContent }}</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Threads -->
+				<div *ngIf="searchResults.threads.length > 0" class="result-category">
+					<h3 class="category-title">
+						<img alt="Threads" src="assets/img/chat/channel_tag.svg">
+						Threads ({{ searchResults.threads.length }})
+					</h3>
+					<div
+						(click)="selectResult(result)"
+						*ngFor="let result of searchResults.threads; let i = index"
+						[class.selected]="selectedIndex === (searchResults.users.length + searchResults.channels.length + searchResults.messages.length + searchResults.directMessages.length + i)"
+						class="result-item thread-result">
+						<div class="result-content">
+							<div class="result-header">
+								<span class="channel-name"># {{ result.channelName }}</span>
+								<span class="thread-indicator">Thread</span>
+								<span class="result-time">{{ result.time?.toDate() | date:'short' }}</span>
+							</div>
+							<div class="message-preview">{{ result.messageContent }}</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

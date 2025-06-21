@@ -5,12 +5,7 @@
 			<span>DABubble</span>
 		</div>
 
-
-		<div class="search-bar-container">
-			<input placeholder="Search Devspace..." type="text"/>
-			<img ngSrc="/assets/img/workspace-header/search.svg" alt="Search icon" width="32" height="32"/>
-		</div>
-
+		<app-search-card class="search-bar-container"></app-search-card>
 
 		<div class="user-profile-container" (click)="handleUserMenu(true)">
 			<span>{{ currentPerson.userName }}</span>
@@ -51,8 +46,4 @@
 	<!-- USER PROFILE CARD  -->
 	<app-profile-card *ngIf="isUserProfileCardOpen" class="user-profile"
 										[currentPerson]="currentPerson"></app-profile-card>
-
-	<div>
-		<app-search-card></app-search-card>
-	</div>
 }

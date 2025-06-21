@@ -25,25 +25,25 @@ export interface SearchResult {
 	 * The username of the user (applicable only when the type is 'user').
 	 * Represents the name the user has chosen, used in profiles and messages.
 	 */
-	userName?: string;
+	userName: string;
 
 	/**
 	 * The user's email address (applicable only when the type is 'user').
 	 * Must be in a valid email format. Unique to each user.
 	 */
-	email?: string;
+	email: string; // Jetzt required
 
 	/**
 	 * The URL of the user's profile picture (applicable only when the type is 'user').
 	 * Can be `null` if the user hasn't uploaded a profile picture.
 	 */
-	photoURL?: string;
+	photoURL: string;
 
 	/**
 	 * The status of the user (optional, applicable only when the type is 'user').
 	 * Could be 'online', 'offline', or other future states.
 	 */
-	status?: 'online' | 'offline';
+	status: boolean;
 
 	// -----------------------------------------------------------------------------------------------
 	// ** Channel-Related Fields (For results related to channels) **
@@ -59,13 +59,13 @@ export interface SearchResult {
 	 * The name of the channel (applicable only when the type is 'channel').
 	 * Represents the name of the channel, e.g. "general", "support".
 	 */
-	channelName?: string;
+	channelName: string;
 
 	/**
 	 * A short description of the channel (applicable only when the type is 'channel').
 	 * Provides additional context or information about the channel's purpose.
 	 */
-	channelDescription?: string;
+	channelDescription: string;
 
 	/**
 	 * A list of user IDs who are members of the channel (applicable only when the type is 'channel').

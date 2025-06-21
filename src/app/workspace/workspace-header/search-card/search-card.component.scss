@@ -1,3 +1,305 @@
 @use "../../../../styles/fonts" as fonts;
 @use "../../../../styles/variables" as variables;
 
+
+.search-container {
+	position: relative;
+	width: 100%;
+}
+
+.search-input-wrapper {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 0;
+	min-height: 40px;
+	background: variables.$bg-base-200;
+	border-radius: 42px;
+
+	.search-icon {
+		width: 20px;
+		height: 20px;
+		margin-right: 12px;
+		opacity: 0.6;
+	}
+
+	.search-input {
+		flex: 1;
+		border: none;
+		outline: none;
+		font-size: 16px;
+		background: variables.$bg-base-200;
+		border-radius: 42px;
+		padding: 17.5px 45px;
+
+
+		&::placeholder {
+			color: #999;
+		}
+	}
+
+	.search-input-inactive {
+
+	}
+
+	.search-input-active {
+		border-radius: 42px 42px 0 0 !important;
+	}
+
+	.clear-button {
+		background: variables.$bg-base-200;
+		border-radius: 42px;
+		border: none;
+		font-size: 20px;
+		color: #999;
+		cursor: pointer;
+		margin-left: 8px;
+		padding: 0 15px 0 0;
+		width: 20px;
+		height: 20px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&:hover {
+			color: #666;
+		}
+	}
+}
+
+.search-results-container {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background: white;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 1000;
+	max-height: 400px;
+	overflow-y: auto;
+	margin-top: 4px;
+}
+
+.search-results {
+	padding: 8px 0;
+}
+
+.search-loading {
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	color: #666;
+
+	.loading-spinner {
+		width: 16px;
+		height: 16px;
+		border: 2px solid #f3f3f3;
+		border-top: 2px solid #007bff;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+		margin-right: 8px;
+	}
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.no-results {
+	padding: 16px;
+	color: #666;
+	text-align: center;
+
+	.search-tips {
+		margin-top: 12px;
+		font-size: 14px;
+
+		p {
+			margin: 0 0 8px 0;
+			font-weight: bold;
+		}
+
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			li {
+				margin: 4px 0;
+				text-align: left;
+			}
+		}
+	}
+}
+
+.result-category {
+	border-bottom: 1px solid #eee;
+
+	&:last-child {
+		border-bottom: none;
+	}
+
+	.category-title {
+		display: flex;
+		align-items: center;
+		padding: 12px 16px 8px;
+		margin: 0;
+		font-size: 14px;
+		font-weight: 600;
+		color: #666;
+		background: #f8f9fa;
+
+		img {
+			width: 16px;
+			height: 16px;
+			margin-right: 8px;
+		}
+	}
+}
+
+.result-item {
+	padding: 12px 16px;
+	cursor: pointer;
+	border-left: 3px solid transparent;
+
+	&:hover,
+	&.selected {
+		background: #f0f7ff;
+		border-left-color: #007bff;
+	}
+
+	.result-content {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
+}
+
+// User-spezifische Styles
+.user-result {
+	.user-info {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+
+		.user-avatar {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+
+		.user-details {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+
+			.user-name {
+				font-weight: 600;
+				font-size: 14px;
+				color: #333;
+			}
+
+			.user-email {
+				font-size: 12px;
+				color: #666;
+			}
+		}
+
+		.user-status {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			font-size: 12px;
+
+			.status-indicator {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background: #ccc;
+			}
+
+			&.online .status-indicator {
+				background: #28a745;
+			}
+
+			.status-text {
+				color: #666;
+			}
+		}
+	}
+}
+
+// Channel-spezifische Styles
+.channel-result {
+	.result-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		.channel-name {
+			font-weight: 600;
+			color: #333;
+		}
+
+		.member-count {
+			font-size: 12px;
+			color: #666;
+		}
+	}
+
+	.channel-description {
+		font-size: 12px;
+		color: #666;
+		margin-top: 4px;
+	}
+}
+
+// Message-spezifische Styles
+.message-result,
+.dm-result,
+.thread-result {
+	.result-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 4px;
+
+		.channel-name,
+		.dm-user {
+			font-weight: 600;
+			color: #333;
+		}
+
+		.thread-indicator {
+			background: #007bff;
+			color: white;
+			font-size: 10px;
+			padding: 2px 6px;
+			border-radius: 12px;
+		}
+
+		.result-time {
+			font-size: 12px;
+			color: #666;
+		}
+	}
+
+	.message-preview {
+		font-size: 13px;
+		color: #666;
+		line-height: 1.4;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+}
