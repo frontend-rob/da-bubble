@@ -14,7 +14,7 @@
 		<img
 			alt="Search"
 			class="search-icon"
-			src="assets/img/workspace-header/search.svg">
+			ngSrc="assets/img/workspace-header/search.svg" height="36" width="35">
 		<button
 			(click)="clearSearch()"
 			*ngIf="searchTerm.length > 0"
@@ -53,7 +53,7 @@
 				<!-- Users -->
 				<div *ngIf="searchResults.users.length > 0" class="result-category">
 					<h3 class="category-title">
-						<img alt="Channels" src="assets/img/avatars/av-00.svg">
+						<img alt="Channels" ngSrc="assets/img/avatars/av-00.svg" height="168" width="168">
 						Personen ({{ searchResults.users.length }})
 					</h3>
 					<div
@@ -65,7 +65,7 @@
 							<div class="user-info">
 								<img
 									[alt]="result.userName"
-									[src]="result.photoURL || 'assets/img/default-avatar.svg'"
+									ngSrc="result.photoURL || 'assets/img/default-avatar.svg'"
 									class="user-avatar">
 								<div class="user-details">
 									<span class="user-name">{{ result.userName }}</span>
@@ -83,7 +83,7 @@
 				<!-- Channels -->
 				<div *ngIf="searchResults.channels.length > 0" class="result-category">
 					<h3 class="category-title">
-						<img alt="Channels" src="assets/img/chat/channel_tag.svg">
+						<img alt="Channels" ngSrc="assets/img/chat/channel_tag.svg" height="23" width="22">
 						Channels ({{ searchResults.channels.length }})
 					</h3>
 					<div
@@ -106,7 +106,7 @@
 				<!-- Nachrichten in Channels -->
 				<div *ngIf="searchResults.messages.length > 0" class="result-category">
 					<h3 class="category-title">
-						<img alt="Messages" src="assets/img/chat/comment.svg">
+						<img alt="Messages" ngSrc="assets/img/chat/comment.svg" height="19" width="21">
 						Nachrichten ({{ searchResults.messages.length }})
 					</h3>
 					<div
@@ -127,7 +127,7 @@
 				<!-- Direct Messages -->
 				<div *ngIf="searchResults.directMessages.length > 0" class="result-category">
 					<h3 class="category-title">
-						<img alt="Direct Messages" src="assets/img/main-menu/direct_messages.svg">
+						<img alt="Direct Messages" ngSrc="assets/img/main-menu/direct_messages.svg" height="24" width="24">
 						Direktnachrichten ({{ searchResults.directMessages.length }})
 					</h3>
 					<div
@@ -148,7 +148,7 @@
 				<!-- Threads -->
 				<div *ngIf="searchResults.threads.length > 0" class="result-category">
 					<h3 class="category-title">
-						<img alt="Threads" src="assets/img/chat/channel_tag.svg">
+						<img alt="Threads" ngSrc="assets/img/chat/channel_tag.svg" height="23" width="22">
 						Threads ({{ searchResults.threads.length }})
 					</h3>
 					<div

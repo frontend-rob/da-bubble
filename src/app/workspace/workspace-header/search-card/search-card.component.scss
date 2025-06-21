@@ -40,33 +40,6 @@
 		}
 	}
 
-	.search-input-inactive {
-
-	}
-
-	.search-input-active {
-		border-radius: 42px 42px 0 0 !important;
-	}
-
-	.clear-button {
-		background: variables.$bg-base-200;
-		border-radius: 42px;
-		border: none;
-		font-size: 20px;
-		color: #999;
-		cursor: pointer;
-		margin-left: 8px;
-		padding: 0 15px 0 0;
-		width: 20px;
-		height: 20px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-
-		&:hover {
-			color: #666;
-		}
-	}
 }
 
 .search-results-container {

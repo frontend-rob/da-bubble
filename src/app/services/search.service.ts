@@ -39,7 +39,7 @@ export class SearchService {
 		this.searchTerm$.subscribe(term => {
 			console.log('Search term changed:', term);
 			if (term.trim()) {
-				this.performSearch(term);
+				this.performSearch(term).then(r => console.log(r));
 			} else {
 				this.clearResults();
 			}

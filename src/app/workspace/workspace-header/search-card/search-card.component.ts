@@ -1,5 +1,5 @@
 import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {CategorizedSearchResults, SearchService} from '../../../services/search.service';
 import {ChatService} from '../../../services/chat.service';
@@ -12,7 +12,7 @@ import {Timestamp} from '@angular/fire/firestore';
 @Component({
 	selector: 'app-search-card',
 	standalone: true,
-	imports: [CommonModule, FormsModule,],
+	imports: [CommonModule, FormsModule, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage,],
 	templateUrl: './search-card.component.html',
 	styleUrls: ['./search-card.component.scss']
 })
@@ -160,7 +160,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 
 		switch (result.type) {
 			case 'user':
-				this.openDirectMessage(result);
+				this.openDirectMessage(result).then(r => console.log(r));
 				break;
 			case 'channels':
 				this.openChannel(result);
