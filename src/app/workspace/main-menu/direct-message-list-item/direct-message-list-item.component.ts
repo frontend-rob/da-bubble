@@ -1,11 +1,8 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { UserData } from "../../../interfaces/user.interface";
-import { ChatService } from "../../../services/chat.service";
-import { ChannelData } from "../../../interfaces/channel.interface";
-import { FunctionTriggerService } from "../../../services/function-trigger.service";
-import { combineLatest, Subject, takeUntil } from "rxjs";
-import { UserService } from "../../../services/user.service";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, Input} from "@angular/core";
+import {UserData} from "../../../interfaces/user.interface";
+import {ChatService} from "../../../services/chat.service";
+import {ChannelData} from "../../../interfaces/channel.interface";
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -27,7 +24,8 @@ export class DirectMessageListItemComponent {
 
 	constructor(
 		private chatService: ChatService // private functionTriggerService: FunctionTriggerService, // private userService: UserService
-	) {}
+	) {
+	}
 
 	// ngOnInit() {
 	// 	this.subscribeToData();

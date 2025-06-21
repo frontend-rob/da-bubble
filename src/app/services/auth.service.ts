@@ -210,6 +210,23 @@ export class AuthService {
 	}
 
 	/**
+	 * Initializes the authentication state listener and sets up online/offline status monitoring.
+	 */
+	initializeAuthStateListener(): void {
+		return runInInjectionContext(this.environmentInjector, () => {
+			const auth = inject(Auth);
+
+			onAuthStateChanged(auth, async (user) => {
+				if (user) {
+					await this.setUserOnlineStatus(user.uid, true);
+					this.setupOfflineStatusListener(user.uid);
+					this.setupVisibilityListener(user.uid);
+				}
+			});
+		});
+	}
+
+	/**
 	 * Creates guest user data for anonymous authentication.
 	 * @param uid - The unique ID of the guest user.
 	 * @returns A UserData object containing guest user information.
@@ -237,23 +254,6 @@ export class AuthService {
 		await runInInjectionContext(this.environmentInjector, async () => {
 			const userRef = doc(firestore, `users/${uid}`);
 			await setDoc(userRef, guestData);
-		});
-	}
-
-	/**
-	 * Initializes the authentication state listener and sets up online/offline status monitoring.
-	 */
-	initializeAuthStateListener(): void {
-		return runInInjectionContext(this.environmentInjector, () => {
-			const auth = inject(Auth);
-
-			onAuthStateChanged(auth, async (user) => {
-				if (user) {
-					await this.setUserOnlineStatus(user.uid, true);
-					this.setupOfflineStatusListener(user.uid);
-					this.setupVisibilityListener(user.uid);
-				}
-			});
 		});
 	}
 

@@ -1,30 +1,30 @@
 <div *ngIf="isEmojiModalOpen" class="modal">
-    <ul class="emoji-list">
-        <li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
-            <span class="emoji">{{ emoji }}</span>
-        </li>
-    </ul>
+	<ul class="emoji-list">
+		<li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
+			<span class="emoji">{{ emoji }}</span>
+		</li>
+	</ul>
 </div>
 
 <div *ngIf="isUserTagModalOpen" class="modal">
-    <ul class="user-list">
-        <li (click)="addUserTag(user)" *ngFor="let user of users">
-            <div>
-                <img [ngSrc]="user.photoURL" alt="avatar" class="user-img" height="64" width="64" />
-                <div class="status" [ngClass]="{ online: user.status, offline: user.status }"></div>
-            </div>
-            <div class="user-name">{{ user.userName }}</div>
-        </li>
-    </ul>
+	<ul class="user-list">
+		<li (click)="addUserTag(user)" *ngFor="let user of users">
+			<div>
+				<img [ngSrc]="user.photoURL" alt="avatar" class="user-img" height="64" width="64"/>
+				<div [ngClass]="{ online: user.status, offline: user.status }" class="status"></div>
+			</div>
+			<div class="user-name">{{ user.userName }}</div>
+		</li>
+	</ul>
 </div>
 
 <div *ngIf="isChannelTagModalOpen" class="modal">
-    <ul class="channel-list">
-        <li (click)="addChannelTag(channel.channelName)" *ngFor="let channel of channels">
-            <div class="channel-name">
-                <img alt="channel tag" class="" height="12" ngSrc="assets/img/chat/channel_tag.svg" width="12">
-                {{ channel.channelName }}
-            </div>
-        </li>
-    </ul>
+	<ul class="channel-list">
+		<li (click)="addChannelTag(channel.channelName)" *ngFor="let channel of channels">
+			<div class="channel-name">
+				<img alt="channel tag" class="" height="12" ngSrc="assets/img/chat/channel_tag.svg" width="12">
+				{{ channel.channelName }}
+			</div>
+		</li>
+	</ul>
 </div>

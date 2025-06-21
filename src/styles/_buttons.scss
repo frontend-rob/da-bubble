@@ -22,8 +22,8 @@
 
 	svg {
 		color: $text-color;
-        width: 1.5rem;
-        height: 1.5rem
+		width: 1.5rem;
+		height: 1.5rem
 	}
 }
 
@@ -72,13 +72,13 @@
 }
 
 .btn-ghost {
-    width: 100%;
-    justify-content: center;
-    color: variables.$text-secondary;
-    background-color: transparent;
-    border: 1px solid transparent;
+	width: 100%;
+	justify-content: center;
+	color: variables.$text-secondary;
+	background-color: transparent;
+	border: 1px solid transparent;
 }
 
 .btn-ghost:hover {
-    @include button-hover(variables.$bg-base-100, variables.$bg-primary-accent);
+	@include button-hover(variables.$bg-base-100, variables.$bg-primary-accent);
 }

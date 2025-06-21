@@ -2,57 +2,57 @@
 @use "./../../styles/variables" as variables;
 
 app-chat {
-    flex: 1;
+	flex: 1;
 }
 
 .workspace {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	height: 100vh;
+	position: relative;
+	overflow: hidden;
 }
 
 .workspace-container {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    max-width: 1920px;
-    width: 100%;
-    height: 100vh;
-    gap: 20px;
-    background-color: variables.$bg-base-100;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	max-width: 1920px;
+	width: 100%;
+	height: 100vh;
+	gap: 20px;
+	background-color: variables.$bg-base-100;
 
-    >.workspace-content {
-        display: flex;
-        gap: 20px;
-        height: calc(100vh - 8rem);
-        padding: 20px;
-    }
+	> .workspace-content {
+		display: flex;
+		gap: 20px;
+		height: calc(100vh - 8rem);
+		padding: 20px;
+	}
 }
 
 .modal-bg {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #00000050;
-    z-index: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #00000050;
+	z-index: 1;
 }
 
 @media screen and (max-width: 1024px) {
-    app-chat {
-        flex: unset;
-    }
+	app-chat {
+		flex: unset;
+	}
 
-    .workspace-container {
-        >.workspace-content {
-            padding: unset;
-        }
-    }
+	.workspace-container {
+		> .workspace-content {
+			padding: unset;
+		}
+	}
 }

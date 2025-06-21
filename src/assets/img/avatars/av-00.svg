@@ -1,12 +1,12 @@
 <svg fill="none" height="168" viewBox="0 0 168 168" width="168" xmlns="http://www.w3.org/2000/svg">
 	<rect fill="#797EF3" height="168" rx="84" width="168"/>
 	<mask height="136"
-	      id="mask0_6179_20547"
-	      maskUnits="userSpaceOnUse"
-	      style="mask-type:alpha"
-	      width="136"
-	      x="16"
-	      y="16">
+				id="mask0_6179_20547"
+				maskUnits="userSpaceOnUse"
+				style="mask-type:alpha"
+				width="136"
+				x="16"
+				y="16">
 		<rect fill="#D9D9D9" height="136" width="136" x="16" y="16"/>
 	</mask>
 	<g mask="url(#mask0_6179_20547)">

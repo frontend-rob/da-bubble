@@ -1,11 +1,11 @@
 <div *ngIf="!isAnimationComplete" class="animation-wrapper">
 	<img (animationend)="onLogoAnimationEnd()"
-	     alt="DA Bubble Logo"
-	     class="animation-logo logo-slide-in"
-	     height="184"
-	     ngSrc="../../assets/img/logo.svg"
-	     priority="true"
-	     width="188"/>
+			 alt="DA Bubble Logo"
+			 class="animation-logo logo-slide-in"
+			 height="184"
+			 ngSrc="../../assets/img/logo.svg"
+			 priority="true"
+			 width="188"/>
 	<span [class.hidden]="isTextHidden" class="animation-text">DABubble</span>
 </div>
 <div *ngIf="isAnimationComplete" class="onboarding-wrapper">
