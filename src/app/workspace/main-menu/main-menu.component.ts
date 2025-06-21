@@ -30,8 +30,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	isOpen = false;
 	isModalOpen = false;
 
-	isOpenText = "Close workspace menu";
-	isClosedText = "Open workspace menu";
+	isOpenText = "Close Workspace Menu";
+	isClosedText = "Open Workspace Menu";
 
 	currentUser!: UserData;
 	channels: ChannelData[] = [];
