@@ -1,7 +1,6 @@
 @use "../../../../styles/fonts" as fonts;
 @use "../../../../styles/variables" as variables;
 
-
 .search-container {
 	position: relative;
 	width: 100%;
@@ -32,14 +31,11 @@
 		font-size: 16px;
 		background: variables.$bg-base-200;
 		border-radius: 42px;
-		padding: 17.5px 45px;
-
 
 		&::placeholder {
 			color: #999;
 		}
 	}
-
 }
 
 .search-results-container {
