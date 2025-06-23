@@ -349,15 +349,15 @@
 			</div>
 		</div>
 	</header>
-
+	<!--
 	<main class="chat-main">
 		<div *ngIf="!isNewMessage" class="chat-history">
 			<ng-container
+				*ngFor=" -->
+	<main class="chat-main" appAutoScroll [trigger]="messages">
+		<div *ngIf="!isNewMessage" class="chat-history">
+			<ng-container
 				*ngFor="
-		<main class="chat-main" appAutoScroll [trigger]="messages">
-			<div *ngIf="!isNewMessage" class="chat-history">
-				<ng-container
-					*ngFor="
 					let message of messages;
 					let i = index;
 					trackBy: trackByMessageId
