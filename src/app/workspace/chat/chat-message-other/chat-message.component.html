@@ -1,52 +1,60 @@
-<div (mouseenter)="toggleHovered(true)"
-		 (mouseleave)="toggleHovered(false)"
-		 [id]="'message-' + message.messageId"
-		 [ngClass]="{ 'own-message': isOwnMessage, 'other-message': !isOwnMessage }"
-		 class="message-container"><img [ngSrc]="message.sender.photoURL"
-																		alt="/assets/img/avatars/av-04.svg"
-																		height="70"
-																		width="70"/>
-	<div class="message-content-container">
-		<div class="author-container"><span (click)="handleProfileCard(true, message.sender)"
-																				class="author-name">{{ message.sender.userName }}</span><span
-			class="message-time">{{ message.time }} Uhr</span>
-		</div>
-		<div *ngIf="!isEditing" class="message">{{ message.text }}<span *ngIf="message.edited"
-																																		class="edited-indicator">(edited)</span>
-		</div>
-		<div *ngIf="isEditing" class="message-edit-container"><textarea [(ngModel)]="editedText"
-																																		autoFocus
-																																		class="message-edit-input"></textarea>
-			<div class="edit-actions">
-				<button (click)="saveEditedMessage()" class="edit-save-btn">Save</button>
-				<button (click)="cancelEditing()" class="edit-cancel-btn">Cancel</button>
-			</div>
-		</div>
-		<div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
-			<div (click)="handleEmojiReaction(group.emoji, message)"
-					 *ngFor="let group of groupedReactions"
-					 [class.user-reacted]="hasUserReacted(group.emoji)"
-					 class="reaction"><span class="emoji">{{ group.emoji }}</span><span class="count">{{ group.count }}</span>
-			</div>
-		</div> @if (message.hasThread) {
-		<div class="replies-container"><span (click)="openThread()"
-																				 class="replies">{{ message.threadAnswerCount }} @if (message.threadAnswerCount === 1) {
-			Answer
-		} @else {
-			Answers
-		}</span><span class="last-reply">Last Answer {{ message.threadLastTime }}</span></div>
-	}</div>
-	<div class="chat-message-other">
-		<div class="message-header"><span class="sender"></span><span class="timestamp"></span></div>
-	</div>
+<div (mouseenter)="toggleHovered(true)" (mouseleave)="toggleHovered(false)" [id]="'message-' + message.messageId"
+    [ngClass]="{ 'own-message': isOwnMessage, 'other-message': !isOwnMessage }" class="message-container">
+    <img [ngSrc]="message.sender.photoURL" alt="/assets/img/avatars/av-04.svg" height="70" width="70" />
+    <div class="message-content-container">
+        <div class="author-container">
+            <span (click)="handleProfileCard(true, message.sender)" class="author-name">
+                {{ message.sender.userName }}
+            </span>
+            <span class="message-time">{{ message.time }} Uhr</span>
+        </div>
 
-	<div *ngIf="hovered">
-		<app-chat-option-bar (chosenEmoji)="handleEmojiReaction($event, message)"
-												 (editMessage)="startEditingMessage($event)"
-												 [emojiList]="emojiList"
-												 [isOwnMessage]="isOwnMessage"
-												 [message]="message"
-												 [isThisAThreadMessage]="isThisAThreadMessage"
-												 [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}"></app-chat-option-bar>
-	</div>
+        <div *ngIf="!isEditing" class="message">{{ message.text }}
+            <span *ngIf="message.edited" class="edited-indicator">(edited)</span>
+        </div>
+
+        <div *ngIf="isEditing" class="message-edit-container">
+            <textarea [(ngModel)]="editedText" autoFocus class="message-edit-input"></textarea>
+            <div class="edit-actions">
+                <button (click)="saveEditedMessage()" class="edit-save-btn">Save</button>
+                <button (click)="cancelEditing()" class="edit-cancel-btn">Cancel</button>
+            </div>
+        </div>
+
+        <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
+            <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions"
+                [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
+                <span class="emoji">{{ group.emoji }}</span>
+                <span class="count">{{ group.count }}</span>
+            </div>
+        </div>
+
+        <div class="replies-container">
+            <button (click)="toggleEmojiModal()" class="emoji-btn"></button>
+            <span *ngIf="message.hasThread" (click)="openThread()" class="replies">
+                {{ message.threadAnswerCount }}
+                <ng-container *ngIf="message.threadAnswerCount === 1; else multipleAnswers">Answer</ng-container>
+                <ng-template #multipleAnswers>Answers</ng-template>
+            </span>
+            <span *ngIf="message.hasThread" class="last-reply">
+                Last Answer {{ message.threadLastTime }}
+            </span>
+        </div>
+
+    </div>
+
+    <!-- <div class="chat-message-other">
+        <div class="message-header">
+            <span class="sender"></span>
+            <span class="timestamp"></span>
+        </div>
+    </div> -->
+
+    <div *ngIf="hovered">
+        <app-chat-option-bar (chosenEmoji)="handleEmojiReaction($event, message)"
+            (editMessage)="startEditingMessage($event)" [emojiList]="emojiList" [isOwnMessage]="isOwnMessage"
+            [message]="message" [isThisAThreadMessage]="isThisAThreadMessage"
+            [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}">
+        </app-chat-option-bar>
+    </div>
 </div>

@@ -218,6 +218,7 @@
 			</div>
 			}
 			<div *ngIf="isAddNewChannel" class="modal">
+				<!-- <div *ngIf="isModalOpen" class="modal"> -->
 				<div class="container">
 					<header class="modal-header">
 						<div>
@@ -340,8 +341,8 @@
 			<div>
 				<input
 					(input)="handleInputData()"
-					(keydown)="onKeyDown($event)"
 					[(ngModel)]="newMessageInputData"
+					(keydown)="onKeyDown($event)"
 					name="description"
 					placeholder="To: #channel, @anybody or E-Mail Address"
 					type="text"
@@ -349,11 +350,7 @@
 			</div>
 		</div>
 	</header>
-	<!--
-	<main class="chat-main">
-		<div *ngIf="!isNewMessage" class="chat-history">
-			<ng-container
-				*ngFor=" -->
+
 	<main class="chat-main" appAutoScroll [trigger]="messages">
 		<div *ngIf="!isNewMessage" class="chat-history">
 			<ng-container
