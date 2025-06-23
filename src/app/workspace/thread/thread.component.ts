@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, inject, input, Input, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {Component, inject, Input, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {ChatService} from "../../services/chat.service";
 import {Message} from "../../interfaces/message.interface";
