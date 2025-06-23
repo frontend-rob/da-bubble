@@ -10,7 +10,6 @@
 	height: 100%;
 	border-radius: 30px;
 	background-color: variables.$bg-base-200;
-	gap: 20px;
 
 	.message-input-field {
 		width: 100%;
@@ -555,7 +554,7 @@
 	.chat-history {
 		@include mixins.flex-column;
 		gap: 1.5rem;
-		margin: 20px 0;
+		margin: 48px 0;
 		width: 100%;
 
 		app-chat-message-other {
