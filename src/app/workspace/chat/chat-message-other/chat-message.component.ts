@@ -49,6 +49,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
     editedText: string = "";
     hovered: boolean = false;
     isEmojiModalOpen: boolean = false;
+    hoveredReactionEmoji: string | null = null;
+    private reactionTooltipTimeout: any;
 
     @ViewChild(ChatOptionBarComponent) optionBar!: ChatOptionBarComponent;
 
@@ -62,20 +64,22 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
         return this.message.sender.uid === this.currentUser.uid;
     }
 
-    get groupedReactions(): { emoji: string; count: number }[] {
+    get groupedReactions(): { emoji: string; count: number; users: string[] }[] {
         if (!this.message.reactions) return [];
 
         const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
             if (!acc[reaction.emoji]) {
-                acc[reaction.emoji] = 0;
+                acc[reaction.emoji] = { count: 0, users: [] };
             }
-            acc[reaction.emoji]++;
+            acc[reaction.emoji].count++;
+            acc[reaction.emoji].users.push(reaction.userName);
             return acc;
-        }, {} as Record<string, number>);
+        }, {} as Record<string, { count: number; users: string[] }>);
 
-        return Object.entries(groupedEmojis).map(([emoji, count]) => ({
+        return Object.entries(groupedEmojis).map(([emoji, data]) => ({
             emoji,
-            count,
+            count: data.count,
+            users: data.users,
         }));
     }
 
@@ -174,5 +178,18 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 
     toggleEmojiModal() {
         this.isEmojiModalOpen = !this.isEmojiModalOpen;
+    }
+
+    onReactionMouseEnter(emoji: string) {
+        if (this.reactionTooltipTimeout) {
+            clearTimeout(this.reactionTooltipTimeout);
+        }
+        this.hoveredReactionEmoji = emoji;
+    }
+
+    onReactionMouseLeave() {
+        this.reactionTooltipTimeout = setTimeout(() => {
+            this.hoveredReactionEmoji = null;
+        }, 100);
     }
 }

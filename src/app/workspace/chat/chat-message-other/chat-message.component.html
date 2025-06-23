@@ -22,10 +22,16 @@
         </div>
 
         <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
-            <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions"
-                [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
+            <div (click)="handleEmojiReaction(group.emoji, message)"
+                 *ngFor="let group of groupedReactions"
+                 [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
                 <span class="emoji">{{ group.emoji }}</span>
                 <span class="count">{{ group.count }}</span>
+                <div class="reaction-tooltip">
+                    <span>{{ group.emoji }}</span>
+                    <span *ngIf="group.users.length > 0">{{ group.users.join(', ') }}</span>
+                    <span *ngIf="group.users.length === 0">Keine Reaktionen</span>
+                </div>
             </div>
         </div>
 
