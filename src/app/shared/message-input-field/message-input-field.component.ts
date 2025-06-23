@@ -7,7 +7,6 @@ import {UserData} from "../../interfaces/user.interface";
 import {Subscription} from "rxjs";
 import {ChatService} from "../../services/chat.service";
 
-// noinspection RedundantIfStatementJS
 @Component({
 	selector: "app-message-input-field",
 	standalone: true,

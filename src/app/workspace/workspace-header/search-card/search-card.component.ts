@@ -5,13 +5,14 @@ import {CategorizedSearchResults, SearchService} from '../../../services/search.
 import {ChatService} from '../../../services/chat.service';
 import {UserService} from '../../../services/user.service';
 import {SearchResult} from '../../../interfaces/search-result.interface';
-import {Subject, takeUntil} from 'rxjs';
+import {firstValueFrom, Subject, takeUntil} from 'rxjs';
 import {UserData, userRole} from '../../../interfaces/user.interface';
 import {Timestamp} from '@angular/fire/firestore';
+import {FunctionTriggerService} from '../../../services/function-trigger.service';
+import {ChannelData} from '../../../interfaces/channel.interface';
 
 @Component({
 	selector: 'app-search-card',
-	standalone: true,
 	imports: [CommonModule, FormsModule, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage,],
 	templateUrl: './search-card.component.html',
 	styleUrls: ['./search-card.component.scss']
@@ -33,11 +34,20 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private searchService = inject(SearchService);
 	private chatService = inject(ChatService);
 	private userService = inject(UserService);
+	private functionTriggerService = inject(FunctionTriggerService);
 	private destroy$ = new Subject<void>();
 	private blurTimeout: any;
+	private channels: ChannelData[] = [];
 
 	ngOnInit(): void {
 		console.log('SearchCardComponent initialized');
+
+		this.chatService.getChannels()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe(channels => {
+				this.channels = channels;
+				console.log('Channels loaded:', this.channels.length);
+			});
 
 		this.searchService.searchResults$
 			.pipe(takeUntil(this.destroy$))
@@ -47,7 +57,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 				this.calculateTotalResults();
 				this.isSearching = false;
 
-				// Zeige Ergebnisse nur wenn ein Suchterm vorhanden ist
 				if (this.searchTerm.trim().length > 0) {
 					this.showResults = true;
 				}
@@ -71,7 +80,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		this.searchTerm = target.value;
 		console.log('Search input changed:', this.searchTerm);
 
-		// Lösche eventuell gesetzten Blur-Timeout
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
 			this.blurTimeout = null;
@@ -93,7 +101,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	onSearchFocus(): void {
 		console.log('Search input focused');
 
-		// Lösche Blur-Timeout wenn Fokus wieder gesetzt wird
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
 			this.blurTimeout = null;
@@ -108,17 +115,15 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	onSearchBlur(): void {
 		console.log('Search input blurred');
 
-		// Verzögere das Ausblenden, damit Klicks auf Ergebnisse noch funktionieren
 		this.blurTimeout = setTimeout(() => {
 			this.showResults = false;
 			this.selectedIndex = -1;
 			console.log('Results hidden after blur delay');
-		}, 300); // Erhöhte Verzögerung
+		}, 300);
 	}
 
-	// Verhindere das Ausblenden wenn auf die Ergebnisse geklickt wird
 	onResultsMouseDown(event: Event): void {
-		event.preventDefault(); // Verhindert den Blur des Input-Feldes
+		event.preventDefault();
 	}
 
 	onKeyDown(event: KeyboardEvent): void {
@@ -152,7 +157,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	selectResult(result: SearchResult): void {
 		console.log('Selecting result:', result);
 
-		// Lösche Blur-Timeout beim Auswählen eines Ergebnisses
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
 			this.blurTimeout = null;
@@ -196,7 +200,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		this.searchService.setSearchTerm('');
 	}
 
-	// Debug-Methoden für das Template
 	getDebugInfo(): string {
 		return `
       searchTerm: "${this.searchTerm}"
@@ -210,17 +213,16 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private async openDirectMessage(result: SearchResult): Promise<void> {
 		if (!result.uid) return;
 
-		const currentUser = await this.userService.currentUser$.pipe(takeUntil(this.destroy$)).toPromise();
+		const currentUser = await firstValueFrom(this.userService.currentUser$.pipe(takeUntil(this.destroy$)));
 		if (!currentUser) return;
 
-		// Erstelle das korrekte UserData-Objekt
 		const targetUser: UserData = {
 			uid: result.uid,
 			userName: result.userName,
 			email: result.email || '',
 			photoURL: result.photoURL || '',
 			status: result.status,
-			createdAt: Timestamp.now(), // Fallback-Wert
+			createdAt: Timestamp.now(),
 			role: {
 				user: true,
 				admin: false,
@@ -237,6 +239,8 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 			}
 
 			this.chatService.setActiveChat(dmChannel.channelId);
+
+			this.functionTriggerService.callSelectChannel(dmChannel);
 		} catch (error) {
 			console.error('Fehler beim Öffnen der Direct Message:', error);
 		}
@@ -245,12 +249,22 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private openChannel(result: SearchResult): void {
 		if (!result.channelId) return;
 		this.chatService.setActiveChat(result.channelId);
+
+		const selectedChannel = this.findChannelById(result.channelId);
+		if (selectedChannel) {
+			this.functionTriggerService.callSelectChannel(selectedChannel);
+		}
 	}
 
 	private openMessage(result: SearchResult): void {
 		if (!result.channelId) return;
 
 		this.chatService.setActiveChat(result.channelId);
+
+		const selectedChannel = this.findChannelById(result.channelId);
+		if (selectedChannel) {
+			this.functionTriggerService.callSelectChannel(selectedChannel);
+		}
 
 		if (result.messageId) {
 			setTimeout(() => {
@@ -283,5 +297,9 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 			this.searchResults.channels.length +
 			this.searchResults.threads.length +
 			this.searchResults.users.length;
+	}
+
+	private findChannelById(id: string): ChannelData | null {
+		return this.channels.find(channel => channel.channelId === id) || null;
 	}
 }

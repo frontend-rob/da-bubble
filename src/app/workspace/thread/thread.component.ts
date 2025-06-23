@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {Component, inject, Input, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {ChatService} from "../../services/chat.service";
 import {Message} from "../../interfaces/message.interface";
@@ -9,14 +9,18 @@ import {UserData} from "../../interfaces/user.interface";
 import {firstValueFrom, map, Observable, Subscription} from "rxjs";
 import {UserService} from "../../services/user.service";
 import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
+import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 
 @Component({
 	selector: "app-thread",
-	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage],
+	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage, AutoScrollingDirective, AutoScrollingDirective],
 	templateUrl: "./thread.component.html",
 	styleUrl: "./thread.component.scss",
+	standalone: true
 })
 export class ThreadComponent implements OnInit, OnDestroy {
+	@Input() isThisAThreadMessage!: boolean;
+
 	currentUser!: UserData;
 	userSubscription!: Subscription;
 	userService: UserService = inject(UserService);

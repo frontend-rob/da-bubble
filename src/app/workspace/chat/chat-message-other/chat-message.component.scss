@@ -180,3 +180,16 @@
 	color: variables.$text-inverse;
 	margin-left: 4px;
 }
+
+.highlight-message {
+  animation: highlight 3s;
+}
+
+@keyframes highlight {
+  0%, 100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgba(255, 255, 0, 0.3); /* Leicht gelbe Hervorhebung */
+  }
+}

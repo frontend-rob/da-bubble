@@ -18,6 +18,27 @@ import { UserData } from "../../interfaces/user.interface";
 import { UserService } from "../../services/user.service";
 import { HelperService } from "../../services/helper.service";
 import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+	TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
 
 @Component({
 	selector: "app-chat",
@@ -30,6 +51,8 @@ import { FunctionTriggerService } from "../../services/function-trigger.service"
 		FormsModule,
 		NgForOf,
 		NgOptimizedImage,
+		AutoScrollingDirective,
+		AutoScrollingDirective,
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
@@ -318,7 +341,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		) {
 			if (this.channels) {
 				for (const channel of this.channels) {
-					// Compare input with existing channels
 					if (
 						this.newMessageInputData ===
 						"#" + channel.channelName
