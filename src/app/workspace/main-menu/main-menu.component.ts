@@ -296,4 +296,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.chatService.selectedChannel = firstChannel;
 		}
 	}
+
+	test(channel: ChannelData) {
+		console.log(channel);
+	}
 }

@@ -141,14 +141,29 @@
 				<div [class.close-list]="showUserList" class="menu-list-container">
 					<div class="menu-list">
 						<!-- TODO: -->
+
+						<app-direct-message-list-item
+							*ngIf="currentUser"
+							(click)="setSelectedChannel(currentUser.uid)"
+							[currentUser]="currentUser"
+						>
+						</app-direct-message-list-item>
+
 						<app-direct-message-list-item
 							*ngFor="let dmChannel of directMessageChannels"
 							(click)="setSelectedChannel(dmChannel.channelId)"
 							[chatPartner]="getDirectMessageUserData(dmChannel)"
 							[currentUser]="currentUser"
-							[directMessageChannels]="directMessageChannels"
 						>
 						</app-direct-message-list-item>
+
+						<!-- <app-direct-message-list-item
+							*ngFor="let user of allUsers"
+							(click)="setSelectedChannel(user.uid)"
+							[chatPartner]="user"
+							[currentUser]="currentUser"
+						>
+						</app-direct-message-list-item> -->
 					</div>
 				</div>
 			</div>

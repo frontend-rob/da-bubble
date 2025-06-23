@@ -13,7 +13,6 @@ import { ChannelData } from "../../../interfaces/channel.interface";
 export class DirectMessageListItemComponent {
 	@Input() chatPartner!: UserData;
 	@Input() currentUser!: UserData;
-	@Input() directMessageChannels!: ChannelData[];
 	@Input() dmUserData!: UserData;
 
 	allUsers: UserData[] = [];
