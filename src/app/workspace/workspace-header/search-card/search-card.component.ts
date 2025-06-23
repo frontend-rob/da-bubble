@@ -8,10 +8,11 @@ import {SearchResult} from '../../../interfaces/search-result.interface';
 import {Subject, takeUntil} from 'rxjs';
 import {UserData, userRole} from '../../../interfaces/user.interface';
 import {Timestamp} from '@angular/fire/firestore';
+import {FunctionTriggerService} from '../../../services/function-trigger.service';
+import {ChannelData} from '../../../interfaces/channel.interface';
 
 @Component({
 	selector: 'app-search-card',
-	standalone: true,
 	imports: [CommonModule, FormsModule, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage,],
 	templateUrl: './search-card.component.html',
 	styleUrls: ['./search-card.component.scss']
@@ -33,11 +34,21 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private searchService = inject(SearchService);
 	private chatService = inject(ChatService);
 	private userService = inject(UserService);
+	private functionTriggerService = inject(FunctionTriggerService);
 	private destroy$ = new Subject<void>();
 	private blurTimeout: any;
+	private channels: ChannelData[] = [];
 
 	ngOnInit(): void {
 		console.log('SearchCardComponent initialized');
+
+		// Lade alle Channels
+		this.chatService.getChannels()
+			.pipe(takeUntil(this.destroy$))
+			.subscribe(channels => {
+				this.channels = channels;
+				console.log('Channels loaded:', this.channels.length);
+			});
 
 		this.searchService.searchResults$
 			.pipe(takeUntil(this.destroy$))
@@ -237,6 +248,9 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 			}
 
 			this.chatService.setActiveChat(dmChannel.channelId);
+
+			// Rufe callSelectChannel auf
+			this.functionTriggerService.callSelectChannel(dmChannel);
 		} catch (error) {
 			console.error('Fehler beim Öffnen der Direct Message:', error);
 		}
@@ -245,12 +259,24 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private openChannel(result: SearchResult): void {
 		if (!result.channelId) return;
 		this.chatService.setActiveChat(result.channelId);
+
+		// Finde den Channel und rufe callSelectChannel auf
+		const selectedChannel = this.findChannelById(result.channelId);
+		if (selectedChannel) {
+			this.functionTriggerService.callSelectChannel(selectedChannel);
+		}
 	}
 
 	private openMessage(result: SearchResult): void {
 		if (!result.channelId) return;
 
 		this.chatService.setActiveChat(result.channelId);
+
+		// Finde den Channel und rufe callSelectChannel auf
+		const selectedChannel = this.findChannelById(result.channelId);
+		if (selectedChannel) {
+			this.functionTriggerService.callSelectChannel(selectedChannel);
+		}
 
 		if (result.messageId) {
 			setTimeout(() => {
@@ -283,5 +309,9 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 			this.searchResults.channels.length +
 			this.searchResults.threads.length +
 			this.searchResults.users.length;
+	}
+
+	private findChannelById(id: string): ChannelData | null {
+		return this.channels.find(channel => channel.channelId === id) || null;
 	}
 }

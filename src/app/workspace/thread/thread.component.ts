@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {Component, inject, input, Input, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
 import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {ChatService} from "../../services/chat.service";
 import {Message} from "../../interfaces/message.interface";
@@ -15,8 +15,11 @@ import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.comp
 	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage],
 	templateUrl: "./thread.component.html",
 	styleUrl: "./thread.component.scss",
+	standalone: true
 })
 export class ThreadComponent implements OnInit, OnDestroy {
+	@Input() isThisAThreadMessage!: boolean;
+
 	currentUser!: UserData;
 	userSubscription!: Subscription;
 	userService: UserService = inject(UserService);

@@ -14,9 +14,11 @@ import {FormsModule} from "@angular/forms";
 	imports: [CommonModule, ChatOptionBarComponent, FormsModule, NgOptimizedImage],
 	templateUrl: "./chat-message.component.html",
 	styleUrl: "./chat-message.component.scss",
+	standalone: true
 })
 export class ChatMessageComponent implements OnInit, OnDestroy {
 	@Input() message!: IdtMessages;
+	@Input() isThisAThreadMessage!: boolean;
 	currentUserSubscription!: Subscription;
 	currentUser!: UserData;
 	emojiList: string[] = [

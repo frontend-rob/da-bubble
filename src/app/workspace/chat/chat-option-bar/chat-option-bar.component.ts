@@ -8,6 +8,7 @@ import {IdtMessages} from "../../../interfaces/message.interface";
 	imports: [CommonModule, NgOptimizedImage],
 	templateUrl: "./chat-option-bar.component.html",
 	styleUrl: "./chat-option-bar.component.scss",
+	standalone: true
 })
 export class ChatOptionBarComponent {
 	@Input() message!: IdtMessages;
@@ -19,6 +20,7 @@ export class ChatOptionBarComponent {
 
 	@Output() chosenEmoji = new EventEmitter<string>();
 	@Output() editMessage = new EventEmitter<IdtMessages>();
+	@Input() isThisAThreadMessage!: boolean;
 
 	constructor(private chatService: ChatService) {
 	}

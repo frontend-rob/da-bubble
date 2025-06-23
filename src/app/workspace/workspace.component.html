@@ -4,7 +4,7 @@
 		<div class="workspace-content">
 			<app-main-menu></app-main-menu>
 			<app-chat></app-chat>
-			<app-thread *ngIf="isThreadOpen"></app-thread>
+			<app-thread *ngIf="isThreadOpen" [isThisAThreadMessage]="true"></app-thread>
 		</div>
 	</div>
 </div>

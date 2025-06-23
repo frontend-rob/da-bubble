@@ -65,8 +65,8 @@
 							<div class="user-info">
 								<img
 									[alt]="result.userName"
-									ngSrc="result.photoURL || 'assets/img/default-avatar.svg'"
-									class="user-avatar">
+									ngSrc="{{ result.photoURL }}"
+									class="user-avatar" height="35" width="35">
 								<div class="user-details">
 									<span class="user-name">{{ result.userName }}</span>
 									<span class="user-email">{{ result.email }}</span>

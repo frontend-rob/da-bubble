@@ -18,11 +18,11 @@
 				</div>
 			</ng-container>
 
-			<app-chat-message-other [message]="message"></app-chat-message-other>
+			<app-chat-message-other style="width: 100%" [isThisAThreadMessage]="true" [message]="message"></app-chat-message-other>
 		</ng-container>
 
 		<!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
-		<app-message-input-field (send)="sendThreadMessage($event)"
+		<app-message-input-field style="width: 100%" (send)="sendThreadMessage($event)"
 														 [placeholderText]="'Antworten...'"
 														 class="message-input-field"></app-message-input-field>
 	</main>

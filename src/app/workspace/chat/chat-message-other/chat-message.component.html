@@ -1,5 +1,6 @@
 <div (mouseenter)="toggleHovered(true)"
 		 (mouseleave)="toggleHovered(false)"
+		 [id]="'message-' + message.messageId"
 		 [ngClass]="{ 'own-message': isOwnMessage, 'other-message': !isOwnMessage }"
 		 class="message-container"><img [ngSrc]="message.sender.photoURL"
 																		alt="/assets/img/avatars/av-04.svg"
@@ -45,6 +46,7 @@
 												 [emojiList]="emojiList"
 												 [isOwnMessage]="isOwnMessage"
 												 [message]="message"
+												 [isThisAThreadMessage]="isThisAThreadMessage"
 												 [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}"></app-chat-option-bar>
 	</div>
 </div>
