@@ -362,7 +362,9 @@
 			>
 				<ng-container *ngIf="shouldShowDate(messages, i)">
 					<div class="message-time-separator">
-						<div class="time">{{ message.date }}</div>
+						<div class="time">
+							{{ message.date === formattedDate ? "Today" : message.date }}
+						</div>
 					</div>
 				</ng-container>
 
@@ -373,7 +375,7 @@
 	@if (this.chatService.selectedChannel.channelType.directMessage &&
 	messages.length === 0) {
 	<main class="dm-empty-state">
-		<!-- @if (this.chatService.selectedChannel.channelMembers[1].uid !==
+		@if (this.chatService.selectedChannel.channelMembers[1].uid !==
 		currentUser.uid) {
 
 		<div class="direct-message-contact">
@@ -393,9 +395,8 @@
 			files to hand. You can also discuss things with yourself here.
 		</span>
 
-		} @else { -->
-
-		@if (this.chatService.selectedChannel.channelId !== currentUser.uid) {
+		} @else { @if (this.chatService.selectedChannel.channelId ===
+		currentUser.uid) {
 		<div class="direct-message-contact">
 			<img
 				ngSrc="{{
@@ -443,6 +444,7 @@
 			</span>
 			and you.
 		</span>
+		} }
 	</main>
 	}
 	<app-message-input-field

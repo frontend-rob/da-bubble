@@ -1,31 +1,52 @@
-import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {FormsModule} from '@angular/forms';
-import {CategorizedSearchResults, SearchService} from '../../../services/search.service';
-import {ChatService} from '../../../services/chat.service';
-import {UserService} from '../../../services/user.service';
-import {SearchResult} from '../../../interfaces/search-result.interface';
-import {firstValueFrom, Subject, takeUntil} from 'rxjs';
-import {UserData, userRole} from '../../../interfaces/user.interface';
-import {Timestamp} from '@angular/fire/firestore';
-import {FunctionTriggerService} from '../../../services/function-trigger.service';
-import {ChannelData} from '../../../interfaces/channel.interface';
+import {
+	Component,
+	ElementRef,
+	inject,
+	OnDestroy,
+	OnInit,
+	ViewChild,
+} from "@angular/core";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { FormsModule } from "@angular/forms";
+import {
+	CategorizedSearchResults,
+	SearchService,
+} from "../../../services/search.service";
+import { ChatService } from "../../../services/chat.service";
+import { UserService } from "../../../services/user.service";
+import { SearchResult } from "../../../interfaces/search-result.interface";
+import { firstValueFrom, Subject, takeUntil } from "rxjs";
+import { UserData, userRole } from "../../../interfaces/user.interface";
+import { Timestamp } from "@angular/fire/firestore";
+import { FunctionTriggerService } from "../../../services/function-trigger.service";
+import { ChannelData } from "../../../interfaces/channel.interface";
 
 @Component({
-	selector: 'app-search-card',
-	imports: [CommonModule, FormsModule, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage, NgOptimizedImage,],
-	templateUrl: './search-card.component.html',
-	styleUrls: ['./search-card.component.scss']
+	selector: "app-search-card",
+	imports: [
+		CommonModule,
+		FormsModule,
+		NgOptimizedImage,
+		NgOptimizedImage,
+		NgOptimizedImage,
+		NgOptimizedImage,
+		NgOptimizedImage,
+		NgOptimizedImage,
+		NgOptimizedImage,
+	],
+	templateUrl: "./search-card.component.html",
+	styleUrls: ["./search-card.component.scss"],
 })
 export class SearchCardComponent implements OnInit, OnDestroy {
-	@ViewChild('searchInput', {static: false}) searchInput!: ElementRef<HTMLInputElement>;
-	searchTerm = '';
+	@ViewChild("searchInput", { static: false })
+	searchInput!: ElementRef<HTMLInputElement>;
+	searchTerm = "";
 	searchResults: CategorizedSearchResults = {
 		messages: [],
 		directMessages: [],
 		channels: [],
 		threads: [],
-		users: []
+		users: [],
 	};
 	isSearching = false;
 	showResults = false;
@@ -40,19 +61,20 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private channels: ChannelData[] = [];
 
 	ngOnInit(): void {
-		console.log('SearchCardComponent initialized');
+		console.log("SearchCardComponent initialized");
 
-		this.chatService.getChannels()
+		this.chatService
+			.getChannels()
 			.pipe(takeUntil(this.destroy$))
-			.subscribe(channels => {
+			.subscribe((channels) => {
 				this.channels = channels;
-				console.log('Channels loaded:', this.channels.length);
+				console.log("Channels loaded:", this.channels.length);
 			});
 
 		this.searchService.searchResults$
 			.pipe(takeUntil(this.destroy$))
-			.subscribe(results => {
-				console.log('Search results received:', results);
+			.subscribe((results) => {
+				console.log("Search results received:", results);
 				this.searchResults = results;
 				this.calculateTotalResults();
 				this.isSearching = false;
@@ -61,9 +83,17 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 					this.showResults = true;
 				}
 
-				console.log('showResults:', this.showResults, 'totalResults:', this.totalResults);
-				console.log('Users found:', this.searchResults.users.length);
-				console.log('Channels found:', this.searchResults.channels.length);
+				console.log(
+					"showResults:",
+					this.showResults,
+					"totalResults:",
+					this.totalResults
+				);
+				console.log("Users found:", this.searchResults.users.length);
+				console.log(
+					"Channels found:",
+					this.searchResults.channels.length
+				);
 			});
 	}
 
@@ -78,7 +108,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	onSearchInput(event: Event): void {
 		const target = event.target as HTMLInputElement;
 		this.searchTerm = target.value;
-		console.log('Search input changed:', this.searchTerm);
+		console.log("Search input changed:", this.searchTerm);
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -88,18 +118,18 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		if (this.searchTerm.trim().length === 0) {
 			this.showResults = false;
 			this.selectedIndex = -1;
-			console.log('Search term empty, hiding results');
+			console.log("Search term empty, hiding results");
 			return;
 		}
 
 		this.isSearching = true;
 		this.showResults = true;
-		console.log('Starting search, isSearching:', this.isSearching);
+		console.log("Starting search, isSearching:", this.isSearching);
 		this.searchService.setSearchTerm(this.searchTerm);
 	}
 
 	onSearchFocus(): void {
-		console.log('Search input focused');
+		console.log("Search input focused");
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -108,17 +138,17 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 
 		if (this.searchTerm.trim().length > 0) {
 			this.showResults = true;
-			console.log('Showing results on focus');
+			console.log("Showing results on focus");
 		}
 	}
 
 	onSearchBlur(): void {
-		console.log('Search input blurred');
+		console.log("Search input blurred");
 
 		this.blurTimeout = setTimeout(() => {
 			this.showResults = false;
 			this.selectedIndex = -1;
-			console.log('Results hidden after blur delay');
+			console.log("Results hidden after blur delay");
 		}, 300);
 	}
 
@@ -132,21 +162,27 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		const allResults = this.getAllResultsFlattened();
 
 		switch (event.key) {
-			case 'ArrowDown':
+			case "ArrowDown":
 				event.preventDefault();
-				this.selectedIndex = Math.min(this.selectedIndex + 1, allResults.length - 1);
+				this.selectedIndex = Math.min(
+					this.selectedIndex + 1,
+					allResults.length - 1
+				);
 				break;
-			case 'ArrowUp':
+			case "ArrowUp":
 				event.preventDefault();
 				this.selectedIndex = Math.max(this.selectedIndex - 1, -1);
 				break;
-			case 'Enter':
+			case "Enter":
 				event.preventDefault();
-				if (this.selectedIndex >= 0 && this.selectedIndex < allResults.length) {
+				if (
+					this.selectedIndex >= 0 &&
+					this.selectedIndex < allResults.length
+				) {
 					this.selectResult(allResults[this.selectedIndex]);
 				}
 				break;
-			case 'Escape':
+			case "Escape":
 				this.showResults = false;
 				this.selectedIndex = -1;
 				this.searchInput?.nativeElement.blur();
@@ -155,7 +191,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	}
 
 	selectResult(result: SearchResult): void {
-		console.log('Selecting result:', result);
+		console.log("Selecting result:", result);
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -163,29 +199,29 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		}
 
 		switch (result.type) {
-			case 'user':
-				this.openDirectMessage(result).then(r => console.log(r));
+			case "user":
+				this.openDirectMessage(result).then((r) => console.log(r));
 				break;
-			case 'channels':
+			case "channels":
 				this.openChannel(result);
 				break;
-			case 'message':
+			case "message":
 				this.openMessage(result);
 				break;
 		}
 
 		this.showResults = false;
-		this.searchTerm = '';
+		this.searchTerm = "";
 		this.selectedIndex = -1;
 	}
 
 	getSearchPlaceholder(): string {
-		if (this.searchTerm.startsWith('#')) {
-			return 'Nach Channels suchen...';
-		} else if (this.searchTerm.startsWith('@')) {
-			return 'Nach Personen suchen...';
+		if (this.searchTerm.startsWith("#")) {
+			return "Nach Channels suchen...";
+		} else if (this.searchTerm.startsWith("@")) {
+			return "Nach Personen suchen...";
 		}
-		return 'Suche in DABubble...';
+		return "Search in Devspac...";
 	}
 
 	hasResults(): boolean {
@@ -193,11 +229,11 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	}
 
 	clearSearch(): void {
-		console.log('Clearing search');
-		this.searchTerm = '';
+		console.log("Clearing search");
+		this.searchTerm = "";
 		this.showResults = false;
 		this.selectedIndex = -1;
-		this.searchService.setSearchTerm('');
+		this.searchService.setSearchTerm("");
 	}
 
 	getDebugInfo(): string {
@@ -213,36 +249,44 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private async openDirectMessage(result: SearchResult): Promise<void> {
 		if (!result.uid) return;
 
-		const currentUser = await firstValueFrom(this.userService.currentUser$.pipe(takeUntil(this.destroy$)));
+		const currentUser = await firstValueFrom(
+			this.userService.currentUser$.pipe(takeUntil(this.destroy$))
+		);
 		if (!currentUser) return;
 
 		const targetUser: UserData = {
 			uid: result.uid,
 			userName: result.userName,
-			email: result.email || '',
-			photoURL: result.photoURL || '',
+			email: result.email || "",
+			photoURL: result.photoURL || "",
 			status: result.status,
 			createdAt: Timestamp.now(),
 			role: {
 				user: true,
 				admin: false,
 				moderator: false,
-				guest: false
-			} as userRole
+				guest: false,
+			} as userRole,
 		};
 
 		try {
-			let dmChannel = await this.chatService.findDirectMessageChannel(currentUser, targetUser);
+			let dmChannel = await this.chatService.findDirectMessageChannel(
+				currentUser,
+				targetUser
+			);
 
 			if (!dmChannel) {
-				dmChannel = await this.chatService.createDirectMessageChannel(currentUser, targetUser);
+				dmChannel = await this.chatService.createDirectMessageChannel(
+					currentUser,
+					targetUser
+				);
 			}
 
 			this.chatService.setActiveChat(dmChannel.channelId);
 
 			this.functionTriggerService.callSelectChannel(dmChannel);
 		} catch (error) {
-			console.error('Fehler beim Öffnen der Direct Message:', error);
+			console.error("Fehler beim Öffnen der Direct Message:", error);
 		}
 	}
 
@@ -268,21 +312,35 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 
 		if (result.messageId) {
 			setTimeout(() => {
-				const messageElement = document.getElementById(`message-${result.messageId}`);
+				const messageElement = document.getElementById(
+					`message-${result.messageId}`
+				);
 				if (messageElement) {
-					messageElement.scrollIntoView({behavior: 'smooth', block: 'center'});
-					messageElement.classList.add('highlight-message');
+					messageElement.scrollIntoView({
+						behavior: "smooth",
+						block: "center",
+					});
+					messageElement.classList.add("highlight-message");
 					setTimeout(() => {
-						messageElement.classList.remove('highlight-message');
+						messageElement.classList.remove("highlight-message");
 					}, 3000);
 				} else {
 					setTimeout(() => {
-						const retryMessageElement = document.getElementById(`message-${result.messageId}`);
+						const retryMessageElement = document.getElementById(
+							`message-${result.messageId}`
+						);
 						if (retryMessageElement) {
-							retryMessageElement.scrollIntoView({behavior: 'smooth', block: 'center'});
-							retryMessageElement.classList.add('highlight-message');
+							retryMessageElement.scrollIntoView({
+								behavior: "smooth",
+								block: "center",
+							});
+							retryMessageElement.classList.add(
+								"highlight-message"
+							);
 							setTimeout(() => {
-								retryMessageElement.classList.remove('highlight-message');
+								retryMessageElement.classList.remove(
+									"highlight-message"
+								);
 							}, 3000);
 						}
 					}, 500);
@@ -297,7 +355,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 			...this.searchResults.directMessages,
 			...this.searchResults.channels,
 			...this.searchResults.threads,
-			...this.searchResults.users
+			...this.searchResults.users,
 		];
 	}
 
@@ -311,6 +369,8 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	}
 
 	private findChannelById(id: string): ChannelData | null {
-		return this.channels.find(channel => channel.channelId === id) || null;
+		return (
+			this.channels.find((channel) => channel.channelId === id) || null
+		);
 	}
 }

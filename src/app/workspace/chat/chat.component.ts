@@ -58,6 +58,35 @@ export class ChatComponent implements OnInit, OnDestroy {
 	allUserData!: UserData[];
 	selectedUsersToAdd: UserData[] = [];
 
+	today = new Date();
+	daysOfWeek = [
+		"Sonntag",
+		"Montag",
+		"Dienstag",
+		"Mittwoch",
+		"Donnerstag",
+		"Freitag",
+		"Samstag",
+	];
+	months = [
+		"Januar",
+		"Februar",
+		"März",
+		"April",
+		"Mai",
+		"Juni",
+		"Juli",
+		"August",
+		"September",
+		"Oktober",
+		"November",
+		"Dezember",
+	];
+	dayOfWeek = this.daysOfWeek[this.today.getDay()];
+	dayOfMonth = this.today.getDate();
+	month = this.months[this.today.getMonth()];
+	formattedDate = this.dayOfWeek + ", " + this.dayOfMonth + ". " + this.month;
+
 	searchText: string = "";
 	filteredUsers: UserData[] = [];
 
