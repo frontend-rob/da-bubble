@@ -49,8 +49,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
     editedText: string = "";
     hovered: boolean = false;
     isEmojiModalOpen: boolean = false;
-    hoveredReactionEmoji: string | null = null;
-    private reactionTooltipTimeout: any;
+    isOptionsMenuOpen: boolean = false;
 
     @ViewChild(ChatOptionBarComponent) optionBar!: ChatOptionBarComponent;
 
@@ -176,20 +175,12 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isEditing = false;
     }
 
+    // toggleEmojiModal() {
+    //     this.isEmojiModalOpen = !this.isEmojiModalOpen;
+    // }
+
     toggleEmojiModal() {
         this.isEmojiModalOpen = !this.isEmojiModalOpen;
-    }
-
-    onReactionMouseEnter(emoji: string) {
-        if (this.reactionTooltipTimeout) {
-            clearTimeout(this.reactionTooltipTimeout);
-        }
-        this.hoveredReactionEmoji = emoji;
-    }
-
-    onReactionMouseLeave() {
-        this.reactionTooltipTimeout = setTimeout(() => {
-            this.hoveredReactionEmoji = null;
-        }, 100);
+        this.isOptionsMenuOpen = false;
     }
 }

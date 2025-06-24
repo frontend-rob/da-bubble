@@ -1,14 +1,14 @@
 <div class="options-container">
-		<span (click)="addQuickReactionCheckmark()">✅</span>
+	<span (click)="addQuickReactionCheckmark()">✅</span>
     <span (click)="addQuickReactionThumbsUp()">👍</span>
-    <img (click)="toggleEmojiModal()" class="reaction-btn" alt="reaction" height="24" ngSrc="/assets/img/chat/reaction.svg" width="24" />
+    <img (click)="toggleEmojiModal()" alt="reaction" height="24" ngSrc="/assets/img/chat/reaction.svg" width="24" />
     <img (click)="openThread()" *ngIf="!isThisAThreadMessage" alt="comment" height="19"
         ngSrc="/assets/img/chat/comment.svg" width="21" />
     <img (click)="toggleOptionsMenu()" *ngIf="isOwnMessage" alt="more_vert" height="24"
         ngSrc="/assets/img/chat/more_vert.svg" width="24" />
 </div>
 
-<!-- Emoji-Modal -->
+<!-- todo: generate Emoji-Modal as shared componet -->
 <div *ngIf="isEmojiModalOpen" class="modal">
     <ul class="emoji-list">
         <li (click)="addEmoji(emoji)" *ngFor="let emoji of emojiList">
@@ -17,13 +17,12 @@
     </ul>
 </div>
 
-<!-- Options-Menü für eigene Nachrichten -->
+<!-- todo: generate Option-Menu as shared componet -->
 <div *ngIf="isOptionsMenuOpen && isOwnMessage" class="options-menu">
     <ul>
         <li (click)="startEditing()">
             <span>Edit</span>
         </li>
-        <!-- Weitere Optionen können hier hinzugefügt werden -->
         <li (click)="deleteMessage()">
             <span>Delete</span>
         </li>

@@ -5,7 +5,7 @@
 .message-container {
     display: flex;
     width: 100%;
-    padding: 24px 48px;
+    padding: 24px 32px;
     gap: 30px;
     position: relative;
 
@@ -96,6 +96,10 @@
     .replies-container {
         flex-direction: row-reverse;
     }
+
+    .reactions-wrapper {
+        flex-direction: row-reverse;
+    }
 }
 
 .replies-container {
@@ -104,9 +108,22 @@
     gap: 20px;
 }
 
+.reactions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.answer-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .emoji-btn {
-    height: 20px;
-    width: 20px;
+    position: relative;
+    height: 24px;
+    width: 24px;
     background-image: url("/assets/img/shared/message-input-field/emoji.svg");
     background-position: center;
     background-repeat: no-repeat;
@@ -117,7 +134,22 @@
 
     &:hover {
         background-image: url("/assets/img/shared/message-input-field/emoji_hover.svg");
+        @include mixins.hover-scale;
     }
+}
+
+.reactions-wrapper-own .modal {
+    position: absolute;
+    top: -48px;
+    right: 32px;
+    border-radius: 20px 20px 20px 0;
+}
+
+.reactions-wrapper-other .modal {
+    position: absolute;
+    top: -48px;
+    left: 32px;
+    border-radius: 20px 20px 20px 0;
 }
 
 .replies {
@@ -140,7 +172,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-top: 4px;
 }
 
 .reaction {
@@ -152,7 +183,6 @@
     border: 1px solid variables.$border;
     padding: 2px 8px;
     cursor: pointer;
-
 
     .emoji {
         margin-right: 4px;
@@ -169,7 +199,7 @@
     bottom: 40px;
     left: 24px;
     display: none;
-    background: variables.$text-hover;
+    background: variables.$bg-primary;
     color: variables.$text-inverse;
     padding: 16px;
     border-radius: 20px 20px 20px 0;
@@ -177,6 +207,10 @@
     z-index: 10;
     white-space: nowrap;
     pointer-events: none;
+}
+
+.tooltip-emoji {
+    font-size: 24px;
 }
 
 .reaction:hover .reaction-tooltip {
@@ -245,6 +279,7 @@
 }
 
 @keyframes highlight {
+
     0%,
     100% {
         background-color: transparent;
