@@ -142,12 +142,7 @@
 					<div class="menu-list">
 						<!-- TODO: -->
 
-						<app-direct-message-list-item
-							*ngIf="currentUser"
-							(click)="setSelectedChannel(currentUser.uid)"
-							[currentUser]="currentUser"
-						>
-						</app-direct-message-list-item>
+						<!-- t -->
 
 						<app-direct-message-list-item
 							*ngFor="let dmChannel of directMessageChannels"
