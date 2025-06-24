@@ -1,8 +1,7 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { UserData } from "../../../interfaces/user.interface";
-import { ChatService } from "../../../services/chat.service";
-import { ChannelData } from "../../../interfaces/channel.interface";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, Input} from "@angular/core";
+import {UserData} from "../../../interfaces/user.interface";
+import {ChatService} from "../../../services/chat.service";
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -12,19 +11,18 @@ import { ChannelData } from "../../../interfaces/channel.interface";
 })
 export class DirectMessageListItemComponent {
 	@Input() chatPartner!: UserData;
-	@Input() currentUser!: UserData;
-	@Input() dmUserData!: UserData;
 
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
 
 	constructor(
 		private chatService: ChatService // private functionTriggerService: FunctionTriggerService, // private userService: UserService
-	) {}
+	) {
+	}
 
 	get isActive(): boolean {
-		// FIXME: Fix active state
-		if (this.chatPartner.uid) {
+		console.log(this.chatPartner);
+		if (this.chatPartner && this.chatPartner.uid) {
 			return this.chatPartner.uid === this.chatService.activeChat;
 		} else {
 			return false;

@@ -275,8 +275,19 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 					setTimeout(() => {
 						messageElement.classList.remove('highlight-message');
 					}, 3000);
+				} else {
+					setTimeout(() => {
+						const retryMessageElement = document.getElementById(`message-${result.messageId}`);
+						if (retryMessageElement) {
+							retryMessageElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+							retryMessageElement.classList.add('highlight-message');
+							setTimeout(() => {
+								retryMessageElement.classList.remove('highlight-message');
+							}, 3000);
+						}
+					}, 500);
 				}
-			}, 500);
+			}, 1000);
 		}
 	}
 

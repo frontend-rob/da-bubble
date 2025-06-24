@@ -1,5 +1,6 @@
 <div class="options-container">
-    <span (click)="addQuickReaction()">👍</span>
+		<span (click)="addQuickReactionCheckmark()">✅</span>
+    <span (click)="addQuickReactionThumbsUp()">👍</span>
     <img (click)="toggleEmojiModal()" class="reaction-btn" alt="reaction" height="24" ngSrc="/assets/img/chat/reaction.svg" width="24" />
     <img (click)="openThread()" *ngIf="!isThisAThreadMessage" alt="comment" height="19"
         ngSrc="/assets/img/chat/comment.svg" width="21" />

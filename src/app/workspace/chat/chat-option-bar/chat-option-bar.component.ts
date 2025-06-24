@@ -55,7 +55,11 @@ export class ChatOptionBarComponent {
 	deleteMessage() {
 	}
 
-	addQuickReaction() {
+	addQuickReactionThumbsUp() {
 		this.chosenEmoji.emit("\u{1F44D}");
+	}
+
+	addQuickReactionCheckmark() {
+		this.chosenEmoji.emit("\u{2705}");
 	}
 }

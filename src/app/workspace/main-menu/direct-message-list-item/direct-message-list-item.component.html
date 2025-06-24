@@ -1,20 +1,18 @@
-@if (chatPartner.photoURL) {
-	<div
-		(click)="setActiveChat(chatPartner.uid)"
-		[class.activate]="isActive"
-		class="menu-item"
-	>
-		<div class="avatar">
-			<img
-				[ngSrc]="chatPartner.photoURL"
-				alt="User profile picture"
-				fill="true"
-			/>
-			<div
-				[ngClass]="{ online: chatPartner.status, offline: !chatPartner.status }"
-				class="status"
-			></div>
-		</div>
-		<div>{{ chatPartner.userName }}</div>
+<div
+	(click)="chatPartner && setActiveChat(chatPartner.uid)"
+	[class.activate]="isActive"
+	class="menu-item"
+>
+	<div class="avatar">
+		<img
+			[ngSrc]="chatPartner?.photoURL || '/assets/img/avatars/av-00.svg'"
+			alt="User profile picture"
+			fill="true"
+		/>
+		<div
+			[ngClass]="{ online: chatPartner?.status, offline: !chatPartner?.status }"
+			class="status"
+		></div>
 	</div>
-}
+	<div>{{ chatPartner?.userName || 'Unknown User' }}</div>
+</div>

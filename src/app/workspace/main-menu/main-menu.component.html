@@ -4,21 +4,21 @@
 			<div class="desktop-header">
 				<div class="logo-container">
 					<img
-						ngSrc="assets/img/main-menu/logo.svg"
 						alt="logo"
-						width="60"
 						height="60"
+						ngSrc="assets/img/main-menu/logo.svg"
+						width="60"
 					/>
 					<h1>Devspace</h1>
 				</div>
 
 				<div class="add-new-channel-btn">
 					<img
-						ngSrc="assets/img/main-menu/edit_square.svg"
-						alt="edit square"
-						width="24"
-						height="24"
 						(click)="handleNewMessage(true)"
+						alt="edit square"
+						height="24"
+						ngSrc="assets/img/main-menu/edit_square.svg"
+						width="24"
 					/>
 				</div>
 			</div>
@@ -52,21 +52,21 @@
 					>
 						<div>
 							<img
-								class="dropdown-img"
-								ngSrc="assets/img/main-menu/arrow_close_dropdown.svg"
 								alt="arrow close dropdown"
-								width="30"
+								class="dropdown-img"
 								height="30"
+								ngSrc="assets/img/main-menu/arrow_close_dropdown.svg"
+								width="30"
 							/>
 						</div>
 						<div>
 							<div>
 								<img
-									class="channel-img"
-									ngSrc="assets/img/main-menu/channels.svg"
 									alt="channels"
-									width="24"
+									class="channel-img"
 									height="24"
+									ngSrc="assets/img/main-menu/channels.svg"
+									width="24"
 								/>
 							</div>
 							<h2>Channels</h2>
@@ -75,10 +75,10 @@
 
 					<div (click)="toggleModal()" class="button">
 						<img
-							ngSrc="assets/img/main-menu/add.svg"
 							alt="add"
-							width="14"
 							height="14"
+							ngSrc="assets/img/main-menu/add.svg"
+							width="14"
 						/>
 					</div>
 				</header>
@@ -87,8 +87,8 @@
 					<div class="menu-list">
 						<!-- TODO: -->
 						<app-channel-list-item
-							*ngFor="let channel of channels"
 							(click)="setSelectedChannel(channel.channelId)"
+							*ngFor="let channel of channels"
 							[channel]="channel"
 							class="channel-list-item"
 						>
@@ -96,10 +96,10 @@
 						<div (click)="toggleModal()" class="add-channel-btn">
 							<div>
 								<img
-									ngSrc="assets/img/main-menu/add_circle.svg"
 									alt="add circle"
-									width="24"
 									height="24"
+									ngSrc="assets/img/main-menu/add_circle.svg"
+									width="24"
 								/>
 							</div>
 							<h3>New Channel</h3>
@@ -142,13 +142,17 @@
 					<div class="menu-list">
 						<!-- TODO: -->
 
-						<!-- t -->
+						<app-direct-message-list-item
+							(click)="setSelectedChannel(currentUser.uid)"
+							*ngIf="currentUser"
+							[chatPartner]="currentUser"
+						>
+						</app-direct-message-list-item>
 
 						<app-direct-message-list-item
-							*ngFor="let dmChannel of directMessageChannels"
 							(click)="setSelectedChannel(dmChannel.channelId)"
+							*ngFor="let dmChannel of directMessageChannels"
 							[chatPartner]="getDirectMessageUserData(dmChannel)"
-							[currentUser]="currentUser"
 						>
 						</app-direct-message-list-item>
 
