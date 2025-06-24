@@ -373,7 +373,7 @@
 	@if (this.chatService.selectedChannel.channelType.directMessage &&
 	messages.length === 0) {
 	<main class="dm-empty-state">
-		<!-- @if (this.chatService.selectedChannel.channelMembers[1].uid !==
+ 	<!-- @if (this.chatService.selectedChannel.channelMembers[1].uid !==
 		currentUser.uid) {
 
 		<div class="direct-message-contact">
@@ -395,11 +395,11 @@
 
 		} @else { -->
 
-		@if(this.chatService.selectedChannel.channelId !== currentUser.uid){
+		@if (this.chatService.selectedChannel.channelId !== currentUser.uid) {
 		<div class="direct-message-contact">
 			<img
 				ngSrc="{{
-					this.chatService.selectedChannel.
+					this.chatService.selectedChannel.channelMembers[0].photoURL
 				}}"
 				alt="photoURL"
 				height="100"
@@ -412,7 +412,7 @@
 			This space is just for you. Make notes, list your to-dos or keep links and
 			files to hand. You can also discuss things with yourself here.
 		</span>
-		}else{
+		} @else {
 
 		<div
 			(click)="
@@ -425,26 +425,23 @@
 		>
 			<img
 				ngSrc="{{
-					this.chatService.selectedChannel.channelMembers[0].photoURL
+					chatService.selectedChannel.channelMembers[0].photoURL
 				}}"
 				alt="photoURL"
 				height="100"
 				width="100"
 			/>
-			<h2>{{ this.chatService.selectedChannel.channelMembers[0].userName }}</h2>
+			<h2>{{ chatService.selectedChannel.channelMembers[0].userName }}</h2>
 		</div>
 		<span class="direct-message-info">
 			This conversation only takes place between
 			<span
 				class="chat-partner"
-				(click)="
-					this.handleProfileCard(
-						true,
-						this.chatService.selectedChannel.channelMembers[0]
+				(click)="handleProfileCard(true, chatService.selectedChannel.channelMembers[0]
 					)
 				"
 			>
-				&#64;{{ this.chatService.selectedChannel.channelMembers[0].userName }}
+				&#64;{{ chatService.selectedChannel.channelMembers[0].userName }}
 			</span>
 			and you.
 		</span>
