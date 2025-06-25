@@ -1,6 +1,5 @@
-import {UserData} from './user.interface';
-import {Timestamp} from 'firebase/firestore';
-
+import { UserData } from "./user.interface";
+import { Timestamp } from "firebase/firestore";
 
 export interface Reaction {
 	emoji: string;
@@ -22,8 +21,6 @@ export interface Message {
 	threadAnswerCount?: number;
 }
 
-
 export interface IdtMessages extends Message {
 	messageId?: string;
 }
-

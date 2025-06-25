@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-	providedIn: 'root'
+	providedIn: "root",
 })
 export class HelperService {
 	getRandomNumber(min: number = 0, max: number = 1000): number {
@@ -9,10 +9,10 @@ export class HelperService {
 	}
 
 	getBerlinTime24h(): string {
-		const berlinFormatter = new Intl.DateTimeFormat('de-DE', {
-			timeZone: 'Europe/Berlin',
-			hour: '2-digit',
-			minute: '2-digit',
+		const berlinFormatter = new Intl.DateTimeFormat("en-US", {
+			// timeZone: "Europe/Berlin",
+			hour: "2-digit",
+			minute: "2-digit",
 			hour12: false,
 		});
 
@@ -20,11 +20,11 @@ export class HelperService {
 	}
 
 	getBerlinDateFormatted(): string {
-		const berlinDate = new Date().toLocaleDateString('de-DE', {
-			timeZone: 'Europe/Berlin',
-			weekday: 'long',
-			day: '2-digit',
-			month: 'long'
+		const berlinDate = new Date().toLocaleDateString("en-US", {
+			// timeZone: "Europe/Berlin",
+			weekday: "long",
+			day: "2-digit",
+			month: "long",
 		});
 
 		return berlinDate.charAt(0).toUpperCase() + berlinDate.slice(1);

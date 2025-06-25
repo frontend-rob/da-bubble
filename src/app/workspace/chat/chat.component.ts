@@ -58,37 +58,35 @@ export class ChatComponent implements OnInit, OnDestroy {
 	allUserData!: UserData[];
 	selectedUsersToAdd: UserData[] = [];
 
-	today = new Date();
-	daysOfWeek = [
-		"Sonntag",
-		"Montag",
-		"Dienstag",
-		"Mittwoch",
-		"Donnerstag",
-		"Freitag",
-		"Samstag",
-	];
-	months = [
-		"Januar",
-		"Februar",
-		"März",
-		"April",
-		"Mai",
-		"Juni",
-		"Juli",
-		"August",
-		"September",
-		"Oktober",
-		"November",
-		"Dezember",
-	];
-	dayOfWeek = this.daysOfWeek[this.today.getDay()];
-	dayOfMonth = this.today.getDate();
-	month = this.months[this.today.getMonth()];
-	formattedDate = this.dayOfWeek + ", " + this.dayOfMonth + ". " + this.month;
-
 	searchText: string = "";
 	filteredUsers: UserData[] = [];
+
+	daysOfWeek = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	];
+	months = [
+		"January",
+		"February",
+		"March",
+		"April",
+		"May",
+		"June",
+		"July",
+		"August",
+		"September",
+		"October",
+		"November",
+		"December",
+	];
+	formattedDate = `${this.daysOfWeek[new Date().getDay()]}, ${
+		this.months[new Date().getMonth()]
+	} ${new Date().getDate()}`;
 
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
@@ -107,6 +105,35 @@ export class ChatComponent implements OnInit, OnDestroy {
 	get isProfileCardOpen() {
 		return this.chatService.isProfileCardOpen;
 	}
+
+	// getFormattedDate(date: Date) {
+	// 	const daysOfWeek = [
+	// 		"Sunday",
+	// 		"Monday",
+	// 		"Tuesday",
+	// 		"Wednesday",
+	// 		"Thursday",
+	// 		"Friday",
+	// 		"Saturday",
+	// 	];
+	// 	const months = [
+	// 		"January",
+	// 		"February",
+	// 		"March",
+	// 		"April",
+	// 		"May",
+	// 		"June",
+	// 		"July",
+	// 		"August",
+	// 		"September",
+	// 		"October",
+	// 		"November",
+	// 		"December",
+	// 	];
+	// 	return `${daysOfWeek[date.getDay()]}, ${date.getDate()}. ${
+	// 		months[date.getMonth()]
+	// 	}`;
+	// }
 
 	handleProfileCard(bool: boolean, person: UserData) {
 		if (this.currentUser.uid !== person.uid) {
