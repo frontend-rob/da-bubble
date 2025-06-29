@@ -105,12 +105,13 @@
 .replies-container {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .reactions-wrapper {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 20px;
 }
 
@@ -122,8 +123,10 @@
 
 .emoji-btn {
     position: relative;
-    height: 24px;
-    width: 24px;
+    height: 28px;
+    width: 28px;
+    margin: 2px;
+    flex-shrink: 0;
     background-image: url("/assets/img/shared/message-input-field/emoji.svg");
     background-position: center;
     background-repeat: no-repeat;
@@ -183,6 +186,7 @@
     border-radius: 12px;
     border: 1px solid variables.$border;
     padding: 2px 8px;
+    height: 32px;
     cursor: pointer;
     color: variables.$text-secondary;
 
