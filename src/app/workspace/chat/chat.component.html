@@ -115,8 +115,8 @@
 									/>
 									<div
 										[ngClass]="{
-											online: member.status,
-											offline: member.status
+											online: member.status === true,
+											offline: member.status === false
 										}"
 										class="status"
 									></div>
