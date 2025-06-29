@@ -174,7 +174,8 @@
     gap: 8px;
 }
 
-.reaction {
+.reaction,
+.more-reactions-btn {
     position: relative;
     display: flex;
     align-items: center;
@@ -183,6 +184,7 @@
     border: 1px solid variables.$border;
     padding: 2px 8px;
     cursor: pointer;
+    color: variables.$text-secondary;
 
     .emoji {
         margin-right: 4px;

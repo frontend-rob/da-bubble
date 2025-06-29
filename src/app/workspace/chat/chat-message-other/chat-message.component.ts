@@ -50,6 +50,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
     hovered: boolean = false;
     isEmojiModalOpen: boolean = false;
     isOptionsMenuOpen: boolean = false;
+    showAllReactions: boolean = false;
 
     @ViewChild(ChatOptionBarComponent) optionBar!: ChatOptionBarComponent;
 

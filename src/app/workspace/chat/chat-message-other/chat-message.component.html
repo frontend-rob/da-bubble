@@ -1,7 +1,8 @@
 <div (mouseenter)="toggleHovered(true)" (mouseleave)="toggleHovered(false)" [id]="'message-' + message.messageId"
     [ngClass]="{ 'own-message': isOwnMessage, 'other-message': !isOwnMessage, 'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage }"
     class="message-container">
-    <img [ngSrc]="message.sender.photoURL" alt="/assets/img/avatars/av-04.svg" height="70" width="70" />
+    <img [ngSrc]="message.sender.photoURL" (click)="handleProfileCard(true, message.sender)"
+        alt="/assets/img/avatars/av-04.svg" height="70" width="70"/>
     <div class="message-content-container">
         <div class="author-container">
             <span (click)="handleProfileCard(true, message.sender)" class="author-name">
@@ -27,7 +28,7 @@
                 class="reactions-wrapper">
                 <button (click)="toggleEmojiModal()" class="emoji-btn"></button>
                 <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
-                    <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions"
+                    <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions | slice:0:5"
                         [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
                         <span class="emoji">{{ group.emoji }}</span>
                         <span class="count">{{ group.count }}</span>
@@ -37,6 +38,21 @@
                             <span>reacted</span>
                         </div>
                     </div>
+                    <div *ngIf="showAllReactions" class="reactions-container">
+                        <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions | slice:5"
+                            [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
+                            <span class="emoji">{{ group.emoji }}</span>
+                            <span class="count">{{ group.count }}</span>
+                            <div class="reaction-tooltip">
+                                <span class="tooltip-emoji">{{ group.emoji }}</span>
+                                <span *ngIf="group.users.length > 0">{{ group.users.join(', ') }}</span>
+                                <span>reacted</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="groupedReactions.length > 5" (click)="showAllReactions = !showAllReactions" class="more-reactions-btn">
+                        {{ showAllReactions ? 'show less' : (groupedReactions.length - 5) + ' more' }}
+                    </button>
                 </div>
             </div>
             <div class="answer-wrapper">
