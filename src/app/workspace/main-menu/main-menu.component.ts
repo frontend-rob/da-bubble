@@ -212,7 +212,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				this.handleChannelsUpdate(updatedChannels);
 				this.handleUsersUpdate(users);
 				this.updateAvailableUsers();
-				this.selectFirstChannelIfNoneActive();
+				this.setActiveChat(this.channels[0].channelId);
+				this.setSelectedChannel(this.channels[0].channelId);
 			});
 	}
 
@@ -283,21 +284,5 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 					: member;
 			}),
 		}));
-	}
-
-	private selectFirstChannelIfNoneActive() {
-		//TODO:
-		// - Add direct message
-		// - If there no channel or dm, show the hole chat with new message header
-
-		if (!this.chatService.activeChat && this.channels.length > 0) {
-			const firstChannel = this.channels[0];
-			this.setActiveChat(firstChannel.channelId);
-			this.chatService.selectedChannel = firstChannel;
-		}
-	}
-
-	test(channel: ChannelData) {
-		console.log(channel);
 	}
 }
