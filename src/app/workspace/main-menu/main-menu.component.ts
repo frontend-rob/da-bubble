@@ -91,6 +91,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		const otherUser = dmChannel.channelMembers.find(
 			(member) => member.uid !== this.currentUser.uid
 		);
+
 		return otherUser || this.currentUser;
 	}
 
@@ -99,6 +100,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	}
 
 	setSelectedChannel(id: string) {
+		console.log("SELECTED CHANNEL ID:", id);
 		const selectedChannel = this.findChannelById(id);
 		if (selectedChannel) {
 			this.functionTriggerService.callSelectChannel(selectedChannel);

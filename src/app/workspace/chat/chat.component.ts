@@ -59,6 +59,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	selectedUsersToAdd: UserData[] = [];
 
 	searchText: string = "";
+	isSearchedUser!: UserData;
 	filteredUsers: UserData[] = [];
 
 	daysOfWeek = [
@@ -105,35 +106,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 	get isProfileCardOpen() {
 		return this.chatService.isProfileCardOpen;
 	}
-
-	// getFormattedDate(date: Date) {
-	// 	const daysOfWeek = [
-	// 		"Sunday",
-	// 		"Monday",
-	// 		"Tuesday",
-	// 		"Wednesday",
-	// 		"Thursday",
-	// 		"Friday",
-	// 		"Saturday",
-	// 	];
-	// 	const months = [
-	// 		"January",
-	// 		"February",
-	// 		"March",
-	// 		"April",
-	// 		"May",
-	// 		"June",
-	// 		"July",
-	// 		"August",
-	// 		"September",
-	// 		"October",
-	// 		"November",
-	// 		"December",
-	// 	];
-	// 	return `${daysOfWeek[date.getDay()]}, ${date.getDate()}. ${
-	// 		months[date.getMonth()]
-	// 	}`;
-	// }
 
 	handleProfileCard(bool: boolean, person: UserData) {
 		if (this.currentUser.uid !== person.uid) {
@@ -417,24 +389,53 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	submitNewMessageInput() {
-		const channel = this.channels.find(
+		const isChannel = this.channels.find(
 			(channel) => this.newMessageInputData === "#" + channel.channelName
 		);
-
-		const directMessage = this.channels.find(
+		const isDirectMessage = this.channels.find(
 			(channel) => this.newMessageInputData === "@" + channel.channelName
 		);
+		const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		const isEmailAdress = emailPattern.test(this.newMessageInputData);
 
-		if (channel && channel.channelType.channel) {
-			this.chatService.setActiveChat(channel.channelId);
-			this.chatService.selectedChannel = channel;
+		if (isChannel && isChannel.channelType.channel && !isEmailAdress) {
+			this.chatService.setActiveChat(isChannel.channelId);
+			this.chatService.selectedChannel = isChannel;
 			this.chatService.handleNewMessage(false);
 			this.newMessageInputData = "";
-		} else if (directMessage && directMessage.channelType.directMessage) {
-			this.chatService.setActiveChat(directMessage.channelId);
-			this.chatService.selectedChannel = directMessage;
+		} else if (
+			isDirectMessage &&
+			isDirectMessage.channelType.directMessage &&
+			!isEmailAdress
+		) {
+			this.chatService.setActiveChat(isDirectMessage.channelId);
+			this.chatService.selectedChannel = isDirectMessage;
 			this.chatService.handleNewMessage(false);
 			this.newMessageInputData = "";
+		} else if (isEmailAdress && !isDirectMessage && !isChannel) {
+			for (const channel of this.channels) {
+				for (const member of channel.channelMembers) {
+					if (member.email === this.newMessageInputData) {
+						this.isSearchedUser = member;
+
+						if (
+							this.findDirectMessage(
+								channel.channelMembers,
+								this.isSearchedUser.uid,
+								this.currentUser.uid
+							) &&
+							channel.channelType.directMessage
+						) {
+							// console.log("DM CHANNEL: ", channel);
+							// TEST EMAIL: localhost.crested629@passmail.net
+						}
+						// Set selected channel
+						this.chatService.selectedChannel = channel;
+						// Set active chat
+						this.chatService.setActiveChat(this.isSearchedUser.uid);
+					}
+				}
+			}
 		} else {
 			if (this.newMessageInputData[0] === "#") {
 				this.addNewChannel(
@@ -450,12 +451,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.chatService.handleNewMessage(false);
 			this.newMessageInputData = "";
 		}
+	}
 
-		if (
-			this.newMessageInputData[0] === "@" &&
-			this.newMessageInputData.length > 1
-		) {
-			console.log("New MessageInput:", "@");
-		}
+	findDirectMessage(
+		arr: UserData[],
+		userId1: string,
+		userId2: string
+	): boolean {
+		const hasUser1 = arr.some((user) => user.uid === userId1);
+		const hasUser2 = arr.some((user) => user.uid === userId2);
+		return hasUser1 && hasUser2;
 	}
 }

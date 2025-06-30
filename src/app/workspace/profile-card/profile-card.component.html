@@ -3,12 +3,22 @@
 		<header>
 			<h2>Profile</h2>
 			<div (click)="closeProfileCard()" class="button">
-				<img alt="close" height="14" ngSrc="/assets/img/profile-card/close.svg" width="14"/>
+				<img
+					alt="close"
+					height="14"
+					ngSrc="/assets/img/profile-card/close.svg"
+					width="14"
+				/>
 			</div>
 		</header>
 
 		<div class="profile-img-container">
-			<img [ngSrc]="currentPerson.photoURL" alt="photoURL" height="200" width="200"/>
+			<img
+				[ngSrc]="currentPerson.photoURL"
+				alt="photoURL"
+				height="200"
+				width="200"
+			/>
 		</div>
 
 		<div>
@@ -16,21 +26,36 @@
 				<div>
 					<h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
 
-					<button *ngIf="
-                            isUserProfileCardOpen &&
-                            currentPerson.role.user
-                        ">
-						Bearbeiten
+					<button *ngIf="isUserProfileCardOpen && currentPerson.role.user">
+						Edit
 					</button>
 				</div>
 				<div class="online-status">
-					<div [ngClass]="{ online: currentPerson.status, offline: !currentPerson.status }"
-							 class="status-icon"></div>
+					<div
+						[ngClass]="{
+							online: currentPerson.status,
+							offline: !currentPerson.status
+						}"
+						class="status-icon"
+					></div>
 					@if (currentPerson.status) {
-						<p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">Aktiv</p>
+					<p
+						[ngClass]="{
+							onlineText: currentPerson.status,
+							offlineText: !currentPerson.status
+						}"
+					>
+						Aktiv
+					</p>
 					} @else {
-						<p [ngClass]="{onlineText: currentPerson.status, offlineText: !currentPerson.status}">
-							Abwesend</p>
+					<p
+						[ngClass]="{
+							onlineText: currentPerson.status,
+							offlineText: !currentPerson.status
+						}"
+					>
+						Abwesend
+					</p>
 					}
 				</div>
 			</div>
@@ -38,17 +63,27 @@
 
 		<div class="email-container">
 			<div>
-				<img alt="letter" height="20" ngSrc="/assets/img/profile-card/letter.svg" width="26"/>
+				<img
+					alt="letter"
+					height="20"
+					ngSrc="/assets/img/profile-card/letter.svg"
+					width="26"
+				/>
 				<div>Email-Address</div>
 			</div>
 			<a *ngIf="currentPerson" href="mailto: {{ currentPerson.email }}">{{
-					currentPerson.email
-				}}</a>
+				currentPerson.email
+			}}</a>
 		</div>
 
 		<div *ngIf="isProfileCardOpen" class="button-container">
 			<button>
-				<img alt="bubble" height="20" ngSrc="/assets/img/profile-card/bubble.svg" width="20"/>Message
+				<img
+					alt="bubble"
+					height="20"
+					ngSrc="/assets/img/profile-card/bubble.svg"
+					width="20"
+				/>Message
 			</button>
 		</div>
 	</div>
