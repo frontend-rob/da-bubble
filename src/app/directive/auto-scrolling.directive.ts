@@ -6,6 +6,7 @@ import {AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges} f
 })
 export class AutoScrollingDirective implements AfterViewInit, OnChanges {
 	@Input() trigger: any;
+
 	constructor(private el: ElementRef) {
 	}
 

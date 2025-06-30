@@ -1,10 +1,10 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, take, firstValueFrom } from 'rxjs';
-import { ChatService } from './chat.service';
-import { UserService } from './user.service';
-import { SearchResult } from '../interfaces/search-result.interface';
-import { ChannelData } from '../interfaces/channel.interface';
-import { UserData } from '../interfaces/user.interface';
+import {inject, Injectable} from '@angular/core';
+import {BehaviorSubject, firstValueFrom, take} from 'rxjs';
+import {ChatService} from './chat.service';
+import {UserService} from './user.service';
+import {SearchResult} from '../interfaces/search-result.interface';
+import {ChannelData} from '../interfaces/channel.interface';
+import {UserData} from '../interfaces/user.interface';
 
 export interface CategorizedSearchResults {
 	messages: SearchResult[];

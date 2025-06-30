@@ -10,7 +10,7 @@
 		</div>
 	</div>
 	<main>
-		<div class="messages-container" appAutoScroll [trigger]="messages">
+		<div [trigger]="messages" appAutoScroll class="messages-container">
 			<ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
 				<ng-container *ngIf="shouldShowDate(messages, i)">
 					<div class="message-time-separator">
@@ -18,13 +18,14 @@
 					</div>
 				</ng-container>
 
-				<app-chat-message-other style="width: 100%" [isThisAThreadMessage]="true" [message]="message"></app-chat-message-other>
+				<app-chat-message-other [isThisAThreadMessage]="true" [message]="message"
+																style="width: 100%"></app-chat-message-other>
 			</ng-container>
 		</div>
 
 		<!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
-		<app-message-input-field style="width: 100%" (send)="sendThreadMessage($event)"
-														 [placeholderText]="'Antworten...'"
-														 class="message-input-field"></app-message-input-field>
+		<app-message-input-field (send)="sendThreadMessage($event)" [placeholderText]="'Antworten...'"
+														 class="message-input-field"
+														 style="width: 100%"></app-message-input-field>
 	</main>
 </div>
