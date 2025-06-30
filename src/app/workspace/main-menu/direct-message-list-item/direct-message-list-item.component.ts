@@ -1,7 +1,7 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
-import { UserData } from "../../../interfaces/user.interface";
-import { ChatService } from "../../../services/chat.service";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, Input} from "@angular/core";
+import {UserData} from "../../../interfaces/user.interface";
+import {ChatService} from "../../../services/chat.service";
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -17,7 +17,8 @@ export class DirectMessageListItemComponent {
 
 	constructor(
 		private chatService: ChatService // private functionTriggerService: FunctionTriggerService, // private userService: UserService
-	) {}
+	) {
+	}
 
 	get isActive(): boolean {
 		// console.log(this.chatPartner);

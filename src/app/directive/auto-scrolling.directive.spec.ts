@@ -1,5 +1,5 @@
-import { AutoScrollingDirective } from './auto-scrolling.directive';
-import { ElementRef } from '@angular/core';
+import {AutoScrollingDirective} from './auto-scrolling.directive';
+import {ElementRef} from '@angular/core';
 
 describe('AutoScrollingDirective', () => {
 	it('should create an instance', () => {

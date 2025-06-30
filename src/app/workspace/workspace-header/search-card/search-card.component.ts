@@ -1,25 +1,15 @@
-import {
-	Component,
-	ElementRef,
-	inject,
-	OnDestroy,
-	OnInit,
-	ViewChild,
-} from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import {
-	CategorizedSearchResults,
-	SearchService,
-} from "../../../services/search.service";
-import { ChatService } from "../../../services/chat.service";
-import { UserService } from "../../../services/user.service";
-import { SearchResult } from "../../../interfaces/search-result.interface";
-import { firstValueFrom, Subject, takeUntil } from "rxjs";
-import { UserData, userRole } from "../../../interfaces/user.interface";
-import { Timestamp } from "@angular/fire/firestore";
-import { FunctionTriggerService } from "../../../services/function-trigger.service";
-import { ChannelData } from "../../../interfaces/channel.interface";
+import {Component, ElementRef, inject, OnDestroy, OnInit, ViewChild,} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {CategorizedSearchResults, SearchService,} from "../../../services/search.service";
+import {ChatService} from "../../../services/chat.service";
+import {UserService} from "../../../services/user.service";
+import {SearchResult} from "../../../interfaces/search-result.interface";
+import {firstValueFrom, Subject, takeUntil} from "rxjs";
+import {UserData, userRole} from "../../../interfaces/user.interface";
+import {Timestamp} from "@angular/fire/firestore";
+import {FunctionTriggerService} from "../../../services/function-trigger.service";
+import {ChannelData} from "../../../interfaces/channel.interface";
 
 @Component({
 	selector: "app-search-card",
@@ -38,7 +28,7 @@ import { ChannelData } from "../../../interfaces/channel.interface";
 	styleUrls: ["./search-card.component.scss"],
 })
 export class SearchCardComponent implements OnInit, OnDestroy {
-	@ViewChild("searchInput", { static: false })
+	@ViewChild("searchInput", {static: false})
 	searchInput!: ElementRef<HTMLInputElement>;
 	searchTerm = "";
 	searchResults: CategorizedSearchResults = {

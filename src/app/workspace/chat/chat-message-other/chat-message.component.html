@@ -1,8 +1,8 @@
 <div (mouseenter)="toggleHovered(true)" (mouseleave)="toggleHovered(false)" [id]="'message-' + message.messageId"
     [ngClass]="{ 'own-message': isOwnMessage, 'other-message': !isOwnMessage, 'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage }"
     class="message-container">
-    <img [ngSrc]="message.sender.photoURL" (click)="handleProfileCard(true, message.sender)"
-        alt="/assets/img/avatars/av-04.svg" height="70" width="70"/>
+    <img (click)="handleProfileCard(true, message.sender)" [ngSrc]="message.sender.photoURL"
+        alt="/assets/img/avatars/av-04.svg" height="70" width="70" />
     <div class="message-content-container">
         <div class="author-container">
             <span (click)="handleProfileCard(true, message.sender)" class="author-name">
@@ -28,35 +28,43 @@
                 class="reactions-wrapper">
                 <button (click)="toggleEmojiModal()" class="emoji-btn"></button>
                 <div *ngIf="message.reactions && message.reactions.length > 0" class="reactions-container">
-                    <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions | slice:0:5"
+                    <div (click)="handleEmojiReaction(group.emoji, message)"
+                        *ngFor="let group of groupedReactions | slice:0:5"
                         [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
                         <span class="emoji">{{ group.emoji }}</span>
                         <span class="count">{{ group.count }}</span>
                         <div class="reaction-tooltip">
                             <span class="tooltip-emoji">{{ group.emoji }}</span>
-                            <span *ngIf="group.users.length > 0">{{ group.users.join(', ') }}</span>
+                            <span *ngIf="group.users.length > 0" class="user-list-column">
+                                <ng-container *ngFor="let user of group.users">
+                                    <span>{{ user }}</span>
+                                </ng-container>
+                            </span>
                             <span>reacted</span>
                         </div>
                     </div>
                     <div *ngIf="showAllReactions" class="reactions-container">
-                        <div (click)="handleEmojiReaction(group.emoji, message)" *ngFor="let group of groupedReactions | slice:5"
+                        <div (click)="handleEmojiReaction(group.emoji, message)"
+                            *ngFor="let group of groupedReactions | slice:5"
                             [class.user-reacted]="hasUserReacted(group.emoji)" class="reaction">
                             <span class="emoji">{{ group.emoji }}</span>
                             <span class="count">{{ group.count }}</span>
                             <div class="reaction-tooltip">
                                 <span class="tooltip-emoji">{{ group.emoji }}</span>
-                                <span *ngIf="group.users.length > 0">{{ group.users.join(', ') }}</span>
+                                <span *ngIf="group.users.length > 0" class="user-list-column">{{ group.users.join(', ')
+                                    }}</span>
                                 <span>reacted</span>
                             </div>
                         </div>
                     </div>
-                    <button *ngIf="groupedReactions.length > 5" (click)="showAllReactions = !showAllReactions" class="more-reactions-btn">
+                    <button (click)="showAllReactions = !showAllReactions" *ngIf="groupedReactions.length > 5"
+                        class="more-reactions-btn">
                         {{ showAllReactions ? 'show less' : (groupedReactions.length - 5) + ' more' }}
                     </button>
                 </div>
             </div>
             <div class="answer-wrapper">
-                <span *ngIf="message.hasThread" (click)="openThread()" class="replies">
+                <span (click)="openThread()" *ngIf="message.hasThread" class="replies">
                     {{ message.threadAnswerCount }}
                     <ng-container *ngIf="message.threadAnswerCount === 1; else multipleAnswers">Answer</ng-container>
                     <ng-template #multipleAnswers>Answers</ng-template>
@@ -78,16 +86,16 @@
     </div>
 
     <!-- <div class="chat-message-other">
-        <div class="message-header">
-            <span class="sender"></span>
-            <span class="timestamp"></span>
-        </div>
-    </div> -->
+			<div class="message-header">
+					<span class="sender"></span>
+					<span class="timestamp"></span>
+			</div>
+	</div> -->
 
     <div *ngIf="hovered">
         <app-chat-option-bar (chosenEmoji)="handleEmojiReaction($event, message)"
             (editMessage)="startEditingMessage($event)" [emojiList]="emojiList" [isOwnMessage]="isOwnMessage"
-            [message]="message" [isThisAThreadMessage]="isThisAThreadMessage"
+            [isThisAThreadMessage]="isThisAThreadMessage" [message]="message"
             [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}">
         </app-chat-option-bar>
     </div>
