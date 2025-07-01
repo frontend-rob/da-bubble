@@ -1,7 +1,6 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Component, inject, OnDestroy, OnInit} from "@angular/core";
 import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
 import {ChannelData} from "../../interfaces/channel.interface";
 import {ChatService} from "../../services/chat.service";
 import {HelperService} from "../../services/helper.service";
@@ -17,7 +16,6 @@ import {combineLatest, Subject, takeUntil} from "rxjs";
 	imports: [
 		CommonModule,
 		ChannelListItemComponent,
-		DirectMessageListItemComponent,
 		FormsModule,
 		NgOptimizedImage,
 	],
@@ -38,6 +36,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	directMessageChannels: ChannelData[] = [];
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
+	selfChannel: ChannelData | null = null; // Kanal für Selbst-Chat
+
+	// Combined list for direct messages display
+	combinedDirectMessagesList: { user: UserData; type: 'current' | 'channel' | 'other'; channelId?: string }[] = [];
 
 	channelFormData = {
 		name: "",
@@ -75,25 +77,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		this.showChannelList = !this.showChannelList;
 	}
 
-	toggleDirectMessageList() {
-		this.showUserList = !this.showUserList;
-	}
-
 	toggleModal() {
 		this.isModalOpen = !this.isModalOpen;
 	}
 
-	getAvailableUsersForDM(): UserData[] {
-		return this.availableUsersForDM;
-	}
-
-	getDirectMessageUserData(dmChannel: ChannelData): UserData {
-		const otherUser = dmChannel.channelMembers.find(
-			(member) => member.uid !== this.currentUser.uid
-		);
-
-		return otherUser || this.currentUser;
-	}
 
 	setActiveChat(id: string) {
 		this.chatService.setActiveChat(id);
@@ -104,45 +91,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		const selectedChannel = this.findChannelById(id);
 		if (selectedChannel) {
 			this.functionTriggerService.callSelectChannel(selectedChannel);
-		}
-	}
-
-	async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
-		try {
-			if (typeof data === "string") {
-				this.setActiveChat(data);
-				return;
-			}
-
-			const clickedUser = data as UserData;
-
-			if (clickedUser.role?.guest) {
-				console.warn("Cannot create DM with guest user");
-				return;
-			}
-
-			let dmChannel = await this.chatService.findDirectMessageChannel(
-				this.currentUser,
-				clickedUser
-			);
-
-			if (!dmChannel) {
-				dmChannel = await this.chatService.createDirectMessageChannel(
-					this.currentUser,
-					clickedUser
-				);
-				this.directMessageChannels.push(dmChannel);
-				this.updateAvailableUsers();
-			}
-
-			this.chatService.selectedChannel = dmChannel;
-			this.chatService.setActiveChat(dmChannel.channelId);
-			this.functionTriggerService.callSelectChannel(dmChannel);
-		} catch (error) {
-			console.error(
-				"Error creating/finding direct message channel:",
-				error
-			);
 		}
 	}
 
@@ -213,9 +161,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 				this.handleChannelsUpdate(updatedChannels);
 				this.handleUsersUpdate(users);
-				this.updateAvailableUsers();
-				this.setActiveChat(this.channels[0].channelId);
-				this.setSelectedChannel(this.channels[0].channelId);
+
+				// Only set active chat and selected channel if channels array is not empty
+				if (this.channels.length > 0) {
+					this.setActiveChat(this.channels[0].channelId);
+					this.setSelectedChannel(this.channels[0].channelId);
+				}
 			});
 	}
 
@@ -232,7 +183,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 			if (isMember) {
 				if (channel.channelType?.directMessage) {
-					this.directMessageChannels.push(channel);
+					// Prüfe, ob es sich um einen Selbst-Chat handelt
+					const isSelfChannel = channel.channelMembers.length === 1 ||
+						(channel.channelMembers.length === 2 && 
+						 channel.channelMembers.every(m => m.uid === this.currentUser.uid));
+					
+					if (isSelfChannel) {
+						this.selfChannel = channel;
+					} else {
+						this.directMessageChannels.push(channel);
+					}
 				} else {
 					this.channels.push(channel);
 				}
@@ -248,25 +208,14 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		);
 	}
 
-	private updateAvailableUsers() {
-		this.availableUsersForDM = this.allUsers.filter((user) => {
-			if (!user) return false; // Zusätzliche Sicherheitsprüfung
-			return !this.directMessageChannels.some((dmChannel) =>
-				dmChannel.channelMembers.some(
-					(member) => member && member.uid === user.uid
-				)
-			);
-		});
-	}
 
 	private findChannelById(id: string): ChannelData | null {
-		return (
-			this.channels.find((channel) => channel.channelId === id) ||
-			this.directMessageChannels.find(
-				(channel) => channel.channelId === id
-			) ||
-			null
-		);
+		// Suche auch im Selbst-Chat-Kanal
+		if (this.selfChannel && this.selfChannel.channelId === id) {
+			return this.selfChannel;
+		}
+
+		return this.channels.find((channel) => channel.channelId === id) || null;
 	}
 
 	private updateChannelMembersStatus(

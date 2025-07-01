@@ -189,9 +189,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		}
 
 		switch (result.type) {
-			case "user":
-				this.openDirectMessage(result).then((r) => console.log(r));
-				break;
 			case "channels":
 				this.openChannel(result);
 				break;
@@ -234,50 +231,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
       totalResults: ${this.totalResults}
       hasResults: ${this.hasResults()}
     `;
-	}
-
-	private async openDirectMessage(result: SearchResult): Promise<void> {
-		if (!result.uid) return;
-
-		const currentUser = await firstValueFrom(
-			this.userService.currentUser$.pipe(takeUntil(this.destroy$))
-		);
-		if (!currentUser) return;
-
-		const targetUser: UserData = {
-			uid: result.uid,
-			userName: result.userName,
-			email: result.email || "",
-			photoURL: result.photoURL || "",
-			status: result.status,
-			createdAt: Timestamp.now(),
-			role: {
-				user: true,
-				admin: false,
-				moderator: false,
-				guest: false,
-			} as userRole,
-		};
-
-		try {
-			let dmChannel = await this.chatService.findDirectMessageChannel(
-				currentUser,
-				targetUser
-			);
-
-			if (!dmChannel) {
-				dmChannel = await this.chatService.createDirectMessageChannel(
-					currentUser,
-					targetUser
-				);
-			}
-
-			this.chatService.setActiveChat(dmChannel.channelId);
-
-			this.functionTriggerService.callSelectChannel(dmChannel);
-		} catch (error) {
-			console.error("Fehler beim Öffnen der Direct Message:", error);
-		}
 	}
 
 	private openChannel(result: SearchResult): void {
