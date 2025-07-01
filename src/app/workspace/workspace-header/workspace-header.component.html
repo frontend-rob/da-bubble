@@ -40,7 +40,11 @@
 	</div>
 </div>
 <!-- USER MENU -->
-<div *ngIf="isUserMenuOpen" class="user-menu">
+<div
+	*ngIf="isUserMenuOpen"
+	[ngStyle]="{ 'z-index': isUserProfileEdit ? 1 : 10 }"
+	class="user-menu"
+>
 	<button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +87,17 @@
 <!-- USER PROFILE CARD  -->
 <app-profile-card
 	*ngIf="isUserProfileCardOpen"
-	class="user-profile"
+	[ngStyle]="{ 'z-index': isUserProfileEdit ? 1 : 10 }"
 	[currentPerson]="currentPerson"
+	class="user-profile"
 ></app-profile-card>
 }
+
+<div
+	(click)="handleUserProfileEdit(false)"
+	class="user-profile-edit-bg"
+	*ngIf="isUserProfileEdit"
+>
+	<app-avatars></app-avatars>
+</div>
+<!-- - Set modalBG -->
