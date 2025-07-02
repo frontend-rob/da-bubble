@@ -3,11 +3,8 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {CategorizedSearchResults, SearchService,} from "../../../services/search.service";
 import {ChatService} from "../../../services/chat.service";
-import {UserService} from "../../../services/user.service";
 import {SearchResult} from "../../../interfaces/search-result.interface";
-import {firstValueFrom, Subject, takeUntil} from "rxjs";
-import {UserData, userRole} from "../../../interfaces/user.interface";
-import {Timestamp} from "@angular/fire/firestore";
+import {Subject, takeUntil} from "rxjs";
 import {FunctionTriggerService} from "../../../services/function-trigger.service";
 import {ChannelData} from "../../../interfaces/channel.interface";
 
@@ -16,12 +13,6 @@ import {ChannelData} from "../../../interfaces/channel.interface";
 	imports: [
 		CommonModule,
 		FormsModule,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
-		NgOptimizedImage,
 		NgOptimizedImage,
 	],
 	templateUrl: "./search-card.component.html",
@@ -44,7 +35,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	totalResults = 0;
 	private searchService = inject(SearchService);
 	private chatService = inject(ChatService);
-	private userService = inject(UserService);
 	private functionTriggerService = inject(FunctionTriggerService);
 	private destroy$ = new Subject<void>();
 	private blurTimeout: any;
