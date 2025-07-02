@@ -89,8 +89,9 @@ export class AvatarsComponent {
 	}
 
 	updateAvatar(path: string): void {
-		this.currentUser.photoURL = path;
+		// this.currentUser.photoURL = path;
 		// TODO: Update avatar in firebase
+		this.userService.updateUserAvatar(this.currentUser.uid, path);
 	}
 
 	/**

@@ -1,7 +1,7 @@
-@use '../../../styles/variables' as variables;
-@use '../../../styles/fonts' as fonts;
-@use '../../../styles/shared-styles' as shared;
-@use '../../../styles/mixins' as mixins;
+@use "../../../styles/variables" as variables;
+@use "../../../styles/fonts" as fonts;
+@use "../../../styles/shared-styles" as shared;
+@use "../../../styles/mixins" as mixins;
 
 .avatar-card {
 	@include shared.card-base;
