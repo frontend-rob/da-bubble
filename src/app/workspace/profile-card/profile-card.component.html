@@ -26,7 +26,10 @@
 				<div>
 					<h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
 
-					<button *ngIf="isUserProfileCardOpen && currentPerson.role.user">
+					<button
+						(click)="handleUserProfileEdit(true)"
+						*ngIf="isUserProfileCardOpen && currentPerson.role.user"
+					>
 						Edit
 					</button>
 				</div>

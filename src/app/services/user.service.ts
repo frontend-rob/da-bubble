@@ -1,9 +1,20 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable, of} from "rxjs";
-import {catchError, map, shareReplay, switchMap} from "rxjs/operators";
-import {UserData} from "../interfaces/user.interface";
-import {collection, collectionData, doc, docData, Firestore} from "@angular/fire/firestore";
-import {Auth, user} from "@angular/fire/auth";
+import {
+	EnvironmentInjector,
+	inject,
+	Injectable,
+	runInInjectionContext,
+} from "@angular/core";
+import { Observable, of } from "rxjs";
+import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
+import { UserData } from "../interfaces/user.interface";
+import {
+	collection,
+	collectionData,
+	doc,
+	docData,
+	Firestore,
+} from "@angular/fire/firestore";
+import { Auth, user } from "@angular/fire/auth";
 
 @Injectable({
 	providedIn: "root",
@@ -43,6 +54,12 @@ export class UserService {
 		return this._isUserProfileCardOpen;
 	}
 
+	private _isUserProfileEdit = false;
+
+	get isUserProfileEdit(): boolean {
+		return this._isUserProfileEdit;
+	}
+
 	/**
 	 * Gets user data by user ID with caching
 	 * @param uid The user ID to look up
@@ -76,11 +93,12 @@ export class UserService {
 		return userObservable;
 	}
 
-
 	getAllUserData(): Observable<UserData[]> {
 		return runInInjectionContext(this.environmentInjector, () => {
-			const usersCollectionRef = collection(this.firestore, 'users');
-			return collectionData(usersCollectionRef, {idField: 'uid'}) as Observable<UserData[]>;
+			const usersCollectionRef = collection(this.firestore, "users");
+			return collectionData(usersCollectionRef, {
+				idField: "uid",
+			}) as Observable<UserData[]>;
 		});
 	}
 
@@ -90,5 +108,9 @@ export class UserService {
 
 	handleUserProfileCard(bool: boolean) {
 		this._isUserProfileCardOpen = bool;
+	}
+
+	handleUserProfileEdit(bool: boolean) {
+		this._isUserProfileEdit = bool;
 	}
 }

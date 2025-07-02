@@ -1,5 +1,6 @@
 @use "../../../styles/fonts" as fonts;
 @use "../../../styles/variables" as variables;
+@use "./../../../styles/mixins" as mixins;
 
 .header-container {
 	display: flex;
@@ -135,6 +136,17 @@
 
 	> img {
 		border-radius: 50%;
+	}
+}
+
+.user-profile-edit-bg {
+	@include mixins.modal-bg;
+
+	:first-child {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 	}
 }
 
