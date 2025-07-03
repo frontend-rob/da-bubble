@@ -87,7 +87,7 @@
 					<div class="menu-list">
 						<!-- Channels List -->
 						<app-channel-list-item
-							(click)="setSelectedChannel(channel.channelId)"
+							(click)="setSelectedChannel(channel.channelId, null)"
 							*ngFor="let channel of channels"
 							[channel]="channel"
 							class="channel-list-item"
@@ -108,6 +108,63 @@
 				</div>
 			</div>
 
+			<div class="menu-container">
+				<header>
+					<div
+						(click)="toggleDirectMessageList()"
+						[class.close-list-btn]="showUserList"
+					>
+						<div>
+							<img
+								alt="arrow close dropdown"
+								class="dropdown-img"
+								height="30"
+								ngSrc="assets/img/main-menu/arrow_close_dropdown.svg"
+								width="30"
+							/>
+						</div>
+						<div>
+							<div>
+								<img
+									alt="direct messages"
+									class="direct-messages-img"
+									height="24"
+									ngSrc="assets/img/main-menu/direct_messages.svg"
+									width="24"
+								/>
+							</div>
+							<h2>Direct Messages</h2>
+						</div>
+					</div>
+				</header>
+
+				<div [class.close-list]="showUserList" class="menu-list-container">
+					<div class="menu-list">
+						<!-- TODO: -->
+
+						<!--<app-direct-message-list-item
+							(click)="setSelectedChannel(currentUser.uid, currentUser)"
+							*ngIf="currentUser"
+							[chatPartner]="currentUser"
+						>
+						</app-direct-message-list-item>-->
+
+						<app-direct-message-list-item
+							(click)="setSelectedChannel(dmChannel.channelId, null)"
+							*ngFor="let dmChannel of directMessageChannels"
+							[chatPartner]="getDirectMessageUserData(dmChannel)"
+						>
+						</app-direct-message-list-item>
+
+						<app-direct-message-list-item
+							*ngFor="let user of availableUsersForDM"
+							(click)="setSelectedChannel(user.uid, user)"
+							[chatPartner]="user"
+						>
+						</app-direct-message-list-item>
+					</div>
+				</div>
+			</div>
 		</main>
 
 		<div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">

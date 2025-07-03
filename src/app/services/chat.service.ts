@@ -345,6 +345,74 @@ export class ChatService {
 		console.log(r);
 	}
 
+	/**
+	 * Finds a direct message channel between two users.
+	 *
+	 * @param {UserData} user1 The first user data object.
+	 * @param {UserData} user2 The second user data object.
+	 * @return {Promise<ChannelData | null>} A promise that resolves to the direct message channel data if found, or null if no such channel exists.
+	 */
+	async findDirectMessageChannel(
+		user1: UserData,
+		user2: UserData
+	): Promise<ChannelData | null> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const channelsRef = collection(firestore, "channels");
+			const q = query(
+				channelsRef,
+				where("channelType.directMessage", "==", true)
+			);
+
+			const querySnapshot = await getDocs(q);
+
+			for (const doc of querySnapshot.docs) {
+				const channel = doc.data() as ChannelData;
+				const memberUids = channel.channelMembers.map(
+					(member) => member.uid
+				);
+
+				if (
+					memberUids.length === 2 &&
+					memberUids.includes(user1.uid) &&
+					memberUids.includes(user2.uid)
+				) {
+					return channel;
+				}
+			}
+
+			return null;
+		});
+	}
+
+	/**
+	 * Creates a direct message channel between two users.
+	 *
+	 * @param {UserData} user1 - The first user who will be part of the direct message channel.
+	 * @param {UserData} user2 - The second user who will be part of the direct message channel.
+	 * @return {Promise<ChannelData>} A promise that resolves to the newly created direct message channel data.
+	 */
+	async createDirectMessageChannel(
+		user1: UserData,
+		user2: UserData
+	): Promise<ChannelData> {
+		const newChannel: ChannelData = {
+			channelId: this.helperService.getRandomNumber().toString(),
+			channelName: `${user2.userName}`,
+			channelType: {
+				channel: false,
+				directMessage: true,
+			},
+			channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
+			createdBy: user1,
+			channelMembers: [user1, user2],
+			createdAt: Timestamp.now(),
+			updatedAt: Timestamp.now(),
+		};
+
+		await this.createChannel(newChannel);
+		return newChannel;
+	}
 
 	/**
 	 * Removes a user from a channel's member list.
