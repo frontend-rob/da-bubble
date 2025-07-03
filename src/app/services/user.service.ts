@@ -1,9 +1,21 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable, of} from "rxjs";
-import {catchError, map, shareReplay, switchMap} from "rxjs/operators";
-import {UserData} from "../interfaces/user.interface";
-import {collection, collectionData, doc, docData, Firestore} from "@angular/fire/firestore";
-import {Auth, user} from "@angular/fire/auth";
+import {
+	EnvironmentInjector,
+	inject,
+	Injectable,
+	runInInjectionContext,
+} from "@angular/core";
+import { Observable, of } from "rxjs";
+import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
+import { UserData } from "../interfaces/user.interface";
+import {
+	collection,
+	collectionData,
+	doc,
+	docData,
+	Firestore,
+	updateDoc,
+} from "@angular/fire/firestore";
+import { Auth, user } from "@angular/fire/auth";
 
 @Injectable({
 	providedIn: "root",
@@ -43,6 +55,12 @@ export class UserService {
 		return this._isUserProfileCardOpen;
 	}
 
+	private _isUserProfileEdit = false;
+
+	get isUserProfileEdit(): boolean {
+		return this._isUserProfileEdit;
+	}
+
 	/**
 	 * Gets user data by user ID with caching
 	 * @param uid The user ID to look up
@@ -76,11 +94,43 @@ export class UserService {
 		return userObservable;
 	}
 
-
 	getAllUserData(): Observable<UserData[]> {
 		return runInInjectionContext(this.environmentInjector, () => {
-			const usersCollectionRef = collection(this.firestore, 'users');
-			return collectionData(usersCollectionRef, {idField: 'uid'}) as Observable<UserData[]>;
+			const usersCollectionRef = collection(this.firestore, "users");
+			return collectionData(usersCollectionRef, {
+				idField: "uid",
+			}) as Observable<UserData[]>;
+		});
+	}
+
+	/**
+	 * Updates the user's avatar (profile picture)
+	 *
+	 * @param userId - The ID of the user whose avatar should be updated
+	 * @param photoURL - The new URL for the user's profile picture
+	 * @returns Promise<void> that resolves when the update is complete
+	 */
+	async updateUserAvatar(userId: string, photoURL: string): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			if (!userId || !photoURL) {
+				throw new Error("User ID and photo URL are required");
+			}
+
+			const userDocRef = doc(this.firestore, `users/${userId}`);
+
+			try {
+				await updateDoc(userDocRef, {
+					photoURL: photoURL,
+				});
+
+				// Clear the cache for this user to ensure fresh data is fetched next time
+				if (this.userCache.has(userId)) {
+					this.userCache.delete(userId);
+				}
+			} catch (error) {
+				console.error("Error updating user avatar:", error);
+				throw error;
+			}
 		});
 	}
 
@@ -90,5 +140,9 @@ export class UserService {
 
 	handleUserProfileCard(bool: boolean) {
 		this._isUserProfileCardOpen = bool;
+	}
+
+	handleUserProfileEdit(bool: boolean) {
+		this._isUserProfileEdit = bool;
 	}
 }

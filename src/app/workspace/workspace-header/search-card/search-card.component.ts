@@ -3,11 +3,8 @@ import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {CategorizedSearchResults, SearchService,} from "../../../services/search.service";
 import {ChatService} from "../../../services/chat.service";
-import {UserService} from "../../../services/user.service";
 import {SearchResult} from "../../../interfaces/search-result.interface";
-import {firstValueFrom, Subject, takeUntil} from "rxjs";
-import {UserData, userRole} from "../../../interfaces/user.interface";
-import {Timestamp} from "@angular/fire/firestore";
+import {Subject, takeUntil} from "rxjs";
 import {FunctionTriggerService} from "../../../services/function-trigger.service";
 import {ChannelData} from "../../../interfaces/channel.interface";
 
@@ -38,7 +35,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	totalResults = 0;
 	private searchService = inject(SearchService);
 	private chatService = inject(ChatService);
-	private userService = inject(UserService);
 	private functionTriggerService = inject(FunctionTriggerService);
 	private destroy$ = new Subject<void>();
 	private blurTimeout: any;
@@ -183,9 +179,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		}
 
 		switch (result.type) {
-			case "user":
-				this.openDirectMessage(result).then((r) => console.log(r));
-				break;
 			case "channels":
 				this.openChannel(result);
 				break;
@@ -228,50 +221,6 @@ export class SearchCardComponent implements OnInit, OnDestroy {
       totalResults: ${this.totalResults}
       hasResults: ${this.hasResults()}
     `;
-	}
-
-	private async openDirectMessage(result: SearchResult): Promise<void> {
-		if (!result.uid) return;
-
-		const currentUser = await firstValueFrom(
-			this.userService.currentUser$.pipe(takeUntil(this.destroy$))
-		);
-		if (!currentUser) return;
-
-		const targetUser: UserData = {
-			uid: result.uid,
-			userName: result.userName,
-			email: result.email || "",
-			photoURL: result.photoURL || "",
-			status: result.status,
-			createdAt: Timestamp.now(),
-			role: {
-				user: true,
-				admin: false,
-				moderator: false,
-				guest: false,
-			} as userRole,
-		};
-
-		try {
-			let dmChannel = await this.chatService.findDirectMessageChannel(
-				currentUser,
-				targetUser
-			);
-
-			if (!dmChannel) {
-				dmChannel = await this.chatService.createDirectMessageChannel(
-					currentUser,
-					targetUser
-				);
-			}
-
-			this.chatService.setActiveChat(dmChannel.channelId);
-
-			this.functionTriggerService.callSelectChannel(dmChannel);
-		} catch (error) {
-			console.error("Fehler beim Öffnen der Direct Message:", error);
-		}
 	}
 
 	private openChannel(result: SearchResult): void {

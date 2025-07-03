@@ -38,6 +38,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	directMessageChannels: ChannelData[] = [];
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
+	selfChannel: ChannelData | null = null; // Kanal für Selbst-Chat
+
+	// Combined list for direct messages display
+	combinedDirectMessagesList: { user: UserData; type: 'current' | 'channel' | 'other'; channelId?: string }[] = [];
 
 	channelFormData = {
 		name: "",
@@ -319,7 +323,16 @@ async addNewChannel(
 
 			if (isMember) {
 				if (channel.channelType?.directMessage) {
-					this.directMessageChannels.push(channel);
+					// Prüfe, ob es sich um einen Selbst-Chat handelt
+					const isSelfChannel = channel.channelMembers.length === 1 ||
+						(channel.channelMembers.length === 2 &&
+						 channel.channelMembers.every(m => m.uid === this.currentUser.uid));
+
+					if (isSelfChannel) {
+						this.selfChannel = channel;
+					} else {
+						this.directMessageChannels.push(channel);
+					}
 				} else {
 					this.channels.push(channel);
 				}

@@ -164,13 +164,11 @@ export class SearchService {
 			const channels = await firstValueFrom(this.chatService.getChannels().pipe(take(1)));
 			if (!channels) return results;
 
-			const realChannels = channels.filter(channel => !channel.channelType.directMessage);
-
 			let matchingChannels: ChannelData[];
 			if (term.trim() === '') {
-				matchingChannels = realChannels;
+				matchingChannels = channels;
 			} else {
-				matchingChannels = realChannels.filter(channel =>
+				matchingChannels = channels.filter(channel =>
 					channel.channelName.toLowerCase().includes(term.toLowerCase()) ||
 					(channel.channelDescription && channel.channelDescription.toLowerCase().includes(term.toLowerCase()))
 				);

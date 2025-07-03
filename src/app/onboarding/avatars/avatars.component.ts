@@ -1,52 +1,50 @@
-import {CommonModule, NgOptimizedImage} from '@angular/common';
-import {Component, inject, ViewChild} from '@angular/core';
-import {Router} from '@angular/router';
-import {UserDataService} from '../../services/user-data.service';
-import {NotificationsComponent} from '../notifications/notifications.component';
-import {UserData} from '../../interfaces/user.interface';
-import {Timestamp} from 'firebase/firestore';
-import {AuthService} from '../../services/auth.service';
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { Component, inject, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
+import { UserDataService } from "../../services/user-data.service";
+import { NotificationsComponent } from "../notifications/notifications.component";
+import { UserData } from "../../interfaces/user.interface";
+import { Timestamp } from "firebase/firestore";
+import { AuthService } from "../../services/auth.service";
+import { UserService } from "../../services/user.service";
+import { Subscribable, Subscription } from "rxjs";
 
 /**
  * Component for managing user avatar selection during onboarding.
  * Allows users to choose an avatar and create an account.
  */
 @Component({
-	selector: 'app-avatars',
-	imports: [
-		CommonModule,
-		NotificationsComponent,
-		NgOptimizedImage
-	],
-	templateUrl: './avatars.component.html',
-	styleUrls: ['./avatars.component.scss']
+	selector: "app-avatars",
+	imports: [CommonModule, NotificationsComponent, NgOptimizedImage],
+	templateUrl: "./avatars.component.html",
+	styleUrls: ["./avatars.component.scss"],
 })
 export class AvatarsComponent {
 	/**
 	 * Reference to the notification component for displaying messages.
 	 */
-	@ViewChild('notification') notificationComponent!: NotificationsComponent;
+	@ViewChild("notification") notificationComponent!: NotificationsComponent;
 
 	/**
 	 * The currently selected avatar image path.
 	 */
-	selectedUserAvatar: string = 'assets/img/avatars/av-00.svg';
+	selectedUserAvatar: string = "assets/img/avatars/av-00.svg";
 
 	/**
 	 * The name of the user, retrieved from the UserDataService.
 	 */
-	userName: string = '';
+	userName: string = "";
 
 	/**
 	 * List of available avatar image paths.
 	 */
 	avatarList: string[] = [
-		'assets/img/avatars/av-01.svg',
-		'assets/img/avatars/av-02.svg',
-		'assets/img/avatars/av-03.svg',
-		'assets/img/avatars/av-04.svg',
-		'assets/img/avatars/av-05.svg',
-		'assets/img/avatars/av-06.svg',
+		"assets/img/avatars/av-01.svg",
+		"assets/img/avatars/av-02.svg",
+		"assets/img/avatars/av-03.svg",
+		"assets/img/avatars/av-04.svg",
+		"assets/img/avatars/av-05.svg",
+		"assets/img/avatars/av-06.svg",
 	];
 
 	/**
@@ -54,12 +52,30 @@ export class AvatarsComponent {
 	 */
 	status: boolean = true;
 
+	currentUser!: UserData;
+	userSubscription!: Subscription;
+
 	/**
 	 * Injecting services using Angular's inject() function.
 	 */
 	private authService = inject(AuthService);
+	private userService = inject(UserService);
 	private userDataService = inject(UserDataService);
 	private router = inject(Router);
+
+	get isUserProfileEdit() {
+		return this.userService.isUserProfileEdit;
+	}
+
+	ngOnInit(): void {
+		this.userSubscription = this.userService.currentUser$.subscribe(
+			(userData) => {
+				if (userData) {
+					this.currentUser = userData;
+				}
+			}
+		);
+	}
 
 	/**
 	 * Handles avatar selection by updating the selected avatar and storing it in the UserDataService.
@@ -72,14 +88,22 @@ export class AvatarsComponent {
 		}
 	}
 
+	updateAvatar(path: string): void {
+		// this.currentUser.photoURL = path;
+		// TODO: Update avatar in firebase
+		this.userService.updateUserAvatar(this.currentUser.uid, path);
+	}
+
 	/**
 	 * Returns the CSS classes for the selected avatar image.
 	 * @returns An object containing the CSS class mappings.
 	 */
 	getAvatarClass(): { [key: string]: boolean } {
 		return {
-			'avatar-img': this.selectedUserAvatar !== 'assets/img/avatars/av-00.svg',
-			'person-circle-img': this.selectedUserAvatar === 'assets/img/avatars/av-00.svg'
+			"avatar-img":
+				this.selectedUserAvatar !== "assets/img/avatars/av-00.svg",
+			"person-circle-img":
+				this.selectedUserAvatar === "assets/img/avatars/av-00.svg",
 		};
 	}
 
@@ -89,11 +113,14 @@ export class AvatarsComponent {
 	async createAccount() {
 		try {
 			const userData = this.userDataService.getUserData();
-			const uid = await this.registerUserInFirebase(userData.email, userData.password);
+			const uid = await this.registerUserInFirebase(
+				userData.email,
+				userData.password
+			);
 			await this.saveUserDataToFirestore(uid, userData);
 			this.showSuccessNotification();
 		} catch (error) {
-			console.error('Error creating account:', error);
+			console.error("Error creating account:", error);
 		}
 	}
 
@@ -110,7 +137,10 @@ export class AvatarsComponent {
 	 * @param password - The user's password.
 	 * @returns The UID of the registered user.
 	 */
-	private async registerUserInFirebase(email: string, password: string): Promise<string> {
+	private async registerUserInFirebase(
+		email: string,
+		password: string
+	): Promise<string> {
 		return this.authService.registerUser(email, password);
 	}
 
@@ -119,11 +149,14 @@ export class AvatarsComponent {
 	 * @param uid - The UID of the user.
 	 * @param userData - The user data to save.
 	 */
-	private async saveUserDataToFirestore(uid: string, userData: {
-		name: string;
-		email: string;
-		avatar: string
-	}): Promise<void> {
+	private async saveUserDataToFirestore(
+		uid: string,
+		userData: {
+			name: string;
+			email: string;
+			avatar: string;
+		}
+	): Promise<void> {
 		const user: UserData = {
 			uid,
 			userName: userData.name,
@@ -131,7 +164,7 @@ export class AvatarsComponent {
 			photoURL: this.selectedUserAvatar,
 			createdAt: Timestamp.fromDate(new Date()),
 			status: true,
-			role: {user: true, admin: false, guest: false, moderator: false}
+			role: { user: true, admin: false, guest: false, moderator: false },
 		};
 		await this.authService.saveUserToFirestore(uid, user);
 	}
@@ -140,12 +173,14 @@ export class AvatarsComponent {
 	 * Displays a success notification and resets user data.
 	 */
 	private showSuccessNotification(): void {
-		this.notificationComponent.showNotification('Account successfully created!');
+		this.notificationComponent.showNotification(
+			"Account successfully created!"
+		);
 		setTimeout(() => {
 			this.userDataService.resetUserData();
-			this.selectedUserAvatar = 'assets/img/avatars/av-00.svg';
-			this.router.navigate(['']).then(r => {
-				console.log(r, 'navigated to login');
+			this.selectedUserAvatar = "assets/img/avatars/av-00.svg";
+			this.router.navigate([""]).then((r) => {
+				console.log(r, "navigated to login");
 			});
 		}, 3000);
 	}

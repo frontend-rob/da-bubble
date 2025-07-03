@@ -26,27 +26,6 @@
 					/>
 				</div>
 
-				<div
-					(click)="
-					handleProfileCard(
-						true,
-						this.chatService.selectedChannel.channelMembers[1]
-					)
-				"
-					*ngIf="this.chatService.selectedChannel.channelType.directMessage"
-					class="chat-title"
-				>
-					<img
-						[ngSrc]="this.chatService.selectedChannel.channelMembers[1].photoURL"
-						alt="avatar"
-						class="avatar-icon"
-						height="50"
-						width="50"
-					/>
-					<h1>
-						{{ this.chatService.selectedChannel.channelMembers[0].userName }}
-					</h1>
-				</div>
 
 				@if (this.chatService.selectedChannel.channelType.channel) {
 

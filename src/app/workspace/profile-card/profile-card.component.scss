@@ -40,15 +40,43 @@
 		}
 
 		.profile-img-container {
-			display: flex;
+			display: inline-flex;
 			justify-content: center;
 			align-items: center;
+			position: relative;
 
-			> img {
-				width: 200px;
-				height: 200px;
+			> div {
+				display: flex;
+				justify-content: center;
+				align-items: center;
 				border-radius: 100px;
 			}
+		}
+
+		.profile-img {
+			display: block;
+			width: 200px;
+			height: 200px;
+			border-radius: 50%;
+		}
+
+		.edit-img {
+			display: none;
+			width: 48px;
+			height: 48px;
+			z-index: 2;
+			position: absolute;
+		}
+
+		.profile-img-container > div:hover .edit-img,
+		.edit-img:hover {
+			display: block;
+			cursor: pointer;
+		}
+
+		.profile-img-container > div:hover .profile-img {
+			filter: contrast(0.3);
+			cursor: pointer;
 		}
 	}
 }

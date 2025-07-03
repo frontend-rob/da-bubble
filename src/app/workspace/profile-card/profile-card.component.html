@@ -13,12 +13,21 @@
 		</header>
 
 		<div class="profile-img-container">
-			<img
-				[ngSrc]="currentPerson.photoURL"
-				alt="photoURL"
-				height="200"
-				width="200"
-			/>
+			<div (click)="handleUserProfileEdit(true)">
+				<img
+					class="profile-img"
+					[ngSrc]="currentPerson.photoURL"
+					alt="photoURL"
+					height="200"
+					width="200"
+				/>
+				<img
+					(click)="handleUserProfileEdit(true)"
+					class="edit-img"
+					src="assets/img/profile-card/edit.svg"
+					alt="Edit"
+				/>
+			</div>
 		</div>
 
 		<div>
@@ -26,7 +35,10 @@
 				<div>
 					<h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
 
-					<button *ngIf="isUserProfileCardOpen && currentPerson.role.user">
+					<button
+						(click)="handleUserProfileEdit(true)"
+						*ngIf="isUserProfileCardOpen && currentPerson.role.user"
+					>
 						Edit
 					</button>
 				</div>
