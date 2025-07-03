@@ -39,6 +39,10 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		return this.userService.isUserProfileCardOpen;
 	}
 
+	get isUserAvatarEdit() {
+		return this.userService.isUserAvatarEdit;
+	}
+
 	get isUserProfileEdit() {
 		return this.userService.isUserProfileEdit;
 	}
@@ -65,6 +69,10 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 
 	handleUserProfileCard(bool: boolean) {
 		this.userService.handleUserProfileCard(bool);
+	}
+
+	handleUserAvatarEdit(bool: boolean) {
+		this.userService.handleUserAvatarEdit(bool);
 	}
 
 	handleUserProfileEdit(bool: boolean) {

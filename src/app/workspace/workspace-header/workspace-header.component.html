@@ -42,7 +42,7 @@
 <!-- USER MENU -->
 <div
 	*ngIf="isUserMenuOpen"
-	[ngStyle]="{ 'z-index': isUserProfileEdit ? 1 : 10 }"
+	[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
 	class="user-menu"
 >
 	<button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
@@ -87,16 +87,16 @@
 <!-- USER PROFILE CARD  -->
 <app-profile-card
 	*ngIf="isUserProfileCardOpen"
-	[ngStyle]="{ 'z-index': isUserProfileEdit ? 1 : 10 }"
+	[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
 	[currentPerson]="currentPerson"
 	class="user-profile"
 ></app-profile-card>
 }
 
 <div
-	(click)="handleUserProfileEdit(false)"
+	(click)="handleUserAvatarEdit(false)"
 	class="user-profile-edit-bg"
-	*ngIf="isUserProfileEdit"
+	*ngIf="isUserAvatarEdit"
 >
 	<app-avatars></app-avatars>
 </div>

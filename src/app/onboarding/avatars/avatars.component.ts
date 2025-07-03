@@ -63,6 +63,10 @@ export class AvatarsComponent {
 	private userDataService = inject(UserDataService);
 	private router = inject(Router);
 
+	get isUserAvatarEdit() {
+		return this.userService.isUserAvatarEdit;
+	}
+
 	get isUserProfileEdit() {
 		return this.userService.isUserProfileEdit;
 	}
@@ -89,8 +93,6 @@ export class AvatarsComponent {
 	}
 
 	updateAvatar(path: string): void {
-		// this.currentUser.photoURL = path;
-		// TODO: Update avatar in firebase
 		this.userService.updateUserAvatar(this.currentUser.uid, path);
 	}
 

@@ -55,6 +55,12 @@ export class UserService {
 		return this._isUserProfileCardOpen;
 	}
 
+	private _isUserAvatarEdit = false;
+
+	get isUserAvatarEdit(): boolean {
+		return this._isUserAvatarEdit;
+	}
+
 	private _isUserProfileEdit = false;
 
 	get isUserProfileEdit(): boolean {
@@ -134,12 +140,47 @@ export class UserService {
 		});
 	}
 
+	/**
+	 * Updates the user's avatar (profile picture)
+	 *
+	 * @param userId - The ID of the user whose avatar should be updated
+	 * @param photoURL - The new URL for the user's profile picture
+	 * @returns Promise<void> that resolves when the update is complete
+	 */
+	async updateUserName(userId: string, userName: string): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			if (!userId || !userName) {
+				throw new Error("User ID and user name are required");
+			}
+
+			const userDocRef = doc(this.firestore, `users/${userId}`);
+
+			try {
+				await updateDoc(userDocRef, {
+					userName: userName,
+				});
+
+				// Clear the cache for this user to ensure fresh data is fetched next time
+				if (this.userCache.has(userId)) {
+					this.userCache.delete(userId);
+				}
+			} catch (error) {
+				console.error("Error updating user avatar:", error);
+				throw error;
+			}
+		});
+	}
+
 	handleUserMenu(bool: boolean) {
 		this._isUserMenuOpen = bool;
 	}
 
 	handleUserProfileCard(bool: boolean) {
 		this._isUserProfileCardOpen = bool;
+	}
+
+	handleUserAvatarEdit(bool: boolean) {
+		this._isUserAvatarEdit = bool;
 	}
 
 	handleUserProfileEdit(bool: boolean) {

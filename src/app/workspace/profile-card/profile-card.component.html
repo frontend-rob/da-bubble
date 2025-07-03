@@ -13,7 +13,7 @@
 		</header>
 
 		<div class="profile-img-container">
-			<div (click)="handleUserProfileEdit(true)">
+			<div (click)="handleUserAvatarEdit(true)">
 				<img
 					class="profile-img"
 					[ngSrc]="currentPerson.photoURL"
@@ -22,7 +22,7 @@
 					width="200"
 				/>
 				<img
-					(click)="handleUserProfileEdit(true)"
+					(click)="handleUserAvatarEdit(true)"
 					class="edit-img"
 					src="assets/img/profile-card/edit.svg"
 					alt="Edit"
@@ -33,13 +33,36 @@
 		<div>
 			<div class="name-container">
 				<div>
-					<h1 *ngIf="currentPerson">{{ currentPerson.userName }}</h1>
+					<h1 *ngIf="currentPerson && !isUserProfileEdit">
+						{{ currentPerson.userName }}
+					</h1>
+					<input
+						*ngIf="isUserProfileEdit"
+						[placeholder]="currentPerson.userName"
+						[(ngModel)]="newUserName"
+						type="text"
+					/>
 
 					<button
 						(click)="handleUserProfileEdit(true)"
-						*ngIf="isUserProfileCardOpen && currentPerson.role.user"
+						*ngIf="
+							isUserProfileCardOpen &&
+							currentPerson.role.user &&
+							!isUserProfileEdit
+						"
 					>
 						Edit
+					</button>
+
+					<button
+						(click)="updateUserName()"
+						*ngIf="
+							isUserProfileCardOpen &&
+							currentPerson.role.user &&
+							isUserProfileEdit
+						"
+					>
+						Save
 					</button>
 				</div>
 				<div class="online-status">

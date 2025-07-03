@@ -1,4 +1,5 @@
 @use "./../../../styles/variables" as variables;
+@use "../../../styles/inputs" as inputs;
 
 .profile-modal {
 	display: flex;
@@ -101,6 +102,17 @@
 		align-items: center;
 		gap: 16px;
 
+		> input {
+			width: 100%;
+			padding: 16px 20px;
+			border: 1px solid #adb0d9;
+			border-radius: 100px;
+
+			&:focus-visible {
+				outline: none;
+			}
+		}
+
 		> button {
 			background-color: transparent;
 			border: none;
@@ -113,6 +125,10 @@
 				font-weight: 700;
 			}
 		}
+	}
+
+	> div:first-child {
+		height: 58px;
 	}
 
 	.online-status {
