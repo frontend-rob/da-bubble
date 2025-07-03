@@ -87,7 +87,7 @@
 					<div class="menu-list">
 						<!-- TODO: -->
 						<app-channel-list-item
-							(click)="setSelectedChannel(channel.channelId)"
+							(click)="setSelectedChannel(channel.channelId, null)"
 							*ngFor="let channel of channels"
 							[channel]="channel"
 							class="channel-list-item"
@@ -142,26 +142,26 @@
 					<div class="menu-list">
 						<!-- TODO: -->
 
-						<!-- <app-direct-message-list-item
-							(click)="setSelectedChannel(currentUser.uid)"
+						<!--<app-direct-message-list-item
+							(click)="setSelectedChannel(currentUser.uid, currentUser)"
 							*ngIf="currentUser"
 							[chatPartner]="currentUser"
 						>
-						</app-direct-message-list-item> -->
+						</app-direct-message-list-item>-->
 
 						<app-direct-message-list-item
-							(click)="setSelectedChannel(dmChannel.channelId)"
+							(click)="setSelectedChannel(dmChannel.channelId, null)"
 							*ngFor="let dmChannel of directMessageChannels"
 							[chatPartner]="getDirectMessageUserData(dmChannel)"
 						>
 						</app-direct-message-list-item>
 
-						<!-- <app-direct-message-list-item
-							*ngFor="let user of allUsers"
-							(click)="setSelectedChannel(user.uid)"
+						<app-direct-message-list-item
+							*ngFor="let user of availableUsersForDM"
+							(click)="setSelectedChannel(user.uid, user)"
 							[chatPartner]="user"
 						>
-						</app-direct-message-list-item> -->
+						</app-direct-message-list-item>
 					</div>
 				</div>
 			</div>

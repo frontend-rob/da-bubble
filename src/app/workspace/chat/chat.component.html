@@ -419,11 +419,7 @@
 					} @else {
 
 						<div
-							(click)="
-				this.handleProfileCard(
-					true,
-					this.chatService.selectedChannel.channelMembers[0]
-				)
+							(click)="handleProfileCard(true, chatService.selectedChannel.channelMembers[0])
 			"
 							class="direct-message-contact"
 						>
