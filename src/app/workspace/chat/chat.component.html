@@ -127,8 +127,8 @@
 											/>
 											<div
 												[ngClass]="{
-											online: member.status,
-											offline: !member.status
+											online: member.status === true,
+											offline: member.status === false
 										}"
 												class="status"
 											></div>
@@ -384,23 +384,29 @@
 				</ng-container>
 			</div>
 		</main>
-		@if (this.chatService.selectedChannel.channelType.directMessage && messages.length === 0) {
+		@if (this.chatService.selectedChannel.channelType.directMessage &&
+		messages.length === 0) {
 			<main class="dm-empty-state">
-				@if (this.chatService.selectedChannel.channelMembers[1].uid !== currentUser.uid) {
+				@if (this.chatService.selectedChannel.channelMembers[1].uid !==
+				currentUser.uid) {
+
 					<div class="direct-message-contact">
 						<img
-							ngSrc="{{this.chatService.selectedChannel.channelMembers[1].photoURL}}"
+							ngSrc="{{
+					this.chatService.selectedChannel.channelMembers[0].photoURL
+				}}"
 							alt="photoURL"
 							height="100"
 							width="100"
 						/>
-						<h2>{{ this.chatService.selectedChannel.channelMembers[1].userName }}</h2>
+						<h2>{{ this.chatService.selectedChannel.channelMembers[0].userName }}</h2>
 					</div>
 
 					<span class="direct-message-info">
 			This space is just for you. Make notes, list your to-dos or keep links and
 			files to hand. You can also discuss things with yourself here.
-			</span>
+		</span>
+
 				} @else {
 					@if (this.chatService.selectedChannel.channelId ===
 					currentUser.uid) {
