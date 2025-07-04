@@ -11,7 +11,8 @@
             <span class="message-time">{{ message.time }} Uhr</span>
         </div>
 
-        <div *ngIf="!isEditing" class="message">{{ message.text }}
+        <div *ngIf="!isEditing" class="message">
+            <span [innerHTML]="message.text | chatMessageTagLink:chatService.selectedChannel.channelMembers"></span>
             <span *ngIf="message.edited" class="edited-indicator">(edited)</span>
         </div>
 
