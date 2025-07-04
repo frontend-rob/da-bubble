@@ -20,6 +20,7 @@ export class ChatOptionBarComponent {
 
 	@Output() chosenEmoji = new EventEmitter<string>();
 	@Output() editMessage = new EventEmitter<IdtMessages>();
+	@Output() deleteMessageEvent = new EventEmitter<IdtMessages>();
 	@Input() isThisAThreadMessage!: boolean;
 
 	constructor(private chatService: ChatService) {
@@ -52,8 +53,10 @@ export class ChatOptionBarComponent {
 		this.isOptionsMenuOpen = false;
 	}
 
-	deleteMessage() {
-	}
+    deleteMessage() {
+        this.deleteMessageEvent.emit(this.message);
+        this.isOptionsMenuOpen = false;
+    }
 
 	addQuickReactionThumbsUp() {
 		this.chosenEmoji.emit("\u{1F44D}");

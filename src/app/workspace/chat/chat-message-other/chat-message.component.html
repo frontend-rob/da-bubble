@@ -96,7 +96,8 @@
         <app-chat-option-bar (chosenEmoji)="handleEmojiReaction($event, message)"
             (editMessage)="startEditingMessage($event)" [emojiList]="emojiList" [isOwnMessage]="isOwnMessage"
             [isThisAThreadMessage]="isThisAThreadMessage" [message]="message"
-            [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}">
+            [ngClass]="{'option-bar-own': isOwnMessage, 'option-bar-other': !isOwnMessage}"
+            (deleteMessageEvent)="handleDeleteMessage($event)">
         </app-chat-option-bar>
     </div>
 </div>

@@ -182,4 +182,15 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.isEmojiModalOpen = !this.isEmojiModalOpen;
 		this.isOptionsMenuOpen = false;
 	}
+
+	handleDeleteMessage(message: IdtMessages) {
+		if (message.messageId) {
+			this.chatService.deleteMessage(
+				this.chatService.selectedChannel.channelId,
+				message.messageId
+			).then(() => {
+				console.log('Nachricht gelöscht');
+			});
+		}
+	}
 }
