@@ -177,9 +177,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.isEditing = false;
 	}
 
-	// toggleEmojiModal() {
-	//     this.isEmojiModalOpen = !this.isEmojiModalOpen;
-	// }
 
 	toggleEmojiModal() {
 		this.isEmojiModalOpen = !this.isEmojiModalOpen;
