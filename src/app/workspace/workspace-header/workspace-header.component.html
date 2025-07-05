@@ -14,7 +14,7 @@
 	<app-search-card class="search-bar-container"></app-search-card>
 
 	<div class="user-profile-container" (click)="handleUserMenu(true)">
-		<span>{{ currentPerson.userName }}</span>
+		<div class="user-name">{{ currentPerson.userName }}</div>
 		<div class="avatar">
 			<img
 				[ngSrc]="currentPerson.photoURL"
@@ -39,6 +39,7 @@
 		/>
 	</div>
 </div>
+
 <!-- USER MENU -->
 <div
 	*ngIf="isUserMenuOpen"
@@ -87,7 +88,9 @@
 <!-- USER PROFILE CARD  -->
 <app-profile-card
 	*ngIf="isUserProfileCardOpen"
-	[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
+	[ngStyle]="{
+		'z-index': isUserAvatarEdit ? 1 : 10
+	}"
 	[currentPerson]="currentPerson"
 	class="user-profile"
 ></app-profile-card>

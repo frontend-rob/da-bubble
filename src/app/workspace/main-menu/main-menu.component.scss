@@ -15,10 +15,9 @@
 }
 
 .main-menu-section {
-	@include mixins.flex-column(flex-start, center);
-	height: 100%;
+	@include mixins.flex-column(flex-start, flex-start);
 	width: 366px;
-	flex: 1;
+	height: 100%;
 
 	&.close-menu {
 		display: none;
@@ -28,15 +27,14 @@
 
 .main-menu-container {
 	@include mixins.flex-column(center);
-	height: 100%;
 	width: 100%;
+	height: 100%;
 	position: relative;
 	background-color: white;
 	border-radius: 30px;
 	padding: 20px;
 	gap: 24px;
 
-	// display: none;
 	> header {
 		@include mixins.flex-between;
 		width: 100%;
@@ -86,7 +84,7 @@
 		}
 
 		.mobile-search {
-			display: none
+			display: none;
 		}
 	}
 
@@ -205,6 +203,10 @@
 	}
 }
 
+.mobile-add-new-channel-btn {
+	display: none;
+}
+
 .button {
 	@include mixins.circle-button;
 	@include mixins.hover-bg(variables.$bg-neutral-hover);
@@ -299,7 +301,10 @@
 				justify-content: flex-end !important;
 
 				> button {
-					@include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
+					@include mixins.action-button(
+						variables.$bg-primary,
+						variables.$text-inverse
+					);
 
 					&:hover {
 						background-color: variables.$bg-primary-accent;
@@ -375,9 +380,12 @@
 	}
 
 	.main-menu-container {
+		height: calc(100% - 115px);
 		border-radius: 0;
 
 		> header {
+			position: relative;
+
 			> .desktop-header {
 				display: none;
 			}
@@ -392,6 +400,25 @@
 		}
 	}
 
+	.mobile-add-new-channel-btn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: absolute;
+		bottom: 56px;
+		right: 16px;
+		z-index: 99;
+		background-color: variables.$bg-primary;
+		width: 64px;
+		height: 64px;
+		border-radius: 100px;
+		box-shadow: 0 6px 10px 0 #00000033;
+
+		> img {
+			filter: invert(1);
+		}
+	}
+
 	.menunav-button-container {
 		display: none;
 	}
@@ -400,5 +427,6 @@
 @media screen and (max-width: 600px) {
 	.main-menu-container {
 		padding: 16px;
+		height: calc(100% - 80px);
 	}
 }
