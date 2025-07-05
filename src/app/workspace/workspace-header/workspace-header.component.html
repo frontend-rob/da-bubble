@@ -14,7 +14,7 @@
 	<app-search-card class="search-bar-container"></app-search-card>
 
 	<div class="user-profile-container" (click)="handleUserMenu(true)">
-		<div class="user-name">{{ currentPerson.userName }}</div>
+		<span class="user-name">{{ currentPerson.userName }}</span>
 		<div class="avatar">
 			<img
 				[ngSrc]="currentPerson.photoURL"
