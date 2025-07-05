@@ -1,4 +1,8 @@
-<div (click)="stopPropagation($event)" class="profile-modal">
+<div
+	[ngStyle]="{ 'border-top-right-radius': isUserProfileCardOpen ? 0 : '30px' }"
+	(click)="stopPropagation($event)"
+	class="profile-modal"
+>
 	<div class="container">
 		<header>
 			<h2>Profile</h2>

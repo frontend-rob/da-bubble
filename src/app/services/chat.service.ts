@@ -15,6 +15,7 @@ import {
 	Timestamp,
 	updateDoc,
 	where,
+	deleteDoc,
 } from "@angular/fire/firestore";
 import {UserData} from "../interfaces/user.interface";
 import {HelperService} from "./helper.service";
@@ -344,6 +345,21 @@ export class ChatService {
 		});
 		console.log(r);
 	}
+
+    /**
+     * Deletes a message from Firestore by channel and message ID.
+     *
+     * @param channelId The ID of the channel
+     * @param messageId The ID of the message
+     * @returns Promise<void> A promise that resolves when the message is deleted
+     */
+    async deleteMessage(channelId: string, messageId: string): Promise<void> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            const firestore = inject(Firestore);
+            const messageRef = doc(firestore, `channels/${channelId}/messages/${messageId}`);
+            await deleteDoc(messageRef);
+        });
+    }
 
 	/**
 	 * Finds a direct message channel between two users.
