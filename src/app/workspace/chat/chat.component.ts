@@ -113,15 +113,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 	 * Gets the other user in a direct message channel (not the current user)
 	 * @returns The other user in the direct message channel
 	 */
-	getOtherUserInDirectMessage(): UserData | undefined {
-		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {
-			return undefined;
-		}
+	getOtherUserInDirectMessage(): UserData {
+		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {}
 
 		// Find the user in the channel members who is not the current user
-		return this.chatService.selectedChannel.channelMembers.find(
+		let ll:	UserData = <UserData>this.chatService.selectedChannel.channelMembers.find(
 			member => member && member.uid !== this.currentUser?.uid
 		);
+		console.log("ll",ll);
+		return ll
 	}
 
 	trackByMessageId: TrackByFunction<Message> = (
