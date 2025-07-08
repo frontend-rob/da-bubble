@@ -141,13 +141,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
                         this.handleProfileCard(true, user);
                     }
                 };
-                (link as HTMLElement).onmouseenter = (event) => {
-                    const uid = (link as HTMLElement).getAttribute('data-uid');
-                    const user = this.chatService.selectedChannel.channelMembers.find(u => u.uid === uid);
-                    if (user) {
-                        this.handleProfileCard(true, user);
-                    }
-                };
             });
         }, 0);
     }
