@@ -13,6 +13,8 @@ import {UserService} from "../../services/user.service";
 import {HelperService} from "../../services/helper.service";
 import {FunctionTriggerService} from "../../services/function-trigger.service";
 import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {UserLookupService} from "../../services/user-lookup.service";
+import {ChannelUserPipe} from "../../services/channel-user.pipe";
 
 @Component({
 	selector: "app-chat",
@@ -26,6 +28,7 @@ import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 		NgForOf,
 		NgOptimizedImage,
 		AutoScrollingDirective,
+		ChannelUserPipe,
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
@@ -88,6 +91,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private functionTriggerService: FunctionTriggerService = inject(
 		FunctionTriggerService
 	);
+	private userLookupService: UserLookupService = inject(UserLookupService);
 
 
 	constructor(public readonly chatService: ChatService) {
@@ -113,15 +117,24 @@ export class ChatComponent implements OnInit, OnDestroy {
 	 * Gets the other user in a direct message channel (not the current user)
 	 * @returns The other user in the direct message channel
 	 */
-	getOtherUserInDirectMessage(): UserData {
-		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {}
+	getOtherUserInDirectMessage(): UserData | undefined {
+		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {
+			return undefined;
+		}
 
-		// Find the user in the channel members who is not the current user
-		let ll:	UserData = <UserData>this.chatService.selectedChannel.channelMembers.find(
-			member => member && member.uid !== this.currentUser?.uid
+		// Find the user ID in the channel members who is not the current user
+		const otherUserId = this.chatService.selectedChannel.channelMembers.find(
+			uid => uid !== this.currentUser?.uid
 		);
-		console.log("ll",ll);
-		return ll
+
+		if (!otherUserId) {
+			return undefined;
+		}
+
+		// Use the allUserData array to find the user by ID
+		const otherUser = this.allUserData.find(user => user.uid === otherUserId);
+		console.log("Other user:", otherUser);
+		return otherUser;
 	}
 
 	trackByMessageId: TrackByFunction<Message> = (
@@ -255,19 +268,18 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	onSearchInputChange(): void {
-		const text = this.searchText.trim().toLowerCase();
-		const currentMembers = this.chatService.selectedChannel.channelMembers;
-
-		this.filteredUsers = this.allUserData.filter(
+		const text = this.searchText?.trim().toLowerCase() ?? '';
+		const currentMembers = this.chatService.selectedChannel?.channelMembers ?? [];
+		if (!text) {
+			this.filteredUsers = [];
+			return;
+		}
+		this.filteredUsers = this.allUserData?.filter(
 			(user) =>
 				user.userName.toLowerCase().includes(text) &&
-				!this.selectedUsersToAdd.some((sel) => sel.uid === user.uid) &&
-				!currentMembers.some((member) => member.uid === user.uid)
-		);
-
-		if (this.searchText.length === 0) {
-			this.filteredUsers = [];
-		}
+				!this.selectedUsersToAdd?.some((sel) => sel.uid === user.uid) &&
+				!currentMembers.includes(user.uid)
+		) ?? [];
 	}
 
 	addUserToSelection(user: UserData): void {
@@ -304,14 +316,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 		const newUsers = this.selectedUsersToAdd.filter(
 			(newUser) =>
-				!channel.channelMembers.some(
-					(existing) => existing.uid === newUser.uid
-				)
+				!channel.channelMembers.includes(newUser.uid)
 		);
 
 		const updatedChannel: ChannelData = {
 			...channel,
-			channelMembers: [...channel.channelMembers, ...newUsers],
+			channelMembers: [...channel.channelMembers, ...newUsers.map(user => user.uid)],
 			updatedAt: Timestamp.now(),
 		};
 
@@ -378,8 +388,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 				directMessage: type === "directMessage" ? true : false,
 			},
 			channelDescription: description,
-			createdBy: this.currentUser,
-			channelMembers: [this.currentUser],
+			createdBy: this.currentUser.uid,
+			channelMembers: [this.currentUser.uid],
 			createdAt: Timestamp.now(),
 			updatedAt: Timestamp.now(),
 		};
@@ -411,27 +421,27 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.chatService.handleNewMessage(false);
 			this.newMessageInputData = "";
 		} else if (isEmailAdress && !isDirectMessage && !isChannel) {
-			for (const channel of this.channels) {
-				for (const member of channel.channelMembers) {
-					if (member.email === this.newMessageInputData) {
-						this.isSearchedUser = member;
+			// Find user by email in allUserData
+			const userWithEmail = this.allUserData.find(user => user.email === this.newMessageInputData);
 
-						if (
-							this.findDirectMessage(
-								channel.channelMembers,
-								this.isSearchedUser.uid,
-								this.currentUser.uid
-							) &&
-							channel.channelType.directMessage
-						) {
-							// console.log("DM CHANNEL: ", channel);
-							// TEST EMAIL: localhost.crested629@passmail.net
-						}
-						// Set selected channel
-						this.chatService.selectedChannel = channel;
-						// Set active chat
-						this.chatService.setActiveChat(this.isSearchedUser.uid);
-					}
+			if (userWithEmail) {
+				this.isSearchedUser = userWithEmail;
+
+				// Find channel that contains both the current user and the searched user
+				const directMessageChannel = this.channels.find(channel => 
+					channel.channelType.directMessage && 
+					channel.channelMembers.includes(this.currentUser.uid) && 
+					channel.channelMembers.includes(userWithEmail.uid)
+				);
+
+				if (directMessageChannel) {
+					// console.log("DM CHANNEL: ", directMessageChannel);
+					// TEST EMAIL: localhost.crested629@passmail.net
+
+					// Set selected channel
+					this.chatService.selectedChannel = directMessageChannel;
+					// Set active chat
+					this.chatService.setActiveChat(this.isSearchedUser.uid);
 				}
 			}
 		} else {
@@ -452,12 +462,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	findDirectMessage(
-		arr: UserData[],
+		arr: string[],
 		userId1: string,
 		userId2: string
 	): boolean {
-		const hasUser1 = arr.some((user) => user.uid === userId1);
-		const hasUser2 = arr.some((user) => user.uid === userId2);
+		const hasUser1 = arr.includes(userId1);
+		const hasUser2 = arr.includes(userId2);
 		return hasUser1 && hasUser2;
 	}
 

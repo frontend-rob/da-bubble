@@ -10,7 +10,7 @@ import {ChatService} from "../../../services/chat.service";
 	styleUrl: "./direct-message-list-item.component.scss",
 })
 export class DirectMessageListItemComponent {
-	@Input() chatPartner!: UserData;
+	@Input() chatPartner: UserData | undefined | null;
 
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
