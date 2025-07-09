@@ -1,18 +1,25 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
-import {ChatService} from "../../services/chat.service";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
-import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {Timestamp} from "@angular/fire/firestore";
-import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {HelperService} from "../../services/helper.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
-import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+	TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
+import { ResponsiveService } from "../../services/responsive.service";
 
 @Component({
 	selector: "app-chat",
@@ -83,12 +90,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.months[new Date().getMonth()]
 	} ${new Date().getDate()}`;
 
+	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
 	private functionTriggerService: FunctionTriggerService = inject(
 		FunctionTriggerService
 	);
-
 
 	constructor(public readonly chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
@@ -114,14 +121,20 @@ export class ChatComponent implements OnInit, OnDestroy {
 	 * @returns The other user in the direct message channel
 	 */
 	getOtherUserInDirectMessage(): UserData {
-		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {}
+		if (
+			!this.chatService.selectedChannel ||
+			!this.chatService.selectedChannel.channelMembers
+		) {
+		}
 
 		// Find the user in the channel members who is not the current user
-		let ll:	UserData = <UserData>this.chatService.selectedChannel.channelMembers.find(
-			member => member && member.uid !== this.currentUser?.uid
+		let ll: UserData = <UserData>(
+			this.chatService.selectedChannel.channelMembers.find(
+				(member) => member && member.uid !== this.currentUser?.uid
+			)
 		);
-		console.log("ll",ll);
-		return ll
+		console.log("ll", ll);
+		return ll;
 	}
 
 	trackByMessageId: TrackByFunction<Message> = (

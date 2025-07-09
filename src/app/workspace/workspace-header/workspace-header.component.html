@@ -1,14 +1,32 @@
 @if (currentPerson && currentPerson.photoURL) {
 <div class="header-container">
-	<div class="logo-container">
+	<div *ngIf="!isChatResponsive" class="logo-container">
 		<img
-			ngSrc="/assets/img/logo.svg"
+			ngSrc="/assets/img/main-logo.svg"
 			alt="Main Logo"
 			priority
 			width="70"
 			height="70"
 		/>
 		<span>DABubble</span>
+	</div>
+
+	<div *ngIf="isChatResponsive" class="logo-container">
+		<img
+			(click)="goBackToMenu()"
+			alt="arrow left img"
+			height="60"
+			ngSrc="assets/img/workspace-header/keyboard_arrow_down.svg"
+			width="60"
+			class="arrow-left-img"
+		/>
+		<img
+			alt="logo"
+			height="60"
+			ngSrc="assets/img/main-menu/workspace-logo.svg"
+			width="60"
+		/>
+		<span>Devspace</span>
 	</div>
 
 	<app-search-card class="search-bar-container"></app-search-card>

@@ -3,7 +3,7 @@
 	font-weight: 300 900;
 	font-style: normal;
 	font-display: swap;
-	src: url('../../public/assets/fonts/nunito-variable.ttf');
+	src: url("../../public/assets/fonts/nunito-variable.ttf");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
 	font-weight: 300 900;
 	font-style: normal;
 	font-display: swap;
-	src: url('../../public/assets/fonts/figtree-variable.ttf');
+	src: url("../../public/assets/fonts/figtree-variable.ttf");
 }
 
 p {
@@ -26,8 +26,9 @@ li {
 	font-weight: 400;
 }
 
-@media screen and (max-width: 48rem) {
-	p, li {
+@media screen and (max-width: 768px) {
+	p,
+	li {
 		font-size: 16px;
 	}
 }

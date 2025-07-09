@@ -1,4 +1,4 @@
-<section [class.close-menu]="isOpen" class="main-menu-section">
+<section [class.close-menu]="isMainMenuOpen" class="main-menu-section">
 	<div class="main-menu-container">
 		<header>
 			<div class="desktop-header">
@@ -6,7 +6,7 @@
 					<img
 						alt="logo"
 						height="60"
-						ngSrc="assets/img/main-menu/logo.svg"
+						ngSrc="assets/img/main-menu/workspace-logo.svg"
 						width="60"
 					/>
 					<h1>Devspace</h1>
@@ -86,6 +86,7 @@
 				<div [class.close-list]="showChannelList" class="menu-list-container">
 					<div class="menu-list">
 						<!-- Channels List -->
+						<!-- TODO: MARKER -->
 						<app-channel-list-item
 							(click)="setSelectedChannel(channel.channelId, null)"
 							*ngFor="let channel of channels"
@@ -140,7 +141,7 @@
 
 				<div [class.close-list]="showUserList" class="menu-list-container">
 					<div class="menu-list">
-						<!-- TODO: -->
+						<!-- TODO: MARKER -->
 
 						<!--<app-direct-message-list-item
 							(click)="setSelectedChannel(currentUser.uid, currentUser)"
@@ -251,13 +252,16 @@
 
 <div class="menunav-button-container">
 	<div
-		(click)="toggleNav()"
-		[class.close-menu-button]="isOpen"
+		(click)="toggleMainMenu()"
+		[class.close-menu-button]="isMainMenuOpen"
 		class="menunav-button"
 	>
 		<span class="text-menu-button">
-			{{ isOpen ? isClosedText : isOpenText }}
+			{{ isMainMenuOpen ? isClosedText : isOpenText }}
 		</span>
-		<div [ngClass]="isOpen ? 'img-close' : 'img-open'" class="img-field"></div>
+		<div
+			[ngClass]="isMainMenuOpen ? 'img-close' : 'img-open'"
+			class="img-field"
+		></div>
 	</div>
 </div>

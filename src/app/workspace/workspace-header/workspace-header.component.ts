@@ -8,6 +8,8 @@ import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { SearchCardComponent } from "./search-card/search-card.component";
 import { AvatarsComponent } from "../../onboarding/avatars/avatars.component";
+import { ChatService } from "../../services/chat.service";
+import { WorkspaceService } from "../../services/workspace.service";
 
 @Component({
 	selector: "app-workspace-header",
@@ -24,12 +26,21 @@ import { AvatarsComponent } from "../../onboarding/avatars/avatars.component";
 export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 	currentPerson!: UserData;
 	userSubscription!: Subscription;
+	isMainMenuOpenSubscription!: Subscription;
+
+	isMainMenuOpen: boolean = false;
 
 	constructor(
 		private router: Router,
 		private authService: AuthService,
-		private userService: UserService
+		private userService: UserService,
+		private chatService: ChatService,
+		private workspaceService: WorkspaceService
 	) {}
+
+	get isChatResponsive() {
+		return this.chatService.isChatResponsive;
+	}
 
 	get isUserMenuOpen() {
 		return this.userService.isUserMenuOpen;
@@ -55,12 +66,23 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 				}
 			}
 		);
+
+		this.isMainMenuOpenSubscription =
+			this.workspaceService.isMainMenuOpen$.subscribe((val) => {
+				this.isMainMenuOpen = val;
+			});
 	}
 
 	ngOnDestroy() {
 		if (this.userSubscription) {
 			this.userSubscription.unsubscribe();
 		}
+		this.isMainMenuOpenSubscription.unsubscribe();
+	}
+
+	goBackToMenu() {
+		this.workspaceService.setStatus(!this.isMainMenuOpen);
+		this.chatService.handleChatResponsive(false);
 	}
 
 	handleUserMenu(bool: boolean) {

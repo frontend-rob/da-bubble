@@ -1,7 +1,12 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
-import {Observable} from "rxjs";
-import {Message, Reaction} from "../interfaces/message.interface";
-import {ChannelData} from "../interfaces/channel.interface";
+import {
+	EnvironmentInjector,
+	inject,
+	Injectable,
+	runInInjectionContext,
+} from "@angular/core";
+import { Observable } from "rxjs";
+import { Message, Reaction } from "../interfaces/message.interface";
+import { ChannelData } from "../interfaces/channel.interface";
 import {
 	collection,
 	collectionData,
@@ -17,8 +22,8 @@ import {
 	where,
 	deleteDoc,
 } from "@angular/fire/firestore";
-import {UserData} from "../interfaces/user.interface";
-import {HelperService} from "./helper.service";
+import { UserData } from "../interfaces/user.interface";
+import { HelperService } from "./helper.service";
 
 @Injectable({
 	providedIn: "root",
@@ -27,8 +32,15 @@ export class ChatService {
 	selectedChannel!: ChannelData;
 	selectedChannelsMessages!: Message[];
 	selectedThreadMessageId!: string;
+
 	private environmentInjector = inject(EnvironmentInjector);
 	private helperService: any = inject(HelperService);
+	private _isChatResponsive = false;
+
+	get isChatResponsive(): boolean {
+		return this._isChatResponsive;
+	}
+
 	private _isThreadOpen = false;
 
 	get isThreadOpen(): boolean {
@@ -57,6 +69,10 @@ export class ChatService {
 
 	get currentPerson(): UserData {
 		return this._currentPerson;
+	}
+
+	handleChatResponsive(bool: boolean) {
+		this._isChatResponsive = bool;
 	}
 
 	setCurrentPerson(person: UserData) {
@@ -124,7 +140,7 @@ export class ChatService {
 				firestore,
 				`channels/${channelId}/messages/${messageId}`
 			);
-			await updateDoc(msgRef, {threadChannelName: name});
+			await updateDoc(msgRef, { threadChannelName: name });
 		});
 	}
 
@@ -138,7 +154,7 @@ export class ChatService {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
 			const q = query(channelsRef, orderBy("createdAt", "desc"));
-			return collectionData(q, {idField: "channelId"}) as Observable<
+			return collectionData(q, { idField: "channelId" }) as Observable<
 				ChannelData[]
 			>;
 		});
@@ -211,7 +227,7 @@ export class ChatService {
 				`channels/${channelId}/messages`
 			);
 			const q = query(messagesRef, orderBy("timestamp", "asc"));
-			return collectionData(q, {idField: "messageId"}) as Observable<
+			return collectionData(q, { idField: "messageId" }) as Observable<
 				Message[]
 			>;
 		});
@@ -258,7 +274,7 @@ export class ChatService {
 				`channels/${channelId}/messages/${parentMessageId}/thread`
 			);
 			const q = query(messagesRef, orderBy("timestamp", "asc"));
-			return collectionData(q, {idField: "messageId"}) as Observable<
+			return collectionData(q, { idField: "messageId" }) as Observable<
 				Message[]
 			>;
 		});
@@ -346,20 +362,23 @@ export class ChatService {
 		console.log(r);
 	}
 
-    /**
-     * Deletes a message from Firestore by channel and message ID.
-     *
-     * @param channelId The ID of the channel
-     * @param messageId The ID of the message
-     * @returns Promise<void> A promise that resolves when the message is deleted
-     */
-    async deleteMessage(channelId: string, messageId: string): Promise<void> {
-        return runInInjectionContext(this.environmentInjector, async () => {
-            const firestore = inject(Firestore);
-            const messageRef = doc(firestore, `channels/${channelId}/messages/${messageId}`);
-            await deleteDoc(messageRef);
-        });
-    }
+	/**
+	 * Deletes a message from Firestore by channel and message ID.
+	 *
+	 * @param channelId The ID of the channel
+	 * @param messageId The ID of the message
+	 * @returns Promise<void> A promise that resolves when the message is deleted
+	 */
+	async deleteMessage(channelId: string, messageId: string): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const messageRef = doc(
+				firestore,
+				`channels/${channelId}/messages/${messageId}`
+			);
+			await deleteDoc(messageRef);
+		});
+	}
 
 	/**
 	 * Finds a direct message channel between two users.
