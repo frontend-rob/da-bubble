@@ -404,7 +404,7 @@ export class ChatService {
 			for (const doc of querySnapshot.docs) {
 				const channel = doc.data() as ChannelData;
 				const memberUids = channel.channelMembers.map(
-					(member) => member.uid
+					(member) => member
 				);
 
 				if (
@@ -439,8 +439,8 @@ export class ChatService {
 				directMessage: true,
 			},
 			channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
-			createdBy: user1,
-			channelMembers: [user1, user2],
+			createdBy: user1.uid,
+			channelMembers: [user1.uid, user2.uid],
 			createdAt: Timestamp.now(),
 			updatedAt: Timestamp.now(),
 		};
@@ -466,7 +466,7 @@ export class ChatService {
 				const channelDoc = await getDoc(channelRef);
 				const channelData = channelDoc.data() as ChannelData;
 				const updatedMembers = channelData.channelMembers.filter(
-					(member) => member.uid !== userId
+					(member) => member !== userId
 				);
 				await updateDoc(channelRef, {
 					channelMembers: updatedMembers,
