@@ -1,31 +1,29 @@
 <div class="thread-container">
-	<div class="thread-head-container">
-		<div class="thread-description-container">
-			<span class="thread-head-text">Thread</span>
-			<div class="thread-tag"></div>
-			<span class="thread-description">{{ threadChannelName }}</span>
-		</div>
-		<div (click)="handleThread()" class="close-btn">
-			<img alt="Close thread" height="24" ngSrc="/assets/img/close.svg" width="24"/>
-		</div>
-	</div>
-	<main>
-		<div [trigger]="messages" appAutoScroll class="messages-container">
-			<ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
-				<ng-container *ngIf="shouldShowDate(messages, i)">
-					<div class="message-time-separator">
-						<div class="time">{{ message.date }}</div>
-					</div>
-				</ng-container>
-
-				<app-chat-message-other [isThisAThreadMessage]="true" [message]="message"
-																style="width: 100%"></app-chat-message-other>
-			</ng-container>
-		</div>
-
-		<!-- TODO: Dynamic channel or chat partner name in placeholder text ???????????????????? Dont know wtf you mean -->
-		<app-message-input-field (send)="sendThreadMessage($event)" [placeholderText]="'Antworten...'"
-														 class="message-input-field"
-														 style="width: 100%"></app-message-input-field>
-	</main>
+    <div class="thread-head-container">
+        <div class="thread-description-container">
+            <span class="thread-head-text">Thread</span>
+            <div class="thread-tag"></div>
+            <span class="thread-description">{{ threadChannelName }}</span>
+        </div>
+        <div (click)="handleThread()" class="close-btn">
+            <img alt="Close thread" height="24" ngSrc="/assets/img/close.svg" width="24" />
+        </div>
+    </div>
+    <main>
+        <div [trigger]="messages" appAutoScroll class="messages-container">
+            <ng-container *ngFor="let message of messages; let i = index; trackBy: trackByMessageId">
+                <ng-container *ngIf="shouldShowDate(messages, i)">
+                    <div class="message-time-separator">
+                        <div class="time">{{ message.date }}</div>
+                    </div>
+                </ng-container>
+                <app-chat-message-other [isThisAThreadMessage]="true" [message]="message"
+                    style="width: 100%">
+                </app-chat-message-other>
+            </ng-container>
+        </div>
+        <app-message-input-field (send)="sendThreadMessage($event)" [placeholderText]="'Reply to ...'" [showChannelNameInPlaceholder]="false"
+            class="message-input-field" style="width: 100%">
+        </app-message-input-field>
+    </main>
 </div>

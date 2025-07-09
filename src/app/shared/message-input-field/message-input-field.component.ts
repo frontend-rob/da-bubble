@@ -24,6 +24,7 @@ export class MessageInputFieldComponent implements OnInit {
 
 	@Input() selectedChannel!: ChannelData;
 	@Input() placeholderText = "Type a message to";
+	@Input() showChannelNameInPlaceholder: boolean = true;
 	@Output() send: EventEmitter<string> = new EventEmitter<string>();
 	@Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -238,10 +239,26 @@ export class MessageInputFieldComponent implements OnInit {
 	}
 
 	/**
-	 * Returns the placeholder text for the textarea, including the channel name if available.
+	 * Returns the placeholder text for the input field.
+	 *
+	 * - For direct messages, shows the chat partner's name (not currentPerson).
+	 * - For channels, shows the channel name if showChannelNameInPlaceholder is true.
+	 * - If showChannelNameInPlaceholder is false, only the placeholderText is shown.
+	 *
+	 * @returns {string} The placeholder text to display
 	 */
 	get placeholder(): string {
-		const channelName = this.chatService.selectedChannel && this.chatService.selectedChannel.channelName;
-		return this.placeholderText + (channelName ? ' #' + channelName : '');
+		const channel = this.chatService.selectedChannel;
+		if (!channel) return this.placeholderText;
+
+		if (channel.channelType?.directMessage) {
+			const otherUserId = channel.channelMembers.find(uid => uid !== this.chatService.currentPerson?.uid);
+			const otherUser = this.users?.find(u => u.uid === otherUserId);
+			const name = otherUser?.userName || "user";
+			return `${this.placeholderText} @${name}`;
+		} else if (this.showChannelNameInPlaceholder && channel.channelName) {
+			return `${this.placeholderText} #${channel.channelName}`;
+		}
+		return this.placeholderText;
 	}
 }
