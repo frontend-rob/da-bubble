@@ -2,6 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {BehaviorSubject, firstValueFrom, take} from 'rxjs';
 import {ChatService} from './chat.service';
 import {UserService} from './user.service';
+import {UserLookupService} from './user-lookup.service';
 import {SearchResult} from '../interfaces/search-result.interface';
 import {ChannelData} from '../interfaces/channel.interface';
 import {UserData} from '../interfaces/user.interface';
@@ -20,6 +21,7 @@ export interface CategorizedSearchResults {
 export class SearchService {
 	private chatService = inject(ChatService);
 	private userService = inject(UserService);
+	private userLookupService = inject(UserLookupService);
 
 	private searchTermSubject = new BehaviorSubject<string>('');
 	public searchTerm$ = this.searchTermSubject.asObservable();
@@ -180,7 +182,7 @@ export class SearchService {
 					channelId: channel.channelId,
 					channelName: channel.channelName,
 					channelDescription: channel.channelDescription || '',
-					channelMembers: channel.channelMembers.map(member => member.uid),
+					channelMembers: channel.channelMembers.map(member => member),
 					userName: '',
 					photoURL: '',
 					status: false,
@@ -255,10 +257,11 @@ export class SearchService {
 					message.text.toLowerCase().includes(term.toLowerCase())
 				);
 
-				const otherUser = channel.channelMembers.find(member => member.uid !== currentUser.uid);
+				const otherUser = channel.channelMembers.find(member => member !== currentUser.uid);
 				if (!otherUser) continue;
 
 				for (const message of matchingMessages) {
+					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
@@ -271,8 +274,8 @@ export class SearchService {
 						photoURL: message.sender.photoURL || '',
 						email: message.sender.email || '',
 						status: message.sender.status || false,
-						directMessageUserId: otherUser.uid,
-						directMessageUserName: otherUser.userName,
+						directMessageUserId: otherUser,
+						directMessageUserName: otherUserData?.userName || '',
 						channelDescription: ''
 					});
 				}

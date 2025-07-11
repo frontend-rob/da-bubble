@@ -11,7 +11,7 @@
 	class="message-container"
 >
 	<img
-		(click)="handleProfileCard(true, message.sender)"
+		(click)="handleProfileCard(true, message.sender.uid)"
 		[ngSrc]="message.sender.photoURL"
 		alt="/assets/img/avatars/av-04.svg"
 		height="70"
@@ -20,7 +20,7 @@
 	<div class="message-content-container">
 		<div class="author-container">
 			<span
-				(click)="handleProfileCard(true, message.sender)"
+				(click)="handleProfileCard(true, message.sender.uid)"
 				class="author-name"
 			>
 				{{ message.sender.userName }}
@@ -29,12 +29,9 @@
 		</div>
 
 		<div *ngIf="!isEditing" class="message">
-			<span
-				[innerHTML]="
-					message.text
-						| chatMessageTagLink : chatService.selectedChannel.channelMembers
-				"
-			></span>
+			<ng-container *ngIf="(chatService.selectedChannel.channelMembers | channelUsers) | async as memberUsers">
+				<span [innerHTML]="message.text | chatMessageTagLink:memberUsers"></span>
+			</ng-container>
 			<span *ngIf="message.edited" class="edited-indicator">(edited)</span>
 		</div>
 
@@ -97,8 +94,8 @@
 							<div class="reaction-tooltip">
 								<span class="tooltip-emoji">{{ group.emoji }}</span>
 								<span *ngIf="group.users.length > 0" class="user-list-column">{{
-									group.users.join(", ")
-								}}</span>
+										group.users.join(", ")
+									}}</span>
 								<span>reacted</span>
 							</div>
 						</div>
@@ -121,7 +118,7 @@
 					{{ message.threadAnswerCount }}
 					<ng-container
 						*ngIf="message.threadAnswerCount === 1; else multipleAnswers"
-						>Answer</ng-container
+					>Answer</ng-container
 					>
 					<ng-template #multipleAnswers>Answers</ng-template>
 				</span>
@@ -153,6 +150,7 @@
 	<div *ngIf="hovered">
 		<app-chat-option-bar
 			(chosenEmoji)="handleEmojiReaction($event, message)"
+			(deleteMessageEvent)="handleDeleteMessage($event)"
 			(editMessage)="startEditingMessage($event)"
 			[emojiList]="emojiList"
 			[isOwnMessage]="isOwnMessage"
@@ -162,7 +160,6 @@
 				'option-bar-own': isOwnMessage,
 				'option-bar-other': !isOwnMessage
 			}"
-			(deleteMessageEvent)="handleDeleteMessage($event)"
 		>
 		</app-chat-option-bar>
 	</div>

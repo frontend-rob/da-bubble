@@ -28,13 +28,13 @@ export interface ChannelData {
 	 * UID of the user who created the channel.
 	 * Can be used to identify the owner or assign administrative rights.
 	 */
-	createdBy: UserData;
+	createdBy: string;
 
 	/**
 	 * A list of user UIDs who are members of the channel.
 	 * This array is updated as users join or leave.
 	 */
-	channelMembers: UserData[];
+	channelMembers: string[];
 
 	/**
 	 * Firestore timestamp indicating when the channel was created.

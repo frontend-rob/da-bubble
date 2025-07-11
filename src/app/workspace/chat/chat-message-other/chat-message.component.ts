@@ -9,18 +9,21 @@ import { UserData } from "../../../interfaces/user.interface";
 import { Timestamp } from "@angular/fire/firestore";
 import { FormsModule } from "@angular/forms";
 import { chatMessageTagLink } from "../../../pipes/chat-message-tag-link.pipe";
+import {UserLookupService} from "../../../services/user-lookup.service";
+import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
 
 
 @Component({
     selector: "app-chat-message-other",
-    imports: [
-        CommonModule,
-        ChatOptionBarComponent,
-        FormsModule,
-        NgOptimizedImage,
-        chatMessageTagLink
-        
-    ],
+	imports: [
+		CommonModule,
+		ChatOptionBarComponent,
+		FormsModule,
+		NgOptimizedImage,
+		chatMessageTagLink,
+		ChannelUsersPipe
+
+	],
     templateUrl: "./chat-message.component.html",
     styleUrl: "./chat-message.component.scss",
     standalone: true
@@ -61,7 +64,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 
     constructor(
         public chatService: ChatService,
-        private userService: UserService
+        private userService: UserService,
+		private userLookup: UserLookupService
     ) {
     }
 
@@ -109,10 +113,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
         this.hovered = bool;
     }
 
-    handleProfileCard(bool: boolean, person: UserData) {
-        this.chatService.handleProfileCard(bool);
-        this.chatService.setCurrentPerson(person);
-    }
+    handleProfileCard(bool: boolean, person: string) {
+        this.userLookup.getUserById(person).subscribe((user: UserData | undefined) => {
+        if (user) {
+            this.chatService.handleProfileCard(bool);
+            this.chatService.setCurrentPerson(user);
+        }
+    });
+}
 
     ngOnDestroy() {
     }
@@ -136,9 +144,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
                 (link as HTMLElement).onclick = (event) => {
                     event.preventDefault();
                     const uid = (link as HTMLElement).getAttribute('data-uid');
-                    const user = this.chatService.selectedChannel.channelMembers.find(u => u.uid === uid);
-                    if (user) {
-                        this.handleProfileCard(true, user);
+                    if (uid && this.chatService.selectedChannel.channelMembers.includes(uid)) {
+                        this.handleProfileCard(true, uid);
+                    }
+                };
+                (link as HTMLElement).onmouseenter = (event) => {
+                    const uid = (link as HTMLElement).getAttribute('data-uid');
+                    if (uid && this.chatService.selectedChannel.channelMembers.includes(uid)) {
+                        this.handleProfileCard(true, uid);
                     }
                 };
             });
