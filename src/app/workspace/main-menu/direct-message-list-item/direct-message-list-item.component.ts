@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, Input} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {UserData} from "../../../interfaces/user.interface";
 import {ChatService} from "../../../services/chat.service";
 
@@ -11,26 +11,44 @@ import {ChatService} from "../../../services/chat.service";
 })
 export class DirectMessageListItemComponent {
 	@Input() chatPartner: UserData | undefined | null;
+	@Input() dmChannel: any;
+	@Output() channelSelected = new EventEmitter<{channelId: string, userData: UserData | null}>();
 
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
 
 	constructor(
-		private chatService: ChatService // private functionTriggerService: FunctionTriggerService, // private userService: UserService
+		private chatService: ChatService
 	) {
 	}
 
 	get isActive(): boolean {
-		// console.log(this.chatPartner);
-		if (this.chatPartner && this.chatPartner.uid) {
-			return this.chatPartner.uid === this.chatService.activeChat;
-		} else {
-			return false;
+		// Für DM-Channels: verwende die channelId
+		if (this.dmChannel && this.dmChannel.channelId) {
+			return this.dmChannel.channelId === this.chatService.activeChat;
 		}
+		// Für verfügbare User: verwende die uid
+		else if (this.chatPartner && this.chatPartner.uid) {
+			return this.chatPartner.uid === this.chatService.activeChat;
+		}
+		return false;
 	}
 
-	setActiveChat(id: string) {
-		this.chatService.setActiveChat(id);
-		this.chatService.handleNewMessage(false);
+	onItemClick() {
+		if (this.dmChannel) {
+			// Für DM-Channels: setze activeChat auf channelId
+			this.chatService.setActiveChat(this.dmChannel.channelId);
+			this.channelSelected.emit({
+				channelId: this.dmChannel.channelId,
+				userData: null
+			});
+		} else if (this.chatPartner) {
+			// Für verfügbare User: setze activeChat auf uid
+			this.chatService.setActiveChat(this.chatPartner.uid);
+			this.channelSelected.emit({
+				channelId: this.chatPartner.uid,
+				userData: this.chatPartner
+			});
+		}
 	}
 }
