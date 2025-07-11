@@ -179,9 +179,13 @@
 		</div>
 
 		<div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">
-			<div (click)="stopPropagation($event)" *ngIf="isModalOpen" class="modal">
+			<div
+				(click)="stopPropagation($event)"
+				*ngIf="isModalOpen"
+				class="new-channel-modal"
+			>
 				<div class="container">
-					<header class="modal-header">
+					<header class="new-channel-modal-header">
 						<div>
 							<h1>Create Channel</h1>
 							<div class="header-description">
@@ -203,7 +207,7 @@
 						(ngSubmit)="
 							addNewChannel(channelFormData.name, channelFormData.description)
 						"
-						class="modal-main"
+						class="new-channel-modal-main"
 					>
 						<div>
 							<h2>Channel-Name</h2>
@@ -238,7 +242,7 @@
 							</div>
 						</div>
 
-						<div>
+						<div class="submit-container">
 							<button [disabled]="channelForm.invalid" type="submit">
 								Erstellen
 							</button>
@@ -250,7 +254,7 @@
 	</div>
 </section>
 
-<div class="menunav-button-container">
+<div *ngIf="screenWidth > 768" class="menunav-button-container">
 	<div
 		(click)="toggleMainMenu()"
 		[class.close-menu-button]="isMainMenuOpen"

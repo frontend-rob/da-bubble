@@ -220,7 +220,7 @@
 	height: 100vh;
 }
 
-.modal {
+.new-channel-modal {
 	@include mixins.flex-center;
 	width: 872px;
 	position: absolute;
@@ -239,7 +239,7 @@
 		width: 100%;
 		height: 100%;
 
-		.modal-header {
+		.new-channel-modal-header {
 			@include mixins.flex-between;
 			align-items: flex-start;
 			width: 100%;
@@ -270,7 +270,7 @@
 			}
 		}
 
-		.modal-main {
+		.new-channel-modal-main {
 			@include mixins.flex-column;
 			gap: 24px;
 			width: 100%;
@@ -296,9 +296,8 @@
 				}
 			}
 
-			> div:last-child {
-				@include mixins.flex-row;
-				justify-content: flex-end !important;
+			.submit-container {
+				@include mixins.flex-row(flex-end);
 
 				> button {
 					@include mixins.action-button(
@@ -374,7 +373,7 @@
 	}
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200) {
 	.main-menu-section {
 		width: 100vw;
 	}
@@ -424,9 +423,24 @@
 	}
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
 	.main-menu-container {
 		padding: 16px;
 		height: calc(100% - 80px);
+		border-radius: 0;
+	}
+
+	.new-channel-modal {
+		width: 100%;
+		height: 100%;
+		border-radius: 0;
+
+		.container {
+			padding: 40px 16px;
+		}
+
+		.submit-container {
+			justify-content: flex-end;
+		}
 	}
 }

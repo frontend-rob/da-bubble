@@ -217,7 +217,7 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
 	.popup-modal {
 		position: fixed;
 		top: 0;
@@ -272,7 +272,7 @@
 	}
 }
 
-@media (min-width: 769px) {
+@media (max-width: 600px) {
 	.popup-modal {
 		background-color: rgba(0, 0, 0, 0.2);
 
