@@ -352,7 +352,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				if (this.channels.length > 0 && this.screenWidth < 768) {
 					this.setActiveChat("");
 					this.setSelectedChannel("", null);
-				} else {
+				} else if (this.channels.length > 0) {
 					this.setActiveChat(this.channels[0].channelId);
 					this.setSelectedChannel(this.channels[0].channelId, null);
 				}
