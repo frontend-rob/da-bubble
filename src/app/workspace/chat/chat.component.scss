@@ -4,587 +4,596 @@
 @use "./../../../styles/mixins" as mixins;
 
 .chat-section {
-    @include mixins.flex-column;
-    justify-content: space-between;
-    width: 100%;
-    height: 100%;
-    border-radius: 30px;
-    background-color: variables.$bg-base-200;
+	@include mixins.flex-column;
+	justify-content: space-between;
+	width: 100%;
+	height: 100%;
+	border-radius: 30px;
+	background-color: variables.$bg-base-200;
 }
 
 .message-input-field {
-    width: 100%;
+	width: 100%;
 }
 
 .header {
-    @include mixins.flex-row;
-    width: 100%;
-    height: 96px;
-    padding: 24px 32px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    box-shadow: 0 2px 10px 0 #00000014;
-    position: relative;
+	@include mixins.flex-row;
+	width: 100%;
+	height: 96px;
+	padding: 24px 32px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+	box-shadow: 0 2px 10px 0 #00000014;
+	position: relative;
 }
 
 .chat-header {
-    @include mixins.flex-between;
-    width: 100%;
-    position: relative;
+	@include mixins.flex-between;
+	width: 100%;
+	position: relative;
 }
 
 .chat-title {
-    @include mixins.badge;
-    cursor: pointer;
+	@include mixins.badge;
+	cursor: pointer;
 }
 
 .chat-title:hover {
-    background-color: variables.$bg-base-100;
+	background-color: variables.$bg-base-100;
 }
 
 .chat-title:hover h1 {
-    color: variables.$text-hover;
+	color: variables.$text-hover;
 }
 
 .chat-title:hover .icon {
-    content: url("../../../../public/assets/img/chat/channel_tag_hover.svg");
+	content: url("../../../../public/assets/img/chat/channel_tag_hover.svg");
 }
 
 .chat-title:hover .arrow {
-    content: url("../../../../public/assets/img/chat/arrow_down_hover.svg");
+	content: url("../../../../public/assets/img/chat/arrow_down_hover.svg");
 }
 
 .chat-title h1 {
-    font-size: 24px;
-    font-weight: 700;
-    transition: color 0.3s ease;
+	font-size: 24px;
+	font-weight: 700;
+	transition: color 0.3s ease;
 }
 
 .chat-title .icon,
 .chat-title .arrow {
-    transition: all 0.3s ease;
+	transition: all 0.3s ease;
 }
 
 .chat-title .avatar-icon {
-    width: 50px;
-    height: 50px;
+	width: 50px;
+	height: 50px;
 }
 
 .chat-members {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    position: relative;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	position: relative;
 }
 
 .members {
-    display: flex;
-    align-items: center;
-    padding: 4px 10px;
-    gap: 10px;
-    border-radius: 100px;
+	display: flex;
+	align-items: center;
+	padding: 4px 10px;
+	gap: 10px;
+	border-radius: 100px;
 }
 
 .members:hover {
-    background-color: variables.$bg-base-100;
+	background-color: variables.$bg-base-100;
 }
 
 .members:hover .member-counter {
-    color: variables.$text-hover;
+	color: variables.$text-hover;
 }
 
 .member {
-    margin-left: -24px;
-    width: 40px;
-    height: 40px;
-    border: 2px solid white;
-    border-radius: 100%;
+	margin-left: -24px;
+	width: 40px;
+	height: 40px;
+	border: 2px solid white;
+	border-radius: 100%;
 }
 
 .member:first-child {
-    margin-left: 0 !important;
+	margin-left: 0 !important;
 }
 
 .member img {
-    width: 36px;
-    height: 36px;
+	width: 36px;
+	height: 36px;
 }
 
 .member-counter {
-    font-size: 20px;
-    font-weight: 600;
+	font-size: 20px;
+	font-weight: 600;
 }
 
 .add-member {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 45px;
-    height: 45px;
-    border-radius: 100%;
-    background-color: variables.$bg-base-100;
-    cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45px;
+	height: 45px;
+	border-radius: 100%;
+	background-color: variables.$bg-base-100;
+	cursor: pointer;
 }
 
 .add-member img {
-    width: 22px;
-    height: 17px;
+	width: 22px;
+	height: 17px;
 }
 
 .add-member:hover img {
-    content: url("../../../../public/assets/img/chat/add_member_hover.svg");
+	content: url("../../../../public/assets/img/chat/add_member_hover.svg");
 }
 
 .members-menu-modal {
-    @include mixins.modal-container;
-    position: absolute;
-    top: 64px;
-    right: 64px;
-    width: 400px;
-    background-color: variables.$bg-base-200;
-    @include mixins.body-text;
+	@include mixins.modal-container;
+	position: absolute;
+	top: 64px;
+	right: 64px;
+	width: 400px;
+	background-color: variables.$bg-base-200;
+	@include mixins.body-text;
 }
 
 .members-menu-modal-header {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
 }
 
 .members-menu-modal-header h1 {
-    font-size: 24px;
-    font-weight: 700;
+	font-size: 24px;
+	font-weight: 700;
 }
 
 .members-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .menu-item {
-    @include mixins.list-item;
-    justify-self: flex-start;
-    gap: 10px;
+	@include mixins.list-item;
+	justify-self: flex-start;
+	gap: 10px;
 }
 
-.menu-item>.avatar {
-    @include mixins.flex-center;
-    position: relative;
-    height: 48px;
-    width: 48px;
+.menu-item > .avatar {
+	@include mixins.flex-center;
+	position: relative;
+	height: 48px;
+	width: 48px;
 }
 
-.menu-item>.avatar>.status {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border: 2px solid variables.$bg-base-200;
+.menu-item > .avatar > .status {
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: 2px solid variables.$bg-base-200;
 }
 
-.menu-item>.avatar>.status.online {
-    background-color: variables.$online;
+.menu-item > .avatar > .status.online {
+	background-color: variables.$online;
 }
 
-.menu-item>.avatar>.status.offline {
-    background-color: variables.$offline;
+.menu-item > .avatar > .status.offline {
+	background-color: variables.$offline;
 }
 
-.menu-item>.avatar>img {
-    @include mixins.avatar(48px);
+.menu-item > .avatar > img {
+	@include mixins.avatar(48px);
 }
 
 .menu-item:hover {
-    background-color: variables.$bg-base-100;
+	background-color: variables.$bg-base-100;
 }
 
 .button-container {
-    display: flex;
-    align-items: center;
-    padding: 12px 20px;
-    gap: 16px;
-    width: fit-content;
-    border-radius: 100px;
-    cursor: pointer;
+	display: flex;
+	align-items: center;
+	padding: 12px 20px;
+	gap: 16px;
+	width: fit-content;
+	border-radius: 100px;
+	cursor: pointer;
 }
 
 .button-container:hover {
-    background-color: variables.$bg-neutral-hover;
-    color: variables.$text-hover;
+	background-color: variables.$bg-neutral-hover;
+	color: variables.$text-hover;
 }
 
 .button-container:hover div img {
-    content: url("../../../../public/assets/img/chat/add_member_hover.svg");
+	content: url("../../../../public/assets/img/chat/add_member_hover.svg");
 }
 
 .add-member-modal {
-    display: flex;
-    flex-direction: column;
-    padding: 32px;
-    gap: 20px;
-    position: absolute;
-    top: 64px;
-    right: 0;
-    width: 500px;
-    border-radius: 30px 0 30px 30px;
-    background-color: variables.$bg-base-200;
-    z-index: 10;
-    font-size: 18px;
-    font-weight: 400;
+	display: flex;
+	flex-direction: column;
+	padding: 32px;
+	gap: 20px;
+	position: absolute;
+	top: 64px;
+	right: 0;
+	width: 500px;
+	border-radius: 30px 0 30px 30px;
+	background-color: variables.$bg-base-200;
+	z-index: 10;
+	font-size: 18px;
+	font-weight: 400;
 }
 
 .add-member-modal-header {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
-.add-member-modal-header>div {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+.add-member-modal-header > div {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .add-member-modal-header h1 {
-    @include mixins.heading-large;
+	@include mixins.heading-large;
 }
 
 .add-member-channel-name {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    color: variables.$bg-primary-accent;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	color: variables.$bg-primary-accent;
 }
 
-.add-member-channel-name>img {
-    width: 16px;
-    height: 16px;
+.add-member-channel-name > img {
+	width: 16px;
+	height: 16px;
 }
 
 .member-input-container {
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-    gap: 16px;
-    background-color: variables.$bg-base-200;
+	display: flex;
+	align-items: center;
+	flex-flow: row wrap;
+	gap: 16px;
+	background-color: variables.$bg-base-200;
 }
 
 .member-input-container:focus-within {
-    border-color: variables.$bg-primary;
+	border-color: variables.$bg-primary;
 }
 
 .add-member-input {
-    display: flex;
-    padding: 16px 20px;
-    border: 1px solid variables.$border;
-    border-radius: 50px;
-    outline: none;
-    flex: 1;
+	display: flex;
+	padding: 16px 20px;
+	border: 1px solid variables.$border;
+	border-radius: 50px;
+	outline: none;
+	flex: 1;
 }
 
 .selected-user-chip {
-    display: flex;
-    align-items: center;
-    background-color: variables.$bg-neutral-hover;
-    border-radius: 16px;
-    padding: 4px 20px;
-    gap: 16px;
+	display: flex;
+	align-items: center;
+	background-color: variables.$bg-neutral-hover;
+	border-radius: 16px;
+	padding: 4px 20px;
+	gap: 16px;
 }
 
-.selected-user-chip>img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.selected-user-chip > img {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
 }
 
-.selected-user-chip>div {
-    display: flex;
-    white-space: nowrap;
-    width: fit-content;
+.selected-user-chip > div {
+	display: flex;
+	white-space: nowrap;
+	width: fit-content;
 }
 
 .selected-user-chip button {
-    border: none;
-    background: transparent;
-    font-size: 16px;
-    cursor: pointer;
+	border: none;
+	background: transparent;
+	font-size: 16px;
+	cursor: pointer;
 }
 
-.add-member-modal>div:last-child {
-    display: flex;
-    justify-content: flex-end;
+.add-member-modal > div:last-child {
+	display: flex;
+	justify-content: flex-end;
 }
 
-.add-member-modal>div:last-child button {
-    @include mixins.action-button(variables.$bg-primary, variables.$text-inverse);
-    width: fit-content;
+.add-member-modal > div:last-child button {
+	@include mixins.action-button(
+		variables.$bg-primary,
+		variables.$text-inverse
+	);
+	width: fit-content;
 }
 
-.add-member-modal>div:last-child button:hover {
-    background-color: variables.$bg-primary-accent;
+.add-member-modal > div:last-child button:hover {
+	background-color: variables.$bg-primary-accent;
 }
 
 .user-suggestion-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
 }
 
 .user-suggestion {
-    @include mixins.list-item;
-    @include mixins.hover-bg(variables.$bg-base-100);
+	@include mixins.list-item;
+	@include mixins.hover-bg(variables.$bg-base-100);
 }
 
-.user-suggestion>img {
-    @include mixins.avatar(48px);
+.user-suggestion > img {
+	@include mixins.avatar(48px);
 }
 
 .modal {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 872px;
-    position: absolute;
-    top: 48px;
-    left: 0;
-    z-index: 10;
-    border-radius: 0 30px 30px 30px;
-    box-shadow: 0 6px 10px 0 #00000033;
-    background-color: variables.$bg-base-200;
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	width: 872px;
+	position: absolute;
+	top: 48px;
+	left: 0;
+	z-index: 10;
+	border-radius: 0 30px 30px 30px;
+	box-shadow: 0 6px 10px 0 #00000033;
+	background-color: variables.$bg-base-200;
 
-    .container {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        padding: 32px;
-        gap: 24px;
-        width: 100%;
-        height: 100%;
+	.container {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		padding: 32px;
+		gap: 24px;
+		width: 100%;
+		height: 100%;
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+		.modal-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
 
-            h1 {
-                font-size: 24px;
-                font-weight: 700;
-            }
+			h1 {
+				font-size: 24px;
+				font-weight: 700;
+			}
 
-            >div {
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
+			> div {
+				display: flex;
+				align-items: center;
+				gap: 8px;
+			}
 
-            .tag {
-                width: 20px;
-                height: 20px;
-            }
-        }
+			.tag {
+				width: 20px;
+				height: 20px;
+			}
+		}
 
-        .modal-main {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            gap: 24px;
-            width: 100%;
+		.modal-main {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			gap: 24px;
+			width: 100%;
 
-            h2 {
-                font-size: 18px;
-                font-weight: 700;
-            }
+			h2 {
+				font-size: 18px;
+				font-weight: 700;
+			}
 
-            .name-container,
-            .description-container {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: flex-start;
-                padding: 20px;
-                gap: 20px;
-                border: 1px solid variables.$border;
-                border-radius: 20px;
-                width: 100%;
+			.name-container,
+			.description-container {
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-start;
+				padding: 20px;
+				gap: 20px;
+				border: 1px solid variables.$border;
+				border-radius: 20px;
+				width: 100%;
 
-                >div:first-child {
-                    @include mixins.div-first-child;
-                }
+				> div:first-child {
+					@include mixins.div-first-child;
+				}
 
-                button {
-                    background-color: transparent;
-                    border: none;
-                    color: variables.$text-hover;
-                    font-weight: 600;
-                    cursor: pointer;
+				button {
+					background-color: transparent;
+					border: none;
+					color: variables.$text-hover;
+					font-weight: 600;
+					cursor: pointer;
 
-                    &:hover {
-                        font-weight: 700;
-                    }
-                }
-            }
+					&:hover {
+						font-weight: 700;
+					}
+				}
+			}
 
-            .name {
-                display: flex;
-                align-items: center;
-                gap: 10px;
+			.name {
+				display: flex;
+				align-items: center;
+				gap: 10px;
 
-                >img {
-                    width: 16px;
-                    height: 16px;
-                }
-            }
+				> img {
+					width: 16px;
+					height: 16px;
+				}
+			}
 
-            .input-container {
-                display: flex;
-                align-items: center;
-                gap: 16px;
-                padding: 18px 20px;
-                border: 1px solid variables.$border;
-                border-radius: 40px;
-                width: 100%;
+			.input-container {
+				display: flex;
+				align-items: center;
+				gap: 16px;
+				padding: 18px 20px;
+				border: 1px solid variables.$border;
+				border-radius: 40px;
+				width: 100%;
 
-                >img {
-                    width: 16px;
-                    height: 16px;
-                }
+				> img {
+					width: 16px;
+					height: 16px;
+				}
 
-                input {
-                    border: none;
-                    outline: none;
-                    width: 100%;
-                }
-            }
-        }
-    }
+				input {
+					border: none;
+					outline: none;
+					width: 100%;
+				}
+			}
+		}
+	}
 }
 
 .new-message-header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 20px;
-    width: 100%;
-    position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 20px;
+	width: 100%;
+	position: relative;
 
-    >h1 {
-        font-size: 24px;
-        font-weight: 700;
-    }
+	> h1 {
+		font-size: 24px;
+		font-weight: 700;
+	}
 
-    >div {
-        @include mixins.input-field;
-        border: 1px solid variables.$border;
-    }
+	> div {
+		@include mixins.input-field;
+		border: 1px solid variables.$border;
+	}
 }
 
 .chat-main {
-    @include mixins.flex-column(center, space-between);
-    width: 100%;
-    overflow-y: auto;
+	@include mixins.flex-column(center, space-between);
+	width: 100%;
+	overflow-y: auto;
 }
 
 .chat-history {
-    @include mixins.flex-column;
-    gap: 1.5rem;
-    margin: 48px 0;
-    width: 100%;
+	@include mixins.flex-column;
+	gap: 1.5rem;
+	margin: 48px 0;
+	width: 100%;
 
-    app-chat-message-other {
-        width: 100%;
-    }
+	app-chat-message-other {
+		width: 100%;
+	}
 }
 
 .message-time-separator {
-    @include mixins.flex-center;
-    padding: 20px 32px;
-    width: 100%;
+	@include mixins.flex-center;
+	padding: 20px 32px;
+	width: 100%;
 
-    &::before,
-    &::after {
-        content: "";
-        flex: 1;
-        border-bottom: 1px solid variables.$border;
-    }
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		border-bottom: 1px solid variables.$border;
+	}
 }
 
 .time {
-    border: solid 1px variables.$border;
-    border-radius: 30px;
-    padding: 5px 15px;
-    width: fit-content;
-    justify-self: center;
-    white-space: nowrap;
+	border: solid 1px variables.$border;
+	border-radius: 30px;
+	padding: 5px 15px;
+	width: fit-content;
+	justify-self: center;
+	white-space: nowrap;
 }
 
 .modal-bg {
-    @include mixins.modal-bg;
-    backdrop-filter: none;
+	@include mixins.modal-bg;
+	backdrop-filter: none;
 }
 
 .close-btn {
-    @include mixins.circle-button;
+	@include mixins.circle-button;
 
-    &:hover {
-        background-color: variables.$bg-base-100;
+	&:hover {
+		background-color: variables.$bg-base-100;
 
-        img {
-            content: url("../../../../public/assets/img/chat/close_hover.svg");
-        }
-    }
+		img {
+			content: url("../../../../public/assets/img/chat/close_hover.svg");
+		}
+	}
 }
 
 .button {
-    @include mixins.circle-button;
-    @include mixins.hover-bg(variables.$bg-neutral-hover);
+	@include mixins.circle-button;
+	@include mixins.hover-bg(variables.$bg-neutral-hover);
 }
 
 .dm-empty-state {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    width: 100%;
-    height: 100%;
-    gap: 20px;
-    padding: 32px;
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	width: 100%;
+	height: 100%;
+	gap: 20px;
+	padding: 32px;
 }
 
 .direct-message-contact {
-    display: flex;
-    align-items: end;
-    gap: 16px;
-    width: fit-content;
-    cursor: pointer;
+	display: flex;
+	align-items: end;
+	gap: 16px;
+	width: fit-content;
+	cursor: pointer;
 
-    img {
-        height: 80px;
-        width: 80px;
-    }
+	img {
+		height: 80px;
+		width: 80px;
+	}
 
-    h2 {
-        font-size: 24px;
-        font-weight: 700;
-        color: variables.$text-primary;
+	h2 {
+		font-size: 24px;
+		font-weight: 700;
+		color: variables.$text-primary;
 
-        &:hover {
-            color: variables.$text-hover;
-        }
-    }
+		&:hover {
+			color: variables.$text-hover;
+		}
+	}
 }
 
 .direct-message-info {
-    font-size: 18px;
-    color: variables.$text-secondary;
+	font-size: 18px;
+	color: variables.$text-secondary;
 }
 
 .chat-partner {
-    color: variables.$text-hover;
-    text-decoration: underline;
-    cursor: pointer;
+	color: variables.$text-hover;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+@media screen and (max-width: 640px) {
+	.chat-section {
+		width: 100%;
+	}
 }

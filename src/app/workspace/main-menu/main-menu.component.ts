@@ -141,7 +141,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		if (selectedChannel) {
 			this.functionTriggerService.callSelectChannel(selectedChannel);
 
-			if (this.screenWidth <= 768) {
+			if (this.screenWidth < 768) {
 				this.toggleMainMenu();
 				this.chatService.handleChatResponsive(true);
 			}
@@ -150,9 +150,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		} else {
 			this.onUserClickForDirectMessage(id);
 		}
-
-		// if (this.responsiveService.screenWidth <= 768) {
-		// }
 	}
 
 	goBackToMenu() {
