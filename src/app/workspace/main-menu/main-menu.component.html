@@ -24,7 +24,7 @@
 			</div>
 
 			<div class="mobile-search input-field">
-				<input placeholder="Search Devspace..." type="search" />
+				<input placeholder="Search Devspace..." type="search"/>
 				<svg
 					class="lucide lucide-search-icon lucide-search"
 					fill="none"
@@ -37,8 +37,8 @@
 					width="24"
 					xmlns="http://www.w3.org/2000/svg"
 				>
-					<path d="m21 21-4.34-4.34" />
-					<circle cx="11" cy="11" r="8" />
+					<path d="m21 21-4.34-4.34"/>
+					<circle cx="11" cy="11" r="8"/>
 				</svg>
 			</div>
 		</header>
@@ -151,18 +151,16 @@
 						</app-direct-message-list-item>-->
 
 						<app-direct-message-list-item
-							(click)="setSelectedChannel(dmChannel.channelId, null)"
+							(channelSelected)="onChannelSelected($event)"
 							*ngFor="let dmChannel of directMessageChannels"
 							[chatPartner]="getDirectMessageUserData(dmChannel) | async"
-
-						>
+							[dmChannel]="dmChannel">
 						</app-direct-message-list-item>
 
 						<app-direct-message-list-item
+							(channelSelected)="onChannelSelected($event)"
 							*ngFor="let user of availableUsersForDM"
-							(click)="setSelectedChannel(user.uid, user)"
-							[chatPartner]="user"
-						>
+							[chatPartner]="user">
 						</app-direct-message-list-item>
 					</div>
 				</div>

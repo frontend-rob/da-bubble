@@ -10,10 +10,10 @@ import {FormsModule} from "@angular/forms";
 import {UserData} from "../../interfaces/user.interface";
 import {UserService} from "../../services/user.service";
 import {FunctionTriggerService} from "../../services/function-trigger.service";
-import {combineLatest, Subject, takeUntil, Observable, map, of, Subscription} from "rxjs";
+import {combineLatest, map, Observable, of, Subject, Subscription, takeUntil} from "rxjs";
 import {UserLookupService} from "../../services/user-lookup.service";
-import { ResponsiveService } from "../../services/responsive.service";
-import { WorkspaceService } from "../../services/workspace.service";
+import {ResponsiveService} from "../../services/responsive.service";
+import {WorkspaceService} from "../../services/workspace.service";
 
 @Component({
 	selector: "app-main-menu",
@@ -74,7 +74,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		return this.chatService.activeChat;
 	}
 
-	constructor(private workspaceService: WorkspaceService) {}
+	constructor(private workspaceService: WorkspaceService) {
+	}
 
 	ngOnInit() {
 		this.initializeCurrentUser();
@@ -126,17 +127,35 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			return this.userLookupService.getUserById(otherUser).pipe(
 				map(user => user || this.currentUser)
 			);
+		} else {
+			return of(this.currentUser);
 		}
-		// Fallback, falls kein anderer Nutzer gefunden wird
-		return of(this.currentUser);
 	}
 
 	setActiveChat(id: string) {
 		this.chatService.setActiveChat(id);
 	}
 
-	setSelectedChannel(id: string, userData: UserData | null) {
+	setSelectedChannel(idOrEvent: string | {
+		channelId: string,
+		userData: UserData | null
+	}, userData?: UserData | null) {
+		let id: string;
+		let user: UserData | null;
+
+		if (typeof idOrEvent === 'object' && idOrEvent !== null) {
+			id = idOrEvent.channelId;
+			user = idOrEvent.userData;
+		} else {
+			id = idOrEvent;
+			user = userData || null;
+		}
+
+		console.log("setSelectedChannel called with:", {id, user});
 		console.log("dmchannels", this.directMessageChannels);
+
+		this.setActiveChat(id);
+
 		const selectedChannel = this.findChannelById(id);
 		if (selectedChannel) {
 			this.functionTriggerService.callSelectChannel(selectedChannel);
@@ -145,11 +164,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				this.toggleMainMenu();
 				this.chatService.handleChatResponsive(true);
 			}
-		} else if (userData) {
-			this.onUserClickForDirectMessage(userData);
+		} else if (user) {
+			this.onUserClickForDirectMessage(user);
 		} else {
 			this.onUserClickForDirectMessage(id);
 		}
+	}
+
+	// Neue Methode hinzufügen für das Event-Handling
+	onChannelSelected(event: { channelId: string, userData: UserData | null }) {
+		console.log("Channel selected:", event);
+		this.setSelectedChannel(event.channelId, event.userData);
 	}
 
 	goBackToMenu() {
@@ -263,14 +288,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		});
 	}
 
-	private subscribeToData() {
-		combineLatest([
-			this.chatService.getChannels(),
-			this.userService.allUsers$,
-		])
-			.pipe(takeUntil(this.destroy$))
-			.subscribe(async ([channels, users]) => {
-				// DEBUG: Gesamte Channels-Collection ausloggen
+    // ... andere Eigenschaften
+    private isInitialLoad = true; // Neue Eigenschaft hinzufügen
+
+    private subscribeToData() {
+        combineLatest([
+            this.chatService.getChannels(),
+            this.userService.allUsers$,
+        ])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(async ([channels, users]) => {
+                // DEBUG: Gesamte Channels-Collection ausloggen
 				console.log('=== CHANNELS COLLECTION DEBUG ===');
 				console.log('Anzahl Channels gesamt:', channels.length);
 				console.log('Alle Channels:', channels);
@@ -335,26 +363,30 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 				console.log('=== END DEBUG ===');
 
-				const updatedChannels = this.updateChannelMembersStatus(
-					channels,
-					users
-				);
+                const updatedChannels = this.updateChannelMembersStatus(
+                    channels,
+                    users
+                );
 
-				this.handleChannelsUpdate(updatedChannels);
-				this.handleUsersUpdate(users);
+                this.handleChannelsUpdate(updatedChannels);
+                this.handleUsersUpdate(users);
 
-				// Warten auf die asynchrone Aktualisierung
-				await this.updateAvailableUsers();
+                // Warten auf die asynchrone Aktualisierung
+                await this.updateAvailableUsers();
 
-				if (this.channels.length > 0 && this.screenWidth < 768) {
-					this.setActiveChat("");
-					this.setSelectedChannel("", null);
-				} else {
-					this.setActiveChat(this.channels[0].channelId);
-					this.setSelectedChannel(this.channels[0].channelId, null);
-				}
-			});
-	}
+                // NUR beim ersten Laden einen Channel automatisch auswählen
+                if (this.isInitialLoad && this.channels.length > 0) {
+                    if (this.screenWidth < 768) {
+                        this.setActiveChat("");
+                        this.setSelectedChannel("", null);
+                    } else {
+                        this.setActiveChat(this.channels[0].channelId);
+                        this.setSelectedChannel(this.channels[0].channelId, null);
+                    }
+                    this.isInitialLoad = false; // Flag setzen, dass Initial-Load abgeschlossen ist
+                }
+            });
+    }
 
 	private handleChannelsUpdate(channelsData: ChannelData[]) {
 		this.channels = [];
@@ -458,9 +490,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			if (!seenPairs.has(pairKey)) {
 				seenPairs.add(pairKey);
 				uniqueChannels.push(channel);
-				console.log('✅ Einzigartiger DM-Channel behalten:', channel.channelName, pairKey);
+				//console.log('✅ Einzigartiger DM-Channel behalten:', channel.channelName, pairKey);
 			} else {
-				console.log('🔴 Duplikat entfernt:', channel.channelName, pairKey);
+				//console.log('🔴 Duplikat entfernt:', channel.channelName, pairKey);
 			}
 		}
 

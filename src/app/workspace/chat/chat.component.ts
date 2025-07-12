@@ -144,10 +144,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		// Use the allUserData array to find the user by ID
-		const otherUser = this.allUserData.find(
-			(user) => user.uid === otherUserId
-		);
-		console.log("Other user:", otherUser);
+		const otherUser = this.allUserData.find(user => user.uid === otherUserId);
 		return otherUser;
 	}
 
