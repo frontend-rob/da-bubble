@@ -592,8 +592,42 @@
 	cursor: pointer;
 }
 
+@media screen and (max-width: 768px) {
+}
+
 @media screen and (max-width: 640px) {
 	.chat-section {
 		width: 100%;
+		flex: 1;
+		border-radius: 0;
+
+		.header {
+			padding: 8px 16px;
+			border-radius: 0;
+		}
+	}
+
+	.chat-title {
+		.icon {
+			width: 16px;
+			height: 16px;
+		}
+
+		h1 {
+			font-size: 20px;
+		}
+
+		.arrow {
+			width: 12px;
+		}
+	}
+
+	.add-member {
+		width: 32px;
+		height: 32px;
+
+		img {
+			width: 16px;
+		}
 	}
 }

@@ -1,21 +1,27 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {Observable, Subscription} from "rxjs";
-import {ChatService} from "../../services/chat.service";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
-import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {Timestamp} from "@angular/fire/firestore";
-import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {HelperService} from "../../services/helper.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
-import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
-import {UserLookupService} from "../../services/user-lookup.service";
-import {ChannelUserPipe} from "../../services/channel-user.pipe";
-import { ResponsiveService } from "../../services/responsive.service"
+import {
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+	TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Observable, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
+import { UserLookupService } from "../../services/user-lookup.service";
+import { ChannelUserPipe } from "../../services/channel-user.pipe";
+import { ResponsiveService } from "../../services/responsive.service";
 @Component({
 	selector: "app-chat",
 	templateUrl: "./chat.component.html",
@@ -93,6 +99,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private functionTriggerService: FunctionTriggerService = inject(
 		FunctionTriggerService
 	);
+	private screenWidthSubscription!: Subscription;
+	screenWidth!: number;
 
 	constructor(public readonly chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
@@ -118,21 +126,27 @@ export class ChatComponent implements OnInit, OnDestroy {
 	 * @returns The other user in the direct message channel
 	 */
 	getOtherUserInDirectMessage(): UserData | undefined {
-		if (!this.chatService.selectedChannel || !this.chatService.selectedChannel.channelMembers) {
+		if (
+			!this.chatService.selectedChannel ||
+			!this.chatService.selectedChannel.channelMembers
+		) {
 			return undefined;
 		}
 
 		// Find the user ID in the channel members who is not the current user
-		const otherUserId = this.chatService.selectedChannel.channelMembers.find(
-			uid => uid !== this.currentUser?.uid
-		);
+		const otherUserId =
+			this.chatService.selectedChannel.channelMembers.find(
+				(uid) => uid !== this.currentUser?.uid
+			);
 
 		if (!otherUserId) {
 			return undefined;
 		}
 
 		// Use the allUserData array to find the user by ID
-		const otherUser = this.allUserData.find(user => user.uid === otherUserId);
+		const otherUser = this.allUserData.find(
+			(user) => user.uid === otherUserId
+		);
 		console.log("Other user:", otherUser);
 		return otherUser;
 	}
@@ -168,10 +182,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 				}
 			}
 		);
-
 		this.chatService.getChannels().subscribe((channels: ChannelData[]) => {
 			this.channels = channels;
 		});
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
+			});
 	}
 
 	selectChannel(channel: ChannelData): void {
@@ -268,18 +285,22 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	onSearchInputChange(): void {
-		const text = this.searchText?.trim().toLowerCase() ?? '';
-		const currentMembers = this.chatService.selectedChannel?.channelMembers ?? [];
+		const text = this.searchText?.trim().toLowerCase() ?? "";
+		const currentMembers =
+			this.chatService.selectedChannel?.channelMembers ?? [];
 		if (!text) {
 			this.filteredUsers = [];
 			return;
 		}
-		this.filteredUsers = this.allUserData?.filter(
-			(user) =>
-				user.userName.toLowerCase().includes(text) &&
-				!this.selectedUsersToAdd?.some((sel) => sel.uid === user.uid) &&
-				!currentMembers.includes(user.uid)
-		) ?? [];
+		this.filteredUsers =
+			this.allUserData?.filter(
+				(user) =>
+					user.userName.toLowerCase().includes(text) &&
+					!this.selectedUsersToAdd?.some(
+						(sel) => sel.uid === user.uid
+					) &&
+					!currentMembers.includes(user.uid)
+			) ?? [];
 	}
 
 	addUserToSelection(user: UserData): void {
@@ -315,13 +336,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 		if (!channel || this.selectedUsersToAdd.length === 0) return;
 
 		const newUsers = this.selectedUsersToAdd.filter(
-			(newUser) =>
-				!channel.channelMembers.includes(newUser.uid)
+			(newUser) => !channel.channelMembers.includes(newUser.uid)
 		);
 
 		const updatedChannel: ChannelData = {
 			...channel,
-			channelMembers: [...channel.channelMembers, ...newUsers.map(user => user.uid)],
+			channelMembers: [
+				...channel.channelMembers,
+				...newUsers.map((user) => user.uid),
+			],
 			updatedAt: Timestamp.now(),
 		};
 
@@ -422,16 +445,19 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.newMessageInputData = "";
 		} else if (isEmailAdress && !isDirectMessage && !isChannel) {
 			// Find user by email in allUserData
-			const userWithEmail = this.allUserData.find(user => user.email === this.newMessageInputData);
+			const userWithEmail = this.allUserData.find(
+				(user) => user.email === this.newMessageInputData
+			);
 
 			if (userWithEmail) {
 				this.isSearchedUser = userWithEmail;
 
 				// Find channel that contains both the current user and the searched user
-				const directMessageChannel = this.channels.find(channel =>
-					channel.channelType.directMessage &&
-					channel.channelMembers.includes(this.currentUser.uid) &&
-					channel.channelMembers.includes(userWithEmail.uid)
+				const directMessageChannel = this.channels.find(
+					(channel) =>
+						channel.channelType.directMessage &&
+						channel.channelMembers.includes(this.currentUser.uid) &&
+						channel.channelMembers.includes(userWithEmail.uid)
 				);
 				if (directMessageChannel) {
 					this.chatService.selectedChannel = directMessageChannel;
