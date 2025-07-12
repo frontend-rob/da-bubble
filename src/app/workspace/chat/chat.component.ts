@@ -1,27 +1,21 @@
-import {
-	Component,
-	inject,
-	OnDestroy,
-	OnInit,
-	TrackByFunction,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { Observable, Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Message } from "../../interfaces/message.interface";
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { Timestamp } from "@angular/fire/firestore";
-import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { HelperService } from "../../services/helper.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
-import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
-import { UserLookupService } from "../../services/user-lookup.service";
-import { ChannelUserPipe } from "../../services/channel-user.pipe";
-import { ResponsiveService } from "../../services/responsive.service";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {map, Observable, of, Subscription} from "rxjs";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Message} from "../../interfaces/message.interface";
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {Timestamp} from "@angular/fire/firestore";
+import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {HelperService} from "../../services/helper.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {UserLookupService} from "../../services/user-lookup.service";
+import {ChannelUserPipe} from "../../services/channel-user.pipe";
+import { ResponsiveService } from "../../services/responsive.service"
 @Component({
 	selector: "app-chat",
 	templateUrl: "./chat.component.html",
@@ -93,7 +87,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	} ${new Date().getDate()}`;
 
 	private userLookupService: UserLookupService = inject(UserLookupService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private responsiveService: ResponsiveService = inject(ResponsiveService)
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
 	private functionTriggerService: FunctionTriggerService = inject(
@@ -115,39 +109,41 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	handleProfileCard(bool: boolean, person: UserData) {
-		if (this.currentUser.uid !== person.uid) {
-			this.chatService.handleProfileCard(bool);
-			this.chatService.setCurrentPerson(person);
-		}
+		this.chatService.handleProfileCard(bool);
+		this.chatService.setCurrentPerson(person);
 	}
 
 	/**
 	 * Gets the other user in a direct message channel (not the current user)
 	 * @returns The other user in the direct message channel
 	 */
-	getOtherUserInDirectMessage(): UserData | undefined {
-		if (
-			!this.chatService.selectedChannel ||
-			!this.chatService.selectedChannel.channelMembers
-		) {
-			return undefined;
+	getOtherUserInDirectMessage(): Observable<UserData | null> {
+		const selectedChannel = this.chatService.selectedChannel;
+
+		if (!selectedChannel || !selectedChannel.channelType?.directMessage) {
+			return of(null);
 		}
 
-		// Find the user ID in the channel members who is not the current user
-		const otherUserId =
-			this.chatService.selectedChannel.channelMembers.find(
-				(uid) => uid !== this.currentUser?.uid
-			);
-
-		if (!otherUserId) {
-			return undefined;
-		}
-
-		// Use the allUserData array to find the user by ID
-		const otherUser = this.allUserData.find(
-			(user) => user.uid === otherUserId
+		const isSelfChannel = selectedChannel.channelMembers.every(
+			member => member === this.currentUser.uid
 		);
-		return otherUser;
+
+		if (isSelfChannel) {
+			return of(this.currentUser);
+		}
+
+		const otherUserId = selectedChannel.channelMembers.find(
+			member => member !== this.currentUser.uid
+		);
+
+		if (otherUserId) {
+			console.log(otherUserId);
+			return this.userLookupService.getUserById(otherUserId).pipe(
+				map(user => user || null)
+			);
+		}
+
+		return of(null);
 	}
 
 	trackByMessageId: TrackByFunction<Message> = (

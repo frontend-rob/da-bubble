@@ -198,7 +198,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		} else if (this.searchTerm.startsWith("@")) {
 			return "Nach Personen suchen...";
 		}
-		return "Search in Devspac...";
+		return "Search in Devspace";
 	}
 
 	hasResults(): boolean {
