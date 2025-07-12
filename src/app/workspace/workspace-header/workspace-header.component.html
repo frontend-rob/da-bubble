@@ -1,6 +1,6 @@
 @if (currentPerson && currentPerson.photoURL) {
 <div class="header-container">
-	<div *ngIf="!isChatResponsive" class="logo-container">
+	<div *ngIf="screenWidth >= 768" class="logo-container">
 		<img
 			ngSrc="/assets/img/main-logo.svg"
 			alt="Main Logo"
@@ -11,13 +11,16 @@
 		<span>DABubble</span>
 	</div>
 
-	<div *ngIf="isChatResponsive" class="logo-container">
+	<div
+		*ngIf="screenWidth < 768"
+		(click)="goBackToMenu()"
+		class="logo-container"
+	>
 		<img
-			(click)="goBackToMenu()"
 			alt="arrow left img"
-			height="60"
-			ngSrc="assets/img/workspace-header/keyboard_arrow_down.svg"
-			width="60"
+			height="24"
+			ngSrc="assets/img/workspace-header/arrow-left.svg"
+			width="24"
 			class="arrow-left-img"
 		/>
 		<img
@@ -25,6 +28,7 @@
 			height="60"
 			ngSrc="assets/img/main-menu/workspace-logo.svg"
 			width="60"
+			class="logo-img"
 		/>
 		<span>Devspace</span>
 	</div>

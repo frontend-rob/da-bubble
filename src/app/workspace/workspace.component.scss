@@ -4,6 +4,11 @@
 app-chat {
 	display: flex;
 	flex: 1;
+	// height: calc(100vh - 80px);
+}
+
+app-main-menu {
+	// height: calc(100vh - 80px);
 }
 
 .workspace {
@@ -29,7 +34,7 @@ app-chat {
 		padding: 0 20px;
 		padding-bottom: 20px;
 		gap: 20px;
-		height: calc(100vh - 128px);
+		height: calc(100vh - 115px);
 		flex: 1;
 	}
 }
@@ -47,20 +52,15 @@ app-chat {
 	z-index: 1;
 }
 
-// @media screen and (min-width: 640px) {
-// 	app-chat {
-// 		flex: unset;
-// 	}
-
-// 	.workspace-container {
-// 		> .workspace-content {
-// 			padding: unset;
-// 			height: 100vh;
-// 		}
-// 	}
-// }
-
 @media screen and (max-width: 640px) {
+	app-chat {
+		height: calc(100vh - 80px);
+	}
+
+	app-main-menu {
+		height: calc(100vh - 80px);
+	}
+
 	.workspace-container {
 		.workspace-content {
 			padding: unset;

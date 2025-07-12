@@ -7,19 +7,14 @@
 	@include mixins.flex-column;
 	justify-content: space-between;
 	width: 100%;
-	height: 100%;
+	// height: calc(100vh - 80px);
 	border-radius: 30px;
 	background-color: variables.$bg-base-200;
-}
-
-.message-input-field {
-	width: 100%;
 }
 
 .header {
 	@include mixins.flex-row;
 	width: 100%;
-	height: 96px;
 	padding: 24px 32px;
 	border-top-left-radius: 30px;
 	border-top-right-radius: 30px;
@@ -490,12 +485,13 @@
 .chat-main {
 	@include mixins.flex-column(center, space-between);
 	width: 100%;
+	height: 100%;
 	overflow-y: auto;
 }
 
 .chat-history {
 	@include mixins.flex-column;
-	gap: 1.5rem;
+	gap: 24px;
 	margin: 48px 0;
 	width: 100%;
 
@@ -552,10 +548,10 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: end;
-	width: 100%;
-	height: 100%;
 	gap: 20px;
 	padding: 32px;
+	width: 100%;
+	height: 100%;
 }
 
 .direct-message-contact {
@@ -592,12 +588,18 @@
 	cursor: pointer;
 }
 
+.message-input-field {
+	width: 100%;
+}
+
 @media screen and (max-width: 768px) {
 }
 
 @media screen and (max-width: 640px) {
 	.chat-section {
 		width: 100%;
+		// height: calc(100% - 80px);
+		height: 100%;
 		flex: 1;
 		border-radius: 0;
 
@@ -629,5 +631,10 @@
 		img {
 			width: 16px;
 		}
+	}
+
+	.chat-main {
+		// min-height: 0;
+		// flex: 1;
 	}
 }

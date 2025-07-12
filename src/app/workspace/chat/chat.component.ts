@@ -99,7 +99,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private functionTriggerService: FunctionTriggerService = inject(
 		FunctionTriggerService
 	);
-	private screenWidthSubscription!: Subscription;
+	screenWidthSubscription!: Subscription;
 	screenWidth!: number;
 
 	constructor(public readonly chatService: ChatService) {
@@ -144,7 +144,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		// Use the allUserData array to find the user by ID
-		const otherUser = this.allUserData.find(user => user.uid === otherUserId);
+		const otherUser = this.allUserData.find(
+			(user) => user.uid === otherUserId
+		);
 		return otherUser;
 	}
 

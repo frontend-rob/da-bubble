@@ -10,6 +10,7 @@ import { SearchCardComponent } from "./search-card/search-card.component";
 import { AvatarsComponent } from "../../onboarding/avatars/avatars.component";
 import { ChatService } from "../../services/chat.service";
 import { WorkspaceService } from "../../services/workspace.service";
+import { ResponsiveService } from "../../services/responsive.service";
 
 @Component({
 	selector: "app-workspace-header",
@@ -27,7 +28,8 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 	currentPerson!: UserData;
 	userSubscription!: Subscription;
 	isMainMenuOpenSubscription!: Subscription;
-
+	screenWidthSubscription!: Subscription;
+	screenWidth!: number;
 	isMainMenuOpen: boolean = false;
 
 	constructor(
@@ -35,7 +37,8 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		private authService: AuthService,
 		private userService: UserService,
 		private chatService: ChatService,
-		private workspaceService: WorkspaceService
+		private workspaceService: WorkspaceService,
+		private responsiveService: ResponsiveService
 	) {}
 
 	get isChatResponsive() {
@@ -70,6 +73,10 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		this.isMainMenuOpenSubscription =
 			this.workspaceService.isMainMenuOpen$.subscribe((val) => {
 				this.isMainMenuOpen = val;
+			});
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
 			});
 	}
 
