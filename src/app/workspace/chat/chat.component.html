@@ -250,7 +250,7 @@
 						<div *ngIf="!isNameEdit" class="name-container">
 							<div>
 								<h2>Channel-Name</h2>
-								<button (click)="toggleNameEdit()">Bearbeiten</button>
+								<button (click)="toggleNameEdit()">Edit</button>
 							</div>
 							<div class="name">
 								<img
@@ -266,7 +266,7 @@
 						<div *ngIf="isNameEdit" class="name-container-edit">
 							<div>
 								<h2>Channel-Name</h2>
-								<button (click)="toggleNameEdit()">Speichern</button>
+								<button (click)="toggleNameEdit()">Save</button>
 							</div>
 							<div class="input-container">
 								<img
@@ -286,7 +286,7 @@
 						<div *ngIf="!isDescriptionEdit" class="description-container">
 							<div>
 								<h2>Description</h2>
-								<button (click)="toggleDescriptionEdit()">Bearbeiten</button>
+								<button (click)="toggleDescriptionEdit()">Edit</button>
 							</div>
 							<div class="description">
 								{{
@@ -309,14 +309,14 @@
 								>
 									{{ creator.userName }}
 								</ng-container>
-								<ng-template #unknownCreator>Unbekannt</ng-template>
+								<ng-template #unknownCreator>Unknown</ng-template>
 							</div>
 						</div>
 
 						<div *ngIf="isDescriptionEdit" class="description-container-edit">
 							<div>
 								<h2>Description</h2>
-								<button (click)="toggleDescriptionEdit()">Speichern</button>
+								<button (click)="toggleDescriptionEdit()">Save</button>
 							</div>
 							<div class="input-container">
 								<input
@@ -340,7 +340,7 @@
 								>
 									{{ creator.userName }}
 								</ng-container>
-								<ng-template #unknownCreator>Unbekannt</ng-template>
+								<ng-template #unknownCreator>Unknown</ng-template>
 							</div>
 						</div>
 						<button class="btn btn-primary" (click)="leaveChannel()">
