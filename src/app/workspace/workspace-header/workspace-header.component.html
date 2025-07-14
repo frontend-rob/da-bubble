@@ -1,21 +1,19 @@
 @if (currentPerson && currentPerson.photoURL) {
 <div class="header-container">
-	<div *ngIf="screenWidth >= 768" class="logo-container">
+	@if (screenWidth < 768 && !isMainMenuOpen) {
+	<div class="logo-container">
 		<img
 			ngSrc="/assets/img/main-logo.svg"
 			alt="Main Logo"
 			priority
 			width="70"
 			height="70"
+			class="logo-img"
 		/>
 		<span>DABubble</span>
 	</div>
-
-	<div
-		*ngIf="screenWidth < 768"
-		(click)="goBackToMenu()"
-		class="logo-container"
-	>
+	} @else{
+	<div (click)="goBackToMenu()" class="logo-container">
 		<img
 			alt="arrow left img"
 			height="24"
@@ -32,6 +30,7 @@
 		/>
 		<span>Devspace</span>
 	</div>
+	}
 
 	<app-search-card class="search-bar-container"></app-search-card>
 
@@ -125,4 +124,3 @@
 >
 	<app-avatars></app-avatars>
 </div>
-<!-- - Set modalBG -->

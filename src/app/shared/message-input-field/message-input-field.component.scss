@@ -3,7 +3,7 @@
 @use "./../../../styles/mixins" as mixins;
 
 .message-input-wrapper {
-	padding: 1.25rem;
+	padding: 20px;
 	width: 100%;
 
 	.message-input-section {
@@ -48,19 +48,28 @@
 }
 
 .emoji {
-	@include mixins.hover-image("/assets/img/shared/message-input-field/emoji_hover.svg");
+	@include mixins.hover-image(
+		"/assets/img/shared/message-input-field/emoji_hover.svg"
+	);
 }
 
 .user-tag {
-	@include mixins.hover-image("/assets/img/shared/message-input-field/user-tag_hover.svg");
+	@include mixins.hover-image(
+		"/assets/img/shared/message-input-field/user-tag_hover.svg"
+	);
 }
 
 .channel-tag {
-	@include mixins.hover-image("/assets/img/shared/message-input-field/channel-tag_hover.svg");
+	@include mixins.hover-image(
+		"/assets/img/shared/message-input-field/channel-tag_hover.svg"
+	);
 }
 
 .send-button {
-	@include mixins.image-hover("/assets/img/send.svg", "/assets/img/send_hover.svg");
+	@include mixins.image-hover(
+		"/assets/img/send.svg",
+		"/assets/img/send_hover.svg"
+	);
 	background-size: cover;
 	background-position: center;
 	height: 18.77px;
@@ -68,5 +77,11 @@
 
 	&:hover {
 		cursor: pointer;
+	}
+}
+
+@media screen and (max-width: 640px) {
+	.message-input-wrapper {
+		padding: 16px;
 	}
 }

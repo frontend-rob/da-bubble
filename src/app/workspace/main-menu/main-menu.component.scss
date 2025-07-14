@@ -374,12 +374,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-	.main-menu-section {
-		width: 100vw;
-	}
-
 	.main-menu-container {
-		height: calc(100% - 115px);
 		border-radius: 0;
 
 		> header {
@@ -425,7 +420,7 @@
 
 @media screen and (max-width: 640px) {
 	.main-menu-section {
-		// width: 100%;
+		height: calc(100vh - 80px);
 	}
 
 	.main-menu-container {
