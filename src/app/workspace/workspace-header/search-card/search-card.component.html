@@ -1,30 +1,32 @@
 <div class="search-container">
-	<div
-		[className]="showResults ? 'search-input-wrapper search-input-active' : 'search-input-wrapper search-input-inactive'">
 
-		<input #searchInput
-					 (blur)="onSearchBlur()"
-					 (focus)="onSearchFocus()"
-					 (input)="onSearchInput($event)"
-					 (keydown)="onKeyDown($event)"
-					 [(ngModel)]="searchTerm"
-					 [className]="showResults ? 'search-input-active search-input' : 'search-input-inactive search-input'"
-					 [placeholder]="getSearchPlaceholder()"
-					 autocomplete="off"
-					 type="text">
-		<img
-			alt="Search"
-			class="search-icon"
-			height="36" ngSrc="assets/img/workspace-header/search.svg" width="35">
-		<button
-			(click)="clearSearch()"
-			*ngIf="searchTerm.length > 0"
-			[className]="showResults ? 'clear-button search-input-active' : 'clear-button search-input-inactive'">
-			×
-		</button>
-	</div>
+    <div class="search-bar input-field">
+        <input #searchInput [className]="showResults ? 'search-input-wrapper search-input-active' : 'search-input-wrapper search-input-inactive'"
+               (blur)="onSearchBlur()"
+               (focus)="onSearchFocus()"
+               (input)="onSearchInput($event)"
+               (keydown)="onKeyDown($event)"
+               [(ngModel)]="searchTerm"
+               [placeholder]="getSearchPlaceholder()"
+               autocomplete="off"
+         placeholder="Search Devspace..." type="search" />
+        <svg class="lucide lucide-search-icon lucide-search" fill="none" height="24" stroke="currentColor"
+            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="m21 21-4.34-4.34" />
+            <circle cx="11" cy="11" r="8" />
+        </svg>
+        <button (click)="clearSearch()" *ngIf="searchTerm.length > 0"
+            [className]="showResults ? 'clear-button search-input-active' : 'clear-button search-input-inactive'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x">
+                <path d="M18 6 6 18" />
+                <path d="m6 6 12 12" />
+            </svg>
+        </button>
+    </div>
 
-	<!-- Suchergebnisse -->
+	<!-- Search results -->
 	<div (mousedown)="onResultsMouseDown($event)"
 			 *ngIf="showResults"
 			 class="search-results-container">
@@ -33,17 +35,17 @@
 			<!-- Loading State -->
 			<div *ngIf="isSearching" class="search-loading">
 				<div class="loading-spinner"></div>
-				<span>Suche läuft...</span>
+				<span>Searching...</span>
 			</div>
 
 			<!-- No Results -->
 			<div *ngIf="!isSearching && !hasResults()" class="no-results">
-				<span>Keine Ergebnisse für "{{ searchTerm }}"</span>
+				<span>No results for "{{ searchTerm }}"</span>
 				<div class="search-tips">
-					<p>Tipps:</p>
+					<p>Hints</p>
 					<ul>
-						<li>Verwende <strong>#</strong> um nur in Channels zu suchen</li>
-						<li>Verwende <strong>&#64;</strong> um nur nach Personen zu suchen</li>
+						<li>Use <kbd>#</kbd> to search in channels</li>
+						<li>Use <kbd>&#64;</kbd> to search for users</li>
 					</ul>
 				</div>
 			</div>
@@ -55,7 +57,7 @@
 				<div *ngIf="searchResults.users.length > 0" class="result-category">
 					<h3 class="category-title">
 						<img alt="Channels" height="168" ngSrc="assets/img/avatars/av-00.svg" width="168">
-						Personen ({{ searchResults.users.length }})
+						Users ({{ searchResults.users.length }})
 					</h3>
 					<div
 						(click)="selectResult(result)"
@@ -95,7 +97,7 @@
 						<div class="result-content">
 							<div class="result-header">
 								<span class="channel-name"># {{ result.channelName }}</span>
-								<span class="member-count">{{ result.channelMembers?.length || 0 }} Mitglieder</span>
+								<span class="member-count">{{ result.channelMembers?.length || 0 }} Members</span>
 							</div>
 							<div *ngIf="result.channelDescription" class="channel-description">
 								{{ result.channelDescription }}
@@ -104,11 +106,11 @@
 					</div>
 				</div>
 
-				<!-- Nachrichten in Channels -->
+				<!-- Messages in Channels -->
 				<div *ngIf="searchResults.messages.length > 0" class="result-category">
 					<h3 class="category-title">
 						<img alt="Messages" height="19" ngSrc="assets/img/chat/comment.svg" width="21">
-						Nachrichten ({{ searchResults.messages.length }})
+						Messages ({{ searchResults.messages.length }})
 					</h3>
 					<div
 						(click)="selectResult(result)"
@@ -129,7 +131,7 @@
 				<div *ngIf="searchResults.directMessages.length > 0" class="result-category">
 					<h3 class="category-title">
 						<img alt="Direct Messages" height="24" ngSrc="assets/img/main-menu/direct_messages.svg" width="24">
-						Direktnachrichten ({{ searchResults.directMessages.length }})
+						Direct Messages ({{ searchResults.directMessages.length }})
 					</h3>
 					<div
 						(click)="selectResult(result)"
