@@ -4,441 +4,436 @@
 @use "../../../styles/mixins" as mixins;
 
 .avatar {
-	@include mixins.status-indicator;
-	@include mixins.flex-center;
-	height: 50px;
-	width: 50px;
+    @include mixins.status-indicator;
+    @include mixins.flex-center;
+    height: 50px;
+    width: 50px;
 
-	> img {
-		@include mixins.avatar;
-	}
+    >img {
+        @include mixins.avatar;
+    }
 }
 
 .main-menu-section {
-	@include mixins.flex-column(flex-start, flex-start);
-	width: 366px;
-	height: 100%;
+    @include mixins.flex-column(flex-start, flex-start);
+    width: 366px;
+    height: 100%;
 
-	&.close-menu {
-		display: none;
-		transform: translateX(-100%);
-	}
+    &.close-menu {
+        display: none;
+        transform: translateX(-100%);
+    }
 }
 
 .main-menu-container {
-	@include mixins.flex-column(center);
-	width: 100%;
-	height: 100%;
-	position: relative;
-	background-color: white;
-	border-radius: 30px;
-	padding: 20px;
-	gap: 24px;
+    @include mixins.flex-column(center);
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: white;
+    border-radius: 30px;
+    padding: 20px;
+    gap: 24px;
 
-	> header {
-		@include mixins.flex-between;
-		width: 100%;
-		background-color: variables.$bg-base-200;
-		border-radius: 20px;
-		gap: 10px;
+    >header {
+        @include mixins.flex-between;
+        width: 100%;
+        background-color: variables.$bg-base-200;
+        border-radius: 20px;
+        gap: 10px;
 
-		> .desktop-header {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			width: 100%;
+        >.desktop-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
 
-			> .logo-container {
-				@include mixins.flex-center;
-				gap: 16px;
+            >.logo-container {
+                @include mixins.flex-center;
+                gap: 16px;
 
-				> img {
-					@include mixins.flex-row;
-					gap: 10px;
+                >img {
+                    @include mixins.flex-row;
+                    gap: 10px;
 
-					> img {
-						height: 45px;
-					}
-				}
+                    >img {
+                        height: 45px;
+                    }
+                }
 
-				> h1 {
-					font-size: 24px;
-					font-weight: 700;
-				}
-			}
+                >h1 {
+                    font-size: 24px;
+                    font-weight: 700;
+                }
+            }
 
-			.add-new-channel-btn {
-				@include mixins.circle-button;
-				padding: 8px;
-				@include mixins.hover-bg(variables.$bg-neutral-hover);
+            .add-new-channel-btn {
+                @include mixins.circle-button;
+                padding: 8px;
+                @include mixins.hover-bg(variables.$bg-neutral-hover);
 
-				> img {
-					width: 24px;
-					height: 24px;
+                >img {
+                    width: 24px;
+                    height: 24px;
 
-					&:hover {
-						content: url("/assets/img/main-menu/edit_square_hover.svg");
-					}
-				}
-			}
-		}
+                    &:hover {
+                        content: url("/assets/img/main-menu/edit_square_hover.svg");
+                    }
+                }
+            }
+        }
 
-		.mobile-search {
-			display: none;
-		}
-	}
+        .search-bar-container {
+            display: none
+        }
+    }
 
-	main {
-		@include mixins.flex-column;
-		gap: 24px;
-		width: 100%;
-		overflow-y: auto;
+    main {
+        @include mixins.flex-column;
+        gap: 24px;
+        width: 100%;
+        overflow-y: auto;
 
-		.menu-container {
-			@include mixins.flex-column(center, space-between);
-			gap: 24px;
-			width: 100%;
-			position: relative;
-			background-color: white;
-			border-radius: 20px;
+        .menu-container {
+            @include mixins.flex-column(center, space-between);
+            gap: 24px;
+            width: 100%;
+            position: relative;
+            background-color: white;
+            border-radius: 20px;
 
-			> header {
-				@include mixins.flex-between;
-				width: 100%;
-				height: 48px;
-				cursor: pointer;
+            >header {
+                @include mixins.flex-between;
+                width: 100%;
+                height: 48px;
+                cursor: pointer;
 
-				> div {
-					@include mixins.flex-row;
-					gap: 16px;
+                >div {
+                    @include mixins.flex-row;
+                    gap: 16px;
 
-					&:hover {
-						color: variables.$text-hover;
+                    &:hover {
+                        color: variables.$text-hover;
 
-						.dropdown-img {
-							content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
-						}
+                        .dropdown-img {
+                            content: url("/assets/img/main-menu/arrow_close_dropdown_hover.svg");
+                        }
 
-						.channel-img {
-							content: url("/assets/img/main-menu/channels_hover.svg");
-						}
+                        .channel-img {
+                            content: url("/assets/img/main-menu/channels_hover.svg");
+                        }
 
-						.direct-messages-img {
-							content: url("/assets/img/main-menu/direct_messages_hover.svg");
-						}
-					}
+                        .direct-messages-img {
+                            content: url("/assets/img/main-menu/direct_messages_hover.svg");
+                        }
+                    }
 
-					&.close-list-btn {
-						.dropdown-img {
-							content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
-						}
+                    &.close-list-btn {
+                        .dropdown-img {
+                            content: url("/assets/img/main-menu/arrow_open_dropdown.svg");
+                        }
 
-						&:hover {
-							.dropdown-img {
-								content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
-							}
-						}
-					}
+                        &:hover {
+                            .dropdown-img {
+                                content: url("/assets/img/main-menu/arrow_open_dropdown_hover.svg");
+                            }
+                        }
+                    }
 
-					> div {
-						@include mixins.flex-center;
-						gap: 10px;
+                    >div {
+                        @include mixins.flex-center;
+                        gap: 10px;
 
-						> h2 {
-							@include mixins.heading-medium;
-						}
+                        >h2 {
+                            @include mixins.heading-medium;
+                        }
 
-						> div {
-							@include mixins.flex-center;
-							width: auto;
-							height: 40px;
-						}
-					}
-				}
-			}
+                        >div {
+                            @include mixins.flex-center;
+                            width: auto;
+                            height: 40px;
+                        }
+                    }
+                }
+            }
 
-			.menu-list-container {
-				@include mixins.flex-column;
-				padding-left: 26px;
-				gap: 24px;
-				width: 100%;
-				height: auto;
+            .menu-list-container {
+                @include mixins.flex-column;
+                padding-left: 26px;
+                gap: 24px;
+                width: 100%;
+                height: auto;
 
-				&.close-list {
-					.menu-list {
-						display: none;
-					}
-				}
+                &.close-list {
+                    .menu-list {
+                        display: none;
+                    }
+                }
 
-				.menu-list {
-					@include mixins.flex-column;
-					gap: 16px;
+                .menu-list {
+                    @include mixins.flex-column;
+                    gap: 16px;
 
-					.add-channel-btn {
-						@include mixins.flex-center;
-						margin-top: 12px;
-						padding-left: 20px;
-						gap: 10px;
-						cursor: pointer;
+                    .add-channel-btn {
+                        @include mixins.flex-center;
+                        margin-top: 12px;
+                        padding-left: 20px;
+                        gap: 10px;
+                        cursor: pointer;
 
-						div {
-							@include mixins.flex-center;
-							width: 24px;
-							height: 24px;
-						}
+                        div {
+                            @include mixins.flex-center;
+                            width: 24px;
+                            height: 24px;
+                        }
 
-						&:hover {
-							img {
-								content: url("/assets/img/main-menu/add_circle_hover.svg");
-							}
+                        &:hover {
+                            img {
+                                content: url("/assets/img/main-menu/add_circle_hover.svg");
+                            }
 
-							h3 {
-								color: variables.$text-hover;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+                            h3 {
+                                color: variables.$text-hover;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 .mobile-add-new-channel-btn {
-	display: none;
+    display: none;
 }
 
 .button {
-	@include mixins.circle-button;
-	@include mixins.hover-bg(variables.$bg-neutral-hover);
-	justify-content: center !important;
+    @include mixins.circle-button;
+    @include mixins.hover-bg(variables.$bg-neutral-hover);
+    justify-content: center !important;
 }
 
 .modal-bg {
-	@include mixins.flex-center;
-	@include mixins.modal-bg;
-	width: 100vw;
-	height: 100vh;
+    @include mixins.flex-center;
+    @include mixins.modal-bg;
+    width: 100vw;
+    height: 100vh;
 }
 
 .new-channel-modal {
-	@include mixins.flex-center;
-	width: 872px;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
-	border-radius: 30px;
-	box-shadow: 0 6px 10px 0 #00000033;
-	background-color: variables.$bg-base-200;
+    @include mixins.flex-center;
+    width: 872px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    border-radius: 30px;
+    box-shadow: 0 6px 10px 0 #00000033;
+    background-color: variables.$bg-base-200;
 
-	.container {
-		@include mixins.flex-column;
-		padding: 40px;
-		gap: 20px;
-		width: 100%;
-		height: 100%;
+    .container {
+        @include mixins.flex-column;
+        padding: 40px;
+        gap: 20px;
+        width: 100%;
+        height: 100%;
 
-		.new-channel-modal-header {
-			@include mixins.flex-between;
-			align-items: flex-start;
-			width: 100%;
+        .new-channel-modal-header {
+            @include mixins.flex-between;
+            align-items: flex-start;
+            width: 100%;
 
-			h1 {
-				@include mixins.heading-large;
-			}
+            h1 {
+                @include mixins.heading-large;
+            }
 
-			> div {
-				@include mixins.flex-column;
-				gap: 8px;
-			}
+            >div {
+                @include mixins.flex-column;
+                gap: 8px;
+            }
 
-			.header-description {
-				font-size: 18px;
-			}
+            .header-description {
+                font-size: 18px;
+            }
 
-			.close-btn {
-				@include mixins.circle-button;
+            .close-btn {
+                @include mixins.circle-button;
 
-				&:hover {
-					background-color: variables.$bg-base-100;
+                &:hover {
+                    background-color: variables.$bg-base-100;
 
-					img {
-						content: url("/assets/img/chat/close_hover.svg");
-					}
-				}
-			}
-		}
+                    img {
+                        content: url("/assets/img/chat/close_hover.svg");
+                    }
+                }
+            }
+        }
 
-		.new-channel-modal-main {
-			@include mixins.flex-column;
-			gap: 24px;
-			width: 100%;
+        .new-channel-modal-main {
+            @include mixins.flex-column;
+            gap: 24px;
+            width: 100%;
 
-			> div {
-				@include mixins.flex-column;
-				gap: 20px;
-				width: 100%;
+            >div {
+                @include mixins.flex-column;
+                gap: 20px;
+                width: 100%;
 
-				h2 {
-					font-weight: 700;
-					@include mixins.body-text;
+                h2 {
+                    font-weight: 700;
+                    @include mixins.body-text;
 
-					> span {
-						font-weight: 400;
-						color: variables.$text-secondary;
-					}
-				}
+                    >span {
+                        font-weight: 400;
+                        color: variables.$text-secondary;
+                    }
+                }
 
-				.input-container {
-					@include mixins.input-field;
-					border: 1px solid variables.$border;
-				}
-			}
+                .input-container {
+                    @include mixins.input-field;
+                    border: 1px solid variables.$border;
+                }
+            }
 
-			.submit-container {
-				@include mixins.flex-row(flex-end);
+            .submit-container {
+                @include mixins.flex-row(flex-end);
 
-				> button {
-					@include mixins.action-button(
-						variables.$bg-primary,
-						variables.$text-inverse
-					);
+                >button {
+                    @include mixins.action-button(variables.$bg-primary,
+                        variables.$text-inverse);
 
-					&:hover {
-						background-color: variables.$bg-primary-accent;
-					}
-				}
-			}
-		}
-	}
+                    &:hover {
+                        background-color: variables.$bg-primary-accent;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .menunav-button-container {
-	position: fixed;
-	bottom: 40px;
-	left: 0;
+    position: fixed;
+    bottom: 40px;
+    left: 0;
 
-	> .menunav-button {
-		padding: 6px 24px;
-		transform: rotate(-90deg);
-		transform-origin: left top;
-		border-radius: 0 0 20px 20px;
-		background-color: white;
-		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-		cursor: pointer;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		font-size: 18px;
+    >.menunav-button {
+        padding: 6px 24px;
+        transform: rotate(-90deg);
+        transform-origin: left top;
+        border-radius: 0 0 20px 20px;
+        background-color: white;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 18px;
 
-		> .text-menu-button {
-			display: inline-flex;
-			width: 100%;
-		}
+        >.text-menu-button {
+            display: inline-flex;
+            width: 100%;
+        }
 
-		> .img-field {
-			width: 32px;
-			height: 32px;
-			margin: 1.5px;
-			transform: rotate(90deg);
-			transform-origin: center center;
-			background-size: cover;
-			background-position: center;
-		}
+        >.img-field {
+            width: 32px;
+            height: 32px;
+            margin: 1.5px;
+            transform: rotate(90deg);
+            transform-origin: center center;
+            background-size: cover;
+            background-position: center;
+        }
 
-		> .img-field.img-close {
-			background-image: url("/assets/img/main-menu/workspaces_close_default.svg");
-		}
+        >.img-field.img-close {
+            background-image: url("/assets/img/main-menu/workspaces_close_default.svg");
+        }
 
-		> .img-field.img-open {
-			background-image: url("/assets/img/main-menu/workspaces_open_default.svg");
-		}
+        >.img-field.img-open {
+            background-image: url("/assets/img/main-menu/workspaces_open_default.svg");
+        }
 
-		&:hover {
-			color: #535af1;
+        &:hover {
+            color: #535af1;
 
-			> .text-menu-button {
-				font-weight: 600;
-			}
+            >.text-menu-button {
+                font-weight: 600;
+            }
 
-			> .img-close {
-				background-image: url("/assets/img/main-menu/workspaces_close_hover.svg");
-			}
+            >.img-close {
+                background-image: url("/assets/img/main-menu/workspaces_close_hover.svg");
+            }
 
-			> .img-open {
-				background-image: url("/assets/img/main-menu/workspaces_open_hover.svg");
-			}
-		}
-	}
+            >.img-open {
+                background-image: url("/assets/img/main-menu/workspaces_open_hover.svg");
+            }
+        }
+    }
 }
 
 @media screen and (max-width: 1200px) {
-	.main-menu-container {
-		border-radius: 0;
+    .main-menu-container {
+        border-radius: 0;
 
-		> header {
-			position: relative;
+        >header {
+            position: relative;
 
-			> .desktop-header {
-				display: none;
-			}
+            >.desktop-header {
+                display: none;
+            }
 
-			> .mobile-search {
-				display: flex;
+            >.search-bar-container {
+                display: flex;
+                width: 100%;
+            }
+        }
+    }
 
-				input {
-					background-color: variables.$bg-base-200;
-				}
-			}
-		}
-	}
+    .mobile-add-new-channel-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 56px;
+        right: 16px;
+        z-index: 99;
+        background-color: variables.$bg-primary;
+        width: 64px;
+        height: 64px;
+        border-radius: 100px;
+        box-shadow: 0 6px 10px 0 #00000033;
 
-	.mobile-add-new-channel-btn {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: absolute;
-		bottom: 56px;
-		right: 16px;
-		z-index: 99;
-		background-color: variables.$bg-primary;
-		width: 64px;
-		height: 64px;
-		border-radius: 100px;
-		box-shadow: 0 6px 10px 0 #00000033;
+        >img {
+            filter: invert(1);
+        }
+    }
 
-		> img {
-			filter: invert(1);
-		}
-	}
-
-	.menunav-button-container {
-		display: none;
-	}
+    .menunav-button-container {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 640px) {
-	.main-menu-section {
-		height: calc(100vh - 80px);
-	}
+    .main-menu-section {
+        height: calc(100vh - 80px);
+    }
 
-	.main-menu-container {
-		padding: 16px;
-		border-radius: 0;
-	}
+    .main-menu-container {
+        padding: 16px;
+        border-radius: 0;
+    }
 
-	.new-channel-modal {
-		width: 100%;
-		height: 100%;
-		border-radius: 0;
+    .new-channel-modal {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
 
-		.container {
-			padding: 40px 16px;
-		}
+        .container {
+            padding: 40px 16px;
+        }
 
-		.submit-container {
-			justify-content: flex-end;
-		}
-	}
+        .submit-container {
+            justify-content: flex-end;
+        }
+    }
 }

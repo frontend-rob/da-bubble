@@ -27,6 +27,36 @@ import {
 import { UserLookupService } from "../../services/user-lookup.service";
 import { ResponsiveService } from "../../services/responsive.service";
 import { WorkspaceService } from "../../services/workspace.service";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import {
+	ChangeDetectorRef,
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+} from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { ChatService } from "../../services/chat.service";
+import { Timestamp } from "firebase/firestore";
+import { FormsModule } from "@angular/forms";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {
+	combineLatest,
+	map,
+	Observable,
+	of,
+	Subject,
+	Subscription,
+	takeUntil,
+} from "rxjs";
+import { UserLookupService } from "../../services/user-lookup.service";
+import { ResponsiveService } from "../../services/responsive.service";
+import { WorkspaceService } from "../../services/workspace.service";
+import { SearchCardComponent } from "../workspace-header/search-card/search-card.component";
 
 @Component({
 	selector: "app-main-menu",
@@ -36,6 +66,7 @@ import { WorkspaceService } from "../../services/workspace.service";
 		DirectMessageListItemComponent,
 		FormsModule,
 		NgOptimizedImage,
+		SearchCardComponent,
 	],
 	templateUrl: "./main-menu.component.html",
 	styleUrl: "./main-menu.component.scss",
@@ -57,9 +88,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	directMessageChannels: ChannelData[] = [];
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
-	selfChannel: ChannelData | null = null; // Kanal für Selbst-Chat
+	selfChannel: ChannelData | null = null;
 
-	private isInitialLoad = true; // Neue Eigenschaft hinzufügen
+	private isInitialLoad = true;
 
 	channelFormData = {
 		name: "",

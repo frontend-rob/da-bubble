@@ -2,85 +2,115 @@
 @use "./fonts";
 
 .input-field {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
 
-	svg {
-		position: absolute;
-		top: 50%;
-		left: 1.25rem;
-		height: 1.25rem;
-		width: 1.25rem;
-		transform: translateY(-50%);
-		color: variables.$text-secondary;
-	}
+    >svg {
+        position: absolute;
+        top: 50%;
+        left: 1.25rem;
+        height: 1.25rem;
+        width: 1.25rem;
+        transform: translateY(-50%);
+        color: variables.$text-secondary;
+    }
 
-	input {
-		width: 100%;
-		height: 3rem;
-		padding: 0.5rem 3.5rem;
-		border: 1px solid variables.$bg-base-100;
-		border-radius: 999rem;
-		font-size: 1rem;
-		line-height: 1.25;
-		color: variables.$text-primary;
-		font-family: 'Nunito', serif;
-		background-color: variables.$bg-base-100;
+    >button {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 1.75rem;
+        width: 1.75rem;
+        border-radius: 16px;
+        border: none;
+        background-color: variables.$bg-base-200;
+        cursor: pointer;
 
-		&::placeholder {
-			color: variables.$text-secondary;
-			font-family: 'Nunito', serif;
-			font-weight: 300;
-		}
+        >svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: variables.$text-primary;
+        }
 
-		&:hover {
-			border: 1px solid variables.$bg-neutral;
-		}
+        &:hover {
+            background-color: variables.$bg-neutral-hover;
 
-		&:focus-visible {
-			border: 1px solid variables.$bg-primary;
-			outline: none;
+            >svg {
+                color: variables.$bg-primary-accent;
+            }
+        }
+    }
 
-			&::placeholder {
-				color: transparent;
-			}
+    input {
+        width: 100%;
+        height: 3rem;
+        padding: 0.5rem 3.5rem;
+        border: 1px solid variables.$bg-base-100;
+        border-radius: 999rem;
+        font-size: 1rem;
+        line-height: 1.25;
+        color: variables.$text-primary;
+        font-family: 'Nunito', serif;
+        background-color: variables.$bg-base-100;
 
-			+ svg {
-				color: variables.$text-primary !important;
-			}
-		}
-	}
+        &::placeholder {
+            color: variables.$text-secondary;
+            font-family: 'Nunito', serif;
+            font-weight: 300;
+        }
+
+        &:hover {
+            border: 1px solid variables.$bg-neutral;
+        }
+
+        &:focus-visible {
+            border: 1px solid variables.$bg-primary;
+            outline: none;
+
+            &::placeholder {
+                color: transparent;
+            }
+
+            +svg {
+                color: variables.$text-primary !important;
+            }
+        }
+    }
 }
 
 .checkbox-field {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
 
-	input[type="checkbox"] {
-		height: 1.25rem;
-		width: 1.25rem;
-		cursor: pointer;
-		accent-color: variables.$bg-primary;
-		background: variables.$bg-base-200;
-	}
+    input[type="checkbox"] {
+        height: 1.25rem;
+        width: 1.25rem;
+        cursor: pointer;
+        accent-color: variables.$bg-primary;
+        background: variables.$bg-base-200;
+    }
 }
 
 .error-message {
-	display: block;
-	min-height: 1.25rem;
-	margin-bottom: 0.5rem;
-	font-size: 0.875rem;
-	color: variables.$bg-error;
-	font-weight: 300;
-	opacity: 0;
-	transition: opacity 0.3s ease;
+    display: block;
+    min-height: 1.25rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    color: variables.$bg-error;
+    font-weight: 300;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 
-	&.visible {
-		opacity: 1;
-	}
+    &.visible {
+        opacity: 1;
+    }
 }
