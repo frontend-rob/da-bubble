@@ -1,6 +1,6 @@
 @if (currentPerson && currentPerson.photoURL) {
 <div class="header-container">
-	@if (screenWidth < 768 && !isMainMenuOpen) {
+	@if (screenWidth < 768 && !isMainMenuOpen || screenWidth >= 768) {
 	<div class="logo-container">
 		<img
 			ngSrc="/assets/img/main-logo.svg"
@@ -12,7 +12,7 @@
 		/>
 		<span>DABubble</span>
 	</div>
-	} @else{
+	} @else {
 	<div (click)="goBackToMenu()" class="logo-container">
 		<img
 			alt="arrow left img"
@@ -67,6 +67,10 @@
 	[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
 	class="user-menu"
 >
+	@if (screenWidth < 768) {
+	<button (click)="handleUserMenu(false)" class="btn mobile-close-btn"></button>
+	}
+
 	<button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

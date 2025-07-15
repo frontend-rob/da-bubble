@@ -1,9 +1,11 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { ChatService } from "../../services/chat.service";
 import { UserService } from "../../services/user.service";
 import { UserData } from "../../interfaces/user.interface";
 import { FormsModule } from "@angular/forms";
+import { Subscription } from "rxjs";
+import { ResponsiveService } from "../../services/responsive.service";
 
 @Component({
 	selector: "app-profile-card",
@@ -11,14 +13,24 @@ import { FormsModule } from "@angular/forms";
 	templateUrl: "./profile-card.component.html",
 	styleUrl: "./profile-card.component.scss",
 })
-export class ProfileCardComponent {
+export class ProfileCardComponent implements OnInit {
 	@Input() currentPerson!: UserData;
 	newUserName: string = "";
+	screenWidthSubscription!: Subscription;
+	screenWidth!: number;
 
 	constructor(
 		private userService: UserService,
-		private chatService: ChatService
+		private chatService: ChatService,
+		private responsiveService: ResponsiveService
 	) {}
+
+	ngOnInit(): void {
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
+			});
+	}
 
 	get isUserProfileCardOpen() {
 		return this.userService.isUserProfileCardOpen;

@@ -1,5 +1,10 @@
 <div
-	[ngStyle]="{ 'border-top-right-radius': isUserProfileCardOpen ? 0 : '30px' }"
+	[ngStyle]="{
+		'border-top-right-radius':
+			isUserProfileCardOpen || (!isUserProfileCardOpen && screenWidth < 768)
+				? 0
+				: '30px'
+	}"
 	(click)="stopPropagation($event)"
 	class="profile-modal"
 >

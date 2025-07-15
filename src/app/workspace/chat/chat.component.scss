@@ -580,6 +580,10 @@
 .direct-message-info {
 	font-size: 18px;
 	color: variables.$text-secondary;
+
+	span {
+		font-weight: 700;
+	}
 }
 
 .chat-partner {

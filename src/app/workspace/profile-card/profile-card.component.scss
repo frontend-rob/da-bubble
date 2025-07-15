@@ -212,3 +212,15 @@
 		background-color: variables.$bg-neutral-hover;
 	}
 }
+
+@media screen and (max-width: 640px) {
+	.profile-modal {
+		border-radius: 0;
+	}
+
+	.container {
+		padding: 40px 20px;
+		width: 100vw;
+		height: 100vh;
+	}
+}
