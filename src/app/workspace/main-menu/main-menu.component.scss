@@ -371,9 +371,9 @@
     }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1024px) {
     .main-menu-container {
-        border-radius: 0;
+        // border-radius: 0;
 
         >header {
             position: relative;
@@ -416,6 +416,7 @@
 @media screen and (max-width: 640px) {
     .main-menu-section {
         height: calc(100vh - 80px);
+        width: 100vw;
     }
 
     .main-menu-container {
