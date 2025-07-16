@@ -250,7 +250,13 @@
 						<div *ngIf="!isNameEdit" class="name-container">
 							<div>
 								<h2>Channel-Name</h2>
+								@if (screenWidth >= 768) {
 								<button (click)="toggleNameEdit()">Edit</button>
+								} @else {
+								<button (click)="toggleNameEdit()" class="edit-channel-btn">
+									<img src="assets/img/chat/channel_edit.svg" />
+								</button>
+								}
 							</div>
 							<div class="name">
 								<img
@@ -266,7 +272,15 @@
 						<div *ngIf="isNameEdit" class="name-container-edit">
 							<div>
 								<h2>Channel-Name</h2>
-								<button (click)="toggleNameEdit()">Save</button>
+								@if (screenWidth >= 768) {
+								<button (click)="toggleNameEdit()" class="edit-btn">
+									Save
+								</button>
+								}@else {
+								<button (click)="toggleNameEdit()" class="edit-channel-btn">
+									<img src="assets/img/chat/channel_save.svg" />
+								</button>
+								}
 							</div>
 							<div class="input-container">
 								<img
@@ -286,7 +300,16 @@
 						<div *ngIf="!isDescriptionEdit" class="description-container">
 							<div>
 								<h2>Description</h2>
+								@if (screenWidth >= 768) {
 								<button (click)="toggleDescriptionEdit()">Edit</button>
+								} @else {
+								<button
+									(click)="toggleDescriptionEdit()"
+									class="edit-channel-btn"
+								>
+									<img src="assets/img/chat/channel_edit.svg" />
+								</button>
+								}
 							</div>
 							<div class="description">
 								{{
@@ -316,7 +339,19 @@
 						<div *ngIf="isDescriptionEdit" class="description-container-edit">
 							<div>
 								<h2>Description</h2>
-								<button (click)="toggleDescriptionEdit()">Save</button>
+
+								@if (screenWidth >= 768) {
+								<button (click)="toggleDescriptionEdit()" class="edit-btn">
+									Save
+								</button>
+								}@else {
+								<button
+									(click)="toggleDescriptionEdit()"
+									class="edit-channel-btn"
+								>
+									<img src="assets/img/chat/channel_save.svg" />
+								</button>
+								}
 							</div>
 							<div class="input-container">
 								<input
@@ -326,21 +361,23 @@
 								/>
 							</div>
 
-							<div class="separator"></div>
+							<div class="created-container">
+								<div class="separator"></div>
 
-							<h2>Created by</h2>
-							<div class="creator">
-								<ng-container
-									*ngIf="
-										chatService.selectedChannel.createdBy
-											| channelUser
-											| async as creator;
-										else unknownCreator
-									"
-								>
-									{{ creator.userName }}
-								</ng-container>
-								<ng-template #unknownCreator>Unknown</ng-template>
+								<h2>Created by</h2>
+								<div class="creator">
+									<ng-container
+										*ngIf="
+											chatService.selectedChannel.createdBy
+												| channelUser
+												| async as creator;
+											else unknownCreator
+										"
+									>
+										{{ creator.userName }}
+									</ng-container>
+									<ng-template #unknownCreator>Unknown</ng-template>
+								</div>
 							</div>
 						</div>
 

@@ -1,21 +1,27 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
-import {FormsModule} from "@angular/forms";
-import {map, Observable, of, Subscription} from "rxjs";
-import {ChatService} from "../../services/chat.service";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {Message} from "../../interfaces/message.interface";
-import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {Timestamp} from "@angular/fire/firestore";
-import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {HelperService} from "../../services/helper.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
-import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
-import {UserLookupService} from "../../services/user-lookup.service";
-import {ChannelUserPipe} from "../../services/channel-user.pipe";
-import { ResponsiveService } from "../../services/responsive.service"
+import {
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+	TrackByFunction,
+} from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { map, Observable, of, Subscription } from "rxjs";
+import { ChatService } from "../../services/chat.service";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { Message } from "../../interfaces/message.interface";
+import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
+import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
+import { Timestamp } from "@angular/fire/firestore";
+import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { HelperService } from "../../services/helper.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
+import { UserLookupService } from "../../services/user-lookup.service";
+import { ChannelUserPipe } from "../../services/channel-user.pipe";
+import { ResponsiveService } from "../../services/responsive.service";
 @Component({
 	selector: "app-chat",
 	templateUrl: "./chat.component.html",
@@ -87,7 +93,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	} ${new Date().getDate()}`;
 
 	private userLookupService: UserLookupService = inject(UserLookupService);
-	private responsiveService: ResponsiveService = inject(ResponsiveService)
+	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
 	private functionTriggerService: FunctionTriggerService = inject(
@@ -125,7 +131,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		const isSelfChannel = selectedChannel.channelMembers.every(
-			member => member === this.currentUser.uid
+			(member) => member === this.currentUser.uid
 		);
 
 		if (isSelfChannel) {
@@ -133,14 +139,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 
 		const otherUserId = selectedChannel.channelMembers.find(
-			member => member !== this.currentUser.uid
+			(member) => member !== this.currentUser.uid
 		);
 
 		if (otherUserId) {
 			console.log(otherUserId);
-			return this.userLookupService.getUserById(otherUserId).pipe(
-				map(user => user || null)
-			);
+			return this.userLookupService
+				.getUserById(otherUserId)
+				.pipe(map((user) => user || null));
 		}
 
 		return of(null);
@@ -274,9 +280,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	openAddMemberModal() {
-		this.isModalBGOpen = true;
-		this.isMembersMenuOpen = false;
-		this.isAddMemberModalOpen = true;
+		if (this.screenWidth < 768) {
+			this.openMembersMenu();
+		} else {
+			this.isModalBGOpen = true;
+			this.isMembersMenuOpen = false;
+			this.isAddMemberModalOpen = true;
+		}
 	}
 
 	onSearchInputChange(): void {
