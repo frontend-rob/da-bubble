@@ -146,7 +146,8 @@
 	gap: 8px;
 }
 
-.members-menu-modal-header h1 {
+.members-menu-modal-header h1,
+.members-menu-header h1 {
 	font-size: 24px;
 	font-weight: 700;
 }
@@ -399,7 +400,8 @@
 			}
 
 			.name-container,
-			.description-container {
+			.description-container,
+			.members-menu {
 				display: flex;
 				flex-direction: column;
 				justify-content: flex-start;
@@ -625,6 +627,19 @@
 
 		.arrow {
 			width: 12px;
+		}
+	}
+
+	.modal {
+		position: fixed;
+		top: 0;
+		left: 0;
+		border-radius: 0;
+		width: 100vw;
+		height: 100vh;
+
+		.modal-main {
+			overflow-y: auto;
 		}
 	}
 

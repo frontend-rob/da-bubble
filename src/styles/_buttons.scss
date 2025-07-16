@@ -1,4 +1,4 @@
-@use './variables' as variables;
+@use "./variables" as variables;
 
 @mixin button-base {
 	cursor: pointer;
@@ -23,7 +23,7 @@
 	svg {
 		color: $text-color;
 		width: 1.5rem;
-		height: 1.5rem
+		height: 1.5rem;
 	}
 }
 
@@ -38,7 +38,11 @@
 }
 
 .btn:hover {
-	background-color: color-mix(in srgb, variables.$text-primary 70%, transparent 10%);
+	background-color: color-mix(
+		in srgb,
+		variables.$text-primary 70%,
+		transparent 10%
+	);
 }
 
 .btn:disabled {
@@ -54,7 +58,10 @@
 }
 
 .btn-primary:hover {
-	@include button-hover(variables.$bg-primary-accent, variables.$text-inverse);
+	@include button-hover(
+		variables.$bg-primary-accent,
+		variables.$text-inverse
+	);
 }
 
 .btn:disabled:hover {

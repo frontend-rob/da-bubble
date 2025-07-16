@@ -343,6 +343,65 @@
 								<ng-template #unknownCreator>Unknown</ng-template>
 							</div>
 						</div>
+
+						@if (screenWidth < 768) {
+						<div class="members-menu">
+							<div class="members-menu-header">
+								<h1>Members</h1>
+							</div>
+							<div class="members-list">
+								<div
+									*ngFor="
+										let memberId of chatService.selectedChannel.channelMembers
+									"
+									class="member-list-item"
+								>
+									<ng-container
+										*ngIf="memberId | channelUser | async as member"
+									>
+										<div
+											(click)="handleProfileCard(true, member)"
+											class="menu-item"
+										>
+											<div class="avatar">
+												<img
+													[ngSrc]="member.photoURL"
+													alt="avatar"
+													height="2000"
+													width="2000"
+												/>
+												<div
+													[ngClass]="{
+														online: member.status === true,
+														offline: member.status === false
+													}"
+													class="status"
+												></div>
+											</div>
+											<div>
+												{{ member.userName }}
+												<span *ngIf="currentUser.uid === member.uid">
+													(You)</span
+												>
+											</div>
+										</div>
+									</ng-container>
+								</div>
+								<div (click)="openAddMemberModal()" class="button-container">
+									<div class="add-member">
+										<img
+											ngSrc="assets/img/chat/add_member.svg"
+											alt="add member"
+											height="17"
+											width="22"
+										/>
+									</div>
+									<div>Add Members</div>
+								</div>
+							</div>
+						</div>
+						}
+
 						<button class="btn btn-primary" (click)="leaveChannel()">
 							Leave Channel
 						</button>

@@ -5,11 +5,6 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	z-index: 2;
 	border-radius: 30px;
 	box-shadow: 0 6px 10px 0 #00000033;
 	background-color: variables.$bg-base-200;
@@ -220,7 +215,7 @@
 
 	.container {
 		padding: 40px 20px;
-		width: 100vw;
+		width: 100vw !important;
 		height: 100vh;
 	}
 }

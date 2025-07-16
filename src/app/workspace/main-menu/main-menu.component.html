@@ -55,13 +55,23 @@
 						</div>
 					</div>
 
-					<div (click)="toggleModal()" class="button">
+					<div (click)="toggleModal()" class="button header-add-channel-btn">
+						@if (screenWidth > 768) {
+
 						<img
 							alt="add"
 							height="14"
 							ngSrc="assets/img/main-menu/add.svg"
 							width="14"
 						/>
+						}@else {
+						<img
+							alt="add"
+							height="14"
+							ngSrc="assets/img/main-menu/add_mobile.svg"
+							width="14"
+						/>
+						}
 					</div>
 				</header>
 
@@ -151,7 +161,8 @@
 			</div>
 		</main>
 
-		@if (!isUserMenuOpen) {
+		<!-- TODO:  -->
+		@if (!isUserMenuOpen && !this.isModalOpen) {
 		<div class="mobile-add-new-channel-btn">
 			<img
 				(click)="handleNewMessage(true)"
@@ -163,10 +174,10 @@
 		</div>
 		}
 
-		<div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">
+		<div *ngIf="isModalOpen" (click)="toggleModal()" class="modal-bg">
 			<div
-				(click)="stopPropagation($event)"
 				*ngIf="isModalOpen"
+				(click)="stopPropagation($event)"
 				class="new-channel-modal"
 			>
 				<div class="container">
