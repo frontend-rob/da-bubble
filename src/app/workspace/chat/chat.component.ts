@@ -280,7 +280,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	openAddMemberModal() {
-		if (this.screenWidth < 768) {
+		if (this.screenWidth < 768 && !this.isMembersMenuOpen) {
 			this.openMembersMenu();
 		} else {
 			this.isModalBGOpen = true;

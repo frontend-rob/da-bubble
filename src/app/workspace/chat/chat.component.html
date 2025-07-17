@@ -149,10 +149,13 @@
 					</div>
 				</div>
 
-				<div *ngIf="isAddMemberModalOpen" class="add-member-modal">
+				<div
+					*ngIf="isAddMemberModalOpen && screenWidth >= 768"
+					class="add-member-modal"
+				>
 					<header class="add-member-modal-header">
 						<div>
-							<h1>Add Member</h1>
+							<h1>Add Members</h1>
 							<div class="add-member-channel-name">
 								<img
 									ngSrc="assets/img/chat/channel_tag_hover.svg"
@@ -571,4 +574,59 @@
 </section>
 
 <div (click)="closeModals()" *ngIf="isModalBGOpen" class="modal-bg"></div>
-}
+
+@if (screenWidth < 768 && this.isAddMemberModalOpen) {
+<div class="mobile-add-member-modal">
+	<header class="add-member-modal-header">
+		<div class="close-btn-container">
+			<button (click)="closeModals()" class="mobile-close-btn"></button>
+		</div>
+		<div>
+			<h1>Add Members</h1>
+			<div class="add-member-channel-name">
+				<img
+					ngSrc="assets/img/chat/channel_tag_hover.svg"
+					alt="channel tag hover"
+					height="23"
+					width="22"
+				/>
+				{{ chatService.selectedChannel.channelName || "Development" }}
+			</div>
+		</div>
+	</header>
+	<div class="member-input-container">
+		<div class="selected-user-chip" *ngFor="let user of selectedUsersToAdd">
+			<img [ngSrc]="user.photoURL" alt="avatar" height="64" width="64" />
+			<div>{{ user.userName }}</div>
+			<button (click)="removeUserFromSelection(user)">×</button>
+		</div>
+		<input
+			type="text"
+			placeholder="Add Name"
+			class="add-member-input"
+			[(ngModel)]="searchText"
+			(ngModelChange)="onSearchInputChange()"
+		/>
+	</div>
+	<div *ngIf="filteredUsers.length > 0" class="user-suggestion-list">
+		<div
+			*ngFor="let user of filteredUsers"
+			(click)="addUserToSelection(user)"
+			class="user-suggestion"
+		>
+			<img [ngSrc]="user.photoURL" alt="avatar" height="64" width="64" />
+			<span>{{ user.userName }}</span>
+		</div>
+	</div>
+	<div>
+		<button
+			(click)="addNewMember()"
+			[disabled]="disabledButton"
+			[class]="disabledButton ? 'disabled-button' : ''"
+			class="button"
+		>
+			Add
+		</button>
+	</div>
+</div>
+} }
