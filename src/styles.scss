@@ -27,12 +27,26 @@ textarea {
     display: none !important;
 }
 
-a.user-tag-link {
+a.Fuser-tag-link {
     color: variables.$text-hover;
     text-decoration: underline;
     cursor: pointer;
 
     .own-message & {
         color: variables.$text-inverse;
+    }
+}
+
+.user-tag-link {
+    color: variables.$text-hover;
+    text-decoration: underline;
+    cursor: pointer;
+    
+    .own-message & {
+        color: variables.$text-inverse;
+    }
+    
+    &:hover {
+        font-weight: bold;
     }
 }

@@ -331,6 +331,34 @@ export class ChatService {
 	}
 
 	/**
+	 * Aktualisiert die Reaktionen einer Thread-Nachricht in Firestore.
+	 *
+	 * @param channelId Die ID des Kanals
+	 * @param threadId Die ID der Thread-Nachricht
+	 * @param messageId Die ID der Thread-Nachricht
+	 * @param reactions Das aktualisierte Reaktionen-Array
+	 * @returns Promise<void>
+	 */
+	async updateThreadMessageReactions(
+		channelId: string,
+		threadId: string,
+		messageId: string,
+		reactions: Reaction[]
+	): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const messageRef = doc(
+				firestore,
+				`channels/${channelId}/messages/${threadId}/threadMessages/${messageId}`
+			);
+
+			await updateDoc(messageRef, {
+				reactions: reactions,
+			});
+		});
+	}
+
+	/**
 	 * Updates the text of an existing message in a specific channel.
 	 *
 	 * @param {string} channelId - The unique identifier of the channel containing the message.

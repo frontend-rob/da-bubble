@@ -36,25 +36,28 @@ export class chatMessageTagLink implements PipeTransform {
 	transform(text: string, users: UserData[] = []): SafeHtml {
 		if (!text) return "";
 		let result = text;
+		
 		// Sort usernames by length (desc) to match the longest possible name first
 		const sortedUsers = [...users].sort(
 			(a, b) => b.userName.length - a.userName.length
 		);
+		
 		for (const user of sortedUsers) {
 			const search = `@${user.userName}`;
-			const link = `<a class="user-tag-link" href="#" data-uid="${
+			// 🔥 Entferne href="#" komplett und verwende role="button"
+			const link = `<a class="user-tag-link" role="button" tabindex="0" data-uid="${
 				user.uid
 			}" title="${user.userName} (${user.email || ""})">@${
 				user.userName
 			}</a>`;
+			
 			const regex = new RegExp(
 				this.escapeRegExp(search) + "(?=\\b|\\s|[.,!?;:()\\[\\]{}]|$)",
 				"gi"
 			);
 			result = result.replace(regex, link);
 		}
+		
 		return this.sanitizer.bypassSecurityTrustHtml(result);
 	}
 }
-
-5809;

@@ -4,9 +4,13 @@
  * Service for handling authentication and user-related operations.
  * Provides methods to register users and save user data to firestore.
  */
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
+import { Injectable, EnvironmentInjector, inject, runInInjectionContext, OnDestroy } from "@angular/core";
+import { fromEvent, Subject, takeUntil, debounceTime, switchMap, tap } from "rxjs";
+import { Database, ref, onValue, set, onDisconnect, serverTimestamp, off } from "@angular/fire/database";
+import { Auth, user, User } from "@angular/fire/auth";
+import { UserDataService } from "./user-data.service";
+// ... andere Imports
 import {
-    Auth,
     createUserWithEmailAndPassword,
     GoogleAuthProvider,
     onAuthStateChanged,
@@ -15,26 +19,211 @@ import {
     signInWithEmailAndPassword,
     signInWithPopup,
     signOut,
-    user,
-    User,
 } from "@angular/fire/auth";
 import {UserData} from "../interfaces/user.interface";
 import {collection, doc, Firestore, getDocs, query, setDoc, Timestamp, where,} from "@angular/fire/firestore";
-import {Observable} from "rxjs";
-import {UserDataService} from "./user-data.service";
+import {Observable, map} from "rxjs";
 
 @Injectable({
     providedIn: "root",
 })
-export class AuthService {
+export class AuthService implements OnDestroy {
+    private destroy$ = new Subject<void>();
+    private presenceRef: any;
     user$: Observable<User | null>;
 
     constructor(
         private environmentInjector: EnvironmentInjector,
         private firebaseAuth: Auth,
-        private userDataService: UserDataService
+        private userDataService: UserDataService,
+        private database: Database
     ) {
         this.user$ = user(this.firebaseAuth);
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+        this.cleanupPresence();
+    }
+
+    /**
+     * Setzt den Online-Status in der Realtime Database
+     * @param uid - User ID
+     * @param status - Online status ('online', 'offline', 'away')
+     */
+    async setUserPresence(uid: string, status: 'online' | 'offline' | 'away'): Promise<void> {
+        try {
+            const presenceRef = ref(this.database, `presence/${uid}`);
+            
+            await set(presenceRef, {
+                status: status,
+                timestamp: serverTimestamp(),
+                lastSeen: serverTimestamp()
+            });
+
+            console.info(`🔥 Realtime DB: User ${uid} status set to ${status}`);
+        } catch (error) {
+            console.error('Error setting user presence:', error);
+        }
+    }
+
+    /**
+     * Initialisiert die Präsenz-Überwachung mit Realtime Database
+     */
+    initializePresenceSystem(): void {
+        return runInInjectionContext(this.environmentInjector, () => {
+            const auth = inject(Auth);
+
+            // 🔥 Überwache Auth-Status und setze Präsenz
+            this.user$.pipe(
+                takeUntil(this.destroy$),
+                switchMap(async (user) => {
+                    if (user) {
+                        await this.setupUserPresence(user.uid);
+                        this.setupPresenceListeners(user.uid);
+                        return user;
+                    } else {
+                        this.cleanupPresence();
+                        return null;
+                    }
+                })
+            ).subscribe();
+        });
+    }
+
+    /**
+     * Richtet die Präsenz für einen User ein
+     */
+    private async setupUserPresence(uid: string): Promise<void> {
+        const presenceRef = ref(this.database, `presence/${uid}`);
+        const connectedRef = ref(this.database, '.info/connected');
+
+        // 🔥 Überwache Verbindungsstatus
+        onValue(connectedRef, async (snapshot) => {
+            if (snapshot.val() === true) {
+                // 🔥 Verbunden - setze online
+                await set(presenceRef, {
+                    status: 'online',
+                    timestamp: serverTimestamp(),
+                    lastSeen: serverTimestamp()
+                });
+
+                // 🔥 Setze onDisconnect für automatisches Offline
+                await onDisconnect(presenceRef).set({
+                    status: 'offline',
+                    timestamp: serverTimestamp(),
+                    lastSeen: serverTimestamp()
+                });
+
+                console.info(`🔥 Realtime DB: User ${uid} presence initialized`);
+            }
+        });
+
+        this.presenceRef = presenceRef;
+    }
+
+    /**
+     * Richtet RxJS Event-Listener für Präsenz ein
+     */
+    private setupPresenceListeners(uid: string): void {
+        // 🔥 Focus/Blur Events für Away-Status
+        const focus$ = fromEvent(window, 'focus');
+        const blur$ = fromEvent(window, 'blur');
+        const online$ = fromEvent(window, 'online');
+        const offline$ = fromEvent(window, 'offline');
+
+        // 🔥 Online Event
+        online$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(100)
+        ).subscribe(() => {
+            this.setUserPresence(uid, 'online');
+        });
+
+        // 🔥 Offline Event
+        offline$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(100)
+        ).subscribe(() => {
+            this.setUserPresence(uid, 'offline');
+        });
+
+        // 🔥 Focus Event - zurück zu online
+        focus$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(200)
+        ).subscribe(() => {
+            this.setUserPresence(uid, 'online');
+        });
+
+        // 🔥 Blur Event - nach 30 Sekunden auf "away"
+        blur$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(30000) // 30 Sekunden
+        ).subscribe(() => {
+            if (document.visibilityState === 'hidden') {
+                this.setUserPresence(uid, 'away');
+            }
+        });
+
+        // 🔥 BeforeUnload - offline
+        const beforeUnload$ = fromEvent(window, 'beforeunload');
+        beforeUnload$.pipe(
+            takeUntil(this.destroy$)
+        ).subscribe(() => {
+            this.setUserPresence(uid, 'offline');
+        });
+    }
+
+    /**
+     * Räumt Präsenz-Referenzen auf
+     */
+    private cleanupPresence(): void {
+        if (this.presenceRef) {
+            off(this.presenceRef);
+            this.presenceRef = null;
+        }
+    }
+
+    /**
+     * Holt den aktuellen Online-Status eines Users
+     */
+    getUserPresence(uid: string): Observable<any> {
+        const presenceRef = ref(this.database, `presence/${uid}`);
+        
+        return new Observable(subscriber => {
+            const unsubscribe = onValue(presenceRef, (snapshot) => {
+                subscriber.next(snapshot.val());
+            });
+            
+            return () => unsubscribe();
+        });
+    }
+
+    /**
+     * Holt alle Online-User
+     */
+    getOnlineUsers(): Observable<any> {
+        const presenceRef = ref(this.database, 'presence');
+        
+        return new Observable(subscriber => {
+            const unsubscribe = onValue(presenceRef, (snapshot) => {
+                const presence = snapshot.val();
+                const onlineUsers = Object.keys(presence || {}).filter(uid => 
+                    presence[uid]?.status === 'online'
+                );
+                subscriber.next(onlineUsers);
+            });
+            
+            return () => unsubscribe();
+        });
+    }
+
+    // 🔥 Bestehende Firestore-Methode entfernen/ersetzen
+    async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
+        // 🔥 Verwende jetzt Realtime Database
+        await this.setUserPresence(uid, status ? 'online' : 'offline');
     }
 
     /**
@@ -215,21 +404,6 @@ export class AuthService {
     }
 
     /**
-     * Updates the user's status in Firestore.
-     * @param uid - The unique ID of the user.
-     * @param status - The status to set (true for online, false for offline).
-     */
-    async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
-        return runInInjectionContext(this.environmentInjector, async () => {
-            const firestore = inject(Firestore);
-            const userRef = doc(firestore, `users/${uid}`);
-            await setDoc(userRef, {status}, {merge: true});
-
-            this.broadcastUserStatusChange(uid, status);
-        });
-    }
-
-    /**
      * Initializes the authentication state listener and sets up online/offline status monitoring.
      */
     initializeAuthStateListener(): void {
@@ -294,44 +468,64 @@ export class AuthService {
     }
 
     /**
-     * Sets up listeners for when the user goes offline.
+     * Sets up listeners for when the user goes offline using RxJS.
      */
     private setupOfflineStatusListener(uid: string): void {
-        window.addEventListener('beforeunload', () => {
-            this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'beforeunload event fired. status set to offline.'));
-        });
+        const beforeUnload$ = fromEvent(window, 'beforeunload');
 
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'hidden') {
-                this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'visibilitychange event fired. status set to offline.'));
-            } else if (document.visibilityState === 'visible') {
-                this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'visibilitychange event fired. status set to online.'));
-            }
+        beforeUnload$.pipe(
+            takeUntil(this.destroy$)
+        ).subscribe(() => {
+            this.setUserOnlineStatus(uid, false).then(r => 
+                console.info(r, 'RxJS: beforeunload event fired. status set to offline.')
+            );
         });
     }
 
     /**
-     * Enhanced visibility listener for better online/offline detection.
+     * Enhanced visibility listener for better online/offline detection using RxJS.
      */
     private setupVisibilityListener(uid: string): void {
-        window.addEventListener('online', () => {
-            this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'online event fired. status set to online.'));
+        // Online/Offline Events
+        const online$ = fromEvent(window, 'online');
+        const offline$ = fromEvent(window, 'offline');
+        
+        // Blur Event
+        const blur$ = fromEvent(window, 'blur');
+
+        // 🔥 Online Event Handler
+        online$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(100) // Kurze Verzögerung gegen Spam
+        ).subscribe(() => {
+            this.setUserOnlineStatus(uid, true).then(r => 
+                console.info(r, 'RxJS: online event fired. status set to online.')
+            );
         });
 
-        window.addEventListener('offline', () => {
-            this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'offline event fired. status set to offline.'));
+        // 🔥 Offline Event Handler
+        offline$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(100)
+        ).subscribe(() => {
+            this.setUserOnlineStatus(uid, false).then(r => 
+                console.info(r, 'RxJS: offline event fired. status set to offline.')
+            );
         });
 
-        window.addEventListener('focus', () => {
-            this.setUserOnlineStatus(uid, true).then(r => console.info(r, 'focus event fired. status set to online.'));
+        // 🔥 Blur Event Handler mit Delay
+        blur$.pipe(
+            takeUntil(this.destroy$),
+            debounceTime(5000) // 5 Sekunden Delay
+        ).subscribe(() => {
+            if (document.visibilityState === 'hidden') {
+                this.setUserOnlineStatus(uid, false).then(r => 
+                    console.info(r, 'RxJS: blur event fired. status set to offline.')
+                );
+            }
         });
 
-        window.addEventListener('blur', () => {
-            setTimeout(() => {
-                if (document.visibilityState === 'hidden') {
-                    this.setUserOnlineStatus(uid, false).then(r => console.info(r, 'blur event fired. status set to offline.'));
-                }
-            }, 5000); // 5 Sekunden Delay
-        });
+        // 🔥 ENTFERNT: Focus und Visibility Change Events
+        // Diese Events haben die Profilkarte geöffnet!
     }
 }

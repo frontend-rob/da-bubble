@@ -1,7 +1,9 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output, OnInit, OnDestroy} from "@angular/core";
 import {UserData} from "../../../interfaces/user.interface";
 import {ChatService} from "../../../services/chat.service";
+import { Observable } from 'rxjs';
+import { PresenceService, UserPresence } from '../../../services/PresenceManagementService';
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -9,25 +11,33 @@ import {ChatService} from "../../../services/chat.service";
 	templateUrl: "./direct-message-list-item.component.html",
 	styleUrl: "./direct-message-list-item.component.scss",
 })
-export class DirectMessageListItemComponent {
+export class DirectMessageListItemComponent implements OnInit {
 	@Input() chatPartner: UserData | undefined | null;
 	@Input() dmChannel: any;
 	@Output() channelSelected = new EventEmitter<{ channelId: string, userData: UserData | null }>();
 
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
+	chatPartnerPresence$!: Observable<UserPresence | null>;
 
 	constructor(
-		private chatService: ChatService
+		private chatService: ChatService,
+		private presenceService: PresenceService
 	) {
 	}
 
+	ngOnInit(): void {
+        if (this.chatPartner?.uid) {
+            this.chatPartnerPresence$ = this.presenceService.getUserPresence(this.chatPartner.uid);
+        }
+    }
+
 	get isActive(): boolean {
-		// Für DM-Channels: verwende die channelId
+
 		if (this.dmChannel && this.dmChannel.channelId) {
 			return this.dmChannel.channelId === this.chatService.activeChat;
 		}
-		// Für verfügbare User: verwende die uid
+
 		else if (this.chatPartner && this.chatPartner.uid) {
 			return this.chatPartner.uid === this.chatService.activeChat;
 		}
