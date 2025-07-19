@@ -130,6 +130,10 @@
 			background-color: variables.$online;
 		}
 
+		&.away {
+			background-color: variables.$away;
+		}
+
 		&.offline {
 			background-color: variables.$offline;
 		}

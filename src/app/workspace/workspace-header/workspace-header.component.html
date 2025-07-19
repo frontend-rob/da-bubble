@@ -1,130 +1,131 @@
 @if (currentPerson && currentPerson.photoURL) {
-<div class="header-container">
-	@if (screenWidth < 768 && !isMainMenuOpen || screenWidth >= 768) {
-	<div class="logo-container">
-		<img
-			ngSrc="/assets/img/main-logo.svg"
-			alt="Main Logo"
-			priority
-			width="70"
-			height="70"
-			class="logo-img"
-		/>
-		<span>DABubble</span>
-	</div>
-	} @else {
-	<div (click)="goBackToMenu()" class="logo-container">
-		<img
-			alt="arrow left img"
-			height="24"
-			ngSrc="assets/img/workspace-header/arrow-left.svg"
-			width="24"
-			class="arrow-left-img"
-		/>
-		<img
-			alt="logo"
-			height="60"
-			ngSrc="assets/img/main-menu/workspace-logo.svg"
-			width="60"
-			class="logo-img"
-		/>
-		<span>Devspace</span>
-	</div>
-	}
+	<div class="header-container">
+		@if (screenWidth < 768 && !isMainMenuOpen || screenWidth >= 768) {
+			<div class="logo-container">
+				<img
+					ngSrc="/assets/img/main-logo.svg"
+					alt="Main Logo"
+					priority
+					width="70"
+					height="70"
+					class="logo-img"
+				/>
+				<span>DABubble</span>
+			</div>
+		} @else {
+			<div (click)="goBackToMenu()" class="logo-container">
+				<img
+					alt="arrow left img"
+					height="24"
+					ngSrc="assets/img/workspace-header/arrow-left.svg"
+					width="24"
+					class="arrow-left-img"
+				/>
+				<img
+					alt="logo"
+					height="60"
+					ngSrc="assets/img/main-menu/workspace-logo.svg"
+					width="60"
+					class="logo-img"
+				/>
+				<span>Devspace</span>
+			</div>
+		}
 
-	<app-search-card class="search-bar-container"></app-search-card>
+		<app-search-card class="search-bar-container"></app-search-card>
 
-	<div class="user-profile-container" (click)="handleUserMenu(true)">
-		<span class="user-name">{{ currentPerson.userName }}</span>
-		<div class="avatar">
+		<div class="user-profile-container" (click)="handleUserMenu(true)">
+			<span class="user-name">{{ currentPerson.userName }}</span>
+			<div class="avatar">
+				<img
+					[ngSrc]="currentPerson.photoURL"
+					alt="User profile picture"
+					width="70"
+					height="70"
+				/>
+				<div
+					class="status"
+					[ngClass]="{
+         		online: (getCurrentPersonPresence() | async)?.status === 'online',
+         		offline: (getCurrentPersonPresence() | async)?.status === 'offline',
+         		away: (getCurrentPersonPresence() | async)?.status === 'away'
+     			}"
+				></div>
+			</div>
 			<img
-				[ngSrc]="currentPerson.photoURL"
-				alt="User profile picture"
-				width="70"
-				height="70"
+				class="arrow-down"
+				ngSrc="/assets/img/workspace-header/keyboard_arrow_down.svg"
+				height="30"
+				width="30"
+				alt="keyboard_arrow_down"
 			/>
-			<div
-				class="status"
-				[ngClass]="{
-					online: currentPerson.status,
-					offline: !currentPerson.status
-				}"
-			></div>
 		</div>
-		<img
-			class="arrow-down"
-			ngSrc="/assets/img/workspace-header/keyboard_arrow_down.svg"
-			height="30"
-			width="30"
-			alt="keyboard_arrow_down"
-		/>
 	</div>
-</div>
 
-<!-- USER MENU -->
-<div
-	*ngIf="isUserMenuOpen"
-	[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
-	class="user-menu"
->
-	@if (screenWidth < 768) {
-	<button (click)="handleUserMenu(false)" class="btn mobile-close-btn"></button>
-	}
+	<!-- USER MENU -->
+	<div
+		*ngIf="isUserMenuOpen"
+		[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
+		class="user-menu"
+	>
+		@if (screenWidth < 768) {
+			<button (click)="handleUserMenu(false)" class="btn mobile-close-btn"></button>
+		}
 
-	<button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2.5"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			class="lucid lucid-user-round-icon lucid-user-round"
-		>
-			<circle cx="12" cy="8" r="5" />
-			<path d="M20 21a8 8 0 0 0-16 0" />
-		</svg>
-		Profile
-	</button>
-	<button class="btn btn-ghost" (click)="logOut()">
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="24"
-			height="24"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2.5"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			class="lucid lucid-log-out-icon lucid-log-out"
-		>
-			<path d="m16 17 5-5-5-5" />
-			<path d="M21 12H9" />
-			<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-		</svg>
-		Logout
-	</button>
-</div>
+		<button class="btn btn-ghost" (click)="handleUserProfileCard(true)">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucid lucid-user-round-icon lucid-user-round"
+			>
+				<circle cx="12" cy="8" r="5"/>
+				<path d="M20 21a8 8 0 0 0-16 0"/>
+			</svg>
+			Profile
+		</button>
+		<button class="btn btn-ghost" (click)="logOut()">
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				class="lucid lucid-log-out-icon lucid-log-out"
+			>
+				<path d="m16 17 5-5-5-5"/>
+				<path d="M21 12H9"/>
+				<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+			</svg>
+			Logout
+		</button>
+	</div>
 
-<!-- USER PROFILE CARD  -->
-<app-profile-card
-	*ngIf="isUserProfileCardOpen"
-	[ngStyle]="{
+	<!-- USER PROFILE CARD  -->
+	<app-profile-card
+		*ngIf="isUserProfileCardOpen"
+		[ngStyle]="{
 		'z-index': isUserAvatarEdit ? 1 : 10
 	}"
-	[currentPerson]="currentPerson"
-	class="user-profile-card"
-></app-profile-card>
+		[currentPerson]="currentPerson"
+		class="user-profile-card"
+	></app-profile-card>
 }
 
 <div
 	(click)="handleUserAvatarEdit(false)"
-	class="user-profile-edit-bg"
 	*ngIf="isUserAvatarEdit"
+	class="user-profile-edit-bg"
 >
 	<app-avatars></app-avatars>
 </div>

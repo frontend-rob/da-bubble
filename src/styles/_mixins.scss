@@ -98,9 +98,30 @@
 			background-color: #91e1a6;
 		}
 
+		&.away {
+			background-color: #fbbf24;
+		}
+
 		&.offline {
 			background-color: #ccc;
 		}
+	}
+}
+
+@mixin status-icon($size: 16px) {
+	@include circle-button($size);
+	border: 2px solid white;
+
+	&.online {
+		background-color: var(--online);
+	}
+
+	&.away {
+		background-color: var(--away);
+	}
+
+	&.offline {
+		background-color: var(--offline);
 	}
 }
 

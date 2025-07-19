@@ -1,11 +1,11 @@
 <div
+	(click)="stopPropagation($event)"
 	[ngStyle]="{
 		'border-top-right-radius':
 			isUserProfileCardOpen || (!isUserProfileCardOpen && screenWidth < 768)
 				? 0
 				: '30px'
 	}"
-	(click)="stopPropagation($event)"
 	class="profile-modal"
 >
 	<div class="container">
@@ -22,19 +22,37 @@
 		</header>
 
 		<div class="profile-img-container">
-			<div (click)="handleUserAvatarEdit(true)">
+			<!-- ← Eigenes Profil: MIT Hover-Effekt -->
+			<div
+				(click)="handleUserAvatarEdit(true)"
+				*ngIf="isOwnProfile"
+				class="editable-profile"
+			>
 				<img
-					class="profile-img"
 					[ngSrc]="currentPerson.photoURL"
 					alt="photoURL"
+					class="profile-img"
 					height="200"
 					width="200"
 				/>
 				<img
-					(click)="handleUserAvatarEdit(true)"
+					alt="Edit"
 					class="edit-img"
 					src="assets/img/profile-card/edit.svg"
-					alt="Edit"
+				/>
+			</div>
+
+			<!-- ← Fremdes Profil: OHNE Hover-Effekt -->
+			<div
+				*ngIf="!isOwnProfile"
+				class="readonly-profile"
+			>
+				<img
+					[ngSrc]="currentPerson.photoURL"
+					alt="photoURL"
+					class="profile-img"
+					height="200"
+					width="200"
 				/>
 			</div>
 		</div>
@@ -47,59 +65,43 @@
 					</h1>
 					<input
 						*ngIf="isUserProfileEdit"
-						[placeholder]="currentPerson.userName"
 						[(ngModel)]="newUserName"
+						[placeholder]="currentPerson.userName"
 						type="text"
 					/>
 
+					<!-- ← NUR zeigen wenn eigenes Profil -->
 					<button
 						(click)="handleUserProfileEdit(true)"
-						*ngIf="
-							isUserProfileCardOpen &&
-							currentPerson.role.user &&
-							!isUserProfileEdit
-						"
+						*ngIf="isOwnProfile && !isUserProfileEdit"
 					>
 						Edit
 					</button>
 
 					<button
 						(click)="updateUserName()"
-						*ngIf="
-							isUserProfileCardOpen &&
-							currentPerson.role.user &&
-							isUserProfileEdit
-						"
+						*ngIf="isOwnProfile && isUserProfileEdit"
 					>
 						Save
 					</button>
 				</div>
+
 				<div class="online-status">
 					<div
 						[ngClass]="{
-							online: currentPerson.status,
-							offline: !currentPerson.status
+							online: (getUserPresence() | async)?.status === 'online',
+							offline: (getUserPresence() | async)?.status === 'offline',
+							away: (getUserPresence() | async)?.status === 'away'
 						}"
 						class="status-icon"
 					></div>
-					@if (currentPerson.status) {
-					<p
-						[ngClass]="{
-							onlineText: currentPerson.status,
-							offlineText: !currentPerson.status
-						}"
-					>
-						Aktiv
-					</p>
+
+					@if ((getUserPresence() | async)?.status === 'online') {
+						<p class="onlineText">Aktiv</p>
+					} @else if ((getUserPresence() | async)?.status === 'away') {
+						<p class="awayText">Abwesend</p>
 					} @else {
-					<p
-						[ngClass]="{
-							onlineText: currentPerson.status,
-							offlineText: !currentPerson.status
-						}"
-					>
-						Abwesend
-					</p>
+						<p class="offlineText">Offline</p>
 					}
 				</div>
 			</div>
@@ -116,12 +118,13 @@
 				<div>Email-Address</div>
 			</div>
 			<a *ngIf="currentPerson" href="mailto: {{ currentPerson.email }}">{{
-				currentPerson.email
-			}}</a>
+					currentPerson.email
+				}}</a>
 		</div>
 
-		<div *ngIf="isProfileCardOpen" class="button-container">
-			<button>
+		<!-- ← Message Button nur bei fremden Profilen -->
+		<div *ngIf="!isOwnProfile && isProfileCardOpen" class="button-container">
+			<button (click)="openDirectMessage()">
 				<img
 					alt="bubble"
 					height="20"

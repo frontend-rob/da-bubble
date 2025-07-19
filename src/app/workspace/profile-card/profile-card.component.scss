@@ -1,5 +1,6 @@
 @use "./../../../styles/variables" as variables;
 @use "../../../styles/inputs" as inputs;
+@use "../../../styles/mixins" as mixins;
 
 .profile-modal {
 	display: flex;
@@ -64,15 +65,20 @@
 			position: absolute;
 		}
 
-		.profile-img-container > div:hover .edit-img,
-		.edit-img:hover {
-			display: block;
-			cursor: pointer;
+		.editable-profile {
+			&:hover .edit-img {
+				display: block;
+				cursor: pointer;
+			}
+
+			&:hover .profile-img {
+				filter: brightness(0.8);
+				cursor: pointer;
+			}
 		}
 
-		.profile-img-container > div:hover .profile-img {
-			filter: contrast(0.3);
-			cursor: pointer;
+		.readonly-profile {
+			.profile-img {}
 		}
 	}
 }
@@ -127,14 +133,25 @@
 	}
 
 	.online-status {
+		@include mixins.flex-row(flex-start);
 		justify-content: flex-start !important;
 		font-size: 20px;
 		color: variables.$bg-neutral;
 
 		.status-icon {
-			width: 16px;
-			height: 16px;
-			border-radius: 50%;
+			@include mixins.status-icon(16px);
+
+			&.online {
+				background-color: variables.$online;
+			}
+
+			&.away {
+				background-color: variables.$away;
+			}
+
+			&.offline {
+				background-color: variables.$offline;
+			}
 		}
 
 		.onlineText {
@@ -145,12 +162,12 @@
 			color: variables.$offline;
 		}
 
-		.online {
-			background-color: variables.$online;
+		.awayText {
+			color: variables.$away;
 		}
 
-		.offline {
-			background-color: variables.$offline;
+		.away {
+			background-color: variables.$away;
 		}
 	}
 }
@@ -218,4 +235,7 @@
 		width: 100vw !important;
 		height: 100vh;
 	}
+}
+.awayText {
+    color: #fbbf24; // Gelb/Orange für "Abwesend"
 }

@@ -148,8 +148,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			return;
 		}
 
-		console.log('Setting up RxJS event delegation for message:', this.message.messageId);
-
 		// 🔥 RxJS Click Event Handler
 		const click$ = fromEvent<MouseEvent>(messageElement, 'click');
 
@@ -321,7 +319,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 	}
 }
 
-// 🔥 ENTFERNEN SIE DIESE METHODEN
 /*
 private lastFocusTime = 0;
 private isRecentlyFocused(): boolean {

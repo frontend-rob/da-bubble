@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Subscription } from "rxjs";
+import {Observable, of, Subscription} from "rxjs";
 import { UserData } from "../../interfaces/user.interface";
 import { UserService } from "../../services/user.service";
 import { ProfileCardComponent } from "../profile-card/profile-card.component";
@@ -11,6 +11,7 @@ import { AvatarsComponent } from "../../onboarding/avatars/avatars.component";
 import { ChatService } from "../../services/chat.service";
 import { WorkspaceService } from "../../services/workspace.service";
 import { ResponsiveService } from "../../services/responsive.service";
+import {PresenceService, UserPresence} from "../../services/PresenceManagementService";
 
 @Component({
 	selector: "app-workspace-header",
@@ -38,8 +39,16 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		private userService: UserService,
 		private chatService: ChatService,
 		private workspaceService: WorkspaceService,
-		private responsiveService: ResponsiveService
+		private responsiveService: ResponsiveService,
+		private presenceService: PresenceService
 	) {}
+
+	getCurrentPersonPresence(): Observable<UserPresence | null> {
+		if (this.currentPerson?.uid) {
+			return this.presenceService.getUserPresence(this.currentPerson.uid);
+		}
+		return of(null);
+	}
 
 	get isChatResponsive() {
 		return this.chatService.isChatResponsive;

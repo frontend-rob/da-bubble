@@ -4,7 +4,7 @@ import {
 	Injectable,
 	runInInjectionContext,
 } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable, of, Subject } from "rxjs";
 import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
 import { UserData } from "../interfaces/user.interface";
 import {
@@ -185,5 +185,14 @@ export class UserService {
 
 	handleUserProfileEdit(bool: boolean) {
 		this._isUserProfileEdit = bool;
+	}
+	
+	// In deinem UserService hinzufügen:
+
+	private directMessageUserSubject = new Subject<UserData>();
+	directMessageUser$ = this.directMessageUserSubject.asObservable();
+
+	openDirectMessageWithUser(user: UserData) {
+		this.directMessageUserSubject.next(user);
 	}
 }

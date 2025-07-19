@@ -35,13 +35,6 @@ export interface UserData {
 	createdAt: Timestamp;
 
 	/**
-	 * The user's presence status.
-	 * Can be 'online' or 'offline'. Designed to be extensible to support other statuses
-	 * such as 'away', 'busy', or 'invisible' in the future.
-	 */
-	status: boolean;
-
-	/**
 	 * The role of the user in the system.
 	 * Can be 'user', 'admin', 'moderator', 'guest', etc. (optional).
 	 */

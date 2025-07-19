@@ -787,3 +787,26 @@
 		background-color: #d9d9d9;
 	}
 }
+
+// Irgendwo in der Datei hinzufügen:
+.status {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: 2px solid white;
+
+	&.online {
+		background-color: variables.$online;
+	}
+
+	&.away {
+		background-color: variables.$away;  // ← NEU HINZUFÜGEN
+	}
+
+	&.offline {
+		background-color: variables.$offline;
+	}
+}

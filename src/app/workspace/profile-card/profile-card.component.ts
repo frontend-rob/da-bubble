@@ -1,11 +1,12 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input, OnInit } from "@angular/core";
-import { ChatService } from "../../services/chat.service";
-import { UserService } from "../../services/user.service";
-import { UserData } from "../../interfaces/user.interface";
-import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { ResponsiveService } from "../../services/responsive.service";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, Input, OnInit} from "@angular/core";
+import {ChatService} from "../../services/chat.service";
+import {UserService} from "../../services/user.service";
+import {PresenceService, UserPresence} from "../../services/PresenceManagementService";
+import {UserData} from "../../interfaces/user.interface";
+import {FormsModule} from "@angular/forms";
+import {Observable, of, Subscription} from "rxjs";
+import {ResponsiveService} from "../../services/responsive.service";
 
 @Component({
 	selector: "app-profile-card",
@@ -22,14 +23,28 @@ export class ProfileCardComponent implements OnInit {
 	constructor(
 		private userService: UserService,
 		private chatService: ChatService,
-		private responsiveService: ResponsiveService
-	) {}
+		private responsiveService: ResponsiveService,
+		private presenceService: PresenceService
+	) {
+	}
 
 	ngOnInit(): void {
 		this.screenWidthSubscription =
 			this.responsiveService.screenWidth$.subscribe((val) => {
 				this.screenWidth = val;
 			});
+	}
+
+
+	getUserPresence(): Observable<UserPresence | null> {
+		if (this.currentPerson?.uid) {
+			return this.presenceService.getUserPresence(this.currentPerson.uid);
+		}
+		return of(null);
+	}
+
+	get isOwnProfile(): boolean {
+		return this.isUserProfileCardOpen && this.currentPerson?.role?.user;
 	}
 
 	get isUserProfileCardOpen() {
@@ -74,5 +89,13 @@ export class ProfileCardComponent implements OnInit {
 		this.handleUserProfileEdit(false);
 
 		this.newUserName = "";
+	}
+
+	// ← EINFACH: Direkt UserService nutzen
+	openDirectMessage() {
+		this.closeProfileCard();
+
+		// UserService Event emittieren
+		this.userService.openDirectMessageWithUser(this.currentPerson);
 	}
 }

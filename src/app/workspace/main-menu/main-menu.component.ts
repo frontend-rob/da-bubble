@@ -96,6 +96,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.responsiveService.screenWidth$.subscribe((val) => {
 				this.screenWidth = val;
 			});
+
+		this.userService.directMessageUser$.subscribe((user) => {
+			if (user) {
+				this.onUserClickForDirectMessage(user); // ← Diese Methode existiert bereits hier!
+			}
+		});
 	}
 
 	ngOnDestroy() {

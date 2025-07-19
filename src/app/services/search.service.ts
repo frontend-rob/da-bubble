@@ -6,6 +6,7 @@ import {UserLookupService} from './user-lookup.service';
 import {SearchResult} from '../interfaces/search-result.interface';
 import {ChannelData} from '../interfaces/channel.interface';
 import {UserData} from '../interfaces/user.interface';
+import {Database, get, ref} from '@angular/fire/database'; // ✅ Realtime DB Import
 
 export interface CategorizedSearchResults {
 	messages: SearchResult[];
@@ -22,6 +23,7 @@ export class SearchService {
 	private chatService = inject(ChatService);
 	private userService = inject(UserService);
 	private userLookupService = inject(UserLookupService);
+	private database = inject(Database); // ✅ Realtime Database injizieren
 
 	private searchTermSubject = new BehaviorSubject<string>('');
 	public searchTerm$ = this.searchTermSubject.asObservable();
@@ -51,6 +53,23 @@ export class SearchService {
 	setSearchTerm(term: string): void {
 		console.log('Setting search term:', term);
 		this.searchTermSubject.next(term);
+	}
+
+	// ✅ Hilfsmethode für User-Präsenz aus Realtime DB
+	private async getUserPresenceStatus(uid: string): Promise<'online' | 'away' | 'offline' | false> {
+		try {
+			const presenceRef = ref(this.database, `presence/${uid}`);
+			const snapshot = await get(presenceRef);
+			const presenceData = snapshot.val();
+			
+			if (presenceData && presenceData.status) {
+				return presenceData.status;
+			}
+			return false;
+		} catch (error) {
+			console.error('Error getting user presence:', error);
+			return false;
+		}
 	}
 
 	private async performSearch(searchTerm: string): Promise<void> {
@@ -140,14 +159,17 @@ export class SearchService {
 				);
 			}
 
+			// ✅ Status für jeden User aus Realtime DB holen
 			for (const user of matchingUsers) {
+				const userStatus = await this.getUserPresenceStatus(user.uid);
+				
 				results.push({
 					type: 'user',
 					uid: user.uid,
 					userName: user.userName,
 					email: user.email || '',
 					photoURL: user.photoURL || '',
-					status: user.status,
+					status: userStatus, // ✅ Echter Status aus Realtime DB
 					channelName: '',
 					channelDescription: ''
 				});
@@ -213,7 +235,10 @@ export class SearchService {
 					message.text.toLowerCase().includes(term.toLowerCase())
 				);
 
+				// ✅ Status für jeden Message-Sender aus Realtime DB holen
 				for (const message of matchingMessages) {
+					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
+					
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
@@ -225,7 +250,7 @@ export class SearchService {
 						userName: message.sender.userName,
 						photoURL: message.sender.photoURL || '',
 						email: message.sender.email || '',
-						status: message.sender.status || false,
+						status: userStatus, // ✅ Echter Status aus Realtime DB
 						channelDescription: ''
 					});
 				}
@@ -260,8 +285,11 @@ export class SearchService {
 				const otherUser = channel.channelMembers.find(member => member !== currentUser.uid);
 				if (!otherUser) continue;
 
+				// ✅ Status für jeden Message-Sender aus Realtime DB holen
 				for (const message of matchingMessages) {
 					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
+					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
+					
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
@@ -273,7 +301,7 @@ export class SearchService {
 						userName: message.sender.userName,
 						photoURL: message.sender.photoURL || '',
 						email: message.sender.email || '',
-						status: message.sender.status || false,
+						status: userStatus, // ✅ Echter Status aus Realtime DB
 						directMessageUserId: otherUser,
 						directMessageUserName: otherUserData?.userName || '',
 						channelDescription: ''
@@ -311,7 +339,10 @@ export class SearchService {
 						message.text.toLowerCase().includes(term.toLowerCase())
 					);
 
+					// ✅ Status für jeden Thread-Message-Sender aus Realtime DB holen
 					for (const threadMessage of matchingThreadMessages) {
+						const userStatus = await this.getUserPresenceStatus(threadMessage.sender.uid);
+						
 						results.push({
 							type: 'message',
 							messageId: (threadMessage as any).messageId,
@@ -323,7 +354,7 @@ export class SearchService {
 							userName: threadMessage.sender.userName,
 							photoURL: threadMessage.sender.photoURL || '',
 							email: threadMessage.sender.email || '',
-							status: threadMessage.sender.status || false,
+							status: userStatus, // ✅ Echter Status aus Realtime DB
 							repliedMessageId: (parentMessage as any).messageId,
 							replierName: threadMessage.sender.userName,
 							channelDescription: ''

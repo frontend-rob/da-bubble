@@ -43,7 +43,7 @@ export interface SearchResult {
 	 * The status of the user (optional, applicable only when the type is 'user').
 	 * Could be 'online', 'offline', or other future states.
 	 */
-	status: boolean;
+	status: string | false;
 
 	// -----------------------------------------------------------------------------------------------
 	// ** Channel-Related Fields (For results related to channels) **

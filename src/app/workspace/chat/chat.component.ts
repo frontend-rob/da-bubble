@@ -1,27 +1,23 @@
-import {
-	Component,
-	inject,
-	OnDestroy,
-	OnInit,
-	TrackByFunction,
-} from "@angular/core";
-import { FormsModule } from "@angular/forms";
-import { map, Observable, of, Subscription } from "rxjs";
-import { ChatService } from "../../services/chat.service";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { Message } from "../../interfaces/message.interface";
-import { ChatMessageComponent } from "./chat-message-other/chat-message.component";
-import { MessageInputFieldComponent } from "../../shared/message-input-field/message-input-field.component";
-import { Timestamp } from "@angular/fire/firestore";
-import { CommonModule, NgForOf, NgOptimizedImage } from "@angular/common";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { HelperService } from "../../services/helper.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
-import { AutoScrollingDirective } from "../../directive/auto-scrolling.directive";
-import { UserLookupService } from "../../services/user-lookup.service";
-import { ChannelUserPipe } from "../../services/channel-user.pipe";
-import { ResponsiveService } from "../../services/responsive.service";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {FormsModule} from "@angular/forms";
+import {combineLatest, map, Observable, of, Subscription, switchMap} from "rxjs";
+import {ChatService} from "../../services/chat.service";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {Message} from "../../interfaces/message.interface";
+import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {Timestamp} from "@angular/fire/firestore";
+import {CommonModule, NgForOf, NgOptimizedImage} from "@angular/common";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {HelperService} from "../../services/helper.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {UserLookupService} from "../../services/user-lookup.service";
+import {ChannelUserPipe} from "../../services/channel-user.pipe";
+import {ResponsiveService} from "../../services/responsive.service";
+import {PresenceService, UserPresence} from "../../services/PresenceManagementService";
+
 @Component({
 	selector: "app-chat",
 	templateUrl: "./chat.component.html",
@@ -45,6 +41,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	newChannelDescription: string = "";
 	currentUser!: UserData;
 	userSubscription!: Subscription;
+	otherUser$!: Observable<UserData | null>;
+	otherUserPresence$!: Observable<UserPresence | null>;
 	functionTriggerSubscription!: Subscription;
 
 	isModalBGOpen = false;
@@ -93,6 +91,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	} ${new Date().getDate()}`;
 
 	private userLookupService: UserLookupService = inject(UserLookupService);
+    private presenceService = inject(PresenceService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
@@ -104,6 +103,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	constructor(public readonly chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
+	}
+
+	getMemberPresence(uid: string): Observable<UserPresence | null> {
+		return this.presenceService.getUserPresence(uid);
 	}
 
 	get isNewMessage() {
@@ -160,11 +163,24 @@ export class ChatComponent implements OnInit, OnDestroy {
 	};
 
 	ngOnInit(): void {
+        // Bestehende Methode als Observable
+        this.otherUser$ = this.getOtherUserInDirectMessage();
+        
+        // Präsenz basierend auf otherUser$
+        this.otherUserPresence$ = this.otherUser$.pipe(
+            switchMap(user => {
+                if (user?.uid) {
+                    return this.presenceService.getUserPresence(user.uid);
+                } else {
+                    return of(null);
+                }
+            })
+        );
 		this.functionTriggerSubscription =
 			this.functionTriggerService.trigger$.subscribe((channel) => {
 				this.selectChannel(channel);
 			});
-
+		
 		this.userSubscription = this.userService.currentUser$.subscribe(
 			(userData) => {
 				if (userData) {
