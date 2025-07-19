@@ -1,4 +1,4 @@
-import {inject, Injectable} from '@angular/core';
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
 import {BehaviorSubject, firstValueFrom, take} from 'rxjs';
 import {ChatService} from './chat.service';
 import {UserService} from './user.service';
@@ -37,7 +37,7 @@ export class SearchService {
 	});
 	public searchResults$ = this.searchResultsSubject.asObservable();
 
-	constructor() {
+	constructor(private environmentInjector: EnvironmentInjector) {
 		console.log('SearchService initialized');
 
 		this.searchTerm$.subscribe(term => {
@@ -57,19 +57,21 @@ export class SearchService {
 
 	// ✅ Hilfsmethode für User-Präsenz aus Realtime DB
 	private async getUserPresenceStatus(uid: string): Promise<'online' | 'away' | 'offline' | false> {
-		try {
-			const presenceRef = ref(this.database, `presence/${uid}`);
-			const snapshot = await get(presenceRef);
-			const presenceData = snapshot.val();
-			
-			if (presenceData && presenceData.status) {
-				return presenceData.status;
+		return runInInjectionContext(this.environmentInjector, async () => {
+			try {
+				const presenceRef = ref(this.database, `presence/${uid}`);
+				const snapshot = await get(presenceRef);
+				const presenceData = snapshot.val();
+
+				if (presenceData && presenceData.status) {
+					return presenceData.status;
+				}
+				return false;
+			} catch (error) {
+				console.error('Error getting user presence:', error);
+				return false;
 			}
-			return false;
-		} catch (error) {
-			console.error('Error getting user presence:', error);
-			return false;
-		}
+		})
 	}
 
 	private async performSearch(searchTerm: string): Promise<void> {
@@ -162,7 +164,7 @@ export class SearchService {
 			// ✅ Status für jeden User aus Realtime DB holen
 			for (const user of matchingUsers) {
 				const userStatus = await this.getUserPresenceStatus(user.uid);
-				
+
 				results.push({
 					type: 'user',
 					uid: user.uid,
@@ -238,7 +240,7 @@ export class SearchService {
 				// ✅ Status für jeden Message-Sender aus Realtime DB holen
 				for (const message of matchingMessages) {
 					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
-					
+
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
@@ -289,7 +291,7 @@ export class SearchService {
 				for (const message of matchingMessages) {
 					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
 					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
-					
+
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
@@ -342,7 +344,7 @@ export class SearchService {
 					// ✅ Status für jeden Thread-Message-Sender aus Realtime DB holen
 					for (const threadMessage of matchingThreadMessages) {
 						const userStatus = await this.getUserPresenceStatus(threadMessage.sender.uid);
-						
+
 						results.push({
 							type: 'message',
 							messageId: (threadMessage as any).messageId,

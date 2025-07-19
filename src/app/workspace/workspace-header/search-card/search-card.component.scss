@@ -171,22 +171,33 @@ kbd {
         .user-status {
             display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 12px;
-
+            gap: 6px;
+            
             .status-indicator {
                 width: 8px;
                 height: 8px;
                 border-radius: 50%;
-                background: variables.$offline;
+                display: inline-block;
             }
-
+            
             &.online .status-indicator {
-                background: variables.$online;
+                background-color: variables.$online;
+                box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
             }
-
+            
+            &.away .status-indicator {
+                background-color: variables.$away;
+                box-shadow: 0 0 6px rgba(255, 152, 0, 0.5);
+            }
+            
+            &.offline .status-indicator {
+                background-color: variables.$offline;
+                box-shadow: none;
+            }
+            
             .status-text {
-                color: variables.$text-secondary;
+                font-size: 12px;
+                color: var(--text-secondary);
             }
         }
     }
