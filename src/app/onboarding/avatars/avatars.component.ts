@@ -1,13 +1,13 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, inject, ViewChild } from "@angular/core";
-import { Router } from "@angular/router";
-import { UserDataService } from "../../services/user-data.service";
-import { NotificationsComponent } from "../notifications/notifications.component";
-import { UserData } from "../../interfaces/user.interface";
-import { Timestamp } from "firebase/firestore";
-import { AuthService } from "../../services/auth.service";
-import { UserService } from "../../services/user.service";
-import { Subscribable, Subscription } from "rxjs";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, inject, ViewChild} from "@angular/core";
+import {Router} from "@angular/router";
+import {UserDataService} from "../../services/user-data.service";
+import {NotificationsComponent} from "../notifications/notifications.component";
+import {UserData} from "../../interfaces/user.interface";
+import {Timestamp} from "firebase/firestore";
+import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
+import {Subscription} from "rxjs";
 
 /**
  * Component for managing user avatar selection during onboarding.
@@ -165,7 +165,7 @@ export class AvatarsComponent {
 			email: userData.email,
 			photoURL: this.selectedUserAvatar,
 			createdAt: Timestamp.fromDate(new Date()),
-			role: { user: true, admin: false, guest: false, moderator: false },
+			role: {user: true, admin: false, guest: false, moderator: false},
 		};
 		await this.authService.saveUserToFirestore(uid, user);
 	}

@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
+import {Injectable} from "@angular/core";
+import {BehaviorSubject, Observable} from "rxjs";
 
 @Injectable({
 	providedIn: "root",
 })
 export class ResponsiveService {
-	private screenWidthSubject: BehaviorSubject<number>;
 	public screenWidth$: Observable<number>;
+	private screenWidthSubject: BehaviorSubject<number>;
 
 	constructor() {
 		this.screenWidthSubject = new BehaviorSubject<number>(

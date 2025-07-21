@@ -1,21 +1,9 @@
-import {
-	EnvironmentInjector,
-	inject,
-	Injectable,
-	runInInjectionContext,
-} from "@angular/core";
-import { Observable, of, Subject } from "rxjs";
-import { catchError, map, shareReplay, switchMap } from "rxjs/operators";
-import { UserData } from "../interfaces/user.interface";
-import {
-	collection,
-	collectionData,
-	doc,
-	docData,
-	Firestore,
-	updateDoc,
-} from "@angular/fire/firestore";
-import { Auth, user } from "@angular/fire/auth";
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext,} from "@angular/core";
+import {Observable, of, Subject} from "rxjs";
+import {catchError, map, shareReplay, switchMap} from "rxjs/operators";
+import {UserData} from "../interfaces/user.interface";
+import {collection, collectionData, doc, docData, Firestore, updateDoc,} from "@angular/fire/firestore";
+import {Auth, user} from "@angular/fire/auth";
 
 @Injectable({
 	providedIn: "root",
@@ -43,6 +31,9 @@ export class UserService {
 	);
 	private environmentInjector = inject(EnvironmentInjector);
 	private userCache = new Map<string, Observable<UserData | null>>();
+	private directMessageUserSubject = new Subject<UserData>();
+	directMessageUser$ = this.directMessageUserSubject.asObservable();
+
 	private _isUserMenuOpen = false;
 
 	get isUserMenuOpen(): boolean {
@@ -179,6 +170,8 @@ export class UserService {
 		this._isUserProfileCardOpen = bool;
 	}
 
+	// In deinem UserService hinzufügen:
+
 	handleUserAvatarEdit(bool: boolean) {
 		this._isUserAvatarEdit = bool;
 	}
@@ -186,11 +179,6 @@ export class UserService {
 	handleUserProfileEdit(bool: boolean) {
 		this._isUserProfileEdit = bool;
 	}
-	
-	// In deinem UserService hinzufügen:
-
-	private directMessageUserSubject = new Subject<UserData>();
-	directMessageUser$ = this.directMessageUserSubject.asObservable();
 
 	openDirectMessageWithUser(user: UserData) {
 		this.directMessageUserSubject.next(user);

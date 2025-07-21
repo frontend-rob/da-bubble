@@ -22,7 +22,8 @@ export class MessageInputModalComponent {
 	@Output() chosenUser = new EventEmitter<UserData>();
 	@Output() chosenEmoji = new EventEmitter<string>();
 
-	constructor(private presenceService: PresenceService) {}
+	constructor(private presenceService: PresenceService) {
+	}
 
 	getUserPresence(uid: string): Observable<UserPresence | null> {
 		return this.presenceService.getUserPresence(uid);

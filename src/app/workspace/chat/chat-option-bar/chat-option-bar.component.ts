@@ -53,10 +53,10 @@ export class ChatOptionBarComponent {
 		this.isOptionsMenuOpen = false;
 	}
 
-    deleteMessage() {
-        this.deleteMessageEvent.emit(this.message);
-        this.isOptionsMenuOpen = false;
-    }
+	deleteMessage() {
+		this.deleteMessageEvent.emit(this.message);
+		this.isOptionsMenuOpen = false;
+	}
 
 	addQuickReactionThumbsUp() {
 		this.chosenEmoji.emit("\u{1F44D}");

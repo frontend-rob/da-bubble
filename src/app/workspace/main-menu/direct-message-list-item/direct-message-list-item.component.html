@@ -1,8 +1,8 @@
 <div (click)="onItemClick()" [class.activate]="isActive" class="menu-item">
 	<div class="avatar">
 		<img [ngSrc]="chatPartner?.photoURL || '/assets/img/avatars/av-00.svg'" alt="User profile picture" fill="true"/>
-  <ng-container *ngIf="chatPartnerPresence$ | async as presence">
-			<div class="status" [ngClass]="presence.status"></div>
+		<ng-container *ngIf="chatPartnerPresence$ | async as presence">
+			<div [ngClass]="presence.status" class="status"></div>
 		</ng-container>
 		<div *ngIf="!(chatPartnerPresence$ | async)" class="status offline"></div>
 	</div>

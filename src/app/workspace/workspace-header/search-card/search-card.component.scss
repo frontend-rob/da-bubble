@@ -3,275 +3,274 @@
 @use "../../../../styles/inputs" as inputs;
 
 .search-container {
-    position: relative;
-    width: 100%;
+	position: relative;
+	width: 100%;
 }
 
 .search-bar {
-    >input {
-        background-color: variables.$bg-base-200;
-        padding-right: 16px;
-    }
+	> input {
+		background-color: variables.$bg-base-200;
+		padding-right: 16px;
+	}
 }
 
 kbd {
-    display: inline-flex;
-    background-color: variables.$bg-base-100;
-    border-radius: 4px;
-    padding: 2px 6px;
-    font-size: 16px;
+	display: inline-flex;
+	background-color: variables.$bg-base-100;
+	border-radius: 4px;
+	padding: 2px 6px;
+	font-size: 16px;
 }
 
 .search-results-container {
-    position: absolute;
-    top: 64px;
-    left: 0;
-    right: 0;
-    background: variables.$bg-base-200;
-    border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    max-height: 600px;
-    overflow-y: auto;
+	position: absolute;
+	top: 64px;
+	left: 0;
+	right: 0;
+	background: variables.$bg-base-200;
+	border-radius: 20px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	z-index: 1000;
+	max-height: 600px;
+	overflow-y: auto;
 }
 
 .search-results {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .search-loading {
-    display: flex;
-    align-items: center;
-    padding: 16px;
-    color: #666;
+	display: flex;
+	align-items: center;
+	padding: 16px;
+	color: #666;
 
-    .loading-spinner {
-        width: 16px;
-        height: 16px;
-        border: 2px solid #efefef;
-        border-top: 2px solid variables.$bg-primary;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-        margin-right: 8px;
-    }
+	.loading-spinner {
+		width: 16px;
+		height: 16px;
+		border: 2px solid #efefef;
+		border-top: 2px solid variables.$bg-primary;
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+		margin-right: 8px;
+	}
 }
 
 @keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
+	0% {
+		transform: rotate(0deg);
+	}
 
-    100% {
-        transform: rotate(360deg);
-    }
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .no-results {
-    padding: 16px;
-    color: variables.$text-secondary;
-    text-align: center;
+	padding: 16px;
+	color: variables.$text-secondary;
+	text-align: center;
 
-    .search-tips {
-        margin-top: 12px;
-        font-size: 14px;
+	.search-tips {
+		margin-top: 12px;
+		font-size: 14px;
 
-        p {
-            margin: 0 0 8px 0;
-            font-weight: bold;
-        }
+		p {
+			margin: 0 0 8px 0;
+			font-weight: bold;
+		}
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+		ul {
+			list-style: none;
+			padding: 0;
+			margin: 0;
 
-            li {
-                margin: 4px 0;
-                text-align: left;
-            }
-        }
-    }
+			li {
+				margin: 4px 0;
+				text-align: left;
+			}
+		}
+	}
 }
 
 .result-category {
-    border-bottom: 1px solid #efefef;
+	border-bottom: 1px solid #efefef;
 
-    &:last-child {
-        border-bottom: none;
-    }
+	&:last-child {
+		border-bottom: none;
+	}
 
-    .category-title {
-        display: flex;
-        align-items: center;
-        padding: 12px 16px 8px;
-        margin: 0;
-        font-size: 14px;
-        font-weight: 600;
-        color: variables.$text-primary;
-        background: #efefef;
+	.category-title {
+		display: flex;
+		align-items: center;
+		padding: 12px 16px 8px;
+		margin: 0;
+		font-size: 14px;
+		font-weight: 600;
+		color: variables.$text-primary;
+		background: #efefef;
 
-        img {
-            width: 16px;
-            height: 16px;
-            margin-right: 8px;
-        }
-    }
+		img {
+			width: 16px;
+			height: 16px;
+			margin-right: 8px;
+		}
+	}
 }
 
 .result-item {
-    padding: 12px 16px;
-    cursor: pointer;
-    border-left: 3px solid transparent;
+	padding: 12px 16px;
+	cursor: pointer;
+	border-left: 3px solid transparent;
 
-    &:hover,
-    &.selected {
-        background: variables.$bg-base-100;
-        border-left-color: variables.$bg-primary-accent;
-    }
+	&:hover,
+	&.selected {
+		background: variables.$bg-base-100;
+		border-left-color: variables.$bg-primary-accent;
+	}
 
-    .result-content {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-    }
+	.result-content {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+	}
 }
 
 // User-spezifische Styles
 .user-result {
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
+	.user-info {
+		display: flex;
+		align-items: center;
+		gap: 12px;
 
-        .user-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
+		.user-avatar {
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
 
-        .user-details {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+		.user-details {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
 
-            .user-name {
-                font-weight: 600;
-                font-size: 14px;
-                color: variables.$text-primary;
-            }
+			.user-name {
+				font-weight: 600;
+				font-size: 14px;
+				color: variables.$text-primary;
+			}
 
-            .user-email {
-                font-size: 12px;
-                color: variables.$text-secondary;
-            }
-        }
+			.user-email {
+				font-size: 12px;
+				color: variables.$text-secondary;
+			}
+		}
 
-        .user-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            
-            .status-indicator {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                display: inline-block;
-            }
-            
-            &.online .status-indicator {
-                background-color: variables.$online;
-                box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
-            }
-            
-            &.away .status-indicator {
-                background-color: variables.$away;
-                box-shadow: 0 0 6px rgba(255, 152, 0, 0.5);
-            }
-            
-            &.offline .status-indicator {
-                background-color: variables.$offline;
-                box-shadow: none;
-            }
-            
-            .status-text {
-                font-size: 12px;
-                color: var(--text-secondary);
-            }
-        }
-    }
+		.user-status {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+
+			.status-indicator {
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				display: inline-block;
+			}
+
+			&.online .status-indicator {
+				background-color: variables.$online;
+				box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+			}
+
+			&.away .status-indicator {
+				background-color: variables.$away;
+				box-shadow: 0 0 6px rgba(255, 152, 0, 0.5);
+			}
+
+			&.offline .status-indicator {
+				background-color: variables.$offline;
+				box-shadow: none;
+			}
+
+			.status-text {
+				font-size: 12px;
+				color: var(--text-secondary);
+			}
+		}
+	}
 }
 
 // Channel-spezifische Styles
 .channel-result {
-    .result-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+	.result-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-        .channel-name {
-            font-weight: 600;
-            color: variables.$text-primary;
-        }
+		.channel-name {
+			font-weight: 600;
+			color: variables.$text-primary;
+		}
 
-        .member-count {
-            font-size: 12px;
-            color: variables.$text-secondary;
-        }
-    }
+		.member-count {
+			font-size: 12px;
+			color: variables.$text-secondary;
+		}
+	}
 
-    .channel-description {
-        font-size: 12px;
-        color: variables.$text-secondary;
-        ;
-        margin-top: 4px;
-    }
+	.channel-description {
+		font-size: 12px;
+		color: variables.$text-secondary;;
+		margin-top: 4px;
+	}
 }
 
 // Message-spezifische Styles
 .message-result,
 .dm-result,
 .thread-result {
-    .result-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 4px;
+	.result-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 4px;
 
-        .channel-name,
-        .dm-user {
-            font-weight: 600;
-            color: variables.$text-primary;
-        }
+		.channel-name,
+		.dm-user {
+			font-weight: 600;
+			color: variables.$text-primary;
+		}
 
-        .thread-indicator {
-            background: variables.$bg-primary;
-            color: white;
-            font-size: 10px;
-            padding: 2px 6px;
-            border-radius: 12px;
-        }
+		.thread-indicator {
+			background: variables.$bg-primary;
+			color: white;
+			font-size: 10px;
+			padding: 2px 6px;
+			border-radius: 12px;
+		}
 
-        .result-time {
-            font-size: 12px;
-            color: variables.$text-secondary;
-        }
-    }
+		.result-time {
+			font-size: 12px;
+			color: variables.$text-secondary;
+		}
+	}
 
-    .message-preview {
-        font-size: 13px;
-        color: variables.$text-secondary;
-        line-height: 1.4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+	.message-preview {
+		font-size: 13px;
+		color: variables.$text-secondary;
+		line-height: 1.4;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 }
 
 @media screen and (max-width: 640px) {
-    .search-results-container {
-        max-height: calc(100vh - 180px);
-        border-radius: 16px;
-    }
+	.search-results-container {
+		max-height: calc(100vh - 180px);
+		border-radius: 16px;
+	}
 }

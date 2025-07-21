@@ -89,7 +89,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 	formattedDate = `${this.daysOfWeek[new Date().getDay()]}, ${
 		this.months[new Date().getMonth()]
 	} ${new Date().getDate()}`;
-
+	screenWidthSubscription!: Subscription;
+	screenWidth!: number;
 	private userLookupService: UserLookupService = inject(UserLookupService);
 	private presenceService = inject(PresenceService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
@@ -98,15 +99,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 	private functionTriggerService: FunctionTriggerService = inject(
 		FunctionTriggerService
 	);
-	screenWidthSubscription!: Subscription;
-	screenWidth!: number;
 
 	constructor(public readonly chatService: ChatService) {
 		this.selectedChannel = this.chatService.selectedChannel;
-	}
-
-	getMemberPresence(uid: string): Observable<UserPresence | null> {
-		return this.presenceService.getUserPresence(uid);
 	}
 
 	get isNewMessage() {
@@ -115,6 +110,10 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	get isProfileCardOpen() {
 		return this.chatService.isProfileCardOpen;
+	}
+
+	getMemberPresence(uid: string): Observable<UserPresence | null> {
+		return this.presenceService.getUserPresence(uid);
 	}
 
 	handleProfileCard(bool: boolean, person: UserData) {
@@ -210,22 +209,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 			});
 	}
 
-	private initializeDirectMessageObservables(): void {
-		this.otherUser$ = this.getOtherUserInDirectMessage();
-
-		this.otherUserPresence$ = this.otherUser$.pipe(
-			switchMap(user => {
-				if (user?.uid) {
-					console.log('Getting presence for user:', user.uid);
-					return this.presenceService.getUserPresence(user.uid);
-				} else {
-					return of(null);
-				}
-			})
-		);
-	}
-
-
 	selectChannel(channel: ChannelData): void {
 		this.chatService.selectedChannel = channel;
 		this.newChannelName = channel.channelName;
@@ -243,7 +226,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.initializeDirectMessageObservables();
 		}
 	}
-
 
 	openModal(): void {
 		this.isModalBGOpen = true;
@@ -534,6 +516,21 @@ export class ChatComponent implements OnInit, OnDestroy {
 		const hasUser1 = arr.includes(userId1);
 		const hasUser2 = arr.includes(userId2);
 		return hasUser1 && hasUser2;
+	}
+
+	private initializeDirectMessageObservables(): void {
+		this.otherUser$ = this.getOtherUserInDirectMessage();
+
+		this.otherUserPresence$ = this.otherUser$.pipe(
+			switchMap(user => {
+				if (user?.uid) {
+					console.log('Getting presence for user:', user.uid);
+					return this.presenceService.getUserPresence(user.uid);
+				} else {
+					return of(null);
+				}
+			})
+		);
 	}
 
 	private async updateChannel(channel: ChannelData): Promise<void> {

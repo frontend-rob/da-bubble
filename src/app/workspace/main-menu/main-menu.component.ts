@@ -1,33 +1,19 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import {
-	ChangeDetectorRef,
-	Component,
-	inject,
-	OnDestroy,
-	OnInit,
-} from "@angular/core";
-import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
-import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { ChatService } from "../../services/chat.service";
-import { Timestamp } from "firebase/firestore";
-import { FormsModule } from "@angular/forms";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { FunctionTriggerService } from "../../services/function-trigger.service";
-import {
-	combineLatest,
-	map,
-	Observable,
-	of,
-	Subject,
-	Subscription,
-	takeUntil,
-} from "rxjs";
-import { UserLookupService } from "../../services/user-lookup.service";
-import { ResponsiveService } from "../../services/responsive.service";
-import { WorkspaceService } from "../../services/workspace.service";
-import { SearchCardComponent } from "../workspace-header/search-card/search-card.component";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {ChangeDetectorRef, Component, inject, OnDestroy, OnInit,} from "@angular/core";
+import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
+import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {ChatService} from "../../services/chat.service";
+import {Timestamp} from "firebase/firestore";
+import {FormsModule} from "@angular/forms";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {FunctionTriggerService} from "../../services/function-trigger.service";
+import {combineLatest, map, Observable, of, Subject, Subscription, takeUntil,} from "rxjs";
+import {UserLookupService} from "../../services/user-lookup.service";
+import {ResponsiveService} from "../../services/responsive.service";
+import {WorkspaceService} from "../../services/workspace.service";
+import {SearchCardComponent} from "../workspace-header/search-card/search-card.component";
 
 @Component({
 	selector: "app-main-menu",
@@ -47,27 +33,22 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	showUserList = false;
 	isModalOpen = false;
 	isMainMenuOpen: boolean = false;
-	private isMainMenuOpenSubscription!: Subscription;
-	private screenWidthSubscription!: Subscription;
 	screenWidth!: number;
-
 	isOpenText = "Close Workspace Menu";
 	isClosedText = "Open Workspace Menu";
-
 	currentUser!: UserData;
 	channels: ChannelData[] = [];
 	directMessageChannels: ChannelData[] = [];
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
 	selfChannel: ChannelData | null = null;
-
-	private isInitialLoad = true;
-
 	channelFormData = {
 		name: "",
 		description: "",
 	};
-
+	private isMainMenuOpenSubscription!: Subscription;
+	private screenWidthSubscription!: Subscription;
+	private isInitialLoad = true;
 	private userLookupService: UserLookupService = inject(UserLookupService);
 	private userService: UserService = inject(UserService);
 	private functionTriggerService: FunctionTriggerService = inject(
@@ -81,7 +62,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	constructor(
 		private workspaceService: WorkspaceService,
 		private cdr: ChangeDetectorRef
-	) {}
+	) {
+	}
+
+	get isUserMenuOpen() {
+		return this.userService.isUserMenuOpen;
+	}
 
 	ngOnInit() {
 		this.initializeCurrentUser();
@@ -109,10 +95,6 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		this.destroy$.complete();
 		this.isMainMenuOpenSubscription.unsubscribe();
 		this.screenWidthSubscription.unsubscribe();
-	}
-
-	get isUserMenuOpen() {
-		return this.userService.isUserMenuOpen;
 	}
 
 	toggleMainMenu() {
@@ -168,7 +150,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			user = userData || null;
 		}
 
-		console.log("setSelectedChannel called with:", { id, user });
+		console.log("setSelectedChannel called with:", {id, user});
 		console.log("dmchannels", this.directMessageChannels);
 
 		this.setActiveChat(id);
@@ -372,6 +354,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		if (bool) {
 			this.chatService.setActiveChat("");
 		}
+	}
+
+	resetForm() {
+		this.channelFormData = {
+			name: "",
+			description: "",
+		};
 	}
 
 	private initializeCurrentUser() {
@@ -583,12 +572,5 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		// Since channelMembers is now an array of strings (UIDs),
 		// we don't need to update their status in the channel object
 		return channels;
-	}
-
-	resetForm() {
-		this.channelFormData = {
-			name: "",
-			description: "",
-		};
 	}
 }

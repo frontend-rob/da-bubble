@@ -28,9 +28,9 @@ interface UserPresence {
 	providedIn: "root",
 })
 export class AuthService implements OnDestroy {
+	user$: Observable<User | null>;
 	private destroy$ = new Subject<void>();
 	private presenceRef: any;
-	user$: Observable<User | null>;
 
 	constructor(
 		private environmentInjector: EnvironmentInjector,
@@ -90,154 +90,6 @@ export class AuthService implements OnDestroy {
 				})
 			).subscribe();
 		});
-	}
-
-	/**
-	 * Richtet die Präsenz für einen User ein
-	 */
-	private async setupUserPresence(uid: string): Promise<void> {
-		return runInInjectionContext(this.environmentInjector, async () => {
-			const presenceRef = ref(this.database, `presence/${uid}`);
-			const connectedRef = ref(this.database, '.info/connected');
-
-			// 🔥 Überwache Verbindungsstatus
-			onValue(connectedRef, async (snapshot) => {
-				await runInInjectionContext(this.environmentInjector, async () => {
-					if (snapshot.val() === true) {
-						// 🔥 Verbunden - setze online
-						await runInInjectionContext(this.environmentInjector, async () => {
-							await set(presenceRef, {
-								status: 'online',
-								timestamp: serverTimestamp(),
-								lastSeen: serverTimestamp()
-							});
-						})
-
-						// 🔥 Setze onDisconnect für automatisches Offline
-						await runInInjectionContext(this.environmentInjector, async () => {
-							await onDisconnect(presenceRef).set({
-								status: 'offline',
-								timestamp: serverTimestamp(),
-								lastSeen: serverTimestamp()
-							});
-						})
-						console.info(`🔥 Realtime DB: User ${uid} presence initialized`);
-					}
-				})
-			});
-			this.presenceRef = presenceRef;
-		})
-	}
-
-
-	/**
-	 * Sets up event listeners to manage and track user presence based on their activity, connectivity, and browser state.
-	 *
-	 * @param {string} uid - The unique identifier of the user whose presence is being tracked.
-	 * @return {void} No value is returned from this method.
-	 */
-	private setupPresenceListeners(uid: string): void {
-		console.log('🔧 Setting up presence listeners for user:', uid);
-		const online$ = fromEvent(window, 'online');
-		const offline$ = fromEvent(window, 'offline');
-
-		const focus$ = fromEvent(window, 'focus');
-		const blur$ = fromEvent(window, 'blur');
-		const beforeUnload$ = fromEvent(window, 'beforeunload');
-		const visibilityChange$ = fromEvent(document, 'visibilitychange');
-
-		const click$ = fromEvent(document, 'click');
-		const keydown$ = fromEvent(document, 'keydown');
-		const mousemove$ = fromEvent(document, 'mousemove');
-		const scroll$ = fromEvent(document, 'scroll', {passive: true});
-		const touchstart$ = fromEvent(document, 'touchstart', {passive: true});
-
-		const activity$ = merge(click$, keydown$, mousemove$, scroll$, touchstart$).pipe(
-			debounceTime(1000),
-			tap(() => console.log('🔵 User activity detected'))
-		);
-
-		offline$.pipe(
-			takeUntil(this.destroy$)
-		).subscribe(() => {
-			console.log('🌐 Internet connection lost');
-			this.setUserPresence(uid, 'offline');
-		});
-
-		online$.pipe(
-			takeUntil(this.destroy$),
-			debounceTime(500)
-		).subscribe(() => {
-			console.log('🌐 Internet connection restored');
-			this.setUserPresence(uid, 'online');
-		});
-
-		focus$.pipe(
-			takeUntil(this.destroy$),
-			debounceTime(300)
-		).subscribe(() => {
-			console.log('🟢 Window focused - setting online');
-			this.setUserPresence(uid, 'online');
-		});
-
-		visibilityChange$.pipe(
-			takeUntil(this.destroy$),
-			debounceTime(300),
-			filter(() => document.visibilityState === 'visible')
-		).subscribe(() => {
-			console.log('🟢 Tab visible - setting online');
-			this.setUserPresence(uid, 'online');
-		});
-
-		activity$.pipe(
-			takeUntil(this.destroy$),
-			switchMap(async () => {
-				return await this.getCurrentUserPresence(uid);
-			})
-		).subscribe((currentPresence) => {
-			if (currentPresence?.status === 'away') {
-				console.log('🟢 Activity detected while away - setting online');
-				this.setUserPresence(uid, 'online');
-			}
-		});
-
-		blur$.pipe(
-			takeUntil(this.destroy$),
-			switchMap(() => {
-				const awayTimer$ = timer(30000).pipe(
-					tap(() => {
-						if (document.visibilityState === 'hidden') {
-							console.log('🟡 Setting AWAY after 30s');
-							this.setUserPresence(uid, 'away');
-						}
-					})
-				);
-
-				return merge(awayTimer$).pipe(
-					takeUntil(focus$),
-					takeUntil(activity$)
-				);
-			})
-		).subscribe();
-
-		beforeUnload$.pipe(
-			takeUntil(this.destroy$)
-		).subscribe(() => {
-			console.log('🔴 Page unloading - setting offline');
-			this.setUserPresence(uid, 'offline');
-		});
-
-		console.log('✅ Presence listeners setup complete');
-	}
-
-	/**
-	 * Räumt Präsenz-Referenzen auf
-	 */
-	private cleanupPresence(): void {
-		if (this.presenceRef) {
-			off(this.presenceRef);
-			this.presenceRef = null;
-		}
 	}
 
 	// 🔥 Bestehende Firestore-Methode entfernen/ersetzen
@@ -437,6 +289,153 @@ export class AuthService implements OnDestroy {
 				}
 			});
 		});
+	}
+
+	/**
+	 * Richtet die Präsenz für einen User ein
+	 */
+	private async setupUserPresence(uid: string): Promise<void> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const presenceRef = ref(this.database, `presence/${uid}`);
+			const connectedRef = ref(this.database, '.info/connected');
+
+			// 🔥 Überwache Verbindungsstatus
+			onValue(connectedRef, async (snapshot) => {
+				await runInInjectionContext(this.environmentInjector, async () => {
+					if (snapshot.val() === true) {
+						// 🔥 Verbunden - setze online
+						await runInInjectionContext(this.environmentInjector, async () => {
+							await set(presenceRef, {
+								status: 'online',
+								timestamp: serverTimestamp(),
+								lastSeen: serverTimestamp()
+							});
+						})
+
+						// 🔥 Setze onDisconnect für automatisches Offline
+						await runInInjectionContext(this.environmentInjector, async () => {
+							await onDisconnect(presenceRef).set({
+								status: 'offline',
+								timestamp: serverTimestamp(),
+								lastSeen: serverTimestamp()
+							});
+						})
+						console.info(`🔥 Realtime DB: User ${uid} presence initialized`);
+					}
+				})
+			});
+			this.presenceRef = presenceRef;
+		})
+	}
+
+	/**
+	 * Sets up event listeners to manage and track user presence based on their activity, connectivity, and browser state.
+	 *
+	 * @param {string} uid - The unique identifier of the user whose presence is being tracked.
+	 * @return {void} No value is returned from this method.
+	 */
+	private setupPresenceListeners(uid: string): void {
+		console.log('🔧 Setting up presence listeners for user:', uid);
+		const online$ = fromEvent(window, 'online');
+		const offline$ = fromEvent(window, 'offline');
+
+		const focus$ = fromEvent(window, 'focus');
+		const blur$ = fromEvent(window, 'blur');
+		const beforeUnload$ = fromEvent(window, 'beforeunload');
+		const visibilityChange$ = fromEvent(document, 'visibilitychange');
+
+		const click$ = fromEvent(document, 'click');
+		const keydown$ = fromEvent(document, 'keydown');
+		const mousemove$ = fromEvent(document, 'mousemove');
+		const scroll$ = fromEvent(document, 'scroll', {passive: true});
+		const touchstart$ = fromEvent(document, 'touchstart', {passive: true});
+
+		const activity$ = merge(click$, keydown$, mousemove$, scroll$, touchstart$).pipe(
+			debounceTime(1000),
+			tap(() => console.log('🔵 User activity detected'))
+		);
+
+		offline$.pipe(
+			takeUntil(this.destroy$)
+		).subscribe(() => {
+			console.log('🌐 Internet connection lost');
+			this.setUserPresence(uid, 'offline');
+		});
+
+		online$.pipe(
+			takeUntil(this.destroy$),
+			debounceTime(500)
+		).subscribe(() => {
+			console.log('🌐 Internet connection restored');
+			this.setUserPresence(uid, 'online');
+		});
+
+		focus$.pipe(
+			takeUntil(this.destroy$),
+			debounceTime(300)
+		).subscribe(() => {
+			console.log('🟢 Window focused - setting online');
+			this.setUserPresence(uid, 'online');
+		});
+
+		visibilityChange$.pipe(
+			takeUntil(this.destroy$),
+			debounceTime(300),
+			filter(() => document.visibilityState === 'visible')
+		).subscribe(() => {
+			console.log('🟢 Tab visible - setting online');
+			this.setUserPresence(uid, 'online');
+		});
+
+		activity$.pipe(
+			takeUntil(this.destroy$),
+			switchMap(async () => {
+				return await this.getCurrentUserPresence(uid);
+			})
+		).subscribe((currentPresence) => {
+			if (currentPresence?.status === 'away') {
+				console.log('🟢 Activity detected while away - setting online');
+				this.setUserPresence(uid, 'online');
+			}
+		});
+
+		blur$.pipe(
+			takeUntil(this.destroy$),
+			switchMap(() => {
+				const awayTimer$ = timer(30000).pipe(
+					tap(() => {
+						if (document.visibilityState === 'hidden') {
+							console.log('🟡 Setting AWAY after 30s');
+							this.setUserPresence(uid, 'away');
+						}
+					})
+				);
+
+				return merge(awayTimer$).pipe(
+					takeUntil(focus$),
+					takeUntil(activity$)
+				);
+			})
+		).subscribe();
+
+		beforeUnload$.pipe(
+			takeUntil(this.destroy$)
+		).subscribe(() => {
+			console.log('🔴 Page unloading - setting offline');
+			this.setUserPresence(uid, 'offline');
+		});
+
+		console.log('✅ Presence listeners setup complete');
+	}
+
+	/**
+	 * Räumt Präsenz-Referenzen auf
+	 */
+	private cleanupPresence(): void {
+		if (this.presenceRef) {
+			off(this.presenceRef);
+			this.presenceRef = null;
+		}
 	}
 
 	/**

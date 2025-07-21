@@ -1,11 +1,11 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
-import { UserData } from "../../../interfaces/user.interface";
-import { UserService } from "../../../services/user.service";
-import { ChannelData } from "../../../interfaces/channel.interface";
-import { ChatService } from "../../../services/chat.service";
-import { ResponsiveService } from "../../../services/responsive.service";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, Input, OnDestroy, OnInit} from "@angular/core";
+import {Subscription} from "rxjs";
+import {UserData} from "../../../interfaces/user.interface";
+import {UserService} from "../../../services/user.service";
+import {ChannelData} from "../../../interfaces/channel.interface";
+import {ChatService} from "../../../services/chat.service";
+import {ResponsiveService} from "../../../services/responsive.service";
 
 @Component({
 	selector: "app-channel-list-item",
@@ -24,7 +24,8 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
 		private chatService: ChatService,
 		private userService: UserService,
 		private responsiveService: ResponsiveService
-	) {}
+	) {
+	}
 
 	get isActive(): boolean {
 		return this.channel.channelId === this.chatService.activeChat;

@@ -67,6 +67,30 @@ export class MessageInputFieldComponent implements OnInit {
 	}
 
 	/**
+	 * Returns the placeholder text for the input field.
+	 *
+	 * - For direct messages, shows the chat partner's name (not currentPerson).
+	 * - For channels, shows the channel name if showChannelNameInPlaceholder is true.
+	 * - If showChannelNameInPlaceholder is false, only the placeholderText is shown.
+	 *
+	 * @returns {string} The placeholder text to display
+	 */
+	get placeholder(): string {
+		const channel = this.chatService.selectedChannel;
+		if (!channel) return this.placeholderText;
+
+		if (channel.channelType?.directMessage) {
+			const otherUserId = channel.channelMembers.find(uid => uid !== this.chatService.currentPerson?.uid);
+			const otherUser = this.users?.find(u => u.uid === otherUserId);
+			const name = otherUser?.userName || "user";
+			return `${this.placeholderText} @${name}`;
+		} else if (this.showChannelNameInPlaceholder && channel.channelName) {
+			return `${this.placeholderText} #${channel.channelName}`;
+		}
+		return this.placeholderText;
+	}
+
+	/**
 	 * Initializes users and subscribes to channel updates.
 	 */
 	ngOnInit() {
@@ -101,43 +125,6 @@ export class MessageInputFieldComponent implements OnInit {
 	onDocumentKeyDown(event: KeyboardEvent) {
 		if (event.key === 'Escape') {
 			this.closeAllModals();
-		}
-	}
-
-	/**
-	 * Opens the specified modal and closes others.
-	 * @param modal Modal type to open
-	 */
-	private openModal(modal: 'emoji' | 'user' | 'channel') {
-		this.closeAllModals();
-		if (modal === 'emoji') this.isEmojiModalOpen = true;
-		if (modal === 'user') {
-			this.isUserTagModalOpen = true;
-			this.messageInputData += '@';
-		}
-		if (modal === 'channel') {
-			this.isChannelTagModalOpen = true;
-			this.messageInputData += '#';
-		}
-	}
-
-	/**
-	 * Closes the specified modal and removes tag character if needed.
-	 * @param modal Modal type to close
-	 */
-	private closeModal(modal: 'emoji' | 'user' | 'channel') {
-		if (modal === 'emoji') this.isEmojiModalOpen = false;
-		if (modal === 'user') {
-			this.isUserTagModalOpen = false;
-			if (this.messageInputData.endsWith('@')) {
-				this.messageInputData = this.messageInputData.slice(0, -1);
-			}
-		}
-		if (modal === 'channel') {
-			this.isChannelTagModalOpen = false;
-			if (this.messageInputData.endsWith('#')) {
-				this.messageInputData = this.messageInputData.slice(0, -1);
-			}
 		}
 	}
 
@@ -239,26 +226,39 @@ export class MessageInputFieldComponent implements OnInit {
 	}
 
 	/**
-	 * Returns the placeholder text for the input field.
-	 *
-	 * - For direct messages, shows the chat partner's name (not currentPerson).
-	 * - For channels, shows the channel name if showChannelNameInPlaceholder is true.
-	 * - If showChannelNameInPlaceholder is false, only the placeholderText is shown.
-	 *
-	 * @returns {string} The placeholder text to display
+	 * Opens the specified modal and closes others.
+	 * @param modal Modal type to open
 	 */
-	get placeholder(): string {
-		const channel = this.chatService.selectedChannel;
-		if (!channel) return this.placeholderText;
-
-		if (channel.channelType?.directMessage) {
-			const otherUserId = channel.channelMembers.find(uid => uid !== this.chatService.currentPerson?.uid);
-			const otherUser = this.users?.find(u => u.uid === otherUserId);
-			const name = otherUser?.userName || "user";
-			return `${this.placeholderText} @${name}`;
-		} else if (this.showChannelNameInPlaceholder && channel.channelName) {
-			return `${this.placeholderText} #${channel.channelName}`;
+	private openModal(modal: 'emoji' | 'user' | 'channel') {
+		this.closeAllModals();
+		if (modal === 'emoji') this.isEmojiModalOpen = true;
+		if (modal === 'user') {
+			this.isUserTagModalOpen = true;
+			this.messageInputData += '@';
 		}
-		return this.placeholderText;
+		if (modal === 'channel') {
+			this.isChannelTagModalOpen = true;
+			this.messageInputData += '#';
+		}
+	}
+
+	/**
+	 * Closes the specified modal and removes tag character if needed.
+	 * @param modal Modal type to close
+	 */
+	private closeModal(modal: 'emoji' | 'user' | 'channel') {
+		if (modal === 'emoji') this.isEmojiModalOpen = false;
+		if (modal === 'user') {
+			this.isUserTagModalOpen = false;
+			if (this.messageInputData.endsWith('@')) {
+				this.messageInputData = this.messageInputData.slice(0, -1);
+			}
+		}
+		if (modal === 'channel') {
+			this.isChannelTagModalOpen = false;
+			if (this.messageInputData.endsWith('#')) {
+				this.messageInputData = this.messageInputData.slice(0, -1);
+			}
+		}
 	}
 }

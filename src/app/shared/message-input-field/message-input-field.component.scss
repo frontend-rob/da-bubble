@@ -49,26 +49,26 @@
 
 .emoji {
 	@include mixins.hover-image(
-		"/assets/img/shared/message-input-field/emoji_hover.svg"
+			"/assets/img/shared/message-input-field/emoji_hover.svg"
 	);
 }
 
 .user-tag {
 	@include mixins.hover-image(
-		"/assets/img/shared/message-input-field/user-tag_hover.svg"
+			"/assets/img/shared/message-input-field/user-tag_hover.svg"
 	);
 }
 
 .channel-tag {
 	@include mixins.hover-image(
-		"/assets/img/shared/message-input-field/channel-tag_hover.svg"
+			"/assets/img/shared/message-input-field/channel-tag_hover.svg"
 	);
 }
 
 .send-button {
 	@include mixins.image-hover(
-		"/assets/img/send.svg",
-		"/assets/img/send_hover.svg"
+			"/assets/img/send.svg",
+			"/assets/img/send_hover.svg"
 	);
 	background-size: cover;
 	background-position: center;

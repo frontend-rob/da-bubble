@@ -1,6 +1,6 @@
-import { Pipe, PipeTransform } from "@angular/core";
-import { UserData } from "../interfaces/user.interface";
-import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import {Pipe, PipeTransform} from "@angular/core";
+import {UserData} from "../interfaces/user.interface";
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
 /**
  * Pipe to convert @user tags in chat messages to clickable links.
@@ -15,15 +15,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 	standalone: true,
 })
 export class chatMessageTagLink implements PipeTransform {
-	constructor(private sanitizer: DomSanitizer) {}
-
-	/**
-	 * Escapes special regex characters in a string.
-	 * @param str The string to escape.
-	 * @returns The escaped string.
-	 */
-	private escapeRegExp(str: string): string {
-		return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	constructor(private sanitizer: DomSanitizer) {
 	}
 
 	/**
@@ -36,12 +28,12 @@ export class chatMessageTagLink implements PipeTransform {
 	transform(text: string, users: UserData[] = []): SafeHtml {
 		if (!text) return "";
 		let result = text;
-		
+
 		// Sort usernames by length (desc) to match the longest possible name first
 		const sortedUsers = [...users].sort(
 			(a, b) => b.userName.length - a.userName.length
 		);
-		
+
 		for (const user of sortedUsers) {
 			const search = `@${user.userName}`;
 			// 🔥 Entferne href="#" komplett und verwende role="button"
@@ -50,14 +42,23 @@ export class chatMessageTagLink implements PipeTransform {
 			}" title="${user.userName} (${user.email || ""})">@${
 				user.userName
 			}</a>`;
-			
+
 			const regex = new RegExp(
 				this.escapeRegExp(search) + "(?=\\b|\\s|[.,!?;:()\\[\\]{}]|$)",
 				"gi"
 			);
 			result = result.replace(regex, link);
 		}
-		
+
 		return this.sanitizer.bypassSecurityTrustHtml(result);
+	}
+
+	/**
+	 * Escapes special regex characters in a string.
+	 * @param str The string to escape.
+	 * @returns The escaped string.
+	 */
+	private escapeRegExp(str: string): string {
+		return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 	}
 }

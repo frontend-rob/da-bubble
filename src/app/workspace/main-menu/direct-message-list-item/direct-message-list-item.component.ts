@@ -1,9 +1,9 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output, OnInit, OnDestroy} from "@angular/core";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {UserData} from "../../../interfaces/user.interface";
 import {ChatService} from "../../../services/chat.service";
-import { Observable } from 'rxjs';
-import { PresenceService, UserPresence } from '../../../services/PresenceManagementService';
+import {Observable} from 'rxjs';
+import {PresenceService, UserPresence} from '../../../services/PresenceManagementService';
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -26,25 +26,22 @@ export class DirectMessageListItemComponent implements OnInit {
 	) {
 	}
 
-	ngOnInit(): void {
-        if (this.chatPartner?.uid) {
-            this.chatPartnerPresence$ = this.presenceService.getUserPresence(this.chatPartner.uid);
-        }
-    }
-
 	get isActive(): boolean {
 
 		if (this.dmChannel && this.dmChannel.channelId) {
 			return this.dmChannel.channelId === this.chatService.activeChat;
-		}
-
-		else if (this.chatPartner && this.chatPartner.uid) {
+		} else if (this.chatPartner && this.chatPartner.uid) {
 			return this.chatPartner.uid === this.chatService.activeChat;
-		}
-		else if (this.chatPartner && this.chatPartner.uid === this.chatService.activeChat) {
+		} else if (this.chatPartner && this.chatPartner.uid === this.chatService.activeChat) {
 			return true;
 		}
 		return false;
+	}
+
+	ngOnInit(): void {
+		if (this.chatPartner?.uid) {
+			this.chatPartnerPresence$ = this.presenceService.getUserPresence(this.chatPartner.uid);
+		}
 	}
 
 	onItemClick() {

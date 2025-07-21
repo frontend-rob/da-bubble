@@ -1,8 +1,8 @@
 <section class="message-input-wrapper">
 	<div class="message-input-section">
         <textarea
-					(keydown)="onKeyDown($event)"
 					(input)="onInput()"
+					(keydown)="onKeyDown($event)"
 					[(ngModel)]="messageInputData"
 					[placeholder]="placeholder"
 					rows="2"

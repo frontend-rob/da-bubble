@@ -29,9 +29,6 @@ import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
 	standalone: true
 })
 export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
-	private destroy$ = new Subject<void>();
-	private focusDebounce$ = new Subject<void>();
-
 	@Input() message!: IdtMessages;
 	@Input() isThisAThreadMessage!: boolean;
 	currentUserSubscription!: Subscription;
@@ -54,16 +51,18 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		"\u{2705}", // ✅
 		"\u{1F680}", // 🚀
 	];
-
 	isEditing: boolean = false;
 	editedText: string = "";
 	hovered: boolean = false;
 	isEmojiModalOpen: boolean = false;
 	isOptionsMenuOpen: boolean = false;
 	showAllReactions: boolean = false;
-
 	@ViewChild(ChatOptionBarComponent) optionBar!: ChatOptionBarComponent;
 	@ViewChild('messageContent', {static: false}) messageContentRef!: ElementRef;
+	private destroy$ = new Subject<void>();
+	private focusDebounce$ = new Subject<void>();
+	private lastFocusTime: number = 0;
+	private debounceTimeout: any;
 
 	constructor(
 		public chatService: ChatService,
@@ -95,8 +94,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		}));
 	}
 
-	private lastFocusTime: number = 0;
-
 	ngOnInit() {
 		this.setupFocusListener();
 
@@ -121,6 +118,124 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			this.currentUserSubscription.unsubscribe();
 		}
 		this.cleanupEventHandlers();
+	}
+
+	openThread() {
+		this.chatService.handleThread(true);
+		if (this.message.messageId) {
+			this.chatService.selectedThreadMessageId = this.message.messageId;
+		}
+	}
+
+	toggleHovered(bool: boolean) {
+		this.hovered = bool;
+	}
+
+	handleProfileCard(bool: boolean, person: string) {
+		this.userLookup.getUserById(person).subscribe((user: UserData | undefined) => {
+			if (user) {
+				this.chatService.handleProfileCard(bool);
+				this.chatService.setCurrentPerson(user);
+			}
+		});
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		// Komplett entfernen oder mit Debounce
+	}
+
+	handleEmojiReaction(emoji: string, message: IdtMessages) {
+		if (!message.reactions) {
+			message.reactions = [];
+		}
+
+		const reaction: Reaction = {
+			emoji: emoji,
+			userId: this.currentUser.uid,
+			userName: this.currentUser.userName,
+			timestamp: Timestamp.fromDate(new Date()),
+		};
+
+		const existingReactionIndex = message.reactions.findIndex(
+			(r) => r.emoji === emoji && r.userId === this.currentUser.uid
+		);
+
+		if (existingReactionIndex === -1) {
+			message.reactions.push(reaction);
+		} else {
+			message.reactions.splice(existingReactionIndex, 1);
+		}
+
+		if (message.messageId) {
+			// Unterscheidung zwischen Thread-Nachrichten und normalen Nachrichten
+			if (this.isThisAThreadMessage) {
+				// Für Thread-Nachrichten
+				this.chatService.updateThreadMessageReactions(
+					this.chatService.selectedChannel.channelId,
+					this.chatService.selectedThreadMessageId,
+					message.messageId,
+					message.reactions
+				).then(r => {
+					console.log('Thread reaction updated:', r);
+				});
+			} else {
+				// Für normale Nachrichten
+				this.chatService.updateMessageReactions(
+					this.chatService.selectedChannel.channelId,
+					message.messageId,
+					message.reactions
+				).then(r => {
+					console.log('Message reaction updated:', r);
+				});
+			}
+		}
+	}
+
+	hasUserReacted(emoji: string): boolean {
+		if (!this.message.reactions) return false;
+		return this.message.reactions.some(
+			(r) => r.emoji === emoji && r.userId === this.currentUser.uid
+		);
+	}
+
+	startEditingMessage(message: IdtMessages) {
+		this.isEditing = true;
+		this.editedText = message.text;
+	}
+
+	// Entfernen Sie die alten Methoden addTagLinkHandlers und attachClickHandlers
+
+	saveEditedMessage() {
+		if (this.message.messageId && this.editedText.trim() !== "") {
+			this.chatService.updateMessageText(
+				this.chatService.selectedChannel.channelId,
+				this.message.messageId,
+				this.editedText
+			).then(r => {
+				console.log(r);
+			});
+			this.isEditing = false;
+		}
+	}
+
+	cancelEditing() {
+		this.isEditing = false;
+	}
+
+	toggleEmojiModal() {
+		this.isEmojiModalOpen = !this.isEmojiModalOpen;
+		this.isOptionsMenuOpen = false;
+	}
+
+	handleDeleteMessage(message: IdtMessages) {
+		if (message.messageId) {
+			this.chatService.deleteMessage(
+				this.chatService.selectedChannel.channelId,
+				message.messageId
+			).then(() => {
+				console.log('Nachricht gelöscht');
+			});
+		}
 	}
 
 	/**
@@ -194,127 +309,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		const messageElement = document.getElementById('message-' + this.message.messageId);
 		if (messageElement) {
 			(messageElement as any).__userTagHandlerSet = false;
-		}
-	}
-
-	openThread() {
-		this.chatService.handleThread(true);
-		if (this.message.messageId) {
-			this.chatService.selectedThreadMessageId = this.message.messageId;
-		}
-	}
-
-	toggleHovered(bool: boolean) {
-		this.hovered = bool;
-	}
-
-	handleProfileCard(bool: boolean, person: string) {
-		this.userLookup.getUserById(person).subscribe((user: UserData | undefined) => {
-			if (user) {
-				this.chatService.handleProfileCard(bool);
-				this.chatService.setCurrentPerson(user);
-			}
-		});
-	}
-
-	private debounceTimeout: any;
-
-	ngOnChanges(changes: SimpleChanges) {
-		// Komplett entfernen oder mit Debounce
-	}
-
-	// Entfernen Sie die alten Methoden addTagLinkHandlers und attachClickHandlers
-
-	handleEmojiReaction(emoji: string, message: IdtMessages) {
-		if (!message.reactions) {
-			message.reactions = [];
-		}
-
-		const reaction: Reaction = {
-			emoji: emoji,
-			userId: this.currentUser.uid,
-			userName: this.currentUser.userName,
-			timestamp: Timestamp.fromDate(new Date()),
-		};
-
-		const existingReactionIndex = message.reactions.findIndex(
-			(r) => r.emoji === emoji && r.userId === this.currentUser.uid
-		);
-
-		if (existingReactionIndex === -1) {
-			message.reactions.push(reaction);
-		} else {
-			message.reactions.splice(existingReactionIndex, 1);
-		}
-
-		if (message.messageId) {
-			// Unterscheidung zwischen Thread-Nachrichten und normalen Nachrichten
-			if (this.isThisAThreadMessage) {
-				// Für Thread-Nachrichten
-				this.chatService.updateThreadMessageReactions(
-					this.chatService.selectedChannel.channelId,
-					this.chatService.selectedThreadMessageId,
-					message.messageId,
-					message.reactions
-				).then(r => {
-					console.log('Thread reaction updated:', r);
-				});
-			} else {
-				// Für normale Nachrichten
-				this.chatService.updateMessageReactions(
-					this.chatService.selectedChannel.channelId,
-					message.messageId,
-					message.reactions
-				).then(r => {
-					console.log('Message reaction updated:', r);
-				});
-			}
-		}
-	}
-
-	hasUserReacted(emoji: string): boolean {
-		if (!this.message.reactions) return false;
-		return this.message.reactions.some(
-			(r) => r.emoji === emoji && r.userId === this.currentUser.uid
-		);
-	}
-
-	startEditingMessage(message: IdtMessages) {
-		this.isEditing = true;
-		this.editedText = message.text;
-	}
-
-	saveEditedMessage() {
-		if (this.message.messageId && this.editedText.trim() !== "") {
-			this.chatService.updateMessageText(
-				this.chatService.selectedChannel.channelId,
-				this.message.messageId,
-				this.editedText
-			).then(r => {
-				console.log(r);
-			});
-			this.isEditing = false;
-		}
-	}
-
-	cancelEditing() {
-		this.isEditing = false;
-	}
-
-
-	toggleEmojiModal() {
-		this.isEmojiModalOpen = !this.isEmojiModalOpen;
-		this.isOptionsMenuOpen = false;
-	}
-
-	handleDeleteMessage(message: IdtMessages) {
-		if (message.messageId) {
-			this.chatService.deleteMessage(
-				this.chatService.selectedChannel.channelId,
-				message.messageId
-			).then(() => {
-				console.log('Nachricht gelöscht');
-			});
 		}
 	}
 }

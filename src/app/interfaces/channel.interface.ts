@@ -1,5 +1,4 @@
 import {Timestamp} from '@angular/fire/firestore';
-import {UserData} from './user.interface';
 
 export interface ChannelData {
 	/**

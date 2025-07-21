@@ -313,8 +313,8 @@
 
 				> button {
 					@include mixins.action-button(
-						variables.$bg-primary,
-						variables.$text-inverse
+							variables.$bg-primary,
+							variables.$text-inverse
 					);
 
 					&:hover {
@@ -330,9 +330,9 @@
 	position: fixed;
 	bottom: 40px;
 	left: 0;
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    z-index: 1;
+	transform: rotate(-90deg);
+	transform-origin: left top;
+	z-index: 1;
 
 	> .menunav-button {
 		padding: 6px 24px;

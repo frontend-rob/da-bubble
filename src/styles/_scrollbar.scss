@@ -1,20 +1,20 @@
 @use "./variables" as variables;
 
 *::-webkit-scrollbar {
-    width: 8px;
-    background: variables.$bg-base-200;
+	width: 8px;
+	background: variables.$bg-base-200;
 }
 
 *::-webkit-scrollbar-thumb {
-    background: variables.$bg-neutral;
-    border-radius: 8px;
+	background: variables.$bg-neutral;
+	border-radius: 8px;
 }
 
 *::-webkit-scrollbar-corner {
-    background: variables.$bg-base-100;
+	background: variables.$bg-base-100;
 }
 
 * {
-    scrollbar-width: thin;
-    scrollbar-color: variables.$bg-neutral variables.$bg-base-200;
+	scrollbar-width: thin;
+	scrollbar-color: variables.$bg-neutral variables.$bg-base-200;
 }

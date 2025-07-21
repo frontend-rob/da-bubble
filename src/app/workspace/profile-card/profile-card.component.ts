@@ -28,21 +28,6 @@ export class ProfileCardComponent implements OnInit {
 	) {
 	}
 
-	ngOnInit(): void {
-		this.screenWidthSubscription =
-			this.responsiveService.screenWidth$.subscribe((val) => {
-				this.screenWidth = val;
-			});
-	}
-
-
-	getUserPresence(): Observable<UserPresence | null> {
-		if (this.currentPerson?.uid) {
-			return this.presenceService.getUserPresence(this.currentPerson.uid);
-		}
-		return of(null);
-	}
-
 	get isOwnProfile(): boolean {
 		return this.isUserProfileCardOpen && this.currentPerson?.role?.user;
 	}
@@ -61,6 +46,20 @@ export class ProfileCardComponent implements OnInit {
 
 	get isUserProfileEdit() {
 		return this.userService.isUserProfileEdit;
+	}
+
+	ngOnInit(): void {
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
+			});
+	}
+
+	getUserPresence(): Observable<UserPresence | null> {
+		if (this.currentPerson?.uid) {
+			return this.presenceService.getUserPresence(this.currentPerson.uid);
+		}
+		return of(null);
 	}
 
 	closeProfileCard() {

@@ -315,8 +315,8 @@
 
 .add-member-modal > div:last-child button {
 	@include mixins.action-button(
-		variables.$bg-primary,
-		variables.$text-inverse
+			variables.$bg-primary,
+			variables.$text-inverse
 	);
 	width: fit-content;
 }
@@ -332,42 +332,42 @@
 }
 
 .user-suggestion {
-    @include mixins.list-item;
-    @include mixins.hover-bg(variables.$bg-base-100);
-    gap: 10px; // Füge gap hinzu
+	@include mixins.list-item;
+	@include mixins.hover-bg(variables.$bg-base-100);
+	gap: 10px; // Füge gap hinzu
 }
 
 .user-suggestion > .avatar {
-    @include mixins.flex-center;
-    position: relative;
-    height: 48px;
-    width: 48px;
+	@include mixins.flex-center;
+	position: relative;
+	height: 48px;
+	width: 48px;
 }
 
 .user-suggestion > .avatar > .status {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border: 2px solid variables.$bg-base-200;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: 2px solid variables.$bg-base-200;
 }
 
 .user-suggestion > .avatar > .status.online {
-    background-color: variables.$online;
+	background-color: variables.$online;
 }
 
 .user-suggestion > .avatar > .status.offline {
-    background-color: variables.$offline;
+	background-color: variables.$offline;
 }
 
 .user-suggestion > .avatar > .status.away {
-    background-color: variables.$away;
+	background-color: variables.$away;
 }
 
 .user-suggestion > .avatar > img {
-    @include mixins.avatar(48px);
+	@include mixins.avatar(48px);
 }
 
 .modal {
@@ -724,9 +724,9 @@
 		}
 	}
 
-    .time {
-        font-size: 14px;
-    }
+	.time {
+		font-size: 14px;
+	}
 
 	.modal {
 		position: fixed;
@@ -748,19 +748,19 @@
 			}
 		}
 
-        .container {
-            padding: 20px;
-        }
+		.container {
+			padding: 20px;
+		}
 	}
 
 	.add-member {
 		display: none
 	}
 
-    .add-member-btn  {
-        display: flex;
-        align-items: center
-    }
+	.add-member-btn {
+		display: flex;
+		align-items: center
+	}
 
 	.members-menu-modal {
 		@include mixins.modal-container;
@@ -795,8 +795,8 @@
 
 		> div:last-child button {
 			@include mixins.action-button(
-				variables.$bg-primary,
-				variables.$text-inverse
+					variables.$bg-primary,
+					variables.$text-inverse
 			);
 			width: fit-content;
 		}
@@ -841,7 +841,7 @@
 	}
 
 	&.away {
-		background-color: variables.$away;  // ← NEU HINZUFÜGEN
+		background-color: variables.$away; // ← NEU HINZUFÜGEN
 	}
 
 	&.offline {
