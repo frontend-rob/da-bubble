@@ -22,36 +22,38 @@
 					</div>
 				} @else {
 					<ng-container *ngIf="otherUser$ | async as otherUser">
-						<div
-							(click)="handleProfileCard(true, otherUser)"
-							class="chat-title menu-item"
-						>
-							<div class="avatar">
-								<img
-									[ngSrc]="otherUser.photoURL"
-									alt="avatar"
-									height="50"
-									width="50"
-								/>
-								<div
-									[ngClass]="{
-                     online: (otherUserPresence$ | async)?.status === 'online',
-                     offline: (otherUserPresence$ | async)?.status === 'offline',
-                     away: (otherUserPresence$ | async)?.status === 'away'
-                 }"
-									class="status"
-								></div>
-							</div>
-							<h1>{{ otherUser.userName }}</h1>
-							<img
-								class="arrow"
-								ngSrc="assets/img/chat/arrow_down.svg"
-								alt="arrow down"
-								height="9"
-								width="14"
-							/>
-						</div>
-					</ng-container>
+    <div
+        (click)="handleProfileCard(true, otherUser)"
+        class="chat-title menu-item"
+    >
+        <div class="avatar">
+            <img
+                [ngSrc]="otherUser.photoURL"
+                alt="avatar"
+                height="50"
+                width="50"
+            />
+            <div
+                [ngClass]="{
+                    online: (otherUserPresence$ | async)?.status === 'online',
+                    offline: (otherUserPresence$ | async)?.status === 'offline',
+                    away: (otherUserPresence$ | async)?.status === 'away'
+                }"
+                class="status"
+            ></div>
+        </div>
+        <h1>{{ otherUser.userName }}</h1>
+        <!-- Debug: Status anzeigen -->
+        <small>Status: {{ (otherUserPresence$ | async)?.status || 'unknown' }}</small>
+        <img
+            class="arrow"
+            ngSrc="assets/img/chat/arrow_down.svg"
+            alt="arrow down"
+            height="9"
+            width="14"
+        />
+    </div>
+</ng-container>
 
 				}
 				@if (chatService.selectedChannel.channelType.channel) {
@@ -206,12 +208,17 @@
 									(click)="addUserToSelection(user)"
 									class="user-suggestion"
 								>
-									<img
-										[ngSrc]="user.photoURL"
-										alt="avatar"
-										height="64"
-										width="64"
-									/>
+									<div class="avatar">
+										<img [ngSrc]="user.photoURL" alt="avatar" height="64" width="64"/>
+										<div
+											[ngClass]="{
+                    online: (getMemberPresence(user.uid) | async)?.status === 'online',
+                    offline: (getMemberPresence(user.uid) | async)?.status === 'offline',
+                    away: (getMemberPresence(user.uid) | async)?.status === 'away'
+                }"
+											class="status"
+										></div>
+									</div>
 									<span>{{ user.userName }}</span>
 								</div>
 							</div>
@@ -621,7 +628,17 @@
 					(click)="addUserToSelection(user)"
 					class="user-suggestion"
 				>
-					<img [ngSrc]="user.photoURL" alt="avatar" height="64" width="64"/>
+					<div class="avatar">
+						<img [ngSrc]="user.photoURL" alt="avatar" height="64" width="64"/>
+						<div
+							[ngClass]="{
+                    online: (getMemberPresence(user.uid) | async)?.status === 'online',
+                    offline: (getMemberPresence(user.uid) | async)?.status === 'offline',
+                    away: (getMemberPresence(user.uid) | async)?.status === 'away'
+                }"
+							class="status"
+						></div>
+					</div>
 					<span>{{ user.userName }}</span>
 				</div>
 			</div>

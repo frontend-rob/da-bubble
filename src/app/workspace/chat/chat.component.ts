@@ -163,31 +163,33 @@ export class ChatComponent implements OnInit, OnDestroy {
 	};
 
 	ngOnInit(): void {
-        // Bestehende Methode als Observable
-        this.otherUser$ = this.getOtherUserInDirectMessage();
-        
-        // Präsenz basierend auf otherUser$
-        this.otherUserPresence$ = this.otherUser$.pipe(
-            switchMap(user => {
-                if (user?.uid) {
-                    return this.presenceService.getUserPresence(user.uid);
-                } else {
-                    return of(null);
-                }
-            })
-        );
-		this.functionTriggerSubscription =
-			this.functionTriggerService.trigger$.subscribe((channel) => {
-				this.selectChannel(channel);
-			});
-		
-		this.userSubscription = this.userService.currentUser$.subscribe(
-			(userData) => {
-				if (userData) {
-					this.currentUser = userData;
-				}
-			}
-		);
+    this.otherUser$ = this.getOtherUserInDirectMessage();
+    
+    this.otherUserPresence$ = this.otherUser$.pipe(
+        switchMap(user => {
+            if (user?.uid) {
+                console.log('Getting presence for user:', user.uid); // Debug log
+                return this.presenceService.getUserPresence(user.uid);
+            } else {
+                return of(null);
+            }
+        })
+    );
+
+    this.functionTriggerSubscription =
+        this.functionTriggerService.trigger$.subscribe((channel) => {
+            this.selectChannel(channel);
+        });
+    
+    this.userSubscription = this.userService.currentUser$.subscribe(
+        (userData) => {
+            if (userData) {
+                this.currentUser = userData;
+                this.initializeDirectMessageObservables();
+            }
+        }
+    );
+
 		this.allUserDataSubscription = this.userService.allUsers$.subscribe(
 			(userData) => {
 				if (userData) {
@@ -207,6 +209,20 @@ export class ChatComponent implements OnInit, OnDestroy {
 				this.screenWidth = val;
 			});
 	}
+
+private initializeDirectMessageObservables(): void {
+    this.otherUser$ = this.getOtherUserInDirectMessage();
+    
+    this.otherUserPresence$ = this.otherUser$.pipe(
+        switchMap(user => {
+            if (user?.uid) {
+                return this.presenceService.getUserPresence(user.uid);
+            } else {
+                return of(null);
+            }
+        })
+    );
+}
 
 	selectChannel(channel: ChannelData): void {
 		this.chatService.selectedChannel = channel;

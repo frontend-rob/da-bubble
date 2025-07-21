@@ -332,12 +332,42 @@
 }
 
 .user-suggestion {
-	@include mixins.list-item;
-	@include mixins.hover-bg(variables.$bg-base-100);
+    @include mixins.list-item;
+    @include mixins.hover-bg(variables.$bg-base-100);
+    gap: 10px; // Füge gap hinzu
 }
 
-.user-suggestion > img {
-	@include mixins.avatar(48px);
+.user-suggestion > .avatar {
+    @include mixins.flex-center;
+    position: relative;
+    height: 48px;
+    width: 48px;
+}
+
+.user-suggestion > .avatar > .status {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid variables.$bg-base-200;
+}
+
+.user-suggestion > .avatar > .status.online {
+    background-color: variables.$online;
+}
+
+.user-suggestion > .avatar > .status.offline {
+    background-color: variables.$offline;
+}
+
+.user-suggestion > .avatar > .status.away {
+    background-color: variables.$away;
+}
+
+.user-suggestion > .avatar > img {
+    @include mixins.avatar(48px);
 }
 
 .modal {
