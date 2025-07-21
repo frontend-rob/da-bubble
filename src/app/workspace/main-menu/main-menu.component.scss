@@ -330,11 +330,11 @@
 	position: fixed;
 	bottom: 40px;
 	left: 0;
+    transform: rotate(-90deg);
+    transform-origin: left top;
 
 	> .menunav-button {
 		padding: 6px 24px;
-		transform: rotate(-90deg);
-		transform-origin: left top;
 		border-radius: 0 0 20px 20px;
 		background-color: white;
 		box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
