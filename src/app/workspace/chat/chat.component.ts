@@ -1,6 +1,6 @@
 import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
 import {FormsModule} from "@angular/forms";
-import {combineLatest, map, Observable, of, Subscription, switchMap} from "rxjs";
+import {map, Observable, of, Subscription, switchMap} from "rxjs";
 import {ChatService} from "../../services/chat.service";
 import {ChannelData} from "../../interfaces/channel.interface";
 import {Message} from "../../interfaces/message.interface";
@@ -91,7 +91,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	} ${new Date().getDate()}`;
 
 	private userLookupService: UserLookupService = inject(UserLookupService);
-    private presenceService = inject(PresenceService);
+	private presenceService = inject(PresenceService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
 	private userService: UserService = inject(UserService);
 	private helperService: HelperService = inject(HelperService);
@@ -163,32 +163,32 @@ export class ChatComponent implements OnInit, OnDestroy {
 	};
 
 	ngOnInit(): void {
-    this.otherUser$ = this.getOtherUserInDirectMessage();
-    
-    this.otherUserPresence$ = this.otherUser$.pipe(
-        switchMap(user => {
-            if (user?.uid) {
-                console.log('Getting presence for user:', user.uid); // Debug log
-                return this.presenceService.getUserPresence(user.uid);
-            } else {
-                return of(null);
-            }
-        })
-    );
+		this.otherUser$ = this.getOtherUserInDirectMessage();
 
-    this.functionTriggerSubscription =
-        this.functionTriggerService.trigger$.subscribe((channel) => {
-            this.selectChannel(channel);
-        });
-    
-    this.userSubscription = this.userService.currentUser$.subscribe(
-        (userData) => {
-            if (userData) {
-                this.currentUser = userData;
-                this.initializeDirectMessageObservables();
-            }
-        }
-    );
+		this.otherUserPresence$ = this.otherUser$.pipe(
+			switchMap(user => {
+				if (user?.uid) {
+					console.log('Getting presence for user:', user.uid); // Debug log
+					return this.presenceService.getUserPresence(user.uid);
+				} else {
+					return of(null);
+				}
+			})
+		);
+
+		this.functionTriggerSubscription =
+			this.functionTriggerService.trigger$.subscribe((channel) => {
+				this.selectChannel(channel);
+			});
+
+		this.userSubscription = this.userService.currentUser$.subscribe(
+			(userData) => {
+				if (userData) {
+					this.currentUser = userData;
+					this.initializeDirectMessageObservables();
+				}
+			}
+		);
 
 		this.allUserDataSubscription = this.userService.allUsers$.subscribe(
 			(userData) => {
@@ -210,19 +210,21 @@ export class ChatComponent implements OnInit, OnDestroy {
 			});
 	}
 
-private initializeDirectMessageObservables(): void {
-    this.otherUser$ = this.getOtherUserInDirectMessage();
-    
-    this.otherUserPresence$ = this.otherUser$.pipe(
-        switchMap(user => {
-            if (user?.uid) {
-                return this.presenceService.getUserPresence(user.uid);
-            } else {
-                return of(null);
-            }
-        })
-    );
-}
+	private initializeDirectMessageObservables(): void {
+		this.otherUser$ = this.getOtherUserInDirectMessage();
+
+		this.otherUserPresence$ = this.otherUser$.pipe(
+			switchMap(user => {
+				if (user?.uid) {
+					console.log('Getting presence for user:', user.uid);
+					return this.presenceService.getUserPresence(user.uid);
+				} else {
+					return of(null);
+				}
+			})
+		);
+	}
+
 
 	selectChannel(channel: ChannelData): void {
 		this.chatService.selectedChannel = channel;
@@ -235,7 +237,13 @@ private initializeDirectMessageObservables(): void {
 			this.chatService.selectedChannelsMessages = messages;
 			this.messages = messages;
 		});
+
+		// ✅ Direct Message Observables beim Channel-Wechsel neu initialisieren
+		if (this.currentUser) {
+			this.initializeDirectMessageObservables();
+		}
 	}
+
 
 	openModal(): void {
 		this.isModalBGOpen = true;
