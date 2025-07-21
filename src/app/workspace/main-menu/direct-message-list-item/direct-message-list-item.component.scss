@@ -33,6 +33,10 @@
 			&.offline {
 				background-color: variables.$offline;
 			}
+
+			&.away {
+				background-color: variables.$away;
+			}
 		}
 
 		> img {

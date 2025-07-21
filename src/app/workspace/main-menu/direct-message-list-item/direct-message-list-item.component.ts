@@ -41,7 +41,6 @@ export class DirectMessageListItemComponent implements OnInit {
 		else if (this.chatPartner && this.chatPartner.uid) {
 			return this.chatPartner.uid === this.chatService.activeChat;
 		}
-		// Für Self-Channel: prüfe sowohl channelId als auch uid
 		else if (this.chatPartner && this.chatPartner.uid === this.chatService.activeChat) {
 			return true;
 		}
@@ -50,15 +49,12 @@ export class DirectMessageListItemComponent implements OnInit {
 
 	onItemClick() {
 		if (this.dmChannel) {
-			// Für existierende DM-Channels: setze activeChat sofort
 			this.chatService.setActiveChat(this.dmChannel.channelId);
 			this.channelSelected.emit({
 				channelId: this.dmChannel.channelId,
 				userData: null
 			});
 		} else if (this.chatPartner) {
-			// Für neue DM-Channels: setze activeChat NICHT hier, sondern erst nach Erstellung
-			// this.chatService.setActiveChat(this.chatPartner.uid); // ← Diese Zeile entfernen
 			this.channelSelected.emit({
 				channelId: this.chatPartner.uid,
 				userData: this.chatPartner
