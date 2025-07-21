@@ -724,6 +724,10 @@
 		}
 	}
 
+    .time {
+        font-size: 14px;
+    }
+
 	.modal {
 		position: fixed;
 		top: 0;
@@ -743,16 +747,20 @@
 				width: 0px;
 			}
 		}
+
+        .container {
+            padding: 20px;
+        }
 	}
 
 	.add-member {
-		width: 32px;
-		height: 32px;
-
-		img {
-			width: 16px;
-		}
+		display: none
 	}
+
+    .add-member-btn  {
+        display: flex;
+        align-items: center
+    }
 
 	.members-menu-modal {
 		@include mixins.modal-container;

@@ -332,6 +332,7 @@
 	left: 0;
     transform: rotate(-90deg);
     transform-origin: left top;
+    z-index: 1;
 
 	> .menunav-button {
 		padding: 6px 24px;
