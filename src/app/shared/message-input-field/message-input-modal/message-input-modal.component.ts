@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {AfterViewInit, Component, EventEmitter, Input, Output} from "@angular/core";
 import {ChannelData} from "../../../interfaces/channel.interface";
 import {UserData} from "../../../interfaces/user.interface";
 import {PresenceService, UserPresence} from "../../../services/PresenceManagementService";
@@ -11,7 +11,7 @@ import {Observable} from "rxjs";
 	templateUrl: "./message-input-modal.component.html",
 	styleUrl: "./message-input-modal.component.scss",
 })
-export class MessageInputModalComponent {
+export class MessageInputModalComponent implements AfterViewInit {
 	@Input() isEmojiModalOpen!: boolean;
 	@Input() isUserTagModalOpen!: boolean;
 	@Input() isChannelTagModalOpen!: boolean;
@@ -24,6 +24,10 @@ export class MessageInputModalComponent {
 
 	constructor(private presenceService: PresenceService) {
 	}
+
+	ngAfterViewInit(): void {
+
+    }
 
 	getUserPresence(uid: string): Observable<UserPresence | null> {
 		return this.presenceService.getUserPresence(uid);

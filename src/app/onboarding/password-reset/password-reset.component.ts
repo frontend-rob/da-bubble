@@ -53,17 +53,17 @@ export class PasswordResetComponent {
 	resetPassword() {
 		if (this.resetPWForm.valid) {
 			const email = this.resetPWForm.value.email;
-			this.authService.resetPassword(email).then(r => console.log(r, 'reset password success'));
+			this.authService.resetPassword(email).then(r => console.info(r, 'reset password success'));
 			this.notificationComponent.showNotification('Email sent successfully!');
 
 			setTimeout(() => {
 				this.resetPWForm.reset();
 				this.router.navigate(['']).then(r => {
-					console.log(r, 'navigated to login');
+					console.info(r, 'navigated to login');
 				});
 			}, 3000);
 		} else {
-			console.log('Form is invalid');
+			console.info('Form is invalid');
 		}
 	}
 

@@ -77,7 +77,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
 	async sendThreadMessage(content: string): Promise<void> {
 		if (!this.chatService.selectedChannel || !content.trim()) {
-			return console.log(this.chatService.selectedChannel);
+			return console.info(this.chatService.selectedChannel);
 		}
 		const message: Message = {
 			text: content,

@@ -308,6 +308,15 @@
 				}
 			}
 
+			.error-message {
+				color: #e53935;
+				font-size: 14px;
+				padding: 8px 0;
+				text-align: left;
+				width: 100%;
+				opacity: 1;
+			}
+
 			.submit-container {
 				@include mixins.flex-row(flex-end);
 

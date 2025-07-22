@@ -238,6 +238,10 @@
 							</div>
 						</div>
 
+						<div *ngIf="channelFormError" class="error-message">
+							{{ channelFormError }}
+						</div>
+
 						<div class="submit-container">
 							<button [disabled]="channelForm.invalid" type="submit">
 								Erstellen

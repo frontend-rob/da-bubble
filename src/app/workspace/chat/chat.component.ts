@@ -1,4 +1,4 @@
-import {Component, inject, OnDestroy, OnInit, TrackByFunction,} from "@angular/core";
+import {Component, inject, OnDestroy, OnInit, TrackByFunction, ViewChild,} from "@angular/core";
 import {FormsModule} from "@angular/forms";
 import {map, Observable, of, Subscription, switchMap} from "rxjs";
 import {ChatService} from "../../services/chat.service";
@@ -34,6 +34,8 @@ import {PresenceService, UserPresence} from "../../services/PresenceManagementSe
 	],
 })
 export class ChatComponent implements OnInit, OnDestroy {
+	@ViewChild(MessageInputFieldComponent) messageInputField!: MessageInputFieldComponent;
+
 	messages$: Observable<Message[]> | undefined;
 	messages: Message[] = [];
 	selectedChannel!: ChannelData;
@@ -145,7 +147,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		);
 
 		if (otherUserId) {
-			console.log(otherUserId);
+			console.info(otherUserId);
 			return this.userLookupService
 				.getUserById(otherUserId)
 				.pipe(map((user) => user || null));
@@ -167,7 +169,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.otherUserPresence$ = this.otherUser$.pipe(
 			switchMap(user => {
 				if (user?.uid) {
-					console.log('Getting presence for user:', user.uid);
+					console.info('Getting presence for user:', user.uid);
 					return this.presenceService.getUserPresence(user.uid);
 				} else {
 					return of(null);
@@ -224,6 +226,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 		if (this.currentUser) {
 			this.initializeDirectMessageObservables();
 		}
+
+		// Focus the input field after channel selection
+		setTimeout(() => {
+			if (this.messageInputField) {
+				this.messageInputField.focusInput();
+			}
+		});
 	}
 
 	openModal(): void {
@@ -242,7 +251,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				updatedAt: Timestamp.now(),
 			};
 			this.updateChannel(updatedChannel).then((r) => {
-				console.log(r);
+				console.info(r);
 			});
 		}
 		this.isNameEdit = !this.isNameEdit;
@@ -256,7 +265,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 				updatedAt: Timestamp.now(),
 			};
 			this.updateChannel(updatedChannel).then((r) => {
-				console.log(r);
+				console.info(r);
 			});
 		}
 		this.isDescriptionEdit = !this.isDescriptionEdit;
@@ -264,7 +273,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	async sendChatMessage(content: string): Promise<void> {
 		if (!this.chatService.selectedChannel || !content.trim()) {
-			return console.log(this.chatService.selectedChannel);
+			return console.info(this.chatService.selectedChannel);
 		}
 		const message: Message = {
 			text: content,
@@ -440,7 +449,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 			createdAt: Timestamp.now(),
 			updatedAt: Timestamp.now(),
 		};
-		this.chatService.createChannel(newChannel);
+
+		try {
+			this.chatService.createChannel(newChannel);
+		} catch (error) {
+			console.error("Error creating channel:", error);
+			// You could add user notification here, such as a toast message
+		}
 	}
 
 	submitNewMessageInput() {
@@ -519,7 +534,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.otherUserPresence$ = this.otherUser$.pipe(
 			switchMap(user => {
 				if (user?.uid) {
-					console.log('Getting presence for user:', user.uid);
+					console.info('Getting presence for user:', user.uid);
 					return this.presenceService.getUserPresence(user.uid);
 				} else {
 					return of(null);

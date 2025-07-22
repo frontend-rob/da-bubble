@@ -199,7 +199,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 					message.messageId,
 					message.reactions
 				).then(r => {
-					console.log('Thread reaction updated:', r);
+					console.info('Thread reaction updated:', r);
 				});
 			} else {
 				this.chatService.updateMessageReactions(
@@ -207,7 +207,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 					message.messageId,
 					message.reactions
 				).then(r => {
-					console.log('Message reaction updated:', r);
+					console.info('Message reaction updated:', r);
 				});
 			}
 		}
@@ -245,7 +245,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 				this.message.messageId,
 				this.editedText
 			).then(r => {
-				console.log(r);
+				console.info(r);
 			});
 			this.isEditing = false;
 		}
@@ -266,7 +266,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 				this.chatService.selectedChannel.channelId,
 				message.messageId
 			).then(() => {
-				console.log('Nachricht gelöscht');
+				console.info('Nachricht gelöscht');
 			});
 		}
 	}
@@ -282,7 +282,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 			debounceTime(100),
 			distinctUntilChanged()
 		).subscribe(() => {
-			console.log('🔵 RxJS: Window focus detected in chat-message component');
+			console.info('🔵 RxJS: Window focus detected in chat-message component');
 			this.focusDebounce$.next();
 		});
 	}
@@ -310,20 +310,20 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 			debounceTime(50)
 		).subscribe((event: MouseEvent) => {
 			const target = event.target as HTMLElement;
-			console.log('🔵 RxJS Click detected on:', target);
+			console.info('🔵 RxJS Click detected on:', target);
 
 			if (target.classList.contains('user-tag-link')) {
-				console.log('🔥 RxJS USER TAG CLICK!');
+				console.info('🔥 RxJS USER TAG CLICK!');
 
 				event.preventDefault();
 				event.stopPropagation();
 				event.stopImmediatePropagation();
 
 				const uid = target.getAttribute('data-uid');
-				console.log('🔵 UID from RxJS click:', uid);
+				console.info('🔵 UID from RxJS click:', uid);
 
 				if (uid && this.chatService.selectedChannel.channelMembers.includes(uid)) {
-					console.log('🟢 RxJS: Calling handleProfileCard:', uid);
+					console.info('🟢 RxJS: Calling handleProfileCard:', uid);
 					this.handleProfileCard(true, uid);
 				}
 			}
@@ -342,14 +342,3 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 		}
 	}
 }
-
-/*
-private lastFocusTime = 0;
-private isRecentlyFocused(): boolean {
-    const now = Date.now();
-    if (now - this.lastFocusTime < 300) {
-        return true;
-    }
-    return false;
-}
-*/

@@ -328,7 +328,7 @@ export class AuthService implements OnDestroy {
 	 * @return {void} No value is returned from this method.
 	 */
 	private setupPresenceListeners(uid: string): void {
-		console.log('🔧 Setting up presence listeners for user:', uid);
+		console.info('🔧 Setting up presence listeners for user:', uid);
 		const online$ = fromEvent(window, 'online');
 		const offline$ = fromEvent(window, 'offline');
 
@@ -351,7 +351,7 @@ export class AuthService implements OnDestroy {
 
 		const activity$ = merge(click$, keydown$, mousemove$, scroll$, touchstart$).pipe(
 			debounceTime(1000),
-			tap(() => console.log())
+			tap(() => console.info())
 		);
 
 		offline$.pipe(

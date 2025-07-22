@@ -41,20 +41,20 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	private channels: ChannelData[] = [];
 
 	ngOnInit(): void {
-		console.log("SearchCardComponent initialized");
+		console.info("SearchCardComponent initialized");
 
 		this.chatService
 			.getChannels()
 			.pipe(takeUntil(this.destroy$))
 			.subscribe((channels) => {
 				this.channels = channels;
-				console.log("Channels loaded:", this.channels.length);
+				console.info("Channels loaded:", this.channels.length);
 			});
 
 		this.searchService.searchResults$
 			.pipe(takeUntil(this.destroy$))
 			.subscribe((results) => {
-				console.log("Search results received:", results);
+				console.info("Search results received:", results);
 				this.searchResults = results;
 				this.calculateTotalResults();
 				this.isSearching = false;
@@ -63,14 +63,14 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 					this.showResults = true;
 				}
 
-				console.log(
+				console.info(
 					"showResults:",
 					this.showResults,
 					"totalResults:",
 					this.totalResults
 				);
-				console.log("Users found:", this.searchResults.users.length);
-				console.log(
+				console.info("Users found:", this.searchResults.users.length);
+				console.info(
 					"Channels found:",
 					this.searchResults.channels.length
 				);
@@ -88,7 +88,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	onSearchInput(event: Event): void {
 		const target = event.target as HTMLInputElement;
 		this.searchTerm = target.value;
-		console.log("Search input changed:", this.searchTerm);
+		console.info("Search input changed:", this.searchTerm);
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -98,18 +98,18 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 		if (this.searchTerm.trim().length === 0) {
 			this.showResults = false;
 			this.selectedIndex = -1;
-			console.log("Search term empty, hiding results");
+			console.info("Search term empty, hiding results");
 			return;
 		}
 
 		this.isSearching = true;
 		this.showResults = true;
-		console.log("Starting search, isSearching:", this.isSearching);
+		console.info("Starting search, isSearching:", this.isSearching);
 		this.searchService.setSearchTerm(this.searchTerm);
 	}
 
 	onSearchFocus(): void {
-		console.log("Search input focused");
+		console.info("Search input focused");
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -118,17 +118,17 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 
 		if (this.searchTerm.trim().length > 0) {
 			this.showResults = true;
-			console.log("Showing results on focus");
+			console.info("Showing results on focus");
 		}
 	}
 
 	onSearchBlur(): void {
-		console.log("Search input blurred");
+		console.info("Search input blurred");
 
 		this.blurTimeout = setTimeout(() => {
 			this.showResults = false;
 			this.selectedIndex = -1;
-			console.log("Results hidden after blur delay");
+			console.info("Results hidden after blur delay");
 		}, 300);
 	}
 
@@ -171,7 +171,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	}
 
 	selectResult(result: SearchResult): void {
-		console.log("Selecting result:", result);
+		console.info("Selecting result:", result);
 
 		if (this.blurTimeout) {
 			clearTimeout(this.blurTimeout);
@@ -206,7 +206,7 @@ export class SearchCardComponent implements OnInit, OnDestroy {
 	}
 
 	clearSearch(): void {
-		console.log("Clearing search");
+		console.info("Clearing search");
 		this.searchTerm = "";
 		this.showResults = false;
 		this.selectedIndex = -1;

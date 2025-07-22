@@ -1,4 +1,14 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output} from "@angular/core";
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	EventEmitter,
+	HostListener,
+	Input,
+	OnInit,
+	Output,
+	ViewChild
+} from "@angular/core";
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {ChannelData} from "../../interfaces/channel.interface";
@@ -20,13 +30,14 @@ import {UserLookupService} from "../../services/user-lookup.service";
 	templateUrl: "./message-input-field.component.html",
 	styleUrl: "./message-input-field.component.scss",
 })
-export class MessageInputFieldComponent implements OnInit {
+export class MessageInputFieldComponent implements OnInit, AfterViewInit {
 
 	@Input() selectedChannel!: ChannelData;
 	@Input() placeholderText = "Type a message to";
 	@Input() showChannelNameInPlaceholder: boolean = true;
 	@Output() send: EventEmitter<string> = new EventEmitter<string>();
 	@Output() isThread: EventEmitter<boolean> = new EventEmitter<boolean>();
+	@ViewChild('messageInput') messageInput!: ElementRef;
 
 	isEmojiModalOpen = false;
 	isUserTagModalOpen = false;
@@ -104,6 +115,10 @@ export class MessageInputFieldComponent implements OnInit {
 					(channel) => !channel.channelType.directMessage
 				);
 			});
+	}
+
+	ngAfterViewInit() {
+		this.focusInput();
 	}
 
 	/**
@@ -260,5 +275,20 @@ export class MessageInputFieldComponent implements OnInit {
 				this.messageInputData = this.messageInputData.slice(0, -1);
 			}
 		}
+	}
+
+	/**
+	 * Focuses the message input field
+	 */
+	public focusInput(): void {
+		setTimeout(() => {
+			if (this.messageInput?.nativeElement) {
+				try {
+					this.messageInput.nativeElement.focus();
+				} catch (error) {
+					console.error('Focus failed:', error);
+				}
+			}
+		}, 100);
 	}
 }

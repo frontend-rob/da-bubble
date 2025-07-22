@@ -38,12 +38,12 @@ export class SearchService {
 	public searchResults$ = this.searchResultsSubject.asObservable();
 
 	constructor(private environmentInjector: EnvironmentInjector) {
-		console.log('SearchService initialized');
+		console.info('SearchService initialized');
 
 		this.searchTerm$.subscribe(term => {
-			console.log('Search term changed:', term);
+			console.info('Search term changed:', term);
 			if (term.trim()) {
-				this.performSearch(term).then(r => console.log(r));
+				this.performSearch(term).then(r => console.info(r));
 			} else {
 				this.clearResults();
 			}
@@ -51,7 +51,7 @@ export class SearchService {
 	}
 
 	setSearchTerm(term: string): void {
-		console.log('Setting search term:', term);
+		console.info('Setting search term:', term);
 		this.searchTermSubject.next(term);
 	}
 
@@ -74,22 +74,22 @@ export class SearchService {
 	}
 
 	private async performSearch(searchTerm: string): Promise<void> {
-		console.log('Performing search for:', searchTerm);
+		console.info('Performing search for:', searchTerm);
 		const trimmedTerm = searchTerm.trim().toLowerCase();
 
 		if (trimmedTerm.startsWith('#')) {
-			console.log('Channel-only search');
+			console.info('Channel-only search');
 			await this.searchChannelsOnly(trimmedTerm.substring(1));
 			return;
 		}
 
 		if (trimmedTerm.startsWith('@')) {
-			console.log('User-only search');
+			console.info('User-only search');
 			await this.searchUsersOnly(trimmedTerm.substring(1));
 			return;
 		}
 
-		console.log('All-categories search');
+		console.info('All-categories search');
 		await this.searchAllCategories(trimmedTerm);
 	}
 

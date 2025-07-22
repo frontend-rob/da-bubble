@@ -156,13 +156,44 @@ export class ChatService {
 	}
 
 	/**
+	 * Checks if a channel with the given name already exists.
+	 * 
+	 * @param {string} channelName - The name to check for duplicates.
+	 * @return {Promise<boolean>} - A promise that resolves to true if a duplicate exists, false otherwise.
+	 */
+	async isChannelNameDuplicate(channelName: string): Promise<boolean> {
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const channelsRef = collection(firestore, "channels");
+			const q = query(
+				channelsRef,
+				where("channelName", "==", channelName),
+				where("channelType.channel", "==", true)
+			);
+
+			const querySnapshot = await getDocs(q);
+			return !querySnapshot.empty;
+		});
+	}
+
+	/**
 	 * Creates a new channel document in the Firestore database with the provided channel details.
+	 * Checks for duplicate channel names before creation.
 	 *
 	 * @param {Channel} channel - The channel object containing channel details such as type, channelName,
 	 *                            channelDescription, createdBy, channelMembers, createdAt, and updatedAt.
 	 * @return {Promise<void>} - A promise that resolves when the channel is successfully created and stored in Firestore.
+	 * @throws {Error} - If a channel with the same name already exists.
 	 */
 	async createChannel(channel: ChannelData): Promise<void> {
+		// Only check for duplicates if it's a regular channel, not a direct message
+		if (channel.channelType.channel && !channel.channelType.directMessage) {
+			const isDuplicate = await this.isChannelNameDuplicate(channel.channelName);
+			if (isDuplicate) {
+				throw new Error(`A channel with the name "${channel.channelName}" already exists.`);
+			}
+		}
+
 		return runInInjectionContext(this.environmentInjector, async () => {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
@@ -382,7 +413,7 @@ export class ChatService {
 				editedAt: Timestamp.fromDate(new Date()),
 			});
 		});
-		console.log(r);
+		console.info(r);
 	}
 
 	/**

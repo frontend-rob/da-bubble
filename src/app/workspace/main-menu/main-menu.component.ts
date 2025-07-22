@@ -46,6 +46,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		name: "",
 		description: "",
 	};
+
+	channelFormError = "";
 	private isMainMenuOpenSubscription!: Subscription;
 	private screenWidthSubscription!: Subscription;
 	private isInitialLoad = true;
@@ -111,7 +113,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	toggleModal() {
 		this.isModalOpen = !this.isModalOpen;
-		console.log("isModalOpen", this.isModalOpen);
+		console.info("isModalOpen", this.isModalOpen);
 	}
 
 	getAvailableUsersForDM(): UserData[] {
@@ -150,8 +152,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			user = userData || null;
 		}
 
-		console.log("setSelectedChannel called with:", {id, user});
-		console.log("dmchannels", this.directMessageChannels);
+		console.info("setSelectedChannel called with:", {id, user});
+		console.info("dmchannels", this.directMessageChannels);
 
 		// Close thread window when switching channels
 		this.chatService.handleThread(false);
@@ -174,7 +176,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	}
 
 	onChannelSelected(event: { channelId: string; userData: UserData | null }) {
-		console.log("Channel selected:", event);
+		console.info("Channel selected:", event);
 
 		if (event.userData) {
 			this.onUserClickForDirectMessage(event.userData);
@@ -196,10 +198,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.chatService.handleThread(false);
 
 			if (clickedUser.uid === this.currentUser.uid) {
-				console.log("Self-Channel ausgewählt");
+				console.info("Self-Channel ausgewählt");
 
 				if (this.selfChannel) {
-					console.log(
+					console.info(
 						"Verwende existierenden Self-Channel:",
 						this.selfChannel.channelId
 					);
@@ -218,7 +220,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 					this.cdr.detectChanges();
 					return;
 				} else {
-					console.log("Erstelle neuen Self-Channel");
+					console.info("Erstelle neuen Self-Channel");
 
 					const selfChannel =
 						await this.chatService.createDirectMessageChannel(
@@ -259,7 +261,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			}
 
 			if (!dmChannel) {
-				console.log(
+				console.info(
 					"Erstelle neuen DM-Channel für:",
 					clickedUser.userName
 				);
@@ -270,7 +272,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 				this.directMessageChannels.push(dmChannel);
 			} else {
-				console.log(
+				console.info(
 					"Verwende existierenden DM-Channel für:",
 					clickedUser.userName
 				);
@@ -308,6 +310,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			return;
 		}
 
+		// Reset any previous errors
+		this.channelFormError = "";
+
 		const newChannel: ChannelData = {
 			channelId: "",
 			channelName: channelName,
@@ -326,11 +331,20 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			const createdChannelId = await this.chatService.createChannel(
 				newChannel
 			);
-			console.log("Channel created with ID:", createdChannelId);
+			console.info("Channel created with ID:", createdChannelId);
 			this.toggleModal();
 			this.resetForm();
 		} catch (error) {
-			console.error("Error creating channel:", error);
+			console.info("Error creating channel:", error);
+			if (error instanceof Error) {
+				if (error.message.includes("already exists")) {
+					this.channelFormError = error.message;
+				} else {
+					this.channelFormError = "Failed to create channel. Please try again.";
+				}
+			} else {
+				this.channelFormError = "An unexpected error occurred.";
+			}
 		}
 	}
 
@@ -351,6 +365,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			name: "",
 			description: "",
 		};
+		this.channelFormError = "";
 	}
 
 	private initializeCurrentUser() {

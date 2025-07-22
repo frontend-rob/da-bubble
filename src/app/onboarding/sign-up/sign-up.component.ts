@@ -85,7 +85,7 @@ export class SignUpComponent implements OnInit {
 				console.error('Error checking email registration:', error);
 			}
 		} else {
-			console.log('Form is invalid');
+			console.info('Form is invalid');
 		}
 	}
 

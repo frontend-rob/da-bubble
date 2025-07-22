@@ -1,6 +1,7 @@
 <section class="message-input-wrapper">
 	<div class="message-input-section">
         <textarea
+					#messageInput
 					(input)="onInput()"
 					(keydown)="onKeyDown($event)"
 					[(ngModel)]="messageInputData"

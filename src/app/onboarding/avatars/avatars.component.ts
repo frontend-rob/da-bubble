@@ -181,7 +181,7 @@ export class AvatarsComponent {
 			this.userDataService.resetUserData();
 			this.selectedUserAvatar = "assets/img/avatars/av-00.svg";
 			this.router.navigate([""]).then((r) => {
-				console.log(r, "navigated to login");
+				console.info(r, "navigated to login");
 			});
 		}, 3000);
 	}

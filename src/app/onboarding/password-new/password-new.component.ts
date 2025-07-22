@@ -48,11 +48,11 @@ export class PasswordNewComponent {
 			setTimeout(() => {
 				this.changePWForm.reset();
 				this.router.navigate(['']).then(r => {
-					console.log(r, 'navigated to login');
+					console.info(r, 'navigated to login');
 				});
 			}, 3000);
 		} else {
-			console.log('Form is invalid');
+			console.info('Form is invalid');
 		}
 	}
 
