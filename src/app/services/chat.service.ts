@@ -10,6 +10,7 @@ import {
 	Firestore,
 	getDoc,
 	getDocs,
+	onSnapshot,
 	orderBy,
 	query,
 	setDoc,
@@ -536,6 +537,40 @@ export class ChatService {
 				console.error("Error removing user from channel:", error);
 				throw error;
 			}
+		});
+	}
+
+	/**
+	 * Gets a real-time Observable for a specific channel by ID.
+	 * This allows components to subscribe to changes in a specific channel's data.
+	 * 
+	 * @param {string} channelId - The ID of the channel to observe.
+	 * @returns {Observable<ChannelData | undefined>} An Observable that emits the channel data whenever it changes.
+	 */
+	getChannelById(channelId: string): Observable<ChannelData | undefined> {
+		return runInInjectionContext(this.environmentInjector, () => {
+			const firestore = inject(Firestore);
+			const channelRef = doc(firestore, `channels/${channelId}`);
+
+			return new Observable<ChannelData | undefined>(observer => {
+				// Set up real-time listener using onSnapshot
+				const unsubscribe = onSnapshot(channelRef, 
+					(docSnap) => {
+						if (docSnap.exists()) {
+							observer.next({ ...docSnap.data(), channelId: docSnap.id } as ChannelData);
+						} else {
+							observer.next(undefined);
+						}
+					},
+					(error) => {
+						console.error("Error getting channel updates:", error);
+						observer.error(error);
+					}
+				);
+
+				// Return the unsubscribe function to clean up when the Observable is unsubscribed
+				return () => unsubscribe();
+			});
 		});
 	}
 }

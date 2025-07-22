@@ -46,6 +46,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 	otherUser$!: Observable<UserData | null>;
 	otherUserPresence$!: Observable<UserPresence | null>;
 	functionTriggerSubscription!: Subscription;
+	channelUpdateSubscription!: Subscription;
 
 	isModalBGOpen = false;
 	isModalOpen = false;
@@ -223,6 +224,23 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.messages = messages;
 		});
 
+		// Subscribe to real-time updates for the selected channel
+		if (this.channelUpdateSubscription) {
+			this.channelUpdateSubscription.unsubscribe();
+		}
+
+		this.channelUpdateSubscription = this.chatService
+			.getChannelById(channel.channelId.toString())
+			.subscribe((updatedChannel) => {
+				if (updatedChannel) {
+					// Update the selected channel in the service
+					this.chatService.selectedChannel = updatedChannel;
+					// Update local properties
+					this.newChannelName = updatedChannel.channelName;
+					this.newChannelDescription = updatedChannel.channelDescription;
+				}
+			});
+
 		if (this.currentUser) {
 			this.initializeDirectMessageObservables();
 		}
@@ -302,6 +320,21 @@ export class ChatComponent implements OnInit, OnDestroy {
 	ngOnDestroy() {
 		this.userSubscription.unsubscribe();
 		this.functionTriggerSubscription.unsubscribe();
+
+		// Unsubscribe from channel updates to prevent memory leaks
+		if (this.channelUpdateSubscription) {
+			this.channelUpdateSubscription.unsubscribe();
+		}
+
+		// Unsubscribe from screen width subscription
+		if (this.screenWidthSubscription) {
+			this.screenWidthSubscription.unsubscribe();
+		}
+
+		// Unsubscribe from all user data subscription
+		if (this.allUserDataSubscription) {
+			this.allUserDataSubscription.unsubscribe();
+		}
 	}
 
 	openMembersMenu() {
