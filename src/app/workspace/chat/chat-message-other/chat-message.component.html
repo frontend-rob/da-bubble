@@ -1,6 +1,4 @@
 <div
-	(mouseenter)="toggleHovered(true)"
-	(mouseleave)="toggleHovered(false)"
 	[id]="'message-' + message.messageId"
 	[ngClass]="{
 		'own-message': isOwnMessage,
@@ -140,14 +138,8 @@
 		</div>
 	</div>
 
-	<!-- <div class="chat-message-other">
-			<div class="message-header">
-					<span class="sender"></span>
-					<span class="timestamp"></span>
-			</div>
-	</div> -->
-
-	<div *ngIf="hovered">
+	<!-- Option Bar statisch sichtbar für Tests -->
+	<div>
 		<app-chat-option-bar
 			(chosenEmoji)="handleEmojiReaction($event, message)"
 			(deleteMessageEvent)="handleDeleteMessage($event)"
@@ -160,6 +152,7 @@
 				'option-bar-own': isOwnMessage,
 				'option-bar-other': !isOwnMessage
 			}"
+			style="opacity: 0.5; border: 1px dashed red;"
 		>
 		</app-chat-option-bar>
 	</div>

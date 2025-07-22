@@ -1,5 +1,5 @@
 import {EnvironmentInjector, inject, Injectable, OnDestroy, runInInjectionContext} from "@angular/core";
-import {debounceTime, filter, fromEvent, merge, Observable, Subject, switchMap, takeUntil, tap, timer} from "rxjs";
+import {debounceTime, filter, fromEvent, merge, Observable, Subject, switchMap, takeUntil, tap, timer, throttleTime} from "rxjs";
 import {Database, get, off, onDisconnect, onValue, ref, serverTimestamp, set} from "@angular/fire/database";
 import {
 	Auth,
@@ -339,7 +339,13 @@ export class AuthService implements OnDestroy {
 
 		const click$ = fromEvent(document, 'click');
 		const keydown$ = fromEvent(document, 'keydown');
-		const mousemove$ = fromEvent(document, 'mousemove');
+
+		const mousemove$ = fromEvent(document, 'mousemove', {
+		  passive: true 
+		}).pipe(
+		  throttleTime(1000),
+		  debounceTime(300)
+		);
 		const scroll$ = fromEvent(document, 'scroll', {passive: true});
 		const touchstart$ = fromEvent(document, 'touchstart', {passive: true});
 
