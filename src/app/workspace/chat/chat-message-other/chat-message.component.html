@@ -10,21 +10,25 @@
 	}"
 	class="message-container"
 >
-	<img
-		(click)="handleProfileCard(true, message.sender.uid)"
-		[ngSrc]="message.sender.photoURL"
-		alt="/assets/img/avatars/av-04.svg"
-		height="70"
-		width="70"
-	/>
+	<ng-container *ngIf="message.uid | userDataFromUid | async as sender">
+		<img
+			(click)="handleProfileCard(true, sender.uid)"
+			[ngSrc]="sender.photoURL"
+			alt="/assets/img/avatars/av-04.svg"
+			height="70"
+			width="70"
+		/>
+	</ng-container>
 	<div class="message-content-container">
 		<div class="author-container">
-			<span
-				(click)="handleProfileCard(true, message.sender.uid)"
-				class="author-name"
-			>
-				{{ message.sender.userName }}
-			</span>
+			<ng-container *ngIf="message.uid | userDataFromUid | async as sender">
+				<span
+					(click)="handleProfileCard(true, sender.uid)"
+					class="author-name"
+				>
+					{{ sender.userName }}
+				</span>
+			</ng-container>
 			<span class="message-time">{{ message.time }} Uhr</span>
 		</div>
 

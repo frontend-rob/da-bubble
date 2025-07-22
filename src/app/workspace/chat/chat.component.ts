@@ -277,7 +277,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		}
 		const message: Message = {
 			text: content,
-			sender: this.currentUser,
+			uid: this.currentUser.uid,
 			edited: false,
 			timestamp: Timestamp.fromDate(new Date()),
 			time: this.helperService.getBerlinTime24h(),

@@ -1,4 +1,3 @@
-import {UserData} from "./user.interface";
 import {Timestamp} from "firebase/firestore";
 
 export interface Reaction {
@@ -10,7 +9,7 @@ export interface Reaction {
 
 export interface Message {
 	text: string;
-	sender: UserData;
+	uid: string;
 	timestamp: Timestamp;
 	time: string;
 	date: string;

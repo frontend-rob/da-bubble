@@ -236,19 +236,22 @@ export class SearchService {
 				);
 
 				for (const message of matchingMessages) {
-					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
+					const userStatus = await this.getUserPresenceStatus(message.uid);
+					const userData = await firstValueFrom(this.userLookupService.getUserById(message.uid));
+
+					if (!userData) continue;
 
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
-						messageAuthorId: message.sender.uid,
+						messageAuthorId: message.uid,
 						messageContent: message.text,
 						time: message.timestamp,
 						channelId: channel.channelId,
 						channelName: channel.channelName,
-						userName: message.sender.userName,
-						photoURL: message.sender.photoURL || '',
-						email: message.sender.email || '',
+						userName: userData.userName,
+						photoURL: userData.photoURL || '',
+						email: userData.email || '',
 						status: userStatus,
 						channelDescription: ''
 					});
@@ -286,19 +289,22 @@ export class SearchService {
 
 				for (const message of matchingMessages) {
 					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
-					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
+					const userStatus = await this.getUserPresenceStatus(message.uid);
+					const userData = await firstValueFrom(this.userLookupService.getUserById(message.uid));
+
+					if (!userData) continue;
 
 					results.push({
 						type: 'message',
 						messageId: (message as any).messageId,
-						messageAuthorId: message.sender.uid,
+						messageAuthorId: message.uid,
 						messageContent: message.text,
 						time: message.timestamp,
 						channelId: channel.channelId,
 						channelName: channel.channelName,
-						userName: message.sender.userName,
-						photoURL: message.sender.photoURL || '',
-						email: message.sender.email || '',
+						userName: userData.userName,
+						photoURL: userData.photoURL || '',
+						email: userData.email || '',
 						status: userStatus,
 						directMessageUserId: otherUser,
 						directMessageUserName: otherUserData?.userName || '',
@@ -338,22 +344,25 @@ export class SearchService {
 					);
 
 					for (const threadMessage of matchingThreadMessages) {
-						const userStatus = await this.getUserPresenceStatus(threadMessage.sender.uid);
+						const userStatus = await this.getUserPresenceStatus(threadMessage.uid);
+						const userData = await firstValueFrom(this.userLookupService.getUserById(threadMessage.uid));
+
+						if (!userData) continue;
 
 						results.push({
 							type: 'message',
 							messageId: (threadMessage as any).messageId,
-							messageAuthorId: threadMessage.sender.uid,
+							messageAuthorId: threadMessage.uid,
 							messageContent: threadMessage.text,
 							time: threadMessage.timestamp,
 							channelId: channel.channelId,
 							channelName: channel.channelName,
-							userName: threadMessage.sender.userName,
-							photoURL: threadMessage.sender.photoURL || '',
-							email: threadMessage.sender.email || '',
+							userName: userData.userName,
+							photoURL: userData.photoURL || '',
+							email: userData.email || '',
 							status: userStatus,
 							repliedMessageId: (parentMessage as any).messageId,
-							replierName: threadMessage.sender.userName,
+							replierName: userData.userName,
 							channelDescription: ''
 						});
 					}

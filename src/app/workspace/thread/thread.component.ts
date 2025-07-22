@@ -10,10 +10,11 @@ import {firstValueFrom, map, Observable, Subscription} from "rxjs";
 import {UserService} from "../../services/user.service";
 import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
 import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {UserDataFromUidPipe} from "../../pipes/user-data-from-uid.pipe";
 
 @Component({
 	selector: "app-thread",
-	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage, AutoScrollingDirective, AutoScrollingDirective],
+	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage, AutoScrollingDirective, AutoScrollingDirective, UserDataFromUidPipe],
 	templateUrl: "./thread.component.html",
 	styleUrl: "./thread.component.scss",
 	standalone: true
@@ -81,7 +82,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 		}
 		const message: Message = {
 			text: content,
-			sender: this.currentUser,
+			uid: this.currentUser.uid,
 			edited: false,
 			timestamp: Timestamp.fromDate(new Date()),
 			time: this.helperService.getBerlinTime24h(),

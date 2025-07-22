@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {chatMessageTagLink} from "../../../pipes/chat-message-tag-link.pipe";
 import {UserLookupService} from "../../../services/user-lookup.service";
 import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
+import {UserDataFromUidPipe} from "../../../pipes/user-data-from-uid.pipe";
 
 
 @Component({
@@ -21,8 +22,8 @@ import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
 		FormsModule,
 		NgOptimizedImage,
 		chatMessageTagLink,
-		ChannelUsersPipe
-
+		ChannelUsersPipe,
+		UserDataFromUidPipe
 	],
 	templateUrl: "./chat-message.component.html",
 	styleUrl: "./chat-message.component.scss",
@@ -74,7 +75,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 
 	isOwnMessage(): boolean {
 		if (this._isOwnMessageCache === null && this.currentUser && this.message) {
-			this._isOwnMessageCache = this.message.sender.uid === this.currentUser.uid;
+			this._isOwnMessageCache = this.message.uid === this.currentUser.uid;
 		}
 		return this._isOwnMessageCache !== null ? this._isOwnMessageCache : false;
 	}
