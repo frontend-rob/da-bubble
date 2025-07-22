@@ -61,8 +61,8 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 	@ViewChild('messageContent', {static: false}) messageContentRef!: ElementRef;
 	private destroy$ = new Subject<void>();
 	private focusDebounce$ = new Subject<void>();
-	private lastFocusTime: number = 0;
-	private debounceTimeout: any;
+    private lastFocusTime: number = 0;
+    private debounceTimeout: any;
 
 	constructor(
 		public chatService: ChatService,
