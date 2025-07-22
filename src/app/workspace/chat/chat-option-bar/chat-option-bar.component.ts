@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {Component, EventEmitter, Input, Output, ViewEncapsulation} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
 import {IdtMessages} from "../../../interfaces/message.interface";
 
@@ -8,7 +8,7 @@ import {IdtMessages} from "../../../interfaces/message.interface";
 	imports: [CommonModule, NgOptimizedImage],
 	templateUrl: "./chat-option-bar.component.html",
 	styleUrl: "./chat-option-bar.component.scss",
-	standalone: true
+	standalone: true,
 })
 export class ChatOptionBarComponent {
 	@Input() message!: IdtMessages;

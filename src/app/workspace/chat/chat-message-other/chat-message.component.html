@@ -1,4 +1,6 @@
 <div
+	(mouseenter)="toggleHovered(true)"
+	(mouseleave)="toggleHovered(false)"
 	[id]="'message-' + message.messageId"
 	[ngClass]="{
 		'own-message': isOwnMessage(),
@@ -139,21 +141,19 @@
 	</div>
 
 	<!-- Option Bar statisch sichtbar für Tests -->
-	<div>
-		<app-chat-option-bar
-			(chosenEmoji)="handleEmojiReaction($event, message)"
-			(deleteMessageEvent)="handleDeleteMessage($event)"
-			(editMessage)="startEditingMessage($event)"
-			[emojiList]="emojiList"
-			[isOwnMessage]="isOwnMessage()"
-			[isThisAThreadMessage]="isThisAThreadMessage"
-			[message]="message"
-			[ngClass]="{
-				'option-bar-own': isOwnMessage(),
-				'option-bar-other': !isOwnMessage()
-			}"
-			style="opacity: 0.5; border: 1px dashed red;"
-		>
-		</app-chat-option-bar>
-	</div>
+	<app-chat-option-bar
+		(chosenEmoji)="handleEmojiReaction($event, message)"
+		(deleteMessageEvent)="handleDeleteMessage($event)"
+		(editMessage)="startEditingMessage($event)"
+		[emojiList]="emojiList"
+		[isOwnMessage]="isOwnMessage()"
+		[isThisAThreadMessage]="isThisAThreadMessage"
+		[message]="message"
+		[ngClass]="{
+			'option-bar-own': isOwnMessage(),
+			'option-bar-other': !isOwnMessage(),
+			'show-on-hover': hovered
+		}"
+	>
+	</app-chat-option-bar>
 </div>

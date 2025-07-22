@@ -156,6 +156,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 	}
 
 	toggleHovered(bool: boolean) {
+		console.log('Toggle hovered:', bool);
 		this.hovered = bool;
 	}
 

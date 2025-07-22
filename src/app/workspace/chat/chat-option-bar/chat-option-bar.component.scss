@@ -1,6 +1,17 @@
 @use "../../../../styles/variables" as variables;
 @use "../../../../styles/mixins" as mixins;
 
+:host {
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+:host.show-on-hover {
+	opacity: 1;
+	visibility: visible;
+}
+
 :host.option-bar-own .options-container {
 	top: -32px;
 	left: 24px;
