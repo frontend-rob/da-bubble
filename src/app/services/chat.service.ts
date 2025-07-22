@@ -344,7 +344,7 @@ export class ChatService {
 			const firestore = inject(Firestore);
 			const messageRef = doc(
 				firestore,
-				`channels/${channelId}/messages/${threadId}/threadMessages/${messageId}`
+				`channels/${channelId}/messages/${threadId}/thread/${messageId}`
 			);
 
 			await updateDoc(messageRef, {

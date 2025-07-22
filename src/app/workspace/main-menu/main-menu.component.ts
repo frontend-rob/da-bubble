@@ -153,6 +153,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		console.log("setSelectedChannel called with:", {id, user});
 		console.log("dmchannels", this.directMessageChannels);
 
+		// Close thread window when switching channels
+		this.chatService.handleThread(false);
+
 		this.setActiveChat(id);
 
 		const selectedChannel = this.findChannelById(id);
@@ -188,6 +191,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				console.warn("Cannot create DM with guest user");
 				return;
 			}
+
+			// Close thread window when switching to a direct message channel
+			this.chatService.handleThread(false);
 
 			if (clickedUser.uid === this.currentUser.uid) {
 				console.log("Self-Channel ausgewählt");
