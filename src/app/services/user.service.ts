@@ -120,7 +120,6 @@ export class UserService {
 					photoURL: photoURL,
 				});
 
-				// Clear the cache for this user to ensure fresh data is fetched next time
 				if (this.userCache.has(userId)) {
 					this.userCache.delete(userId);
 				}
@@ -151,7 +150,6 @@ export class UserService {
 					userName: userName,
 				});
 
-				// Clear the cache for this user to ensure fresh data is fetched next time
 				if (this.userCache.has(userId)) {
 					this.userCache.delete(userId);
 				}
@@ -169,8 +167,6 @@ export class UserService {
 	handleUserProfileCard(bool: boolean) {
 		this._isUserProfileCardOpen = bool;
 	}
-
-	// In deinem UserService hinzufügen:
 
 	handleUserAvatarEdit(bool: boolean) {
 		this._isUserAvatarEdit = bool;

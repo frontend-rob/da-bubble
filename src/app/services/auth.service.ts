@@ -75,7 +75,6 @@ export class AuthService implements OnDestroy {
 	 */
 	initializePresenceSystem(): void {
 		return runInInjectionContext(this.environmentInjector, () => {
-			// 🔥 Überwache Auth-Status und setze Präsenz
 			this.user$.pipe(
 				takeUntil(this.destroy$),
 				switchMap(async (user) => {
@@ -92,9 +91,7 @@ export class AuthService implements OnDestroy {
 		});
 	}
 
-	// 🔥 Bestehende Firestore-Methode entfernen/ersetzen
 	async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
-		// 🔥 Verwende jetzt Realtime Database
 		await this.setUserPresence(uid, status ? 'online' : 'offline');
 	}
 
@@ -299,11 +296,9 @@ export class AuthService implements OnDestroy {
 			const presenceRef = ref(this.database, `presence/${uid}`);
 			const connectedRef = ref(this.database, '.info/connected');
 
-			// 🔥 Überwache Verbindungsstatus
 			onValue(connectedRef, async (snapshot) => {
 				await runInInjectionContext(this.environmentInjector, async () => {
 					if (snapshot.val() === true) {
-						// 🔥 Verbunden - setze online
 						await runInInjectionContext(this.environmentInjector, async () => {
 							await set(presenceRef, {
 								status: 'online',
@@ -312,7 +307,6 @@ export class AuthService implements OnDestroy {
 							});
 						})
 
-						// 🔥 Setze onDisconnect für automatisches Offline
 						await runInInjectionContext(this.environmentInjector, async () => {
 							await onDisconnect(presenceRef).set({
 								status: 'offline',
@@ -320,7 +314,6 @@ export class AuthService implements OnDestroy {
 								lastSeen: serverTimestamp()
 							});
 						})
-						console.info(`🔥 Realtime DB: User ${uid} presence initialized`);
 					}
 				})
 			});
@@ -352,13 +345,12 @@ export class AuthService implements OnDestroy {
 
 		const activity$ = merge(click$, keydown$, mousemove$, scroll$, touchstart$).pipe(
 			debounceTime(1000),
-			tap(() => console.log('🔵 User activity detected'))
+			tap(() => console.log())
 		);
 
 		offline$.pipe(
 			takeUntil(this.destroy$)
 		).subscribe(() => {
-			console.log('🌐 Internet connection lost');
 			this.setUserPresence(uid, 'offline');
 		});
 
@@ -366,7 +358,6 @@ export class AuthService implements OnDestroy {
 			takeUntil(this.destroy$),
 			debounceTime(500)
 		).subscribe(() => {
-			console.log('🌐 Internet connection restored');
 			this.setUserPresence(uid, 'online');
 		});
 
@@ -374,7 +365,6 @@ export class AuthService implements OnDestroy {
 			takeUntil(this.destroy$),
 			debounceTime(300)
 		).subscribe(() => {
-			console.log('🟢 Window focused - setting online');
 			this.setUserPresence(uid, 'online');
 		});
 
@@ -383,7 +373,6 @@ export class AuthService implements OnDestroy {
 			debounceTime(300),
 			filter(() => document.visibilityState === 'visible')
 		).subscribe(() => {
-			console.log('🟢 Tab visible - setting online');
 			this.setUserPresence(uid, 'online');
 		});
 
@@ -394,7 +383,6 @@ export class AuthService implements OnDestroy {
 			})
 		).subscribe((currentPresence) => {
 			if (currentPresence?.status === 'away') {
-				console.log('🟢 Activity detected while away - setting online');
 				this.setUserPresence(uid, 'online');
 			}
 		});
@@ -405,7 +393,6 @@ export class AuthService implements OnDestroy {
 				const awayTimer$ = timer(30000).pipe(
 					tap(() => {
 						if (document.visibilityState === 'hidden') {
-							console.log('🟡 Setting AWAY after 30s');
 							this.setUserPresence(uid, 'away');
 						}
 					})
@@ -421,11 +408,8 @@ export class AuthService implements OnDestroy {
 		beforeUnload$.pipe(
 			takeUntil(this.destroy$)
 		).subscribe(() => {
-			console.log('🔴 Page unloading - setting offline');
 			this.setUserPresence(uid, 'offline');
 		});
-
-		console.log('✅ Presence listeners setup complete');
 	}
 
 	/**
@@ -491,24 +475,20 @@ export class AuthService implements OnDestroy {
 	 * Enhanced visibility listener for better online/offline detection using RxJS.
 	 */
 	private setupVisibilityListener(uid: string): void {
-		// Online/Offline Events
 		const online$ = fromEvent(window, 'online');
 		const offline$ = fromEvent(window, 'offline');
 
-		// Blur Event
 		const blur$ = fromEvent(window, 'blur');
 
-		// 🔥 Online Event Handler
 		online$.pipe(
 			takeUntil(this.destroy$),
-			debounceTime(100) // Kurze Verzögerung gegen Spam
+			debounceTime(100)
 		).subscribe(() => {
 			this.setUserOnlineStatus(uid, true).then(r =>
 				console.info(r, 'RxJS: online event fired. status set to online.')
 			);
 		});
 
-		// 🔥 Offline Event Handler
 		offline$.pipe(
 			takeUntil(this.destroy$),
 			debounceTime(100)
@@ -518,7 +498,6 @@ export class AuthService implements OnDestroy {
 			);
 		});
 
-		// 🔥 Blur Event Handler mit Delay
 		blur$.pipe(
 			takeUntil(this.destroy$),
 			debounceTime(50000) // 5 Sekunden Delay
@@ -529,9 +508,6 @@ export class AuthService implements OnDestroy {
 				);
 			}
 		});
-
-		// 🔥 ENTFERNT: Focus und Visibility Change Events
-		// Diese Events haben die Profilkarte geöffnet!
 	}
 
 	/**
@@ -541,7 +517,6 @@ export class AuthService implements OnDestroy {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			const presenceRef = ref(this.database, `presence/${uid}`);
 
-			// ✅ get() statt onValue - kein unsubscribe nötig!
 			const snapshot = await get(presenceRef);
 			return snapshot.val();
 		})

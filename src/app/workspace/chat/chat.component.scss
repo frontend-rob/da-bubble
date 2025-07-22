@@ -7,7 +7,6 @@
 	@include mixins.flex-column;
 	justify-content: space-between;
 	width: 100%;
-	// height: calc(100vh - 80px);
 	border-radius: 30px;
 	background-color: variables.$bg-base-200;
 }
@@ -334,7 +333,7 @@
 .user-suggestion {
 	@include mixins.list-item;
 	@include mixins.hover-bg(variables.$bg-base-100);
-	gap: 10px; // Füge gap hinzu
+	gap: 10px;
 }
 
 .user-suggestion > .avatar {
@@ -698,7 +697,6 @@
 @media screen and (max-width: 640px) {
 	.chat-section {
 		width: 100%;
-		// height: calc(100% - 80px);
 		height: 100%;
 		flex: 1;
 		border-radius: 0;
@@ -826,7 +824,6 @@
 	}
 }
 
-// Irgendwo in der Datei hinzufügen:
 .status {
 	width: 16px;
 	height: 16px;
@@ -841,7 +838,7 @@
 	}
 
 	&.away {
-		background-color: variables.$away; // ← NEU HINZUFÜGEN
+		background-color: variables.$away;
 	}
 
 	&.offline {

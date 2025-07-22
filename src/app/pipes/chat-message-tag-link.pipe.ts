@@ -29,14 +29,12 @@ export class chatMessageTagLink implements PipeTransform {
 		if (!text) return "";
 		let result = text;
 
-		// Sort usernames by length (desc) to match the longest possible name first
 		const sortedUsers = [...users].sort(
 			(a, b) => b.userName.length - a.userName.length
 		);
 
 		for (const user of sortedUsers) {
 			const search = `@${user.userName}`;
-			// 🔥 Entferne href="#" komplett und verwende role="button"
 			const link = `<a class="user-tag-link" role="button" tabindex="0" data-uid="${
 				user.uid
 			}" title="${user.userName} (${user.email || ""})">@${

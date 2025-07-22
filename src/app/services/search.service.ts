@@ -6,7 +6,7 @@ import {UserLookupService} from './user-lookup.service';
 import {SearchResult} from '../interfaces/search-result.interface';
 import {ChannelData} from '../interfaces/channel.interface';
 import {UserData} from '../interfaces/user.interface';
-import {Database, get, ref} from '@angular/fire/database'; // ✅ Realtime DB Import
+import {Database, get, ref} from '@angular/fire/database';
 
 export interface CategorizedSearchResults {
 	messages: SearchResult[];
@@ -23,7 +23,7 @@ export class SearchService {
 	private chatService = inject(ChatService);
 	private userService = inject(UserService);
 	private userLookupService = inject(UserLookupService);
-	private database = inject(Database); // ✅ Realtime Database injizieren
+	private database = inject(Database);
 
 	private searchTermSubject = new BehaviorSubject<string>('');
 	public searchTerm$ = this.searchTermSubject.asObservable();
@@ -55,7 +55,6 @@ export class SearchService {
 		this.searchTermSubject.next(term);
 	}
 
-	// ✅ Hilfsmethode für User-Präsenz aus Realtime DB
 	private async getUserPresenceStatus(uid: string): Promise<'online' | 'away' | 'offline' | false> {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			try {
@@ -161,7 +160,6 @@ export class SearchService {
 				);
 			}
 
-			// ✅ Status für jeden User aus Realtime DB holen
 			for (const user of matchingUsers) {
 				const userStatus = await this.getUserPresenceStatus(user.uid);
 
@@ -171,7 +169,7 @@ export class SearchService {
 					userName: user.userName,
 					email: user.email || '',
 					photoURL: user.photoURL || '',
-					status: userStatus, // ✅ Echter Status aus Realtime DB
+					status: userStatus,
 					channelName: '',
 					channelDescription: ''
 				});
@@ -237,7 +235,6 @@ export class SearchService {
 					message.text.toLowerCase().includes(term.toLowerCase())
 				);
 
-				// ✅ Status für jeden Message-Sender aus Realtime DB holen
 				for (const message of matchingMessages) {
 					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
 
@@ -252,7 +249,7 @@ export class SearchService {
 						userName: message.sender.userName,
 						photoURL: message.sender.photoURL || '',
 						email: message.sender.email || '',
-						status: userStatus, // ✅ Echter Status aus Realtime DB
+						status: userStatus,
 						channelDescription: ''
 					});
 				}
@@ -287,7 +284,6 @@ export class SearchService {
 				const otherUser = channel.channelMembers.find(member => member !== currentUser.uid);
 				if (!otherUser) continue;
 
-				// ✅ Status für jeden Message-Sender aus Realtime DB holen
 				for (const message of matchingMessages) {
 					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
 					const userStatus = await this.getUserPresenceStatus(message.sender.uid);
@@ -303,7 +299,7 @@ export class SearchService {
 						userName: message.sender.userName,
 						photoURL: message.sender.photoURL || '',
 						email: message.sender.email || '',
-						status: userStatus, // ✅ Echter Status aus Realtime DB
+						status: userStatus,
 						directMessageUserId: otherUser,
 						directMessageUserName: otherUserData?.userName || '',
 						channelDescription: ''
@@ -341,7 +337,6 @@ export class SearchService {
 						message.text.toLowerCase().includes(term.toLowerCase())
 					);
 
-					// ✅ Status für jeden Thread-Message-Sender aus Realtime DB holen
 					for (const threadMessage of matchingThreadMessages) {
 						const userStatus = await this.getUserPresenceStatus(threadMessage.sender.uid);
 
@@ -356,7 +351,7 @@ export class SearchService {
 							userName: threadMessage.sender.userName,
 							photoURL: threadMessage.sender.photoURL || '',
 							email: threadMessage.sender.email || '',
-							status: userStatus, // ✅ Echter Status aus Realtime DB
+							status: userStatus,
 							repliedMessageId: (parentMessage as any).messageId,
 							replierName: threadMessage.sender.userName,
 							channelDescription: ''

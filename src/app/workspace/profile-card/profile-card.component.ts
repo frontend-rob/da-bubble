@@ -90,11 +90,9 @@ export class ProfileCardComponent implements OnInit {
 		this.newUserName = "";
 	}
 
-	// ← EINFACH: Direkt UserService nutzen
 	openDirectMessage() {
 		this.closeProfileCard();
 
-		// UserService Event emittieren
 		this.userService.openDirectMessageWithUser(this.currentPerson);
 	}
 }

@@ -14,10 +14,8 @@ export class ResponsiveService {
 		);
 		this.screenWidth$ = this.screenWidthSubject.asObservable();
 
-		// Initial update
 		this.updateWidth();
 
-		// Subscribe to window resize event
 		window.addEventListener("resize", () => {
 			this.updateWidth();
 		});

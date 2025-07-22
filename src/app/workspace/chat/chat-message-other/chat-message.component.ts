@@ -140,10 +140,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		});
 	}
 
-	ngOnChanges(changes: SimpleChanges) {
-		// Komplett entfernen oder mit Debounce
-	}
-
 	handleEmojiReaction(emoji: string, message: IdtMessages) {
 		if (!message.reactions) {
 			message.reactions = [];
@@ -167,9 +163,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		}
 
 		if (message.messageId) {
-			// Unterscheidung zwischen Thread-Nachrichten und normalen Nachrichten
 			if (this.isThisAThreadMessage) {
-				// Für Thread-Nachrichten
 				this.chatService.updateThreadMessageReactions(
 					this.chatService.selectedChannel.channelId,
 					this.chatService.selectedThreadMessageId,
@@ -179,7 +173,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 					console.log('Thread reaction updated:', r);
 				});
 			} else {
-				// Für normale Nachrichten
 				this.chatService.updateMessageReactions(
 					this.chatService.selectedChannel.channelId,
 					message.messageId,
@@ -202,8 +195,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 		this.isEditing = true;
 		this.editedText = message.text;
 	}
-
-	// Entfernen Sie die alten Methoden addTagLinkHandlers und attachClickHandlers
 
 	saveEditedMessage() {
 		if (this.message.messageId && this.editedText.trim() !== "") {
@@ -246,7 +237,7 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 
 		focus$.pipe(
 			takeUntil(this.destroy$),
-			debounceTime(100), // Kurze Verzögerung
+			debounceTime(100),
 			distinctUntilChanged()
 		).subscribe(() => {
 			console.log('🔵 RxJS: Window focus detected in chat-message component');
@@ -263,12 +254,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			return;
 		}
 
-		// 🔥 RxJS Click Event Handler
 		const click$ = fromEvent<MouseEvent>(messageElement, 'click');
 
 		click$.pipe(
 			takeUntil(this.destroy$),
-			// Filter unerwünschte Events
 			filter((event: MouseEvent) => {
 				return event.isTrusted &&
 					!event.altKey &&
@@ -276,7 +265,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 					!event.metaKey &&
 					!event.shiftKey;
 			}),
-			// Debounce gegen schnelle Klicks
 			debounceTime(50)
 		).subscribe((event: MouseEvent) => {
 			const target = event.target as HTMLElement;

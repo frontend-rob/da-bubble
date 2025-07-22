@@ -167,7 +167,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.otherUserPresence$ = this.otherUser$.pipe(
 			switchMap(user => {
 				if (user?.uid) {
-					console.log('Getting presence for user:', user.uid); // Debug log
+					console.log('Getting presence for user:', user.uid);
 					return this.presenceService.getUserPresence(user.uid);
 				} else {
 					return of(null);
@@ -221,7 +221,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.messages = messages;
 		});
 
-		// ✅ Direct Message Observables beim Channel-Wechsel neu initialisieren
 		if (this.currentUser) {
 			this.initializeDirectMessageObservables();
 		}
@@ -410,7 +409,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		this.disabledButton = true;
 	}
 
-	// Function is for dropdown
 	handleInputData() {
 		if (
 			this.newMessageInputData[0] === "#" &&
@@ -422,7 +420,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 						this.newMessageInputData ===
 						"#" + channel.channelName
 					) {
-						//  Set the current chat to active
 					}
 				}
 			}
@@ -471,7 +468,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 			this.chatService.handleNewMessage(false);
 			this.newMessageInputData = "";
 		} else if (isEmailAdress && !isDirectMessage && !isChannel) {
-			// Find user by email in allUserData
 			const userWithEmail = this.allUserData.find(
 				(user) => user.email === this.newMessageInputData
 			);
@@ -479,7 +475,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 			if (userWithEmail) {
 				this.isSearchedUser = userWithEmail;
 
-				// Find channel that contains both the current user and the searched user
 				const directMessageChannel = this.channels.find(
 					(channel) =>
 						channel.channelType.directMessage &&

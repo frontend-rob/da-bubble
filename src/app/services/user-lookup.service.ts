@@ -1,6 +1,6 @@
 import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
 import {UserData} from '../interfaces/user.interface';
-import {collection, collectionData, doc, docData, Firestore, query, where} from '@angular/fire/firestore'; // Zusätzlich importieren
+import {collection, collectionData, doc, docData, Firestore, query, where} from '@angular/fire/firestore';
 import {map, Observable, of, shareReplay} from 'rxjs';
 
 @Injectable({
@@ -23,7 +23,6 @@ export class UserLookupService {
 				return this.userCache.get(uid)!;
 			}
 
-			// Direkt per DocumentID holen
 			const userRef = doc(this.firestore, `users/${uid}`);
 			const user$ = docData(userRef).pipe(
 				map(data => data as UserData | undefined),
@@ -44,11 +43,8 @@ export class UserLookupService {
 				return of([]);
 			}
 
-			// Deduplizieren der UIDs
 			const uniqueUids = [...new Set(uids)];
 
-			// Firestore kann nur bis zu 10 OR-Bedingungen in einer Abfrage verarbeiten
-			// Bei mehr müssen wir mehrere Abfragen ausführen
 			if (uniqueUids.length <= 10) {
 				const userQuery = query(
 					collection(this.firestore, 'users'),
@@ -58,9 +54,7 @@ export class UserLookupService {
 					map(users => users as UserData[])
 				);
 			} else {
-				// Für größere Mengen sollten wir in Batches arbeiten
-				// Diese Implementierung sollte für die meisten Anwendungsfälle ausreichen
-				return of([]); // Erweitere diese Implementierung bei Bedarf
+				return of([]);
 			}
 		})
 	}
