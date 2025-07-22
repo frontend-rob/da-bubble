@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, SimpleChanges, ViewChild} from "@angular/core";
+import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from "@angular/core";
 import {debounceTime, distinctUntilChanged, filter, fromEvent, Subject, Subscription, takeUntil} from "rxjs";
 import {IdtMessages, Reaction} from "../../../interfaces/message.interface";
 import {ChatService} from "../../../services/chat.service";
@@ -28,7 +28,7 @@ import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
 	styleUrl: "./chat-message.component.scss",
 	standalone: true
 })
-export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
 	@Input() message!: IdtMessages;
 	@Input() isThisAThreadMessage!: boolean;
 	currentUserSubscription!: Subscription;
@@ -61,8 +61,9 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 	@ViewChild('messageContent', {static: false}) messageContentRef!: ElementRef;
 	private destroy$ = new Subject<void>();
 	private focusDebounce$ = new Subject<void>();
-	private lastFocusTime: number = 0;
-	private debounceTimeout: any;
+	private _cachedGroupedReactions: { emoji: string; count: number; users: string[] }[] = [];
+	private _cachedUserReactions: Record<string, boolean> = {};
+	private _isOwnMessageCache: boolean | null = null;
 
 	constructor(
 		public chatService: ChatService,
@@ -71,13 +72,19 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 	) {
 	}
 
-	get isOwnMessage(): boolean {
-		return this.message.sender.uid === this.currentUser.uid;
+	isOwnMessage(): boolean {
+		if (this._isOwnMessageCache === null && this.currentUser && this.message) {
+			this._isOwnMessageCache = this.message.sender.uid === this.currentUser.uid;
+		}
+		return this._isOwnMessageCache !== null ? this._isOwnMessageCache : false;
 	}
 
-	get groupedReactions(): { emoji: string; count: number; users: string[] }[] {
-		if (!this.message.reactions) return [];
+	groupedReactions(): { emoji: string; count: number; users: string[] }[] {
+		if (this._cachedGroupedReactions.length > 0 || !this.message.reactions) {
+			return this._cachedGroupedReactions;
+		}
 
+		// Calculate and cache the result
 		const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
 			if (!acc[reaction.emoji]) {
 				acc[reaction.emoji] = {count: 0, users: []};
@@ -87,11 +94,20 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			return acc;
 		}, {} as Record<string, { count: number; users: string[] }>);
 
-		return Object.entries(groupedEmojis).map(([emoji, data]) => ({
+		this._cachedGroupedReactions = Object.entries(groupedEmojis).map(([emoji, data]) => ({
 			emoji,
 			count: data.count,
 			users: data.users,
 		}));
+
+		return this._cachedGroupedReactions;
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		// Reset caches when message changes
+		if (changes['message']) {
+			this.resetCaches();
+		}
 	}
 
 	ngOnInit() {
@@ -101,9 +117,21 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			(user) => {
 				if (user) {
 					this.currentUser = user;
+					// Reset caches when user changes
+					this._isOwnMessageCache = null;
+					this._cachedUserReactions = {};
 				}
 			}
 		);
+	}
+
+	/**
+	 * Reset all caches
+	 */
+	private resetCaches(): void {
+		this._cachedGroupedReactions = [];
+		this._cachedUserReactions = {};
+		this._isOwnMessageCache = null;
 	}
 
 	ngAfterViewInit() {
@@ -162,6 +190,10 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 			message.reactions.splice(existingReactionIndex, 1);
 		}
 
+		// Reset caches when reactions change
+		this._cachedGroupedReactions = [];
+		this._cachedUserReactions = {};
+
 		if (message.messageId) {
 			if (this.isThisAThreadMessage) {
 				this.chatService.updateThreadMessageReactions(
@@ -185,10 +217,23 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit {
 	}
 
 	hasUserReacted(emoji: string): boolean {
-		if (!this.message.reactions) return false;
-		return this.message.reactions.some(
+		// Check cache first
+		if (emoji in this._cachedUserReactions) {
+			return this._cachedUserReactions[emoji];
+		}
+
+		// Calculate and cache the result
+		if (!this.message.reactions) {
+			this._cachedUserReactions[emoji] = false;
+			return false;
+		}
+
+		const hasReacted = this.message.reactions.some(
 			(r) => r.emoji === emoji && r.userId === this.currentUser.uid
 		);
+
+		this._cachedUserReactions[emoji] = hasReacted;
+		return hasReacted;
 	}
 
 	startEditingMessage(message: IdtMessages) {

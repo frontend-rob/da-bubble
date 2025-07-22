@@ -1,10 +1,10 @@
 <div
 	[id]="'message-' + message.messageId"
 	[ngClass]="{
-		'own-message': isOwnMessage,
-		'other-message': !isOwnMessage,
-		'option-bar-own': isOwnMessage,
-		'option-bar-other': !isOwnMessage
+		'own-message': isOwnMessage(),
+		'other-message': !isOwnMessage(),
+		'option-bar-own': isOwnMessage(),
+		'option-bar-other': !isOwnMessage()
 	}"
 	class="message-container"
 >
@@ -52,8 +52,8 @@
 		<div class="replies-container">
 			<div
 				[ngClass]="{
-					'reactions-wrapper-own': isOwnMessage,
-					'reactions-wrapper-other': !isOwnMessage
+					'reactions-wrapper-own': isOwnMessage(),
+					'reactions-wrapper-other': !isOwnMessage()
 				}"
 				class="reactions-wrapper"
 			>
@@ -64,7 +64,7 @@
 				>
 					<div
 						(click)="handleEmojiReaction(group.emoji, message)"
-						*ngFor="let group of groupedReactions | slice : 0 : 5"
+						*ngFor="let group of groupedReactions() | slice : 0 : 5"
 						[class.user-reacted]="hasUserReacted(group.emoji)"
 						class="reaction"
 					>
@@ -83,7 +83,7 @@
 					<div *ngIf="showAllReactions" class="reactions-container">
 						<div
 							(click)="handleEmojiReaction(group.emoji, message)"
-							*ngFor="let group of groupedReactions | slice : 5"
+							*ngFor="let group of groupedReactions() | slice : 5"
 							[class.user-reacted]="hasUserReacted(group.emoji)"
 							class="reaction"
 						>
@@ -100,13 +100,13 @@
 					</div>
 					<button
 						(click)="showAllReactions = !showAllReactions"
-						*ngIf="groupedReactions.length > 5"
+						*ngIf="groupedReactions().length > 5"
 						class="more-reactions-btn"
 					>
 						{{
 							showAllReactions
 								? "show less"
-								: groupedReactions.length - 5 + " more"
+								: groupedReactions().length - 5 + " more"
 						}}
 					</button>
 				</div>
@@ -145,12 +145,12 @@
 			(deleteMessageEvent)="handleDeleteMessage($event)"
 			(editMessage)="startEditingMessage($event)"
 			[emojiList]="emojiList"
-			[isOwnMessage]="isOwnMessage"
+			[isOwnMessage]="isOwnMessage()"
 			[isThisAThreadMessage]="isThisAThreadMessage"
 			[message]="message"
 			[ngClass]="{
-				'option-bar-own': isOwnMessage,
-				'option-bar-other': !isOwnMessage
+				'option-bar-own': isOwnMessage(),
+				'option-bar-other': !isOwnMessage()
 			}"
 			style="opacity: 0.5; border: 1px dashed red;"
 		>
