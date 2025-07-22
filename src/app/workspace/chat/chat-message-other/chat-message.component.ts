@@ -84,7 +84,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 			return this._cachedGroupedReactions;
 		}
 
-		// Calculate and cache the result
 		const groupedEmojis = this.message.reactions.reduce((acc, reaction) => {
 			if (!acc[reaction.emoji]) {
 				acc[reaction.emoji] = {count: 0, users: []};
@@ -104,7 +103,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		// Reset caches when message changes
 		if (changes['message']) {
 			this.resetCaches();
 		}
@@ -117,7 +115,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 			(user) => {
 				if (user) {
 					this.currentUser = user;
-					// Reset caches when user changes
 					this._isOwnMessageCache = null;
 					this._cachedUserReactions = {};
 				}
@@ -156,7 +153,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 	}
 
 	toggleHovered(bool: boolean) {
-		console.log('Toggle hovered:', bool);
 		this.hovered = bool;
 	}
 
