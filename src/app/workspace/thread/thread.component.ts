@@ -10,11 +10,10 @@ import {firstValueFrom, map, Observable, Subscription} from "rxjs";
 import {UserService} from "../../services/user.service";
 import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
 import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
-import {UserDataFromUidPipe} from "../../pipes/user-data-from-uid.pipe";
 
 @Component({
 	selector: "app-thread",
-	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage, AutoScrollingDirective, AutoScrollingDirective, UserDataFromUidPipe],
+	imports: [CommonModule, MessageInputFieldComponent, ChatMessageComponent, NgOptimizedImage, AutoScrollingDirective, AutoScrollingDirective],
 	templateUrl: "./thread.component.html",
 	styleUrl: "./thread.component.scss",
 	standalone: true
