@@ -2,359 +2,373 @@
 @use "../../../../styles/mixins" as mixins;
 
 .message-container {
-	display: flex;
-	width: 100%;
-	padding: 24px 32px;
-	gap: 30px;
-	position: relative;
+    display: flex;
+    width: 100%;
+    padding: 24px 32px;
+    gap: 30px;
+    position: relative;
 
-	> img {
-		max-height: 70px;
-		max-width: 70px;
-	}
+    >img {
+        max-height: 70px;
+        max-width: 70px;
+    }
 
-	&:hover {
-		background-color: variables.$bg-neutral-hover;
+    &:hover {
+        background-color: variables.$bg-neutral-hover;
 
-		.message {
-			background-color: variables.$bg-base-200;
-		}
-	}
+        .message {
+            background-color: variables.$bg-base-200;
+        }
+    }
 }
 
 .author-container {
-	display: flex;
-	align-items: center;
-	gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 
-	&:hover {
-		cursor: pointer;
-	}
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .message-content-container {
-	display: flex;
-	flex-direction: column;
-	flex: 1;
-	gap: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 16px;
 }
 
 .author-name {
-	font-weight: 700;
-	font-size: 18px;
+    font-weight: 700;
+    font-size: 18px;
 
-	&:hover {
-		color: variables.$text-hover;
-	}
+    &:hover {
+        color: variables.$text-hover;
+    }
 }
 
 .message-time {
-	font-weight: 400;
-	font-size: 14px;
-	color: variables.$bg-neutral;
-	cursor: text;
+    font-weight: 400;
+    font-size: 14px;
+    color: variables.$bg-neutral;
+    cursor: text;
 }
 
 .message {
-	display: flex;
-	align-items: start;
-	width: fit-content;
-	gap: 16px;
-	border-top-right-radius: 30px;
-	border-bottom-right-radius: 30px;
-	border-bottom-left-radius: 30px;
-	padding: 15px;
-	background-color: variables.$bg-neutral-hover;
-	color: variables.$text-primary;
-	white-space: pre-wrap;
+    display: flex;
+    align-items: start;
+    width: fit-content;
+    gap: 16px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 15px;
+    background-color: variables.$bg-neutral-hover;
+    color: variables.$text-primary;
+    white-space: pre-wrap;
 }
 
 .own-message {
-	flex-direction: row-reverse;
+    flex-direction: row-reverse;
 
-	.message-content-container {
-		align-items: flex-end;
-	}
+    .message-content-container {
+        align-items: flex-end;
+    }
 
-	.message {
-		background-color: variables.$bg-primary-accent !important;
-		border-top-left-radius: 30px;
-		border-top-right-radius: 0;
-		color: variables.$text-inverse;
-	}
+    .message {
+        background-color: variables.$bg-primary-accent !important;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 0;
+        color: variables.$text-inverse;
+    }
 
-	.author-container {
-		flex-direction: row-reverse;
-		justify-content: end;
-	}
+    .author-container {
+        flex-direction: row-reverse;
+        justify-content: end;
+    }
 
-	.edited-indicator {
-		font-size: 12px;
-		color: variables.$bg-base-100;
-	}
+    .edited-indicator {
+        font-size: 12px;
+        color: variables.$bg-base-100;
+    }
 
-	.replies-container {
-		flex-direction: row-reverse;
-	}
+    .replies-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
 
-	.reactions-wrapper {
-		flex-direction: row-reverse;
-	}
+    .reactions-wrapper {
+        flex-direction: row-reverse;
+    }
 }
 
 .replies-container {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-	gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .reactions-wrapper {
-	display: flex;
-	align-items: center;
-	gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .answer-wrapper {
-	display: flex;
-	align-items: center;
-	gap: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .emoji-btn {
-	position: relative;
-	width: 24px;
-	height: 24px;
-	margin: 4px;
-	flex-shrink: 0;
-	background-image: url("/assets/img/chat/add_reaction.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: contain;
-	background-color: transparent;
-	border: none;
-	cursor: pointer;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    flex-shrink: 0;
+    background-image: url("/assets/img/chat/add_reaction.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
 
-	&:hover {
-		background-image: url("/assets/img/chat/add_reaction_hover.svg");
-		@include mixins.hover-scale;
-	}
+    &:hover {
+        background-image: url("/assets/img/chat/add_reaction_hover.svg");
+        @include mixins.hover-scale;
+    }
 }
 
 .modal {
-	position: absolute;
-	background-color: variables.$bg-base-200;
-	border: 1px solid variables.$border;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
+    position: absolute;
+    background-color: variables.$bg-base-200;
+    border: 1px solid variables.$border;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .own-message .modal {
-	right: auto;
-	top: -48px;
-	border-radius: 20px 20px 0 20px;
+    right: auto;
+    top: -48px;
+    border-radius: 20px 20px 0 20px;
 }
 
 .other-message .modal {
-	left: auto;
-	top: -48px;
-	border-radius: 20px 20px 20px 0;
+    left: auto;
+    top: -48px;
+    border-radius: 20px 20px 20px 0;
 }
 
 .emoji-list {
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-	gap: 8px;
-	padding: 16px;
-	justify-content: center;
-	align-items: center;
-	list-style: none;
-	z-index: 100;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    z-index: 100;
 
-	> li {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 4px;
-		gap: 16px;
-		width: calc(25% - 12px);
-		height: 40px;
-		width: 40px;
-		border-radius: 32px;
-		list-style-type: none;
-		font-size: 24px;
+    >li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        gap: 16px;
+        width: calc(25% - 12px);
+        height: 40px;
+        width: 40px;
+        border-radius: 32px;
+        list-style-type: none;
+        font-size: 24px;
 
-		&:hover {
-			background-color: variables.$bg-neutral-hover;
-			cursor: pointer;
-		}
+        &:hover {
+            background-color: variables.$bg-neutral-hover;
+            cursor: pointer;
+        }
 
-		> img {
-			width: 20px;
-			height: 20px;
-		}
-	}
+        >img {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }
 
 .replies {
-	font-size: 18px;
-	font-weight: 400;
-	color: variables.$text-hover;
-	cursor: pointer;
+    font-size: 18px;
+    font-weight: 400;
+    color: variables.$text-hover;
+    cursor: pointer;
 
-	&:hover {
-		font-weight: 700;
-	}
+    &:hover {
+        font-weight: 700;
+    }
 }
 
 .last-reply {
-	color: variables.$bg-neutral;
-	font-size: 14px;
+    color: variables.$bg-neutral;
+    font-size: 14px;
 }
 
 .reactions-container {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .reaction,
 .more-reactions-btn {
-	position: relative;
-	display: flex;
-	align-items: center;
-	gap: 4px;
-	background-color: variables.$bg-base-200;
-	border-radius: 12px;
-	border: 1px solid variables.$border;
-	padding: 2px 8px;
-	height: 32px;
-	cursor: pointer;
-	color: variables.$text-secondary;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: variables.$bg-base-200;
+    border-radius: 12px;
+    border: 1px solid variables.$border;
+    padding: 2px 8px;
+    height: 32px;
+    cursor: pointer;
+    color: variables.$text-secondary;
 
-	.count {
-		font-size: 16px;
-		color: #666;
-	}
+    .count {
+        font-size: 16px;
+        color: #666;
+    }
 }
 
 .reaction-tooltip {
-	position: absolute;
-	bottom: 40px;
-	left: 24px;
-	display: none;
-	background: variables.$bg-primary;
-	color: variables.$text-inverse;
-	padding: 16px;
-	border-radius: 20px 20px 20px 0;
-	font-size: 16px;
-	z-index: 10;
-	white-space: nowrap;
+    position: absolute;
+    bottom: 40px;
+    left: 24px;
+    display: none;
+    background: variables.$bg-primary;
+    color: variables.$text-inverse;
+    padding: 16px;
+    border-radius: 20px 20px 20px 0;
+    font-size: 16px;
+    z-index: 10;
+    white-space: nowrap;
     pointer-events: none;
 }
 
 .tooltip-emoji {
-	font-size: 24px;
+    font-size: 24px;
 }
 
 .reaction:hover .reaction-tooltip {
-	display: flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
 }
 
 .user-list-column {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
 }
 
 .message-edit-container {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
 }
 
 .message-edit-input {
-	width: 100%;
-	min-height: 60px;
-	padding: 10px;
-	border: 1px solid #adb0d9;
-	border-radius: 8px;
-	resize: vertical;
-	font-family: inherit;
-	font-size: inherit;
+    width: 100%;
+    min-height: 60px;
+    padding: 10px;
+    border: 1px solid #adb0d9;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 .edit-actions {
-	display: flex;
-	gap: 8px;
+    display: flex;
+    gap: 8px;
 
-	button {
-		padding: 6px 12px;
-		border: none;
-		border-radius: 4px;
-		cursor: pointer;
-		font-size: 14px;
-	}
+    button {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+    }
 
-	.edit-save-btn {
-		background-color: #007bff;
-		color: white;
+    .edit-save-btn {
+        background-color: #007bff;
+        color: white;
 
-		&:hover {
-			background-color: #0069d9;
-		}
-	}
+        &:hover {
+            background-color: #0069d9;
+        }
+    }
 
-	.edit-cancel-btn {
-		background-color: #6c757d;
-		color: white;
+    .edit-cancel-btn {
+        background-color: #6c757d;
+        color: white;
 
-		&:hover {
-			background-color: #5a6268;
-		}
-	}
+        &:hover {
+            background-color: #5a6268;
+        }
+    }
 }
 
 .edited-indicator {
-	font-size: 12px;
-	color: variables.$bg-neutral;
+    font-size: 12px;
+    color: variables.$bg-neutral;
 }
 
 .highlight-message {
-	animation: highlight 3s;
+    animation: highlight 3s;
 }
 
 @keyframes highlight {
-	0%,
-	100% {
-		background-color: transparent;
-		border: none;
-		box-shadow: none;
-	}
 
-	50% {
-		background-color: #9ea1ff;
-	}
+    0%,
+    100% {
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+    }
+
+    50% {
+        background-color: #9ea1ff;
+    }
 }
 
 @media screen and (max-width: 640px) {
-	.message-container {
-		padding: 8px 16px;
-		gap: 20px;
+    .message-container {
+        padding: 8px 16px;
+        gap: 16px;
 
-		> img {
-			height: 50px;
-			width: 50px;
-		}
-	}
+        >img {
+            height: 40px;
+            width: 40px;
+        }
+    }
 
-	.emoji-btn {
-		height: 20px;
-		width: 20px;
-	}
+    .emoji-btn {
+        height: 24px;
+        width: 24px;
+    }
+
+    .replies {
+        font-size: 14px;
+    }
+
+    .last-reply {
+        display: none;
+    }
 }

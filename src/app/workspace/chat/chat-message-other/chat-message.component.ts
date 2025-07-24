@@ -151,6 +151,12 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 		if (this.message.messageId) {
 			this.chatService.selectedThreadMessageId = this.message.messageId;
 		}
+		if (window.innerWidth <= 768) {
+			const chatElement = document.querySelector('app-chat');
+			if (chatElement) {
+				(chatElement as HTMLElement).style.display = 'none';
+			}
+		}
 	}
 
 	toggleHovered(bool: boolean) {

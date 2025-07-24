@@ -16,7 +16,7 @@
 
 .main-menu-section {
 	@include mixins.flex-column(flex-start, flex-start);
-	width: 366px;
+	width: 360px;
 	height: 100%;
 
 	&.close-menu {
@@ -436,7 +436,7 @@
 	}
 }
 
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 768px) {
 	.main-menu-section {
 		height: calc(100vh - 80px);
 		width: 100vw;

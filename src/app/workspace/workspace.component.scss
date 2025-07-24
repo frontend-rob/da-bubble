@@ -47,12 +47,10 @@ app-chat {
 	z-index: 6;
 }
 
-@media screen and (max-width: 640px) {
-	app-chat {
-		height: calc(100vh - 80px);
-	}
-
-	app-main-menu {
+@media screen and (max-width: 768px) {
+    app-main-menu,
+	app-chat,
+    app-thread {
 		height: calc(100vh - 80px);
 	}
 
