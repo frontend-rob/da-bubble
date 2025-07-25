@@ -97,10 +97,14 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		this.isMainMenuOpenSubscription.unsubscribe();
 	}
 
-	goBackToMenu() {
-		this.workspaceService.setStatus(!this.isMainMenuOpen);
-		this.chatService.handleChatResponsive(false);
-	}
+    goBackToMenu() {
+        const chatElement = document.querySelector('app-chat');
+        if (chatElement) {
+            (chatElement as HTMLElement).style.display = '';
+        }
+        this.workspaceService.setStatus(!this.isMainMenuOpen);
+        this.chatService.handleChatResponsive(false);
+    }
 
 	handleUserMenu(bool: boolean) {
 		this.userService.handleUserMenu(bool);

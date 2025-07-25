@@ -58,7 +58,7 @@
 				}
 				@if (chatService.selectedChannel.channelType.channel) {
 					<div class="chat-members">
-						@if (screenWidth >= 768) {
+						@if (screenWidth >= 1024) {
 							<div (click)="openMembersMenu()" class="members">
 								<div
 									*ngFor="let memberId of chatService.selectedChannel.channelMembers"
@@ -155,7 +155,7 @@
 						</div>
 
 						<div
-							*ngIf="isAddMemberModalOpen && screenWidth >= 768"
+							*ngIf="isAddMemberModalOpen && screenWidth >= 1024"
 							class="add-member-modal"
 						>
 							<header class="add-member-modal-header">
@@ -263,7 +263,7 @@
 							<div *ngIf="!isNameEdit" class="name-container">
 								<div>
 									<h2>Channel-Name</h2>
-									@if (screenWidth >= 768) {
+									@if (screenWidth >= 1024) {
 										<button (click)="toggleNameEdit()">Edit</button>
 									} @else {
 										<button (click)="toggleNameEdit()" class="edit-channel-btn">
@@ -285,7 +285,7 @@
 							<div *ngIf="isNameEdit" class="name-container-edit">
 								<div>
 									<h2>Channel-Name</h2>
-									@if (screenWidth >= 768) {
+									@if (screenWidth >= 1024) {
 										<button (click)="toggleNameEdit()" class="edit-btn">
 											Save
 										</button>
@@ -313,7 +313,7 @@
 							<div *ngIf="!isDescriptionEdit" class="description-container">
 								<div>
 									<h2>Description</h2>
-									@if (screenWidth >= 768) {
+									@if (screenWidth >= 1024) {
 										<button (click)="toggleDescriptionEdit()">Edit</button>
 									} @else {
 										<button
@@ -353,7 +353,7 @@
 								<div>
 									<h2>Description</h2>
 
-									@if (screenWidth >= 768) {
+									@if (screenWidth >= 1024) {
 										<button (click)="toggleDescriptionEdit()" class="edit-btn">
 											Save
 										</button>
@@ -394,7 +394,7 @@
 								</div>
 							</div>
 
-							@if (screenWidth < 768) {
+							@if (screenWidth < 1024) {
 								<div class="members-menu">
 									<div class="members-menu-header">
 										<h1>Members</h1>
@@ -589,7 +589,7 @@
 
 	<div (click)="closeModals()" *ngIf="isModalBGOpen" class="modal-bg"></div>
 
-	@if (screenWidth < 768 && this.isAddMemberModalOpen) {
+	@if (screenWidth < 1024 && this.isAddMemberModalOpen) {
 		<div class="mobile-add-member-modal">
 			<header class="add-member-modal-header">
 				<div class="close-btn-container">

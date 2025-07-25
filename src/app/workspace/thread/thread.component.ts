@@ -66,7 +66,7 @@ export class ThreadComponent implements OnInit, OnDestroy {
 
 	handleThread() {
 		this.chatService.handleThread(false);
-		if (window.innerWidth <= 768) {
+		if (window.innerWidth <= 1024) {
 			const chatElement = document.querySelector('app-chat');
 			if (chatElement) {
 				(chatElement as HTMLElement).style.display = '';

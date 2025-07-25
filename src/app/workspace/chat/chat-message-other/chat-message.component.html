@@ -32,7 +32,7 @@
 			<span class="message-time">{{ message.time }} Uhr</span>
 		</div>
 
-		<div *ngIf="!isEditing" class="message">
+		<div *ngIf="!isEditing" (click)="toggleHovered(true)" class="message">
 			<ng-container *ngIf="(chatService.selectedChannel.channelMembers | channelUsers) | async as memberUsers">
 				<span [innerHTML]="message.text | chatMessageTagLink:memberUsers"></span>
 			</ng-container>

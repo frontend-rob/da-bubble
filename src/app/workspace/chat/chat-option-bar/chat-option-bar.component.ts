@@ -26,12 +26,18 @@ export class ChatOptionBarComponent {
 	constructor(private chatService: ChatService) {
 	}
 
-	openThread() {
-		this.chatService.handleThread(true);
-		if (this.message.messageId) {
-			this.chatService.selectedThreadMessageId = this.message.messageId;
-		}
-	}
+    openThread() {
+        this.chatService.handleThread(true);
+        if (this.message.messageId) {
+            this.chatService.selectedThreadMessageId = this.message.messageId;
+        }
+        if (window.innerWidth <= 1024) {
+            const chatElement = document.querySelector('app-chat');
+            if (chatElement) {
+                (chatElement as HTMLElement).style.display = 'none';
+            }
+        }
+    }
 
 	toggleEmojiModal() {
 		this.isEmojiModalOpen = !this.isEmojiModalOpen;
