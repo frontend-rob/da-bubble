@@ -177,16 +177,7 @@ export class ChatService {
 		});
 	}
 
-	/**
-	 * Creates a new channel document in the Firestore database with the provided channel details.
-	 * Checks for duplicate channel names before creation.
-	 *
-	 * @param {Channel} channel - The channel object containing channel details such as type, channelName,
-	 *                            channelDescription, createdBy, channelMembers, createdAt, and updatedAt.
-	 * @return {Promise<void>} - A promise that resolves when the channel is successfully created and stored in Firestore.
-	 * @throws {Error} - If a channel with the same name already exists.
-	 */
-	async createChannel(channel: ChannelData): Promise<void> {
+	async createChannel(channel: ChannelData): Promise<string> {
 		// Only check for duplicates if it's a regular channel, not a direct message
 		if (channel.channelType.channel && !channel.channelType.directMessage) {
 			const isDuplicate = await this.isChannelNameDuplicate(channel.channelName);
@@ -198,9 +189,13 @@ export class ChatService {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
-			const newDocRef = doc(channelsRef);
+			const newDocRef = doc(channelsRef);  // Generiert eine neue Document ID
+			
+			// Aktualisiere die channelId im übergebenen Objekt
+			channel.channelId = newDocRef.id;
+			
 			await setDoc(newDocRef, {
-				channelId: channel.channelId,
+				channelId: newDocRef.id,  // Verwende die Firestore Document ID als channelId
 				channelName: channel.channelName,
 				channelDescription: channel.channelDescription,
 				channelType: channel.channelType,
@@ -209,6 +204,8 @@ export class ChatService {
 				createdAt: channel.createdAt || Timestamp.fromDate(new Date()),
 				updatedAt: Timestamp.fromDate(new Date()),
 			});
+		
+			return newDocRef.id; // Rückgabe der Document ID
 		});
 	}
 
@@ -486,22 +483,38 @@ export class ChatService {
 		user1: UserData,
 		user2: UserData
 	): Promise<ChannelData> {
-		const newChannel: ChannelData = {
-			channelId: this.helperService.getRandomNumber().toString(),
-			channelName: `${user2.userName}`,
-			channelType: {
-				channel: false,
-				directMessage: true,
-			},
-			channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
-			createdBy: user1.uid,
-			channelMembers: [user1.uid, user2.uid],
-			createdAt: Timestamp.now(),
-			updatedAt: Timestamp.now(),
-		};
+		return runInInjectionContext(this.environmentInjector, async () => {
+			const firestore = inject(Firestore);
+			const channelsRef = collection(firestore, "channels");
+			const newDocRef = doc(channelsRef);  // Generiert automatisch eine Document ID
+			
+			const newChannel: ChannelData = {
+				channelId: newDocRef.id,  // Verwende die Firestore Document ID
+				channelName: `${user2.userName}`,
+				channelType: {
+					channel: false,
+					directMessage: true,
+				},
+				channelDescription: `Direct message between ${user1.userName} and ${user2.userName}`,
+				createdBy: user1.uid,
+				channelMembers: [user1.uid, user2.uid],
+				createdAt: Timestamp.now(),
+				updatedAt: Timestamp.now(),
+			};
 
-		await this.createChannel(newChannel);
-		return newChannel;
+			await setDoc(newDocRef, {
+				channelId: newChannel.channelId,
+				channelName: newChannel.channelName,
+				channelDescription: newChannel.channelDescription,
+				channelType: newChannel.channelType,
+				createdBy: newChannel.createdBy,
+				channelMembers: newChannel.channelMembers,
+				createdAt: newChannel.createdAt,
+				updatedAt: newChannel.updatedAt,
+			});
+
+			return newChannel;
+		});
 	}
 
 	/**

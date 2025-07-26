@@ -148,7 +148,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 		);
 
 		if (otherUserId) {
-			console.info(otherUserId);
 			return this.userLookupService
 				.getUserById(otherUserId)
 				.pipe(map((user) => user || null));

@@ -21,41 +21,32 @@ export class DirectMessageListItemComponent implements OnInit {
 	chatPartnerPresence$!: Observable<UserPresence | null>;
 
 	constructor(
-		private chatService: ChatService,
+		public chatService: ChatService,  // Machen Sie es public für Template-Zugriff
 		private presenceService: PresenceService
 	) {
 	}
 
-	get isActive(): boolean {
-
-		if (this.dmChannel && this.dmChannel.channelId) {
-			return this.dmChannel.channelId === this.chatService.activeChat;
-		} else if (this.chatPartner && this.chatPartner.uid) {
-			return this.chatPartner.uid === this.chatService.activeChat;
-		} else if (this.chatPartner && this.chatPartner.uid === this.chatService.activeChat) {
-			return true;
-		}
-		return false;
-	}
-
 	ngOnInit(): void {
+		console.log(this.dmChannel);
 		if (this.chatPartner?.uid) {
 			this.chatPartnerPresence$ = this.presenceService.getUserPresence(this.chatPartner.uid);
 		}
 	}
 
 	onItemClick() {
-		if (this.dmChannel) {
-			this.chatService.setActiveChat(this.dmChannel.channelId);
-			this.channelSelected.emit({
-				channelId: this.dmChannel.channelId,
-				userData: null
-			});
-		} else if (this.chatPartner) {
-			this.channelSelected.emit({
-				channelId: this.chatPartner.uid,
-				userData: this.chatPartner
-			});
-		}
-	}
+    if (this.dmChannel) {
+        this.chatService.setActiveChat(this.dmChannel.channelId);
+        this.channelSelected.emit({
+            channelId: this.dmChannel.channelId,
+            userData: null
+        });
+    } else if (this.chatPartner) {
+        // WICHTIG: Auch hier setActiveChat aufrufen für das Highlighting
+        this.chatService.setActiveChat(this.chatPartner.uid);
+        this.channelSelected.emit({
+            channelId: this.chatPartner.uid,
+            userData: this.chatPartner
+        });
+    }
+}
 }

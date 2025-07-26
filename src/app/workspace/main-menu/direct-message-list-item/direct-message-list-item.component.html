@@ -1,4 +1,9 @@
-<div (click)="onItemClick()" [class.activate]="isActive" class="menu-item">
+<div (click)="onItemClick()" 
+     [ngClass]="{
+       'activate': (dmChannel?.channelId && dmChannel.channelId === chatService.activeChat) || 
+                   (chatPartner?.uid && !dmChannel && chatPartner?.uid === chatService.activeChat)
+     }"
+     class="menu-item">
 	<div class="avatar">
 		<img [ngSrc]="chatPartner?.photoURL || '/assets/img/avatars/av-00.svg'" alt="User profile picture" fill="true"/>
 		<ng-container *ngIf="chatPartnerPresence$ | async as presence">

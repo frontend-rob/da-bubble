@@ -133,12 +133,11 @@
 
 				<div [class.close-list]="showUserList" class="menu-list-container">
 					<div class="menu-list">
-						<!-- TODO: MARKER -->
-
 						<app-direct-message-list-item
-							(click)="setSelectedChannel(currentUser.uid, currentUser)"
+							(channelSelected)="onChannelSelected($event)"
 							*ngIf="currentUser"
 							[chatPartner]="currentUser"
+							[dmChannel]="selfChannel"
 						>
 						</app-direct-message-list-item>
 

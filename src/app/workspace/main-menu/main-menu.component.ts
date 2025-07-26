@@ -206,11 +206,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 						this.selfChannel.channelId
 					);
 
+
 					this.chatService.selectedChannel = this.selfChannel;
-					this.chatService.setActiveChat(this.selfChannel.channelId);
-					this.functionTriggerService.callSelectChannel(
-						this.selfChannel
-					);
+					this.chatService.setActiveChat(this.selfChannel.channelId); // Verwende channelId, nicht uid
+					this.functionTriggerService.callSelectChannel(this.selfChannel);
 
 					if (this.screenWidth <= 1024) {
 						this.toggleMainMenu();
@@ -222,17 +221,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 				} else {
 					console.info("Erstelle neuen Self-Channel");
 
-					const selfChannel =
-						await this.chatService.createDirectMessageChannel(
-							this.currentUser,
-							this.currentUser
-						);
+					const selfChannel = await this.chatService.createDirectMessageChannel(
+						this.currentUser,
+						this.currentUser
+					);
 
 					this.selfChannel = selfChannel;
 
 					this.chatService.selectedChannel = selfChannel;
-					this.chatService.setActiveChat(selfChannel.channelId);
+					this.chatService.setActiveChat(selfChannel.channelId); // Verwende channelId, nicht uid
 					this.functionTriggerService.callSelectChannel(selfChannel);
+
+
 
 					if (this.screenWidth < 768) {
 						this.toggleMainMenu();
