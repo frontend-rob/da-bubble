@@ -29,6 +29,13 @@
     position: relative;
 }
 
+.chat-header {
+    .menu-item {
+        padding: 8px;
+        padding-right: 16px
+    }
+}
+
 .chat-title {
     @include mixins.badge;
     cursor: pointer;
@@ -706,6 +713,10 @@
     .chat-history {
         gap: 16px
     }
+
+    .dm-empty-state {
+        padding: 20px;
+    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -864,5 +875,20 @@
 
     .time {
         font-size: 12px;
+    }
+
+    .direct-message-contact {
+        img {
+            height: 64px;
+            width: 64px;
+        }
+    }
+
+    .dm-empty-state {
+        padding: 16px;
+    }
+
+    .direct-message-info {
+        font-size: 16px;
     }
 }

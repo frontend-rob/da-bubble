@@ -25,6 +25,7 @@
     >.arrow-left-img {
         width: 32px;
         height: 32px;
+        cursor: pointer;
     }
 
     >span {
@@ -170,9 +171,6 @@
     .search-bar-container {
         display: none;
     }
-}
-
-@media screen and (max-width: 1024px) {
 
     .user-name,
     .arrow-down {
@@ -187,7 +185,7 @@
         gap: 8px;
 
         .arrow-left-img {
-            width: 8px;
+            width: 16px;
             height: 16px;
         }
 
@@ -197,7 +195,7 @@
         }
 
         >span {
-            font-size: 20px;
+            font-size: 24px;
         }
     }
 
