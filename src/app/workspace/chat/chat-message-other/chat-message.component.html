@@ -44,12 +44,13 @@
 				[(ngModel)]="editedText"
 				autoFocus
 				class="message-edit-input"
+                name="messageEditInput"
 			></textarea>
 			<div class="edit-actions">
-				<button (click)="saveEditedMessage()" class="edit-save-btn">
+				<button (click)="saveEditedMessage()" class="btn btn-primary">
 					Save
 				</button>
-				<button (click)="cancelEditing()" class="edit-cancel-btn">
+				<button (click)="cancelEditing()" class="btn">
 					Cancel
 				</button>
 			</div>

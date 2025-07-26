@@ -47,6 +47,17 @@ app-chat {
 	z-index: 6;
 }
 
+@media screen and (max-width: 1440px) {
+    .workspace-container {
+        .workspace-content {
+            padding: 0 16px;
+            padding-bottom: 16px;
+            gap: 16px;
+        }
+    }
+    
+}
+
 @media screen and (max-width: 1024px) {
     app-main-menu,
 	app-chat,

@@ -145,6 +145,18 @@ main {
     gap: 24px;
 }
 
+@media screen and (max-width: 1440px) {
+    .thread-container {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .thread-head-text {
+        font-size: 20px;
+    }
+}
+
 @media screen and (max-width: 1024px) {
     .thread-container {
         width: 100vw;

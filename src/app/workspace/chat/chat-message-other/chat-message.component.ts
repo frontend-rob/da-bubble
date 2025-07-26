@@ -243,6 +243,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 	startEditingMessage(message: IdtMessages) {
 		this.isEditing = true;
 		this.editedText = message.text;
+        setTimeout(() => {
+            const textarea = document.querySelector('.message-edit-input') as HTMLTextAreaElement;
+            if (textarea) {
+                textarea.focus();
+                textarea.style.height = 'auto';
+                textarea.style.height = textarea.scrollHeight + 'px';
+            }
+        }, 0);
 	}
 
 	saveEditedMessage() {

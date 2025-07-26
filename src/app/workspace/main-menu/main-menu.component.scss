@@ -393,6 +393,12 @@
     }
 }
 
+@media screen and (max-width: 1440px) {
+    .main-menu-section {
+        width: 320px;
+    }
+}
+
 @media screen and (max-width: 1024px) {
     .main-menu-container {
         >header {
@@ -466,5 +472,3 @@
         }
     }
 }
-
-@media screen and (max-width: 768px) {}

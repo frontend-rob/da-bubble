@@ -115,3 +115,10 @@
 		}
 	}
 }
+
+@media screen and (max-width: 640px) {
+    .emoji-list {
+        gap: 4px;
+        padding: 8px;
+    }
+}
