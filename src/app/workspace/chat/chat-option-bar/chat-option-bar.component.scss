@@ -2,155 +2,166 @@
 @use "../../../../styles/mixins" as mixins;
 
 :host {
-	opacity: 0;
-	visibility: hidden;
-	transition: opacity 0.2s ease, visibility 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
 :host.show-on-hover {
-	opacity: 1;
-	visibility: visible;
+    opacity: 1;
+    visibility: visible;
 }
 
 :host.option-bar-own .options-container {
-	top: -32px;
-	left: 24px;
-	border-bottom-right-radius: 30px;
-	border-bottom-left-radius: 0;
+    top: -32px;
+    left: 24px;
+    border-radius: 30px 30px 30px 0;
 }
 
 :host.option-bar-other .options-container {
-	top: -32px;
-	right: 24px;
-	border-bottom-right-radius: 0;
-	border-bottom-left-radius: 30px;
+    top: -32px;
+    right: 24px;
+    border-radius: 30px 30px 0 30px;
 }
 
 .options-container {
-	position: absolute;
-	@include mixins.flex-center;
-	padding: 8px 16px;
-	gap: 16px;
-	border: 1px solid variables.$border;
-	border-radius: 30px 30px 0 30px;
-	background-color: variables.$bg-base-200;
+    position: absolute;
+    @include mixins.flex-center;
+    padding: 8px 16px;
+    gap: 16px;
+    border: 1px solid variables.$border;
+    background-color: variables.$bg-base-200;
 
-	span {
-		font-size: 24px;
-		cursor: pointer;
-		@include mixins.hover-scale;
-	}
+    span {
+        font-size: 24px;
+        cursor: pointer;
+        @include mixins.hover-scale;
+    }
 
-	img {
-		cursor: pointer;
-		@include mixins.hover-scale;
-	}
+    img {
+        cursor: pointer;
+        @include mixins.hover-scale;
+    }
 }
 
-
 .modal {
-	position: absolute;
-	background-color: variables.$bg-base-200;
-	border: 1px solid variables.$border;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	z-index: 1000;
+    position: absolute;
+    background-color: variables.$bg-base-200;
+    border: 1px solid variables.$border;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 :host.option-bar-own .modal {
-	top: 32px;
-	left: 24px;
-	border-radius: 0 20px 20px 20px;
+    top: 16px;
+    left: 24px;
+    border-radius: 0 20px 20px 20px;
 }
 
 :host.option-bar-other .modal {
-	top: 32px;
-	right: 24px;
-	border-radius: 20px 0 20px 20px;
+    top: 16px;
+    right: 24px;
+    border-radius: 20px 0 20px 20px;
 }
 
 .emoji-list {
-	display: grid;
-	grid-template-columns: repeat(6, 1fr);
-	gap: 8px;
-	padding: 16px;
-	justify-content: center;
-	align-items: center;
-	list-style: none;
-	z-index: 100;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    padding: 16px;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    z-index: 100;
 
-	> li {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 4px;
-		gap: 16px;
-		width: calc(25% - 12px);
-		height: 40px;
-		width: 40px;
-		border-radius: 32px;
-		list-style-type: none;
-		font-size: 24px;
+    >li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        gap: 16px;
+        width: calc(25% - 12px);
+        height: 40px;
+        width: 40px;
+        border-radius: 32px;
+        list-style-type: none;
+        font-size: 24px;
 
-		&:hover {
-			background-color: variables.$bg-neutral-hover;
-			cursor: pointer;
-		}
+        &:hover {
+            background-color: variables.$bg-neutral-hover;
+            cursor: pointer;
+        }
 
-		> img {
-			width: 20px;
-			height: 20px;
-		}
-	}
+        >img {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }
 
 :host.option-bar-own .options-menu {
-	position: absolute;
-	top: 16px;
-	left: 24px !important;
-	background-color: #ffffff;
-	border: 1px solid #adb0d9;
-	border-radius: 0 30px 30px 30px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	z-index: 100;
+    position: absolute;
+    top: 16px;
+    left: 24px !important;
+    background-color: #ffffff;
+    border: 1px solid #adb0d9;
+    border-radius: 0 30px 30px 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
 
-	ul {
-		list-style: none;
-		padding: 0;
-		margin: 0;
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
 
-		li {
-			@include mixins.flex-row;
-			padding: 8px 16px;
-			cursor: pointer;
+        li {
+            @include mixins.flex-row;
+            padding: 8px 16px;
+            cursor: pointer;
 
-			&:hover {
-				background-color: variables.$bg-base-100;
-				border-radius: 30px;
-				color: variables.$bg-primary-accent;
-			}
+            &:hover {
+                background-color: variables.$bg-base-100;
+                border-radius: 30px;
+                color: variables.$bg-primary-accent;
+            }
 
-			img {
-				width: 18px;
-				height: 18px;
-				margin-right: 8px;
-			}
+            img {
+                width: 18px;
+                height: 18px;
+                margin-right: 8px;
+            }
 
-			span {
-				font-size: 18px;
-				text-align: center;
-				width: 100%;
+            span {
+                font-size: 18px;
+                text-align: center;
+                width: 100%;
 
-				&:hover {
-					font-weight: 600;
-				}
-			}
-		}
-	}
+                &:hover {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
 }
 
 :host-context(.own-message) .options-menu {
-	width: 200px;
-	padding: 1rem;
-	right: auto;
-	left: auto;
+    width: 200px;
+    padding: 1rem;
+    right: auto;
+    left: auto;
+}
+
+@media screen and (max-width: 640px) {
+    :host.option-bar-own .options-container {
+        border-radius: 20px 20px 20px 0;
+    }
+
+    :host.option-bar-other .options-container {
+        border-radius: 20px 20px 0 20px;
+    }
+
+    .emoji-list {
+        gap: 4px;
+        padding: 8px;
+    }
 }

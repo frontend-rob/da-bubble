@@ -68,7 +68,7 @@
 		[ngStyle]="{ 'z-index': isUserAvatarEdit ? 1 : 10 }"
 		class="user-menu"
 	>
-		@if (screenWidth < 768) {
+		@if (screenWidth <= 1024) {
 			<button (click)="handleUserMenu(false)" class="mobile-close-btn"></button>
 		}
 
