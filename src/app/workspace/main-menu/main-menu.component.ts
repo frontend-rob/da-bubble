@@ -234,7 +234,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 
 
-					if (this.screenWidth < 768) {
+					if (this.screenWidth <= 1024) {
 						this.toggleMainMenu();
 						this.chatService.handleChatResponsive(true);
 					}
