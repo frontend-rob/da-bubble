@@ -11,7 +11,7 @@ import { UserService } from "../../services/user.service";
 import { ChatService } from "../../services/chat.service";
 import { WorkspaceService } from "../../services/workspace.service";
 import { ResponsiveService } from "../../services/responsive.service";
-import { PresenceService, UserPresence } from "../../services/PresenceManagementService";
+import { PresenceService, UserPresence } from "../../services/presence.service";
 
 @Component({
     selector: "app-workspace-header",

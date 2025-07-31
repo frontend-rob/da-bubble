@@ -3,7 +3,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {UserData} from "../../../interfaces/user.interface";
 import {ChatService} from "../../../services/chat.service";
 import {Observable} from 'rxjs';
-import {PresenceService, UserPresence} from '../../../services/PresenceManagementService';
+import {PresenceService, UserPresence} from '../../../services/presence.service';
 
 @Component({
 	selector: "app-direct-message-list-item",
@@ -34,19 +34,27 @@ export class DirectMessageListItemComponent implements OnInit {
 	}
 
 	onItemClick() {
-    if (this.dmChannel) {
-        this.chatService.setActiveChat(this.dmChannel.channelId);
-        this.channelSelected.emit({
-            channelId: this.dmChannel.channelId,
-            userData: null
-        });
-    } else if (this.chatPartner) {
-        // WICHTIG: Auch hier setActiveChat aufrufen für das Highlighting
-        this.chatService.setActiveChat(this.chatPartner.uid);
-        this.channelSelected.emit({
-            channelId: this.chatPartner.uid,
-            userData: this.chatPartner
-        });
-    }
-}
+		if (this.dmChannel) {
+			this.handleDMChannelClick();
+		} else if (this.chatPartner) {
+			this.handleChatPartnerClick();
+		}
+	}
+	
+	private handleDMChannelClick(): void {
+		this.chatService.setActiveChat(this.dmChannel.channelId);
+		this.channelSelected.emit({
+			channelId: this.dmChannel.channelId,
+			userData: null
+		});
+	}
+	
+	private handleChatPartnerClick(): void {
+		// WICHTIG: Auch hier setActiveChat aufrufen für das Highlighting
+		this.chatService.setActiveChat(this.chatPartner!.uid);
+		this.channelSelected.emit({
+			channelId: this.chatPartner!.uid,
+			userData: this.chatPartner || null
+		});
+	}
 }

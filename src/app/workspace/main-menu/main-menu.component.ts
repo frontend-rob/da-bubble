@@ -1,3 +1,16 @@
+/**
+ * TODO: This file exceeds the 400 LOC limit and should be split into multiple files.
+ * Consider extracting functionality into separate service classes or component classes:
+ * 1. Create a ChannelSelectionService to handle channel selection functionality
+ * 2. Create a DirectMessageService to handle direct message functionality
+ * 3. Create a ChannelManagementUIService to handle channel management UI functionality
+ * 
+ * Alternatively, split the component into multiple smaller components:
+ * 1. Create a ChannelListComponent for the channel list
+ * 2. Create a DirectMessageListComponent for the direct message list
+ * 3. Create a ChannelCreationComponent for channel creation
+ * 4. Create a UserSelectionComponent for user selection
+ */
 import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {ChangeDetectorRef, Component, inject, OnDestroy, OnInit,} from "@angular/core";
 import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
@@ -14,6 +27,7 @@ import {UserLookupService} from "../../services/user-lookup.service";
 import {ResponsiveService} from "../../services/responsive.service";
 import {WorkspaceService} from "../../services/workspace.service";
 import {SearchCardComponent} from "../workspace-header/search-card/search-card.component";
+import {ChannelManagementService} from "../../services/channel-management.service";
 
 @Component({
 	selector: "app-main-menu",
@@ -41,7 +55,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	directMessageChannels: ChannelData[] = [];
 	allUsers: UserData[] = [];
 	availableUsersForDM: UserData[] = [];
-	selfChannel: ChannelData | null = null;
+	selfChannel!: ChannelData;
 	channelFormData = {
 		name: "",
 		description: "",
@@ -58,6 +72,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	);
 	private chatService: ChatService = inject(ChatService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
+	private channelManagementService: ChannelManagementService = inject(ChannelManagementService);
 
 	private destroy$ = new Subject<void>();
 
@@ -141,34 +156,73 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		idOrEvent: string | { channelId: string; userData: UserData | null },
 		userData?: UserData | null
 	) {
-		let id: string;
-		let user: UserData | null;
-
-		if (typeof idOrEvent === "object" && idOrEvent !== null) {
-			id = idOrEvent.channelId;
-			user = idOrEvent.userData;
-		} else {
-			id = idOrEvent;
-			user = userData || null;
-		}
-
+		const {id, user} = this.parseChannelSelection(idOrEvent, userData);
+		this.logChannelSelection(id, user);
+		this.prepareAndHandleChannelSelection(id, user);
+	}
+	
+	private logChannelSelection(id: string, user: UserData | null): void {
 		console.info("setSelectedChannel called with:", {id, user});
 		console.info("dmchannels", this.directMessageChannels);
-
-		// Close thread window when switching channels
-		this.chatService.handleThread(false);
-
+	}
+	
+	private prepareAndHandleChannelSelection(id: string, user: UserData | null): void {
+		this.closeThreadWindow();
 		this.setActiveChat(id);
+		this.handleChannelSelection(id, user);
+	}
+	
+	private closeThreadWindow(): void {
+		this.chatService.handleThread(false);
+	}
 
+	private parseChannelSelection(
+		idOrEvent: string | { channelId: string; userData: UserData | null },
+		userData?: UserData | null
+	): { id: string; user: UserData | null } {
+		if (this.isChannelSelectionObject(idOrEvent)) {
+			return this.extractFromChannelSelectionObject(idOrEvent);
+		} else {
+			return this.createFromStringAndUserData(idOrEvent as string, userData);
+		}
+	}
+	
+	private isChannelSelectionObject(
+		value: string | { channelId: string; userData: UserData | null }
+	): boolean {
+		return typeof value === "object" && value !== null;
+	}
+	
+	private extractFromChannelSelectionObject(
+		obj: { channelId: string; userData: UserData | null }
+	): { id: string; user: UserData | null } {
+		return { id: obj.channelId, user: obj.userData };
+	}
+	
+	private createFromStringAndUserData(
+		id: string, 
+		userData?: UserData | null
+	): { id: string; user: UserData | null } {
+		return { id, user: userData || null };
+	}
+
+	private handleChannelSelection(id: string, user: UserData | null): void {
 		const selectedChannel = this.findChannelById(id);
-		if (selectedChannel) {
-			this.functionTriggerService.callSelectChannel(selectedChannel);
 
-			if (this.screenWidth <= 1024) {
-				this.toggleMainMenu();
-				this.chatService.handleChatResponsive(true);
-			}
-		} else if (user) {
+		if (selectedChannel) {
+			this.handleExistingChannel(selectedChannel);
+		} else {
+			this.handleNonExistingChannel(id, user);
+		}
+	}
+	
+	private handleExistingChannel(channel: ChannelData): void {
+		this.functionTriggerService.callSelectChannel(channel);
+		this.handleResponsiveUI();
+	}
+	
+	private handleNonExistingChannel(id: string, user: UserData | null): void {
+		if (user) {
 			this.onUserClickForDirectMessage(user);
 		} else {
 			this.onUserClickForDirectMessage(id);
@@ -188,111 +242,142 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
 		try {
 			const clickedUser = data as UserData;
-
-			if (clickedUser.role?.guest) {
-				console.warn("Cannot create DM with guest user");
+			
+			if (!this.canCreateDirectMessage(clickedUser)) {
 				return;
 			}
-
-			// Close thread window when switching to a direct message channel
-			this.chatService.handleThread(false);
-
-			if (clickedUser.uid === this.currentUser.uid) {
-				console.info("Self-Channel ausgewählt");
-
-				if (this.selfChannel) {
-					console.info(
-						"Verwende existierenden Self-Channel:",
-						this.selfChannel.channelId
-					);
-
-
-					this.chatService.selectedChannel = this.selfChannel;
-					this.chatService.setActiveChat(this.selfChannel.channelId); // Verwende channelId, nicht uid
-					this.functionTriggerService.callSelectChannel(this.selfChannel);
-
-					if (this.screenWidth <= 1024) {
-						this.toggleMainMenu();
-						this.chatService.handleChatResponsive(true);
-					}
-
-					this.cdr.detectChanges();
-					return;
-				} else {
-					console.info("Erstelle neuen Self-Channel");
-
-					const selfChannel = await this.chatService.createDirectMessageChannel(
-						this.currentUser,
-						this.currentUser
-					);
-
-					this.selfChannel = selfChannel;
-
-					this.chatService.selectedChannel = selfChannel;
-					this.chatService.setActiveChat(selfChannel.channelId); // Verwende channelId, nicht uid
-					this.functionTriggerService.callSelectChannel(selfChannel);
-
-
-
-					if (this.screenWidth <= 1024) {
-						this.toggleMainMenu();
-						this.chatService.handleChatResponsive(true);
-					}
-
-					this.cdr.detectChanges();
-					return;
-				}
-			}
-
-			let dmChannel: ChannelData | undefined =
-				this.directMessageChannels.find((channel) =>
-					channel.channelMembers.some(
-						(member) => member === clickedUser.uid
-					)
-				);
-
-			if (!dmChannel) {
-				const foundChannel =
-					await this.chatService.findDirectMessageChannel(
-						this.currentUser,
-						clickedUser
-					);
-				dmChannel = foundChannel || undefined;
-			}
-
-			if (!dmChannel) {
-				console.info(
-					"Erstelle neuen DM-Channel für:",
-					clickedUser.userName
-				);
-				dmChannel = await this.chatService.createDirectMessageChannel(
-					this.currentUser,
-					clickedUser
-				);
-
-				this.directMessageChannels.push(dmChannel);
-			} else {
-				console.info(
-					"Verwende existierenden DM-Channel für:",
-					clickedUser.userName
-				);
-			}
-
-			this.chatService.selectedChannel = dmChannel;
-			this.chatService.setActiveChat(dmChannel.channelId);
-			this.functionTriggerService.callSelectChannel(dmChannel);
-
-			if (this.screenWidth < 768) {
-				this.toggleMainMenu();
-				this.chatService.handleChatResponsive(true);
-			}
-
-			this.cdr.detectChanges();
+			
+			this.closeThreadWindow();
+			await this.processDirectMessageRequest(clickedUser);
 		} catch (error) {
-			console.error(
-				"Error creating/finding direct message channel:",
-				error
-			);
+			this.handleDirectMessageError(error);
+		}
+	}
+	
+	private canCreateDirectMessage(user: UserData): boolean {
+		if (user.role?.guest) {
+			console.warn("Cannot create DM with guest user");
+			return false;
+		}
+		return true;
+	}
+	
+	private async processDirectMessageRequest(clickedUser: UserData): Promise<void> {
+		if (clickedUser.uid === this.currentUser.uid) {
+			await this.handleSelfChannel();
+			return;
+		}
+		
+		const dmChannel = await this.findOrCreateDMChannel(clickedUser);
+		this.activateChannel(dmChannel);
+	}
+	
+	private handleDirectMessageError(error: unknown): void {
+		console.error("Error creating/finding direct message channel:", error);
+	}
+
+	private async handleSelfChannel(): Promise<void> {
+		console.info("Self-Channel ausgewählt");
+
+		if (this.selfChannel) {
+			this.useSelfChannel();
+		} else {
+			await this.createSelfChannel();
+		}
+	}
+
+	private useSelfChannel(): void {
+		console.info(
+			"Verwende existierenden Self-Channel:",
+			this.selfChannel.channelId
+		);
+
+		this.activateChannel(this.selfChannel);
+	}
+
+	private async createSelfChannel(): Promise<void> {
+		console.info("Erstelle neuen Self-Channel");
+
+		const selfChannel = await this.chatService.createDirectMessageChannel(
+			this.currentUser,
+			this.currentUser
+		);
+
+		this.selfChannel = selfChannel;
+		this.activateChannel(selfChannel);
+	}
+
+	private async findOrCreateDMChannel(clickedUser: UserData): Promise<ChannelData> {
+		let dmChannel = this.findExistingDMChannel(clickedUser);
+
+		if (!dmChannel) {
+			dmChannel = await this.createNewDMChannel(clickedUser);
+		}
+
+		return dmChannel;
+	}
+
+	private findExistingDMChannel(clickedUser: UserData): ChannelData | undefined {
+		let dmChannel = this.findChannelInLocalList(clickedUser);
+
+		if (!dmChannel) {
+			dmChannel = this.searchForChannelInService(clickedUser);
+		}
+
+		return dmChannel;
+	}
+	
+	private findChannelInLocalList(clickedUser: UserData): ChannelData | undefined {
+		return this.directMessageChannels.find((channel) =>
+			this.channelContainsMember(channel, clickedUser.uid)
+		);
+	}
+	
+	private channelContainsMember(channel: ChannelData, userId: string): boolean {
+		return channel.channelMembers.some(member => member === userId);
+	}
+	
+	private searchForChannelInService(clickedUser: UserData): ChannelData | undefined {
+		let result: ChannelData | undefined;
+		
+		this.chatService.findDirectMessageChannel(
+			this.currentUser,
+			clickedUser
+		).then(foundChannel => {
+			result = foundChannel || undefined;
+		});
+		
+		return result;
+	}
+
+	private async createNewDMChannel(clickedUser: UserData): Promise<ChannelData> {
+		console.info(
+			"Erstelle neuen DM-Channel für:",
+			clickedUser.userName
+		);
+
+		const dmChannel = await this.chatService.createDirectMessageChannel(
+			this.currentUser,
+			clickedUser
+		);
+
+		this.directMessageChannels.push(dmChannel);
+		return dmChannel;
+	}
+
+	private activateChannel(channel: ChannelData): void {
+		this.chatService.selectedChannel = channel;
+		this.chatService.setActiveChat(channel.channelId);
+		this.functionTriggerService.callSelectChannel(channel);
+
+		this.handleResponsiveUI();
+		this.cdr.detectChanges();
+	}
+
+	private handleResponsiveUI(): void {
+		if (this.screenWidth <= 1024) {
+			this.toggleMainMenu();
+			this.chatService.handleChatResponsive(true);
 		}
 	}
 
@@ -310,10 +395,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			return;
 		}
 
-		// Reset any previous errors
 		this.channelFormError = "";
-
-		const newChannel: ChannelData = {
+		const newChannel = this.createChannelObject(channelName, channelDescription);
+		await this.saveNewChannel(newChannel);
+	}
+	
+	private createChannelObject(channelName: string, channelDescription: string): ChannelData {
+		return {
 			channelId: "",
 			channelName: channelName,
 			channelDescription: channelDescription,
@@ -326,25 +414,37 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			createdAt: Timestamp.now(),
 			updatedAt: Timestamp.now(),
 		};
-
+	}
+	
+	private async saveNewChannel(newChannel: ChannelData): Promise<void> {
 		try {
-			const createdChannelId = await this.chatService.createChannel(
-				newChannel
-			);
-			console.info("Channel created with ID:", createdChannelId);
-			this.toggleModal();
-			this.resetForm();
+			const createdChannelId = await this.chatService.createChannel(newChannel);
+			this.handleSuccessfulChannelCreation(createdChannelId);
 		} catch (error) {
-			console.info("Error creating channel:", error);
-			if (error instanceof Error) {
-				if (error.message.includes("already exists")) {
-					this.channelFormError = error.message;
-				} else {
-					this.channelFormError = "Failed to create channel. Please try again.";
-				}
-			} else {
-				this.channelFormError = "An unexpected error occurred.";
-			}
+			this.handleChannelCreationError(error);
+		}
+	}
+	
+	private handleSuccessfulChannelCreation(channelId: string): void {
+		console.info("Channel created with ID:", channelId);
+		this.toggleModal();
+		this.resetForm();
+	}
+	
+	private handleChannelCreationError(error: unknown): void {
+		console.info("Error creating channel:", error);
+		if (error instanceof Error) {
+			this.setErrorMessageFromError(error);
+		} else {
+			this.channelFormError = "An unexpected error occurred.";
+		}
+	}
+	
+	private setErrorMessageFromError(error: Error): void {
+		if (error.message.includes("already exists")) {
+			this.channelFormError = error.message;
+		} else {
+			this.channelFormError = "Failed to create channel. Please try again.";
 		}
 	}
 
@@ -377,88 +477,118 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	}
 
 	private subscribeToData() {
+		this.setupDataSubscription();
+	}
+	
+	private setupDataSubscription(): void {
 		combineLatest([
 			this.chatService.getChannels(),
 			this.userService.allUsers$,
 		])
 			.pipe(takeUntil(this.destroy$))
-			.subscribe(async ([channels, users]) => {
-				const dmChannels = channels.filter(
-					(ch) => ch.channelType?.directMessage
-				);
+			.subscribe(this.handleDataUpdate.bind(this));
+	}
+	
+	private async handleDataUpdate([channels, users]: [ChannelData[], UserData[] | null]): Promise<void> {
+		this.processDMChannels(channels);
+		const updatedChannels = this.updateChannelMembersStatus(channels, users);
+		
+		this.updateChannelsAndUsers(updatedChannels, users);
+		await this.finalizeDataUpdate();
+	}
+	
+	private updateChannelsAndUsers(channels: ChannelData[], users: UserData[] | null): void {
+		this.handleChannelsUpdate(channels);
+		this.handleUsersUpdate(users);
+	}
+	
+	private async finalizeDataUpdate(): Promise<void> {
+		await this.updateAvailableUsers();
+		this.handleInitialChannelSelection();
+	}
 
-				const dmPairs = new Map<string, ChannelData[]>();
-				dmChannels.forEach((ch) => {
-					if (ch.channelMembers && ch.channelMembers.length === 2) {
-						const member1 = ch.channelMembers[0];
-						const member2 = ch.channelMembers[1];
+	private processDMChannels(channels: ChannelData[]): void {
+		const dmChannels = channels.filter(
+			(ch) => ch.channelType?.directMessage
+		);
 
-						if (member1 && member2) {
-							const pairKey = [member1, member2].sort().join("|");
-							if (!dmPairs.has(pairKey)) {
-								dmPairs.set(pairKey, []);
-							}
-							dmPairs.get(pairKey)!.push(ch);
-						}
-					}
-				});
+		this.createDMPairsMap(dmChannels);
+	}
 
-				const updatedChannels = this.updateChannelMembersStatus(
-					channels,
-					users
-				);
+	private createDMPairsMap(dmChannels: ChannelData[]): void {
+		const dmPairs = new Map<string, ChannelData[]>();
 
-				this.handleChannelsUpdate(updatedChannels);
-				this.handleUsersUpdate(users);
+		dmChannels.forEach((ch) => {
+			this.addChannelToPairsMap(ch, dmPairs);
+		});
+	}
 
-				await this.updateAvailableUsers();
+	private addChannelToPairsMap(
+		channel: ChannelData,
+		dmPairs: Map<string, ChannelData[]>
+	): void {
+		if (!this.isValidDMChannel(channel)) {
+			return;
+		}
+		
+		const pairKey = this.createPairKey(channel);
+		this.addChannelToPairsList(channel, dmPairs, pairKey);
+	}
+	
+	private isValidDMChannel(channel: ChannelData): boolean {
+		return !!channel.channelMembers && 
+			channel.channelMembers.length === 2 && 
+			!!channel.channelMembers[0] && 
+			!!channel.channelMembers[1];
+	}
+	
+	private createPairKey(channel: ChannelData): string {
+		const member1 = channel.channelMembers[0];
+		const member2 = channel.channelMembers[1];
+		return [member1, member2].sort().join("|");
+	}
+	
+	private addChannelToPairsList(
+		channel: ChannelData, 
+		dmPairs: Map<string, ChannelData[]>, 
+		pairKey: string
+	): void {
+		if (!dmPairs.has(pairKey)) {
+			dmPairs.set(pairKey, []);
+		}
+		dmPairs.get(pairKey)!.push(channel);
+	}
 
-				if (this.isInitialLoad && this.channels.length > 0) {
-					if (this.screenWidth < 768) {
-						this.setActiveChat("");
-						this.setSelectedChannel("", null);
-					} else {
-						this.setActiveChat(this.channels[0].channelId);
-						this.setSelectedChannel(
-							this.channels[0].channelId,
-							null
-						);
-					}
-					this.isInitialLoad = false;
-				}
-			});
+	private handleInitialChannelSelection(): void {
+		if (this.isInitialLoad && this.channels.length > 0) {
+			this.selectInitialChannel();
+			this.isInitialLoad = false;
+		}
+	}
+
+	private selectInitialChannel(): void {
+		if (this.screenWidth < 768) {
+			this.setActiveChat("");
+			this.setSelectedChannel("", null);
+		} else {
+			this.setActiveChat(this.channels[0].channelId);
+			this.setSelectedChannel(
+				this.channels[0].channelId,
+				null
+			);
+		}
 	}
 
 	private handleChannelsUpdate(channelsData: ChannelData[]) {
-		this.channels = [];
-		this.directMessageChannels = [];
-
 		if (!this.currentUser) return;
 
-		for (const channel of channelsData) {
-			const isMember = channel.channelMembers?.includes(
-				this.currentUser?.uid
-			);
+		const {regularChannels, directMessageChannels, selfChannel} =
+			this.channelManagementService.categorizeChannels(channelsData, this.currentUser);
 
-			if (isMember) {
-				if (channel.channelType?.directMessage) {
-					const isSelfChannel =
-						channel.channelMembers.length === 1 ||
-						(channel.channelMembers.length === 2 &&
-							channel.channelMembers.every(
-								(uid) => uid === this.currentUser.uid
-							));
-
-					if (isSelfChannel) {
-						this.selfChannel = channel;
-					} else {
-						this.directMessageChannels.push(channel);
-					}
-				} else {
-					this.channels.push(channel);
-				}
-			}
-		}
+		this.channels = regularChannels;
+		this.directMessageChannels = directMessageChannels;
+		if (selfChannel)
+			this.selfChannel = selfChannel;
 	}
 
 	private handleUsersUpdate(users: UserData[] | null) {
@@ -480,84 +610,26 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	}
 
 	private filterValidChannels(channels: ChannelData[]): ChannelData[] {
-		return channels.filter((channel) => {
-			if (
-				!channel.channelMembers ||
-				channel.channelMembers.length !== 2
-			) {
-				console.warn(
-					"Defekter Channel gefiltert (falsche Anzahl Members):",
-					channel.channelId
-				);
-				return false;
-			}
-
-			const member1Id = channel.channelMembers[0];
-			const member2Id = channel.channelMembers[1];
-
-			if (!member1Id || !member2Id) {
-				console.warn(
-					"Defekter Channel gefiltert (undefined Member IDs):",
-					channel.channelId
-				);
-				return false;
-			}
-
-			const currentUserInChannel = channel.channelMembers.includes(
-				this.currentUser?.uid
-			);
-
-			if (!currentUserInChannel) {
-				console.warn(
-					"Channel gefiltert (Current User nicht Member):",
-					channel.channelId
-				);
-				return false;
-			}
-
-			return true;
-		});
+		return this.channelManagementService.filterValidChannels(channels, this.currentUser);
 	}
 
 	private removeDuplicateChannels(channels: ChannelData[]): ChannelData[] {
-		const uniqueChannels: ChannelData[] = [];
-		const seenPairs = new Set<string>();
-
-		for (const channel of channels) {
-			const member1Id = channel.channelMembers[0];
-			const member2Id = channel.channelMembers[1];
-
-			const pairKey = [member1Id, member2Id].sort().join("|");
-
-			if (!seenPairs.has(pairKey)) {
-				seenPairs.add(pairKey);
-				uniqueChannels.push(channel);
-			}
-		}
-
-		return uniqueChannels;
+		return this.channelManagementService.removeDuplicateChannels(channels);
 	}
 
 	private getAvailableUsersForNewDM(): UserData[] {
-		return this.allUsers.filter((user) => {
-			const existingDM = this.directMessageChannels.find((dmChannel) => {
-				return dmChannel.channelMembers.includes(user.uid);
-			});
-
-			return !existingDM;
-		});
+		return this.channelManagementService.getAvailableUsersForNewDM(
+			this.allUsers,
+			this.directMessageChannels
+		);
 	}
 
 	private findChannelById(id: string): ChannelData | null {
-		return (
-			this.channels.find((channel) => channel.channelId === id) ||
-			this.directMessageChannels.find(
-				(channel) => channel.channelId === id
-			) ||
-			(this.selfChannel && this.selfChannel.channelId === id
-				? this.selfChannel
-				: null) ||
-			null
+		return this.channelManagementService.findChannelById(
+			id,
+			this.channels,
+			this.directMessageChannels,
+			this.selfChannel
 		);
 	}
 

@@ -6,7 +6,7 @@ import { UserData } from "../../interfaces/user.interface";
 import { ChatService } from "../../services/chat.service";
 import { UserService } from "../../services/user.service";
 import { ResponsiveService } from "../../services/responsive.service";
-import { PresenceService, UserPresence } from "../../services/PresenceManagementService";
+import { PresenceService, UserPresence } from "../../services/presence.service";
 
 /**
  * ProfileCardComponent displays and manages a user's profile card, including editing and direct messaging.
