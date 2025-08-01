@@ -41,9 +41,32 @@ export interface UserData {
 	role: userRole;
 }
 
+/**
+ * Defines the possible roles a user can have in the system.
+ * Each role is represented as a boolean flag that can be enabled or disabled.
+ */
 export interface userRole {
+	/**
+	 * Indicates if the user has standard user privileges.
+	 * Regular users can participate in channels and send messages.
+	 */
 	user: boolean;
+
+	/**
+	 * Indicates if the user has administrative privileges.
+	 * Admins can manage users, channels, and system settings.
+	 */
 	admin: boolean;
+
+	/**
+	 * Indicates if the user has moderator privileges.
+	 * Moderators can manage content and enforce community guidelines.
+	 */
 	moderator: boolean;
+
+	/**
+	 * Indicates if the user is a guest with limited privileges.
+	 * Guests typically have read-only access or other restrictions.
+	 */
 	guest: boolean;
 }

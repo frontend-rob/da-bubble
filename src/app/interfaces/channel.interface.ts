@@ -46,7 +46,20 @@ export interface ChannelData {
 	updatedAt: Timestamp;
 }
 
+/**
+ * Defines the type of a communication channel.
+ * Used to distinguish between group channels and direct messages.
+ */
 export interface ChannelType {
+	/**
+	 * Indicates if this is a group channel.
+	 * True for channels that can have multiple members.
+	 */
 	channel: boolean;
+
+	/**
+	 * Indicates if this is a direct message channel.
+	 * True for private conversations between two users.
+	 */
 	directMessage: boolean;
 }

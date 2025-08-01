@@ -18,9 +18,27 @@ import {UserDataService} from "./user-data.service";
 import {UserData} from "../interfaces/user.interface";
 import {collection, doc, Firestore, getDocs, query, setDoc, Timestamp, where,} from "@angular/fire/firestore";
 
+/**
+ * Represents a user's presence status in the application.
+ * Used to track whether users are online, offline, or away.
+ */
 interface UserPresence {
+	/**
+	 * The current presence status of the user.
+	 * Can be 'online', 'offline', or 'away'.
+	 */
 	status: 'online' | 'offline' | 'away';
+	
+	/**
+	 * The timestamp when the presence status was last updated.
+	 * Used to determine how long a user has been in their current status.
+	 */
 	timestamp: any;
+	
+	/**
+	 * The timestamp when the user was last seen active in the application.
+	 * Used for displaying "last seen" information.
+	 */
 	lastSeen: any;
 }
 
@@ -48,9 +66,11 @@ export class AuthService implements OnDestroy {
 	}
 
 	/**
-	 * Setzt den Online-Status in der Realtime Database
-	 * @param uid - User ID
-	 * @param status - Online status ('online', 'offline', 'away')
+	 * Sets the online status of a user in the Realtime Database.
+	 *
+	 * @param {string} uid - The user ID of the user whose presence status is being updated.
+	 * @param {('online'|'offline'|'away')} status - The presence status to set ('online', 'offline', or 'away').
+	 * @return {Promise<void>} A promise that resolves when the presence status has been updated.
 	 */
 	async setUserPresence(uid: string, status: 'online' | 'offline' | 'away'): Promise<void> {
 		runInInjectionContext(this.environmentInjector, async () => {
@@ -71,7 +91,10 @@ export class AuthService implements OnDestroy {
 	}
 
 	/**
-	 * Initialisiert die Präsenz-Überwachung mit Realtime Database
+	 * Initializes the presence monitoring system using the Realtime Database.
+	 * Sets up listeners to track user online status and handle connection state changes.
+	 *
+	 * @return {void} No return value.
 	 */
 	initializePresenceSystem(): void {
 		return runInInjectionContext(this.environmentInjector, () => {
@@ -91,6 +114,14 @@ export class AuthService implements OnDestroy {
 		});
 	}
 
+	/**
+	 * Sets a user's online status to either online or offline.
+	 * This is a convenience wrapper around setUserPresence that converts a boolean to the appropriate status string.
+	 *
+	 * @param {string} uid - The user ID of the user whose online status is being updated.
+	 * @param {boolean} status - True to set the user as online, false to set as offline.
+	 * @return {Promise<void>} A promise that resolves when the status has been updated.
+	 */
 	async setUserOnlineStatus(uid: string, status: boolean): Promise<void> {
 		await this.setUserPresence(uid, status ? 'online' : 'offline');
 	}

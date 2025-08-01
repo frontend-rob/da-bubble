@@ -28,7 +28,7 @@ import {HelperService} from "../../services/helper.service";
 import {FunctionTriggerService} from "../../services/function-trigger.service";
 import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 import {UserLookupService} from "../../services/user-lookup.service";
-import {ChannelUserPipe} from "../../services/channel-user.pipe";
+import {ChannelUserPipe} from "../../pipes/channel-user.pipe";
 import {ResponsiveService} from "../../services/responsive.service";
 import {PresenceService, UserPresence} from "../../services/presence.service";
 

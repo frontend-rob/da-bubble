@@ -9,7 +9,8 @@ import { ResponsiveService } from "../../services/responsive.service";
 import { PresenceService, UserPresence } from "../../services/presence.service";
 
 /**
- * ProfileCardComponent displays and manages a user's profile card, including editing and direct messaging.
+ * Component for displaying and managing a user's profile card, including viewing profile information,
+ * editing user details, and initiating direct messaging with the user.
  */
 @Component({
     selector: "app-profile-card",
@@ -23,11 +24,34 @@ import { PresenceService, UserPresence } from "../../services/presence.service";
 })
 export class ProfileCardComponent implements OnInit {
 
+    /**
+     * The user data of the person whose profile is being displayed.
+     */
     @Input() currentPerson!: UserData;
+    
+    /**
+     * Temporary storage for the new username during edit operations.
+     */
     newUserName: string = "";
+    
+    /**
+     * Subscription to screen width changes for responsive design.
+     */
     screenWidthSubscription!: Subscription;
+    
+    /**
+     * The current screen width in pixels.
+     */
     screenWidth!: number;
 
+    /**
+     * Creates an instance of ProfileCardComponent.
+     * 
+     * @param {UserService} userService - Service for user-related operations.
+     * @param {ChatService} chatService - Service for chat-related operations.
+     * @param {ResponsiveService} responsiveService - Service for responsive design features.
+     * @param {PresenceService} presenceService - Service for tracking user presence status.
+     */
     constructor(
         private userService: UserService,
         private chatService: ChatService,
@@ -36,7 +60,10 @@ export class ProfileCardComponent implements OnInit {
     ) { }
 
     /**
-     * Initializes the component and subscribes to screen width changes.
+     * Initializes the component by setting up a subscription to screen width changes
+     * for responsive design adjustments.
+     * 
+     * @return {void} This method does not return a value.
      */
     ngOnInit(): void {
         this.screenWidthSubscription =
@@ -45,34 +72,55 @@ export class ProfileCardComponent implements OnInit {
             });
     }
 
-    /** Returns true if the profile card belongs to the current user. */
+    /**
+     * Determines if the profile card belongs to the current user.
+     * 
+     * @return {boolean} True if the profile card is open and belongs to the current user, false otherwise.
+     */
     get isOwnProfile(): boolean {
         return this.isUserProfileCardOpen && this.currentPerson?.role?.user;
     }
 
-    /** Returns true if the user profile card is open. */
+    /**
+     * Gets whether the user profile card is currently open.
+     * 
+     * @return {boolean} True if the user profile card is open, false otherwise.
+     */
     get isUserProfileCardOpen(): boolean {
         return this.userService.isUserProfileCardOpen;
     }
 
-    /** Returns true if the profile card is open in the chat service. */
+    /**
+     * Gets whether the profile card is open in the chat service.
+     * 
+     * @return {boolean} True if the profile card is open in the chat service, false otherwise.
+     */
     get isProfileCardOpen(): boolean {
         return this.chatService.isProfileCardOpen;
     }
 
-    /** Returns true if the user avatar edit mode is active. */
+    /**
+     * Gets whether the user avatar edit mode is currently active.
+     * 
+     * @return {boolean} True if the user avatar edit mode is active, false otherwise.
+     */
     get isUserAvatarEdit(): boolean {
         return this.userService.isUserAvatarEdit;
     }
 
-    /** Returns true if the user profile edit mode is active. */
+    /**
+     * Gets whether the user profile edit mode is currently active.
+     * 
+     * @return {boolean} True if the user profile edit mode is active, false otherwise.
+     */
     get isUserProfileEdit(): boolean {
         return this.userService.isUserProfileEdit;
     }
 
     /**
-     * Returns an observable of the user's presence status.
-     * @returns Observable of UserPresence or null
+     * Gets the presence status of the user whose profile is being displayed.
+     * 
+     * @return {Observable<UserPresence | null>} An observable that emits the user's presence status or null if no user is available.
      */
     getUserPresence(): Observable<UserPresence | null> {
         if (this.currentPerson?.uid) {
@@ -83,6 +131,8 @@ export class ProfileCardComponent implements OnInit {
 
     /**
      * Closes the profile card in both user and chat services.
+     * 
+     * @return {void} This method does not return a value.
      */
     closeProfileCard(): void {
         this.userService.handleUserProfileCard(false);
@@ -90,31 +140,40 @@ export class ProfileCardComponent implements OnInit {
     }
 
     /**
-     * Stops event propagation.
-     * @param event The DOM event
+     * Stops event propagation to prevent parent elements from handling the event.
+     * 
+     * @param {Event} event - The DOM event to stop from propagating.
+     * @return {void} This method does not return a value.
      */
     stopPropagation(event: Event): void {
         event.stopPropagation();
     }
 
     /**
-     * Sets the user avatar edit mode.
-     * @param bool True to enable, false to disable
+     * Enables or disables user avatar edit mode.
+     * 
+     * @param {boolean} bool - True to enable avatar edit mode, false to disable it.
+     * @return {void} This method does not return a value.
      */
     handleUserAvatarEdit(bool: boolean): void {
         this.userService.handleUserAvatarEdit(bool);
     }
 
     /**
-     * Sets the user profile edit mode.
-     * @param bool True to enable, false to disable
+     * Enables or disables user profile edit mode.
+     * 
+     * @param {boolean} bool - True to enable profile edit mode, false to disable it.
+     * @return {void} This method does not return a value.
      */
     handleUserProfileEdit(bool: boolean): void {
         this.userService.handleUserProfileEdit(bool);
     }
 
     /**
-     * Updates the user's name and exits edit mode.
+     * Updates the user's name with the new value and exits edit mode.
+     * Clears the temporary name storage after the update.
+     * 
+     * @return {void} This method does not return a value.
      */
     updateUserName(): void {
         this.userService.updateUserName(
@@ -126,7 +185,9 @@ export class ProfileCardComponent implements OnInit {
     }
 
     /**
-     * Opens a direct message with the current user and closes the profile card.
+     * Opens a direct message conversation with the current user and closes the profile card.
+     * 
+     * @return {void} This method does not return a value.
      */
     openDirectMessage(): void {
         this.closeProfileCard();

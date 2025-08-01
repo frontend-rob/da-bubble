@@ -9,10 +9,6 @@ import {AuthService} from "../../services/auth.service";
 import {UserService} from "../../services/user.service";
 import {Subscription} from "rxjs";
 
-/**
- * Component for managing user avatar selection during onboarding.
- * Allows users to choose an avatar and create an account.
- */
 @Component({
 	selector: "app-avatars",
 	imports: [CommonModule, NotificationsComponent, NgOptimizedImage],
@@ -52,7 +48,14 @@ export class AvatarsComponent {
 	 */
 	status: boolean = true;
 
+	/**
+	 * The current user's data, populated from the user service.
+	 */
 	currentUser!: UserData;
+	
+	/**
+	 * Subscription to the current user data updates.
+	 */
 	userSubscription!: Subscription;
 
 	/**
@@ -63,14 +66,30 @@ export class AvatarsComponent {
 	private userDataService = inject(UserDataService);
 	private router = inject(Router);
 
+	/**
+	 * Gets whether the user avatar edit mode is currently active.
+	 *
+	 * @return {boolean} True if the user avatar edit mode is active, false otherwise.
+	 */
 	get isUserAvatarEdit() {
 		return this.userService.isUserAvatarEdit;
 	}
 
+	/**
+	 * Gets whether the user profile edit mode is currently active.
+	 *
+	 * @return {boolean} True if the user profile edit mode is active, false otherwise.
+	 */
 	get isUserProfileEdit() {
 		return this.userService.isUserProfileEdit;
 	}
 
+	/**
+	 * Initializes the component by setting up a subscription to the current user data.
+	 * Updates the currentUser property when user data changes.
+	 * 
+	 * @return {void} This method does not return a value.
+	 */
 	ngOnInit(): void {
 		this.userSubscription = this.userService.currentUser$.subscribe(
 			(userData) => {
@@ -92,6 +111,12 @@ export class AvatarsComponent {
 		}
 	}
 
+	/**
+	 * Updates the current user's avatar with the specified image path.
+	 * 
+	 * @param {string} path - The path of the new avatar image.
+	 * @return {void} This method does not return a value.
+	 */
 	updateAvatar(path: string): void {
 		this.userService.updateUserAvatar(this.currentUser.uid, path);
 	}

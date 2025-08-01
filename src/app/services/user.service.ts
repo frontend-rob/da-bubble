@@ -36,24 +36,44 @@ export class UserService {
 
 	private _isUserMenuOpen = false;
 
+	/**
+	 * Gets the current state of the user menu.
+	 *
+	 * @return {boolean} True if the user menu is open, false otherwise.
+	 */
 	get isUserMenuOpen(): boolean {
 		return this._isUserMenuOpen;
 	}
 
 	private _isUserProfileCardOpen = false;
 
+	/**
+	 * Gets the current state of the user profile card.
+	 *
+	 * @return {boolean} True if the user profile card is open, false otherwise.
+	 */
 	get isUserProfileCardOpen(): boolean {
 		return this._isUserProfileCardOpen;
 	}
 
 	private _isUserAvatarEdit = false;
 
+	/**
+	 * Gets the current state of the user avatar edit mode.
+	 *
+	 * @return {boolean} True if the user avatar edit mode is active, false otherwise.
+	 */
 	get isUserAvatarEdit(): boolean {
 		return this._isUserAvatarEdit;
 	}
 
 	private _isUserProfileEdit = false;
 
+	/**
+	 * Gets the current state of the user profile edit mode.
+	 *
+	 * @return {boolean} True if the user profile edit mode is active, false otherwise.
+	 */
 	get isUserProfileEdit(): boolean {
 		return this._isUserProfileEdit;
 	}
@@ -91,6 +111,11 @@ export class UserService {
 		return userObservable;
 	}
 
+ /**
+	 * Retrieves data for all users from the Firestore database.
+	 *
+	 * @return {Observable<UserData[]>} An observable that emits an array of all user data objects.
+	 */
 	getAllUserData(): Observable<UserData[]> {
 		return runInInjectionContext(this.environmentInjector, () => {
 			const usersCollectionRef = collection(this.firestore, "users");
@@ -130,14 +155,14 @@ export class UserService {
 		});
 	}
 
-	/**
-	 * Updates the user's avatar (profile picture)
-	 *
-	 * @param userId - The ID of the user whose avatar should be updated
-	 * @param photoURL - The new URL for the user's profile picture
-	 * @returns Promise<void> that resolves when the update is complete
-	 */
-	async updateUserName(userId: string, userName: string): Promise<void> {
+ /**
+  * Updates the user's display name with a new value.
+  *
+  * @param {string} userId - The ID of the user whose name should be updated.
+  * @param {string} userName - The new display name for the user.
+  * @return {Promise<void>} A promise that resolves when the update is complete.
+  */
+ async updateUserName(userId: string, userName: string): Promise<void> {
 		return runInInjectionContext(this.environmentInjector, async () => {
 			if (!userId || !userName) {
 				throw new Error("User ID and user name are required");
@@ -160,22 +185,53 @@ export class UserService {
 		});
 	}
 
+ /**
+	 * Controls the visibility state of the user menu.
+	 *
+	 * @param {boolean} bool - True to open the user menu, false to close it.
+	 * @return {void} No return value.
+	 */
 	handleUserMenu(bool: boolean) {
 		this._isUserMenuOpen = bool;
 	}
 
+	/**
+	 * Controls the visibility state of the user profile card.
+	 *
+	 * @param {boolean} bool - True to open the profile card, false to close it.
+	 * @return {void} No return value.
+	 */
 	handleUserProfileCard(bool: boolean) {
 		this._isUserProfileCardOpen = bool;
 	}
 
+	/**
+	 * Controls the avatar edit mode for the user profile.
+	 *
+	 * @param {boolean} bool - True to enable avatar edit mode, false to disable it.
+	 * @return {void} No return value.
+	 */
 	handleUserAvatarEdit(bool: boolean) {
 		this._isUserAvatarEdit = bool;
 	}
 
+	/**
+	 * Controls the profile edit mode for the user.
+	 *
+	 * @param {boolean} bool - True to enable profile edit mode, false to disable it.
+	 * @return {void} No return value.
+	 */
 	handleUserProfileEdit(bool: boolean) {
 		this._isUserProfileEdit = bool;
 	}
 
+ /**
+	 * Initiates a direct message conversation with the specified user.
+	 * Emits the user data through the directMessageUser$ observable.
+	 *
+	 * @param {UserData} user - The user data of the person to start a direct message with.
+	 * @return {void} No return value.
+	 */
 	openDirectMessageWithUser(user: UserData) {
 		this.directMessageUserSubject.next(user);
 	}

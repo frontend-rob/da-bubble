@@ -1,7 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {UserData} from '../interfaces/user.interface';
-import {UserLookupService} from './user-lookup.service';
+import {UserLookupService} from '../services/user-lookup.service';
 
 @Pipe({
 	name: 'channelUser',

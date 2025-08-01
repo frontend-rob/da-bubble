@@ -10,7 +10,7 @@ import {Timestamp} from "@angular/fire/firestore";
 import {FormsModule} from "@angular/forms";
 import {chatMessageTagLink} from "../../../pipes/chat-message-tag-link.pipe";
 import {UserLookupService} from "../../../services/user-lookup.service";
-import {ChannelUsersPipe} from "../../../services/channel-user.pipe";
+import {ChannelUsersPipe} from "../../../pipes/channel-user.pipe";
 import {UserDataFromUidPipe} from "../../../pipes/user-data-from-uid.pipe";
 
 

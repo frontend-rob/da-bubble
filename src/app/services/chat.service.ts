@@ -33,61 +33,127 @@ export class ChatService {
 	private helperService: any = inject(HelperService);
 	private _isChatResponsive = false;
 
+	/**
+	 * Gets the current responsive state of the chat interface.
+	 *
+	 * @return {boolean} True if the chat is in responsive mode, false otherwise.
+	 */
 	get isChatResponsive(): boolean {
 		return this._isChatResponsive;
 	}
 
 	private _isThreadOpen = false;
 
+	/**
+	 * Gets the current state of the thread panel.
+	 *
+	 * @return {boolean} True if the thread panel is open, false otherwise.
+	 */
 	get isThreadOpen(): boolean {
 		return this._isThreadOpen;
 	}
 
 	private _isNewMessage = false;
 
+	/**
+	 * Gets the state indicating if a new message is being composed.
+	 *
+	 * @return {boolean} True if a new message is being composed, false otherwise.
+	 */
 	get isNewMessage(): boolean {
 		return this._isNewMessage;
 	}
 
 	private _isProfileCardOpen = false;
 
+	/**
+	 * Gets the current state of the profile card.
+	 *
+	 * @return {boolean} True if the profile card is open, false otherwise.
+	 */
 	get isProfileCardOpen(): boolean {
 		return this._isProfileCardOpen;
 	}
 
 	private _activeChat!: string;
 
+	/**
+	 * Gets the ID of the currently active chat.
+	 *
+	 * @return {string} The ID of the active chat.
+	 */
 	get activeChat(): string {
 		return this._activeChat;
 	}
 
 	private _currentPerson!: UserData;
 
+	/**
+	 * Gets the user data of the currently selected person.
+	 *
+	 * @return {UserData} The user data of the current person.
+	 */
 	get currentPerson(): UserData {
 		return this._currentPerson;
 	}
 
-	handleChatResponsive(bool: boolean) {
+	/**
+	 * Sets the responsive state of the chat interface.
+	 *
+	 * @param {boolean} bool - The new responsive state to set.
+	 * @return {void} No return value.
+	 */
+	handleChatResponsive(bool: boolean): void {
 		this._isChatResponsive = bool;
 	}
 
-	setCurrentPerson(person: UserData) {
+	/**
+	 * Sets the currently selected person in the chat.
+	 *
+	 * @param {UserData} person - The user data of the person to set as current.
+	 * @return {void} No return value.
+	 */
+	setCurrentPerson(person: UserData): void {
 		this._currentPerson = person;
 	}
 
-	handleThread(bool: boolean) {
+	/**
+	 * Sets the open/closed state of the thread panel.
+	 *
+	 * @param {boolean} bool - True to open the thread panel, false to close it.
+	 * @return {void} No return value.
+	 */
+	handleThread(bool: boolean): void {
 		this._isThreadOpen = bool;
 	}
 
-	handleNewMessage(bool: boolean) {
+	/**
+	 * Sets the state indicating if a new message is being composed.
+	 *
+	 * @param {boolean} bool - True if a new message is being composed, false otherwise.
+	 * @return {void} No return value.
+	 */
+	handleNewMessage(bool: boolean): void {
 		this._isNewMessage = bool;
 	}
 
-	handleProfileCard(bool: boolean) {
+	/**
+	 * Sets the open/closed state of the profile card.
+	 *
+	 * @param {boolean} bool - True to open the profile card, false to close it.
+	 * @return {void} No return value.
+	 */
+	handleProfileCard(bool: boolean): void {
 		this._isProfileCardOpen = bool;
 	}
 
-	setActiveChat(str: string) {
+	/**
+	 * Sets the ID of the currently active chat.
+	 *
+	 * @param {string} str - The ID of the chat to set as active.
+	 * @return {void} No return value.
+	 */
+	setActiveChat(str: string): void {
 		this._activeChat = str;
 	}
 
@@ -177,6 +243,14 @@ export class ChatService {
 		});
 	}
 
+ /**
+	 * Creates a new channel in the Firestore database.
+	 * For regular channels (not direct messages), checks if a channel with the same name already exists.
+	 * Generates a new document ID and uses it as the channel ID.
+	 *
+	 * @param {ChannelData} channel - The channel data object containing properties like name, description, type, and members.
+	 * @return {Promise<string>} A promise that resolves to the ID of the newly created channel.
+	 */
 	async createChannel(channel: ChannelData): Promise<string> {
 		// Only check for duplicates if it's a regular channel, not a direct message
 		if (channel.channelType.channel && !channel.channelType.directMessage) {
@@ -328,13 +402,13 @@ export class ChatService {
 		});
 	}
 
-	/**
-	 * Aktualisiert die Reaktionen einer Nachricht in Firestore.
+ /**
+	 * Updates the reactions for a message in Firestore.
 	 *
-	 * @param channelId Die ID des Kanals, in dem sich die Nachricht befindet
-	 * @param messageId Die ID der Nachricht
-	 * @param reactions Das aktualisierte Reaktionen-Array
-	 * @returns Promise<void>
+	 * @param {string} channelId - The ID of the channel containing the message.
+	 * @param {string} messageId - The ID of the message to update.
+	 * @param {Reaction[]} reactions - The updated array of reactions.
+	 * @return {Promise<void>} A promise that resolves when the update is complete.
 	 */
 	async updateMessageReactions(
 		channelId: string,
@@ -354,14 +428,14 @@ export class ChatService {
 		});
 	}
 
-	/**
-	 * Aktualisiert die Reaktionen einer Thread-Nachricht in Firestore.
+ /**
+	 * Updates the reactions for a message within a thread in Firestore.
 	 *
-	 * @param channelId Die ID des Kanals
-	 * @param threadId Die ID der Thread-Nachricht
-	 * @param messageId Die ID der Thread-Nachricht
-	 * @param reactions Das aktualisierte Reaktionen-Array
-	 * @returns Promise<void>
+	 * @param {string} channelId - The ID of the channel containing the thread.
+	 * @param {string} threadId - The ID of the parent thread message.
+	 * @param {string} messageId - The ID of the thread message to update.
+	 * @param {Reaction[]} reactions - The updated array of reactions.
+	 * @return {Promise<void>} A promise that resolves when the update is complete.
 	 */
 	async updateThreadMessageReactions(
 		channelId: string,
@@ -414,12 +488,12 @@ export class ChatService {
 		console.info(r);
 	}
 
-	/**
+ /**
 	 * Deletes a message from Firestore by channel and message ID.
 	 *
-	 * @param channelId The ID of the channel
-	 * @param messageId The ID of the message
-	 * @returns Promise<void> A promise that resolves when the message is deleted
+	 * @param {string} channelId - The ID of the channel containing the message.
+	 * @param {string} messageId - The ID of the message to be deleted.
+	 * @return {Promise<void>} A promise that resolves when the message is deleted.
 	 */
 	async deleteMessage(channelId: string, messageId: string): Promise<void> {
 		return runInInjectionContext(this.environmentInjector, async () => {
@@ -517,11 +591,12 @@ export class ChatService {
 		});
 	}
 
-	/**
-	 * Removes a user from a channel's member list.
-	 * @param channelId - The ID of the channel to remove the user from.
-	 * @param userId - The ID of the user to remove.
-	 * @returns Promise<void>
+ /**
+	 * Removes a user from a channel's member list and updates the channel document.
+	 *
+	 * @param {string} channelId - The ID of the channel to remove the user from.
+	 * @param {string} userId - The ID of the user to remove from the channel.
+	 * @return {Promise<void>} A promise that resolves when the user has been successfully removed from the channel.
 	 */
 	async removeUserFromChannel(
 		channelId: string,
