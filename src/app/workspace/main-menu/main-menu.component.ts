@@ -4,30 +4,44 @@
  * 1. Create a ChannelSelectionService to handle channel selection functionality
  * 2. Create a DirectMessageService to handle direct message functionality
  * 3. Create a ChannelManagementUIService to handle channel management UI functionality
- * 
+ *
  * Alternatively, split the component into multiple smaller components:
  * 1. Create a ChannelListComponent for the channel list
  * 2. Create a DirectMessageListComponent for the direct message list
  * 3. Create a ChannelCreationComponent for channel creation
  * 4. Create a UserSelectionComponent for user selection
  */
-import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {ChangeDetectorRef, Component, inject, OnDestroy, OnInit,} from "@angular/core";
-import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
-import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
-import {ChannelData} from "../../interfaces/channel.interface";
-import {ChatService} from "../../services/chat.service";
-import {Timestamp} from "firebase/firestore";
-import {FormsModule} from "@angular/forms";
-import {UserData} from "../../interfaces/user.interface";
-import {UserService} from "../../services/user.service";
-import {FunctionTriggerService} from "../../services/function-trigger.service";
-import {combineLatest, map, Observable, of, Subject, Subscription, takeUntil,} from "rxjs";
-import {UserLookupService} from "../../services/user-lookup.service";
-import {ResponsiveService} from "../../services/responsive.service";
-import {WorkspaceService} from "../../services/workspace.service";
-import {SearchCardComponent} from "../workspace-header/search-card/search-card.component";
-import {ChannelManagementService} from "../../services/channel-management.service";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import {
+	ChangeDetectorRef,
+	Component,
+	inject,
+	OnDestroy,
+	OnInit,
+} from "@angular/core";
+import { ChannelListItemComponent } from "./channel-list-item/channel-list-item.component";
+import { DirectMessageListItemComponent } from "./direct-message-list-item/direct-message-list-item.component";
+import { ChannelData } from "../../interfaces/channel.interface";
+import { ChatService } from "../../services/chat.service";
+import { Timestamp } from "firebase/firestore";
+import { FormsModule } from "@angular/forms";
+import { UserData } from "../../interfaces/user.interface";
+import { UserService } from "../../services/user.service";
+import { FunctionTriggerService } from "../../services/function-trigger.service";
+import {
+	combineLatest,
+	map,
+	Observable,
+	of,
+	Subject,
+	Subscription,
+	takeUntil,
+} from "rxjs";
+import { UserLookupService } from "../../services/user-lookup.service";
+import { ResponsiveService } from "../../services/responsive.service";
+import { WorkspaceService } from "../../services/workspace.service";
+import { SearchCardComponent } from "../workspace-header/search-card/search-card.component";
+import { ChannelManagementService } from "../../services/channel-management.service";
 
 @Component({
 	selector: "app-main-menu",
@@ -72,15 +86,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	);
 	private chatService: ChatService = inject(ChatService);
 	private responsiveService: ResponsiveService = inject(ResponsiveService);
-	private channelManagementService: ChannelManagementService = inject(ChannelManagementService);
+	private channelManagementService: ChannelManagementService = inject(
+		ChannelManagementService
+	);
 
 	private destroy$ = new Subject<void>();
 
 	constructor(
 		private workspaceService: WorkspaceService,
 		private cdr: ChangeDetectorRef
-	) {
-	}
+	) {}
 
 	/**
 	 * Gets the current state of the user menu from the user service.
@@ -94,7 +109,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	/**
 	 * Initializes the component by setting up the current user, data subscriptions,
 	 * and various event listeners for menu state, screen width, and direct message requests.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	ngOnInit() {
@@ -121,7 +136,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	/**
 	 * Cleans up resources when the component is destroyed by completing observables
 	 * and unsubscribing from subscriptions to prevent memory leaks.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	ngOnDestroy() {
@@ -134,16 +149,16 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	/**
 	 * Toggles the main menu's open/closed state by calling the workspace service
 	 * with the opposite of the current state.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	toggleMainMenu() {
-		this.workspaceService.setStatus(!this.isMainMenuOpen);
+		this.workspaceService.setMainMenuStatus(!this.isMainMenuOpen);
 	}
 
 	/**
 	 * Toggles the visibility of the channel list in the UI.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	toggleChannelList() {
@@ -152,7 +167,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Toggles the visibility of the direct message user list in the UI.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	toggleDirectMessageList() {
@@ -161,7 +176,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Toggles the modal's open/closed state and logs the new state to the console.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	toggleModal() {
@@ -171,7 +186,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Returns the list of users available for direct messaging.
-	 * 
+	 *
 	 * @return {UserData[]} An array of user data objects available for direct messaging.
 	 */
 	getAvailableUsersForDM(): UserData[] {
@@ -182,7 +197,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	 * Retrieves user data for a direct message channel by finding the other user
 	 * in the channel and looking up their information. If no other user is found,
 	 * returns the current user's data.
-	 * 
+	 *
 	 * @param {ChannelData} dmChannel - The direct message channel to get user data for.
 	 * @return {Observable<UserData>} An observable that emits the user data of the other participant.
 	 */
@@ -201,7 +216,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	/**
 	 * Sets the active chat channel in the chat service.
-	 * 
+	 *
 	 * @param {string} id - The ID of the channel to set as active.
 	 * @return {void} This method does not return a value.
 	 */
@@ -212,7 +227,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	/**
 	 * Sets the selected channel based on the provided ID or event object and user data.
 	 * Parses the input, logs the selection, and handles the channel selection process.
-	 * 
+	 *
 	 * @param {string | { channelId: string; userData: UserData | null }} idOrEvent - Either a channel ID string or an object containing channel ID and user data.
 	 * @param {UserData | null} [userData] - Optional user data associated with the channel selection.
 	 * @return {void} This method does not return a value.
@@ -221,40 +236,43 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		idOrEvent: string | { channelId: string; userData: UserData | null },
 		userData?: UserData | null
 	) {
-		const {id, user} = this.parseChannelSelection(idOrEvent, userData);
+		const { id, user } = this.parseChannelSelection(idOrEvent, userData);
 		this.logChannelSelection(id, user);
 		this.prepareAndHandleChannelSelection(id, user);
 	}
-	
+
 	/**
 	 * Logs the channel selection details to the console for debugging purposes.
-	 * 
+	 *
 	 * @param {string} id - The ID of the selected channel.
 	 * @param {UserData | null} user - The user data associated with the channel selection.
 	 * @return {void} This method does not return a value.
 	 */
 	private logChannelSelection(id: string, user: UserData | null): void {
-		console.info("setSelectedChannel called with:", {id, user});
+		console.info("setSelectedChannel called with:", { id, user });
 		console.info("dmchannels", this.directMessageChannels);
 	}
-	
+
 	/**
 	 * Prepares and handles the channel selection by closing the thread window,
 	 * setting the active chat, and handling the channel selection.
-	 * 
+	 *
 	 * @param {string} id - The ID of the selected channel.
 	 * @param {UserData | null} user - The user data associated with the channel selection.
 	 * @return {void} This method does not return a value.
 	 */
-	private prepareAndHandleChannelSelection(id: string, user: UserData | null): void {
+	private prepareAndHandleChannelSelection(
+		id: string,
+		user: UserData | null
+	): void {
 		this.closeThreadWindow();
 		this.setActiveChat(id);
 		this.handleChannelSelection(id, user);
 	}
-	
+
 	/**
 	 * Closes the thread window by calling the chat service's handleThread method with false.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	private closeThreadWindow(): void {
@@ -264,7 +282,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	/**
 	 * Parses the channel selection input to extract the channel ID and user data.
 	 * Handles both string IDs and object inputs with different parsing strategies.
-	 * 
+	 *
 	 * @param {string | { channelId: string; userData: UserData | null }} idOrEvent - Either a channel ID string or an object containing channel ID and user data.
 	 * @param {UserData | null} [userData] - Optional user data associated with the channel selection.
 	 * @return {{ id: string; user: UserData | null }} An object containing the parsed channel ID and user data.
@@ -276,24 +294,28 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		if (this.isChannelSelectionObject(idOrEvent)) {
 			return this.extractFromChannelSelectionObject(idOrEvent);
 		} else {
-			return this.createFromStringAndUserData(idOrEvent as string, userData);
+			return this.createFromStringAndUserData(
+				idOrEvent as string,
+				userData
+			);
 		}
 	}
-	
+
 	private isChannelSelectionObject(
 		value: string | { channelId: string; userData: UserData | null }
 	): value is { channelId: string; userData: UserData | null } {
 		return typeof value === "object" && value !== null;
 	}
-	
-	private extractFromChannelSelectionObject(
-		obj: { channelId: string; userData: UserData | null }
-	): { id: string; user: UserData | null } {
+
+	private extractFromChannelSelectionObject(obj: {
+		channelId: string;
+		userData: UserData | null;
+	}): { id: string; user: UserData | null } {
 		return { id: obj.channelId, user: obj.userData };
 	}
-	
+
 	private createFromStringAndUserData(
-		id: string, 
+		id: string,
 		userData?: UserData | null
 	): { id: string; user: UserData | null } {
 		return { id, user: userData || null };
@@ -308,12 +330,12 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.handleNonExistingChannel(id, user);
 		}
 	}
-	
+
 	private handleExistingChannel(channel: ChannelData): void {
 		this.functionTriggerService.callSelectChannel(channel);
 		this.handleResponsiveUI();
 	}
-	
+
 	private handleNonExistingChannel(id: string, user: UserData | null): void {
 		if (user) {
 			this.onUserClickForDirectMessage(user);
@@ -335,18 +357,18 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	async onUserClickForDirectMessage(data: string | UserData): Promise<void> {
 		try {
 			const clickedUser = data as UserData;
-			
+
 			if (!this.canCreateDirectMessage(clickedUser)) {
 				return;
 			}
-			
+
 			this.closeThreadWindow();
 			await this.processDirectMessageRequest(clickedUser);
 		} catch (error) {
 			this.handleDirectMessageError(error);
 		}
 	}
-	
+
 	private canCreateDirectMessage(user: UserData): boolean {
 		if (user.role?.guest) {
 			console.warn("Cannot create DM with guest user");
@@ -354,17 +376,19 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		}
 		return true;
 	}
-	
-	private async processDirectMessageRequest(clickedUser: UserData): Promise<void> {
+
+	private async processDirectMessageRequest(
+		clickedUser: UserData
+	): Promise<void> {
 		if (clickedUser.uid === this.currentUser.uid) {
 			await this.handleSelfChannel();
 			return;
 		}
-		
+
 		const dmChannel = await this.findOrCreateDMChannel(clickedUser);
 		this.activateChannel(dmChannel);
 	}
-	
+
 	private handleDirectMessageError(error: unknown): void {
 		console.error("Error creating/finding direct message channel:", error);
 	}
@@ -400,7 +424,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		this.activateChannel(selfChannel);
 	}
 
-	private async findOrCreateDMChannel(clickedUser: UserData): Promise<ChannelData> {
+	private async findOrCreateDMChannel(
+		clickedUser: UserData
+	): Promise<ChannelData> {
 		let dmChannel = this.findExistingDMChannel(clickedUser);
 
 		if (!dmChannel) {
@@ -410,7 +436,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		return dmChannel;
 	}
 
-	private findExistingDMChannel(clickedUser: UserData): ChannelData | undefined {
+	private findExistingDMChannel(
+		clickedUser: UserData
+	): ChannelData | undefined {
 		let dmChannel = this.findChannelInLocalList(clickedUser);
 
 		if (!dmChannel) {
@@ -419,35 +447,40 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 		return dmChannel;
 	}
-	
-	private findChannelInLocalList(clickedUser: UserData): ChannelData | undefined {
+
+	private findChannelInLocalList(
+		clickedUser: UserData
+	): ChannelData | undefined {
 		return this.directMessageChannels.find((channel) =>
 			this.channelContainsMember(channel, clickedUser.uid)
 		);
 	}
-	
-	private channelContainsMember(channel: ChannelData, userId: string): boolean {
-		return channel.channelMembers.some(member => member === userId);
+
+	private channelContainsMember(
+		channel: ChannelData,
+		userId: string
+	): boolean {
+		return channel.channelMembers.some((member) => member === userId);
 	}
-	
-	private searchForChannelInService(clickedUser: UserData): ChannelData | undefined {
+
+	private searchForChannelInService(
+		clickedUser: UserData
+	): ChannelData | undefined {
 		let result: ChannelData | undefined;
-		
-		this.chatService.findDirectMessageChannel(
-			this.currentUser,
-			clickedUser
-		).then(foundChannel => {
-			result = foundChannel || undefined;
-		});
-		
+
+		this.chatService
+			.findDirectMessageChannel(this.currentUser, clickedUser)
+			.then((foundChannel) => {
+				result = foundChannel || undefined;
+			});
+
 		return result;
 	}
 
-	private async createNewDMChannel(clickedUser: UserData): Promise<ChannelData> {
-		console.info(
-			"Erstelle neuen DM-Channel für:",
-			clickedUser.userName
-		);
+	private async createNewDMChannel(
+		clickedUser: UserData
+	): Promise<ChannelData> {
+		console.info("Erstelle neuen DM-Channel für:", clickedUser.userName);
 
 		const dmChannel = await this.chatService.createDirectMessageChannel(
 			this.currentUser,
@@ -489,11 +522,17 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		}
 
 		this.channelFormError = "";
-		const newChannel = this.createChannelObject(channelName, channelDescription);
+		const newChannel = this.createChannelObject(
+			channelName,
+			channelDescription
+		);
 		await this.saveNewChannel(newChannel);
 	}
-	
-	private createChannelObject(channelName: string, channelDescription: string): ChannelData {
+
+	private createChannelObject(
+		channelName: string,
+		channelDescription: string
+	): ChannelData {
 		return {
 			channelId: "",
 			channelName: channelName,
@@ -508,22 +547,24 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			updatedAt: Timestamp.now(),
 		};
 	}
-	
+
 	private async saveNewChannel(newChannel: ChannelData): Promise<void> {
 		try {
-			const createdChannelId = await this.chatService.createChannel(newChannel);
+			const createdChannelId = await this.chatService.createChannel(
+				newChannel
+			);
 			this.handleSuccessfulChannelCreation(createdChannelId);
 		} catch (error) {
 			this.handleChannelCreationError(error);
 		}
 	}
-	
+
 	private handleSuccessfulChannelCreation(channelId: string): void {
 		console.info("Channel created with ID:", channelId);
 		this.toggleModal();
 		this.resetForm();
 	}
-	
+
 	private handleChannelCreationError(error: unknown): void {
 		console.info("Error creating channel:", error);
 		if (error instanceof Error) {
@@ -532,12 +573,13 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.channelFormError = "An unexpected error occurred.";
 		}
 	}
-	
+
 	private setErrorMessageFromError(error: Error): void {
 		if (error.message.includes("already exists")) {
 			this.channelFormError = error.message;
 		} else {
-			this.channelFormError = "Failed to create channel. Please try again.";
+			this.channelFormError =
+				"Failed to create channel. Please try again.";
 		}
 	}
 
@@ -572,7 +614,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	private subscribeToData() {
 		this.setupDataSubscription();
 	}
-	
+
 	private setupDataSubscription(): void {
 		combineLatest([
 			this.chatService.getChannels(),
@@ -581,20 +623,29 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			.pipe(takeUntil(this.destroy$))
 			.subscribe(this.handleDataUpdate.bind(this));
 	}
-	
-	private async handleDataUpdate([channels, users]: [ChannelData[], UserData[] | null]): Promise<void> {
+
+	private async handleDataUpdate([channels, users]: [
+		ChannelData[],
+		UserData[] | null
+	]): Promise<void> {
 		this.processDMChannels(channels);
-		const updatedChannels = this.updateChannelMembersStatus(channels, users);
-		
+		const updatedChannels = this.updateChannelMembersStatus(
+			channels,
+			users
+		);
+
 		this.updateChannelsAndUsers(updatedChannels, users);
 		await this.finalizeDataUpdate();
 	}
-	
-	private updateChannelsAndUsers(channels: ChannelData[], users: UserData[] | null): void {
+
+	private updateChannelsAndUsers(
+		channels: ChannelData[],
+		users: UserData[] | null
+	): void {
 		this.handleChannelsUpdate(channels);
 		this.handleUsersUpdate(users);
 	}
-	
+
 	private async finalizeDataUpdate(): Promise<void> {
 		await this.updateAvailableUsers();
 		this.handleInitialChannelSelection();
@@ -623,27 +674,29 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		if (!this.isValidDMChannel(channel)) {
 			return;
 		}
-		
+
 		const pairKey = this.createPairKey(channel);
 		this.addChannelToPairsList(channel, dmPairs, pairKey);
 	}
-	
+
 	private isValidDMChannel(channel: ChannelData): boolean {
-		return !!channel.channelMembers && 
-			channel.channelMembers.length === 2 && 
-			!!channel.channelMembers[0] && 
-			!!channel.channelMembers[1];
+		return (
+			!!channel.channelMembers &&
+			channel.channelMembers.length === 2 &&
+			!!channel.channelMembers[0] &&
+			!!channel.channelMembers[1]
+		);
 	}
-	
+
 	private createPairKey(channel: ChannelData): string {
 		const member1 = channel.channelMembers[0];
 		const member2 = channel.channelMembers[1];
 		return [member1, member2].sort().join("|");
 	}
-	
+
 	private addChannelToPairsList(
-		channel: ChannelData, 
-		dmPairs: Map<string, ChannelData[]>, 
+		channel: ChannelData,
+		dmPairs: Map<string, ChannelData[]>,
 		pairKey: string
 	): void {
 		if (!dmPairs.has(pairKey)) {
@@ -665,23 +718,22 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 			this.setSelectedChannel("", null);
 		} else {
 			this.setActiveChat(this.channels[0].channelId);
-			this.setSelectedChannel(
-				this.channels[0].channelId,
-				null
-			);
+			this.setSelectedChannel(this.channels[0].channelId, null);
 		}
 	}
 
 	private handleChannelsUpdate(channelsData: ChannelData[]) {
 		if (!this.currentUser) return;
 
-		const {regularChannels, directMessageChannels, selfChannel} =
-			this.channelManagementService.categorizeChannels(channelsData, this.currentUser);
+		const { regularChannels, directMessageChannels, selfChannel } =
+			this.channelManagementService.categorizeChannels(
+				channelsData,
+				this.currentUser
+			);
 
 		this.channels = regularChannels;
 		this.directMessageChannels = directMessageChannels;
-		if (selfChannel)
-			this.selfChannel = selfChannel;
+		if (selfChannel) this.selfChannel = selfChannel;
 	}
 
 	private handleUsersUpdate(users: UserData[] | null) {
@@ -703,7 +755,10 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 	}
 
 	private filterValidChannels(channels: ChannelData[]): ChannelData[] {
-		return this.channelManagementService.filterValidChannels(channels, this.currentUser);
+		return this.channelManagementService.filterValidChannels(
+			channels,
+			this.currentUser
+		);
 	}
 
 	private removeDuplicateChannels(channels: ChannelData[]): ChannelData[] {

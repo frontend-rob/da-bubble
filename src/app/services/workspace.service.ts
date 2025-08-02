@@ -1,5 +1,5 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject} from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 
 @Injectable({
 	providedIn: "root",
@@ -12,7 +12,7 @@ export class WorkspaceService {
 		return this.isMainMenuOpen.value;
 	}
 
-	setStatus(bool: boolean) {
+	setMainMenuStatus(bool: boolean) {
 		this.isMainMenuOpen.next(bool);
 	}
 }
