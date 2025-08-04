@@ -1,387 +1,185 @@
-import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
-import {BehaviorSubject, firstValueFrom, take} from 'rxjs';
-import {ChatService} from './chat.service';
-import {UserService} from './user.service';
-import {UserLookupService} from './user-lookup.service';
-import {SearchResult} from '../interfaces/search-result.interface';
-import {ChannelData} from '../interfaces/channel.interface';
-import {UserData} from '../interfaces/user.interface';
-import {Database, get, ref} from '@angular/fire/database';
+import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
+import { BehaviorSubject, firstValueFrom, take } from 'rxjs';
+import { Database, get, ref } from '@angular/fire/database';
+import { SearchResult } from '../interfaces/search-result.interface';
+import { ChatService } from './chat.service';
+import { UserService } from './user.service';
+import { UserLookupService } from './user-lookup.service';
+import { SearchUserService } from './search-user.service';
+import { SearchChannelService } from './search-channel.service';
+import { SearchThreadService } from './search-thread.service';
+import { SearchMessageService } from './search-message.service';
 
 export interface CategorizedSearchResults {
-	messages: SearchResult[];
-	directMessages: SearchResult[];
-	channels: SearchResult[];
-	threads: SearchResult[];
-	users: SearchResult[];
+    messages: SearchResult[];
+    directMessages: SearchResult[];
+    channels: SearchResult[];
+    threads: SearchResult[];
+    users: SearchResult[];
 }
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class SearchService {
-	private chatService = inject(ChatService);
-	private userService = inject(UserService);
-	private userLookupService = inject(UserLookupService);
-	private database = inject(Database);
+    private chatService = inject(ChatService);
+    private userService = inject(UserService);
+    private userLookupService = inject(UserLookupService);
+    private database = inject(Database);
+    private environmentInjector = inject(EnvironmentInjector);
+    private searchUserService = inject(SearchUserService);
+    private searchChannelService = inject(SearchChannelService);
+    private searchThreadService = inject(SearchThreadService);
+    private searchMessageService = inject(SearchMessageService);
+    private searchTermSubject = new BehaviorSubject<string>('');
+    public searchTerm$ = this.searchTermSubject.asObservable();
+    private searchResultsSubject = new BehaviorSubject<CategorizedSearchResults>(this.emptyResults());
+    public searchResults$ = this.searchResultsSubject.asObservable();
 
-	private searchTermSubject = new BehaviorSubject<string>('');
-	public searchTerm$ = this.searchTermSubject.asObservable();
+    constructor() {
+        this.searchTerm$.subscribe(term => this.handleSearch(term.trim()));
+    }
 
-	private searchResultsSubject = new BehaviorSubject<CategorizedSearchResults>({
-		messages: [],
-		directMessages: [],
-		channels: [],
-		threads: [],
-		users: []
-	});
-	public searchResults$ = this.searchResultsSubject.asObservable();
+    /**
+     * Sets the current search term and triggers a search.
+     * @param term The search term to use.
+     */
+    setSearchTerm(term: string): void {
+        this.searchTermSubject.next(term);
+    }
 
-	constructor(private environmentInjector: EnvironmentInjector) {
-		console.info('SearchService initialized');
+    /**
+     * Handles the search logic based on the current term.
+     * @param term The search term to process.
+     */
+    private async handleSearch(term: string): Promise<void> {
+        if (!term) return this.clearResults();
+        if (term.startsWith('#')) return this.setResults({ ...this.emptyResults(), channels: await this.searchChannels(term.slice(1)) });
+        if (term.startsWith('@')) return this.setResults({ ...this.emptyResults(), users: await this.searchUsers(term.slice(1)) });
+        await this.searchAll(term);
+    }
 
-		this.searchTerm$.subscribe(term => {
-			console.info('Search term changed:', term);
-			if (term.trim()) {
-				this.performSearch(term).then(r => console.info(r));
-			} else {
-				this.clearResults();
-			}
-		});
-	}
+    /**
+     * Executes all search types in parallel and updates the results.
+     * @param term The search term to use for all categories.
+     */
+    private async searchAll(term: string): Promise<void> {
+        try {
+            const [messages, directMessages, channels, threads, users] = await Promise.all([
+                this.searchMessages(term),
+                this.searchDirectMessages(term),
+                this.searchChannels(term),
+                this.searchThreads(term),
+                this.searchUsers(term),
+            ]);
+            this.setResults({ messages, directMessages, channels, threads, users });
+        } catch (error) {
+            console.error('Error in searchAll:', error);
+            this.clearResults();
+        }
+    }
 
-	setSearchTerm(term: string): void {
-		console.info('Setting search term:', term);
-		this.searchTermSubject.next(term);
-	}
+    /**
+     * Updates the observable with new search results.
+     * @param results The categorized search results.
+     */
+    private setResults(results: CategorizedSearchResults): void {
+        this.searchResultsSubject.next(results);
+    }
 
-	private async getUserPresenceStatus(uid: string): Promise<'online' | 'away' | 'offline' | false> {
-		return runInInjectionContext(this.environmentInjector, async () => {
-			try {
-				const presenceRef = ref(this.database, `presence/${uid}`);
-				const snapshot = await get(presenceRef);
-				const presenceData = snapshot.val();
+    /**
+     * Clears all search results.
+     */
+    private clearResults(): void {
+        this.setResults(this.emptyResults());
+    }
 
-				if (presenceData && presenceData.status) {
-					return presenceData.status;
-				}
-				return false;
-			} catch (error) {
-				console.error('Error getting user presence:', error);
-				return false;
-			}
-		})
-	}
+    /**
+     * Returns an empty result object for all categories.
+     */
+    private emptyResults(): CategorizedSearchResults {
+        return { messages: [], directMessages: [], channels: [], threads: [], users: [] };
+    }
 
-	private async performSearch(searchTerm: string): Promise<void> {
-		console.info('Performing search for:', searchTerm);
-		const trimmedTerm = searchTerm.trim().toLowerCase();
-
-		if (trimmedTerm.startsWith('#')) {
-			console.info('Channel-only search');
-			await this.searchChannelsOnly(trimmedTerm.substring(1));
-			return;
-		}
-
-		if (trimmedTerm.startsWith('@')) {
-			console.info('User-only search');
-			await this.searchUsersOnly(trimmedTerm.substring(1));
-			return;
-		}
-
-		console.info('All-categories search');
-		await this.searchAllCategories(trimmedTerm);
-	}
-
-	private async searchChannelsOnly(term: string): Promise<void> {
-		const channels = await this.searchInChannels(term);
-		this.searchResultsSubject.next({
-			messages: [],
-			directMessages: [],
-			channels,
-			threads: [],
-			users: []
-		});
-	}
-
-	private async searchUsersOnly(term: string): Promise<void> {
-		const users = await this.searchInUsers(term);
-		this.searchResultsSubject.next({
-			messages: [],
-			directMessages: [],
-			channels: [],
-			threads: [],
-			users
-		});
-	}
-
-	private async searchAllCategories(term: string): Promise<void> {
-		try {
-			const [messages, directMessages, channels, threads, users] = await Promise.all([
-				this.searchInMessages(term),
-				this.searchInDirectMessages(term),
-				this.searchInChannels(term),
-				this.searchInThreads(term),
-				this.searchInUsers(term)
-			]);
-
-			this.searchResultsSubject.next({
-				messages,
-				directMessages,
-				channels,
-				threads,
-				users
-			});
-		} catch (error) {
-			console.error('Error in searchAllCategories:', error);
-			this.clearResults();
-		}
-	}
-
-	private async searchInUsers(term: string): Promise<SearchResult[]> {
-		const results: SearchResult[] = [];
-
-		try {
-			const users = await firstValueFrom(this.userService.allUsers$.pipe(take(1)));
-			if (!users) return results;
-
-			const availableUsers = users.filter(user => {
-				const isGuest = user.role?.guest || user.userName === 'Guest';
-				return !isGuest;
-			});
-
-			let matchingUsers: UserData[];
-			if (term.trim() === '') {
-				matchingUsers = availableUsers;
-			} else {
-				matchingUsers = availableUsers.filter(user =>
-					user.userName.toLowerCase().includes(term.toLowerCase()) ||
-					(user.email && user.email.toLowerCase().includes(term.toLowerCase()))
-				);
-			}
-
-			for (const user of matchingUsers) {
-				const userStatus = await this.getUserPresenceStatus(user.uid);
-
-				results.push({
-					type: 'user',
-					uid: user.uid,
-					userName: user.userName,
-					email: user.email || '',
-					photoURL: user.photoURL || '',
-					status: userStatus,
-					channelName: '',
-					channelDescription: ''
-				});
-			}
-		} catch (error) {
-			console.error('Error in searchInUsers:', error);
-		}
-
-		return results;
-	}
-
-	private async searchInChannels(term: string): Promise<SearchResult[]> {
-		const results: SearchResult[] = [];
-
-		try {
-			const channels = await firstValueFrom(this.chatService.getChannels().pipe(take(1)));
-			if (!channels) return results;
-
-			let matchingChannels: ChannelData[];
-			if (term.trim() === '') {
-				matchingChannels = channels;
-			} else {
-				matchingChannels = channels.filter(channel =>
-					channel.channelName.toLowerCase().includes(term.toLowerCase()) ||
-					(channel.channelDescription && channel.channelDescription.toLowerCase().includes(term.toLowerCase()))
-				);
-			}
-
-			for (const channel of matchingChannels) {
-				results.push({
-					type: 'channels',
-					channelId: channel.channelId,
-					channelName: channel.channelName,
-					channelDescription: channel.channelDescription || '',
-					channelMembers: channel.channelMembers.map(member => member),
-					userName: '',
-					photoURL: '',
-					status: false,
-					email: ''
-				});
-			}
-		} catch (error) {
-			console.error('Error in searchInChannels:', error);
-		}
-
-		return results;
-	}
-
-	private async searchInMessages(term: string): Promise<SearchResult[]> {
-		const results: SearchResult[] = [];
-
-		try {
-			const channels = await firstValueFrom(this.chatService.getChannels().pipe(take(1)));
-			if (!channels) return results;
-
-			const realChannels = channels.filter(channel => !channel.channelType.directMessage);
-
-			for (const channel of realChannels) {
-				const messages = await firstValueFrom(this.chatService.getMessages(channel.channelId).pipe(take(1)));
-				if (!messages) continue;
-
-				const matchingMessages = messages.filter(message =>
-					message.text.toLowerCase().includes(term.toLowerCase())
-				);
-
-				for (const message of matchingMessages) {
-					const userStatus = await this.getUserPresenceStatus(message.uid);
-					const userData = await firstValueFrom(this.userLookupService.getUserById(message.uid));
-
-					if (!userData) continue;
-
-					results.push({
-						type: 'message',
-						messageId: (message as any).messageId,
-						messageAuthorId: message.uid,
-						messageContent: message.text,
-						time: message.timestamp,
-						channelId: channel.channelId,
-						channelName: channel.channelName,
-						userName: userData.userName,
-						photoURL: userData.photoURL || '',
-						email: userData.email || '',
-						status: userStatus,
-						channelDescription: ''
-					});
-				}
-			}
-		} catch (error) {
-			console.error('Error in searchInMessages:', error);
-		}
-
-		return results;
-	}
-
-	private async searchInDirectMessages(term: string): Promise<SearchResult[]> {
-		const results: SearchResult[] = [];
-
-		try {
-			const channels = await firstValueFrom(this.chatService.getChannels().pipe(take(1)));
-			if (!channels) return results;
-
-			const dmChannels = channels.filter(channel => channel.channelType.directMessage);
-
-			const currentUser = await firstValueFrom(this.userService.currentUser$.pipe(take(1)));
-			if (!currentUser) return results;
-
-			for (const channel of dmChannels) {
-				const messages = await firstValueFrom(this.chatService.getMessages(channel.channelId).pipe(take(1)));
-				if (!messages) continue;
-
-				const matchingMessages = messages.filter(message =>
-					message.text.toLowerCase().includes(term.toLowerCase())
-				);
-
-				const otherUser = channel.channelMembers.find(member => member !== currentUser.uid);
-				if (!otherUser) continue;
-
-				for (const message of matchingMessages) {
-					const otherUserData = await firstValueFrom(this.userLookupService.getUserById(otherUser));
-					const userStatus = await this.getUserPresenceStatus(message.uid);
-					const userData = await firstValueFrom(this.userLookupService.getUserById(message.uid));
-
-					if (!userData) continue;
-
-					results.push({
-						type: 'message',
-						messageId: (message as any).messageId,
-						messageAuthorId: message.uid,
-						messageContent: message.text,
-						time: message.timestamp,
-						channelId: channel.channelId,
-						channelName: channel.channelName,
-						userName: userData.userName,
-						photoURL: userData.photoURL || '',
-						email: userData.email || '',
-						status: userStatus,
-						directMessageUserId: otherUser,
-						directMessageUserName: otherUserData?.userName || '',
-						channelDescription: ''
-					});
-				}
-			}
-		} catch (error) {
-			console.error('Error in searchInDirectMessages:', error);
-		}
-
-		return results;
-	}
-
-	private async searchInThreads(term: string): Promise<SearchResult[]> {
-		const results: SearchResult[] = [];
-
-		try {
-			const channels = await firstValueFrom(this.chatService.getChannels().pipe(take(1)));
-			if (!channels) return results;
-
-			for (const channel of channels) {
-				const messages = await firstValueFrom(this.chatService.getMessages(channel.channelId).pipe(take(1)));
-				if (!messages) continue;
-
-				const messagesWithThreads = messages.filter(message => message.hasThread);
-
-				for (const parentMessage of messagesWithThreads) {
-					const threadMessages = await firstValueFrom(
-						this.chatService.getThreadMessages(channel.channelId, (parentMessage as any).messageId).pipe(take(1))
-					);
-
-					if (!threadMessages) continue;
-
-					const matchingThreadMessages = threadMessages.filter(message =>
-						message.text.toLowerCase().includes(term.toLowerCase())
-					);
-
-					for (const threadMessage of matchingThreadMessages) {
-						const userStatus = await this.getUserPresenceStatus(threadMessage.uid);
-						const userData = await firstValueFrom(this.userLookupService.getUserById(threadMessage.uid));
-
-						if (!userData) continue;
-
-						results.push({
-							type: 'message',
-							messageId: (threadMessage as any).messageId,
-							messageAuthorId: threadMessage.uid,
-							messageContent: threadMessage.text,
-							time: threadMessage.timestamp,
-							channelId: channel.channelId,
-							channelName: channel.channelName,
-							userName: userData.userName,
-							photoURL: userData.photoURL || '',
-							email: userData.email || '',
-							status: userStatus,
-							repliedMessageId: (parentMessage as any).messageId,
-							replierName: userData.userName,
-							channelDescription: ''
-						});
-					}
-				}
-			}
-		} catch (error) {
-			console.error('Error in searchInThreads:', error);
-		}
-
-		return results;
-	}
-
-	private clearResults(): void {
-		this.searchResultsSubject.next({
-			messages: [],
-			directMessages: [],
-			channels: [],
-			threads: [],
-			users: []
-		});
-	}
+    
+    /**
+     * Searches for users matching the given term.
+     * @param term The search term for users.
+     * @returns A promise resolving to an array of user search results.
+     */
+    private async searchUsers(term: string): Promise<SearchResult[]> {
+        return this.searchUserService.searchUsers(
+            term,
+            this.userService,
+            this.getUserPresenceStatus.bind(this)
+        );
+    }
+    /**
+     * Searches for channels matching the given term.
+     * @param term The search term for channels.
+     * @returns A promise resolving to an array of channel search results.
+     */
+    private async searchChannels(term: string): Promise<SearchResult[]> {
+        return this.searchChannelService.searchChannels(
+            term,
+            this.chatService
+        );
+    }
+    /**
+     * Searches for messages in channels matching the given term.
+     * @param term The search term for messages.
+     * @returns A promise resolving to an array of message search results.
+     */
+    private async searchMessages(term: string): Promise<SearchResult[]> {
+        return this.searchMessageService.searchMessages(
+            term,
+            this.chatService,
+            this.userLookupService,
+            this.getUserPresenceStatus.bind(this)
+        );
+    }
+    /**
+     * Searches for direct messages matching the given term.
+     * @param term The search term for direct messages.
+     * @returns A promise resolving to an array of direct message search results.
+     */
+    private async searchDirectMessages(term: string): Promise<SearchResult[]> {
+        return this.searchMessageService.searchDirectMessages(
+            term,
+            this.chatService,
+            this.userService,
+            this.userLookupService,
+            this.getUserPresenceStatus.bind(this)
+        );
+    }
+    /**
+     * Searches for thread messages matching the given term.
+     * @param term The search term for thread messages.
+     * @returns A promise resolving to an array of thread message search results.
+     */
+    private async searchThreads(term: string): Promise<SearchResult[]> {
+        return this.searchThreadService.searchThreads(
+            term,
+            this.chatService,
+            this.userLookupService,
+            this.getUserPresenceStatus.bind(this),
+            this.searchMessageService.filterMessages.bind(this.searchMessageService)
+        );
+    }
+    
+    /**
+     * Gets the presence status of a user by UID.
+     * @param uid The user ID.
+     * @returns The presence status or false if not available.
+     */
+    private async getUserPresenceStatus(uid: string): Promise<'online' | 'away' | 'offline' | false> {
+        return runInInjectionContext(this.environmentInjector, async () => {
+            try {
+                const presenceRef = ref(this.database, `presence/${uid}`);
+                const snapshot = await get(presenceRef);
+                return snapshot.val()?.status ?? false;
+            } catch (error) {
+                console.error('Error getting user presence:', error);
+                return false;
+            }
+        });
+    }
 }
