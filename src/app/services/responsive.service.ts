@@ -1,45 +1,38 @@
-import {Injectable} from "@angular/core";
-import {BehaviorSubject, Observable} from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable } from "rxjs";
 
 /**
- * Dienst zur Verwaltung des responsiven Verhaltens der Anwendung.
- * Überwacht die Bildschirmbreite und stellt diese Information als Observable bereit.
+ * Service for managing the responsive behavior of the application.
+ * Monitors the screen width and provides this information as an observable.
  */
 @Injectable({
-	providedIn: "root",
+    providedIn: "root",
 })
 export class ResponsiveService {
-	/**
-	 * Observable, das die aktuelle Bildschirmbreite ausgibt und auf Änderungen reagiert.
-	 */
-	public screenWidth$: Observable<number>;
-	private screenWidthSubject: BehaviorSubject<number>;
+    public screenWidth$: Observable<number>;
+    private screenWidthSubject: BehaviorSubject<number>;
 
-	/**
-	 * Initialisiert den Dienst, richtet Event-Listener für Fenstergrößenänderungen ein 
-	 * und initialisiert die Bildschirmbreite mit dem aktuellen Wert.
-	 */
-	constructor() {
-		this.screenWidthSubject = new BehaviorSubject<number>(
-			window.innerWidth
-		);
-		this.screenWidth$ = this.screenWidthSubject.asObservable();
+    /**
+     * Initializes the service, sets up event listeners for window resize,
+     * and initializes the screen width with the current value.
+     */
+    constructor() {
+        this.screenWidthSubject = new BehaviorSubject<number>(window.innerWidth);
+        this.screenWidth$ = this.screenWidthSubject.asObservable();
+        this.updateWidth();
 
-		this.updateWidth();
+        window.addEventListener("resize", () => {
+            this.updateWidth();
+        });
+    }
 
-		window.addEventListener("resize", () => {
-			this.updateWidth();
-		});
-	}
-
-	/**
-	 * Aktualisiert die Bildschirmbreite im BehaviorSubject, wenn sich die Fenstergröße ändert.
-	 *
-	 * @private
-	 * @return {void} Kein Rückgabewert
-	 */
-	private updateWidth(): void {
-		const newWidth = window.innerWidth;
-		this.screenWidthSubject.next(newWidth);
-	}
+    /**
+     * Updates the screen width in the BehaviorSubject when the window size changes.
+     *
+     * @private
+     */
+    private updateWidth(): void {
+        const newWidth = window.innerWidth;
+        this.screenWidthSubject.next(newWidth);
+    }
 }
