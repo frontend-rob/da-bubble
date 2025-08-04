@@ -32,7 +32,7 @@
 			<span class="message-time">{{ message.time }} Uhr</span>
 		</div>
 
-		<div *ngIf="!isEditing" (click)="toggleHovered(true)" class="message">
+		<div (click)="toggleHovered(true)" *ngIf="!isEditing" class="message">
 			<ng-container *ngIf="(chatService.selectedChannel.channelMembers | channelUsers) | async as memberUsers">
 				<span [innerHTML]="message.text | chatMessageTagLink:memberUsers"></span>
 			</ng-container>
@@ -44,7 +44,7 @@
 				[(ngModel)]="editedText"
 				autoFocus
 				class="message-edit-input"
-                name="messageEditInput"
+				name="messageEditInput"
 			></textarea>
 			<div class="edit-actions">
 				<button (click)="saveEditedMessage()" class="btn btn-primary">

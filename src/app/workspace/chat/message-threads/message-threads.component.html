@@ -1,0 +1,63 @@
+<div class="message-threads-container">
+	<header class="threads-header">
+		<h2>Nachrichten</h2>
+		<div class="new-message-input">
+			<!-- MentionInputComponent anstelle des einfachen input -->
+			<app-mention-input
+				(messageSubmit)="onNewMessage($event)"
+				[placeholder]="'To: #channel, @anybody or E-Mail Address'">
+			</app-mention-input>
+		</div>
+	</header>
+
+	<main class="threads-list">
+		<div class="threads-section">
+			<h3>Alle Unterhaltungen</h3>
+
+			<div *ngIf="(messageThreads$ | async)?.length === 0" class="empty-state">
+				<div class="empty-icon"></div>
+				<p>Noch keine Unterhaltungen</p>
+				<span>Starte eine neue Unterhaltung mit dem Eingabefeld oben</span>
+			</div>
+
+			<div
+				(click)="selectThread(thread)"
+				*ngFor="let thread of messageThreads$ | async; trackBy: trackByThreadId"
+				[class.unread]="thread.unreadCount > 0"
+				class="thread-item">
+
+				<div class="thread-avatar">
+					<div *ngIf="thread.channelType === 'channel'" class="channel-avatar">
+						<span class="channel-hash">#</span>
+					</div>
+					<div *ngIf="thread.channelType === 'directMessage'" class="dm-avatar">
+						<img
+							[alt]="thread.channelName"
+							[src]="getThreadAvatar(thread)"
+							height="40"
+							width="40">
+					</div>
+				</div>
+
+				<div class="thread-content">
+					<div class="thread-header">
+            <span class="thread-name">
+              {{ thread.channelType === 'channel' ? '#' : '' }}{{ thread.channelName }}
+            </span>
+						<span class="thread-time">{{ formatTime(thread.lastActivity) }}</span>
+						<div *ngIf="thread.unreadCount > 0" class="unread-badge">
+							{{ thread.unreadCount }}
+						</div>
+					</div>
+
+					<div class="thread-preview">
+            <span *ngIf="thread.lastMessage.uid !== currentUser?.uid" class="message-sender">
+              {{ getSenderName(thread.lastMessage.uid, thread.participants) }}:
+            </span>
+						<span class="message-preview">{{ thread.lastMessage.text }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>

@@ -27,7 +27,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Determines if the channel is valid for creation based on access type and selected users.
-	 * 
+	 *
 	 * @return {boolean} True if the channel can be created, false otherwise.
 	 */
 	isValidForCreation(): boolean {
@@ -40,7 +40,7 @@ export class NewChannelComponent {
 	/**
 	 * Creates a new channel if it's valid for creation.
 	 * Closes the popup after successful creation.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	createChannel() {
@@ -53,7 +53,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Advances to the next step in the channel creation wizard.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	nextStep() {
@@ -62,7 +62,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Returns to the previous step in the channel creation wizard.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	previousStep() {
@@ -71,7 +71,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Closes the channel creation popup and resets the form.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	closePopup() {
@@ -81,7 +81,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Automatically adjusts the height of a textarea based on its content.
-	 * 
+	 *
 	 * @param {any} event - The input event from the textarea.
 	 * @return {void} This method does not return a value.
 	 */
@@ -93,7 +93,7 @@ export class NewChannelComponent {
 
 	/**
 	 * Resets the form fields to their initial values.
-	 * 
+	 *
 	 * @return {void} This method does not return a value.
 	 */
 	private resetForm() {

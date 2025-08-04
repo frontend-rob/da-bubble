@@ -1,5 +1,5 @@
 import {CommonModule, NgOptimizedImage} from "@angular/common";
-import {Component, EventEmitter, Input, Output, ViewEncapsulation} from "@angular/core";
+import {Component, EventEmitter, Input, Output} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
 import {IdtMessages} from "../../../interfaces/message.interface";
 
@@ -26,18 +26,18 @@ export class ChatOptionBarComponent {
 	constructor(private chatService: ChatService) {
 	}
 
-    openThread() {
-        this.chatService.handleThread(true);
-        if (this.message.messageId) {
-            this.chatService.selectedThreadMessageId = this.message.messageId;
-        }
-        if (window.innerWidth <= 1024) {
-            const chatElement = document.querySelector('app-chat');
-            if (chatElement) {
-                (chatElement as HTMLElement).style.display = 'none';
-            }
-        }
-    }
+	openThread() {
+		this.chatService.handleThread(true);
+		if (this.message.messageId) {
+			this.chatService.selectedThreadMessageId = this.message.messageId;
+		}
+		if (window.innerWidth <= 1024) {
+			const chatElement = document.querySelector('app-chat');
+			if (chatElement) {
+				(chatElement as HTMLElement).style.display = 'none';
+			}
+		}
+	}
 
 	toggleEmojiModal() {
 		this.isEmojiModalOpen = !this.isEmojiModalOpen;

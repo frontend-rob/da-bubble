@@ -1,14 +1,13 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { Observable, of, Subscription } from "rxjs";
-import { UserData } from "../../interfaces/user.interface";
-import { ChatService } from "../../services/chat.service";
-import { UserService } from "../../services/user.service";
-import { ResponsiveService } from "../../services/responsive.service";
-import { PresenceService, UserPresence } from "../../services/presence.service";
-import { WorkspaceComponent } from "../workspace.component";
-import { WorkspaceService } from "../../services/workspace.service";
+import {Component, Input, OnInit} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {Observable, of, Subscription} from "rxjs";
+import {UserData} from "../../interfaces/user.interface";
+import {ChatService} from "../../services/chat.service";
+import {UserService} from "../../services/user.service";
+import {ResponsiveService} from "../../services/responsive.service";
+import {PresenceService, UserPresence} from "../../services/presence.service";
+import {WorkspaceService} from "../../services/workspace.service";
 
 /**
  * Component for displaying and managing a user's profile card, including viewing profile information,
@@ -55,19 +54,7 @@ export class ProfileCardComponent implements OnInit {
 		private chatService: ChatService,
 		private responsiveService: ResponsiveService,
 		private presenceService: PresenceService
-	) {}
-
-	/**
-	 * Initializes the component by setting up a subscription to screen width changes
-	 * for responsive design adjustments.
-	 *
-	 * @return {void} This method does not return a value.
-	 */
-	ngOnInit(): void {
-		this.screenWidthSubscription =
-			this.responsiveService.screenWidth$.subscribe((val) => {
-				this.screenWidth = val;
-			});
+	) {
 	}
 
 	/**
@@ -113,6 +100,19 @@ export class ProfileCardComponent implements OnInit {
 	 */
 	get isUserProfileEdit(): boolean {
 		return this.userService.isUserProfileEdit;
+	}
+
+	/**
+	 * Initializes the component by setting up a subscription to screen width changes
+	 * for responsive design adjustments.
+	 *
+	 * @return {void} This method does not return a value.
+	 */
+	ngOnInit(): void {
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
+			});
 	}
 
 	/**

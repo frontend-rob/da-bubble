@@ -1,0 +1,25 @@
+<div class="mention-input-container">
+      <textarea
+				#textArea
+				(input)="onTextChange($event)"
+				(keydown)="onKeyDown($event)"
+				[(ngModel)]="inputText"
+				[placeholder]="placeholder"
+				class="mention-textarea">
+      </textarea>
+
+	<!-- Suggestion Dropdown -->
+	<div *ngIf="showSuggestions && suggestions.length > 0"
+			 class="suggestions-dropdown">
+		<div (click)="selectSuggestion(user)"
+				 *ngFor="let user of suggestions; let i = index"
+				 [class.selected]="i === selectedSuggestionIndex"
+				 class="suggestion-item">
+			<img [alt]="user.userName" [src]="user.photoURL" class="user-avatar">
+			<div class="user-info">
+				<span class="user-name">{{ user.userName }}</span>
+				<span class="user-email">{{ user.email }}</span>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,4 +1,14 @@
-import {AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from "@angular/core";
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	Input,
+	OnChanges,
+	OnDestroy,
+	OnInit,
+	SimpleChanges,
+	ViewChild
+} from "@angular/core";
 import {debounceTime, distinctUntilChanged, filter, fromEvent, Subject, Subscription, takeUntil} from "rxjs";
 import {IdtMessages, Reaction} from "../../../interfaces/message.interface";
 import {ChatService} from "../../../services/chat.service";
@@ -123,15 +133,6 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 		);
 	}
 
-	/**
-	 * Reset all caches
-	 */
-	private resetCaches(): void {
-		this._cachedGroupedReactions = [];
-		this._cachedUserReactions = {};
-		this._isOwnMessageCache = null;
-	}
-
 	ngAfterViewInit() {
 		this.setupEventDelegation();
 	}
@@ -243,14 +244,14 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 	startEditingMessage(message: IdtMessages) {
 		this.isEditing = true;
 		this.editedText = message.text;
-        setTimeout(() => {
-            const textarea = document.querySelector('.message-edit-input') as HTMLTextAreaElement;
-            if (textarea) {
-                textarea.focus();
-                textarea.style.height = 'auto';
-                textarea.style.height = textarea.scrollHeight + 'px';
-            }
-        }, 0);
+		setTimeout(() => {
+			const textarea = document.querySelector('.message-edit-input') as HTMLTextAreaElement;
+			if (textarea) {
+				textarea.focus();
+				textarea.style.height = 'auto';
+				textarea.style.height = textarea.scrollHeight + 'px';
+			}
+		}, 0);
 	}
 
 	saveEditedMessage() {
@@ -284,6 +285,15 @@ export class ChatMessageComponent implements OnInit, OnDestroy, AfterViewInit, O
 				console.info('Nachricht gelöscht');
 			});
 		}
+	}
+
+	/**
+	 * Reset all caches
+	 */
+	private resetCaches(): void {
+		this._cachedGroupedReactions = [];
+		this._cachedUserReactions = {};
+		this._isOwnMessageCache = null;
 	}
 
 	/**

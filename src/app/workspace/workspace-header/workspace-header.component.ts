@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Router } from "@angular/router";
-import { Observable, of, Subscription } from "rxjs";
-import { ProfileCardComponent } from "../profile-card/profile-card.component";
-import { SearchCardComponent } from "./search-card/search-card.component";
-import { AvatarsComponent } from "../../onboarding/avatars/avatars.component";
-import { AuthService } from "../../services/auth.service";
-import { UserData } from "../../interfaces/user.interface";
-import { UserService } from "../../services/user.service";
-import { ChatService } from "../../services/chat.service";
-import { WorkspaceService } from "../../services/workspace.service";
-import { ResponsiveService } from "../../services/responsive.service";
-import { PresenceService, UserPresence } from "../../services/presence.service";
+import {Component, OnDestroy, OnInit} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Router} from "@angular/router";
+import {Observable, of, Subscription} from "rxjs";
+import {ProfileCardComponent} from "../profile-card/profile-card.component";
+import {SearchCardComponent} from "./search-card/search-card.component";
+import {AvatarsComponent} from "../../onboarding/avatars/avatars.component";
+import {AuthService} from "../../services/auth.service";
+import {UserData} from "../../interfaces/user.interface";
+import {UserService} from "../../services/user.service";
+import {ChatService} from "../../services/chat.service";
+import {WorkspaceService} from "../../services/workspace.service";
+import {ResponsiveService} from "../../services/responsive.service";
+import {PresenceService, UserPresence} from "../../services/presence.service";
 
 @Component({
 	selector: "app-workspace-header",
@@ -79,42 +79,7 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 		private workspaceService: WorkspaceService,
 		private responsiveService: ResponsiveService,
 		private presenceService: PresenceService
-	) {}
-
-	/**
-	 * Initializes the component by setting up subscriptions for user data,
-	 * main menu state, and screen width for responsive design.
-	 *
-	 * @return {void} This method does not return a value.
-	 */
-	ngOnInit() {
-		this.userSubscription = this.userService.currentUser$.subscribe(
-			(userData) => {
-				if (userData) this.currentPerson = userData;
-			}
-		);
-
-		this.isMainMenuOpenSubscription =
-			this.workspaceService.isMainMenuOpen$.subscribe((val) => {
-				this.isMainMenuOpen = val;
-			});
-
-		this.screenWidthSubscription =
-			this.responsiveService.screenWidth$.subscribe((val) => {
-				this.screenWidth = val;
-			});
-	}
-
-	/**
-	 * Cleans up resources when the component is destroyed by unsubscribing
-	 * from all subscriptions to prevent memory leaks.
-	 *
-	 * @return {void} This method does not return a value.
-	 */
-	ngOnDestroy() {
-		if (this.userSubscription) this.userSubscription.unsubscribe();
-		this.isMainMenuOpenSubscription.unsubscribe();
-		this.screenWidthSubscription.unsubscribe();
+	) {
 	}
 
 	/**
@@ -160,6 +125,42 @@ export class WorkspaceHeaderComponent implements OnInit, OnDestroy {
 	 */
 	get isChatResponsive() {
 		return this.chatService.isChatResponsive;
+	}
+
+	/**
+	 * Initializes the component by setting up subscriptions for user data,
+	 * main menu state, and screen width for responsive design.
+	 *
+	 * @return {void} This method does not return a value.
+	 */
+	ngOnInit() {
+		this.userSubscription = this.userService.currentUser$.subscribe(
+			(userData) => {
+				if (userData) this.currentPerson = userData;
+			}
+		);
+
+		this.isMainMenuOpenSubscription =
+			this.workspaceService.isMainMenuOpen$.subscribe((val) => {
+				this.isMainMenuOpen = val;
+			});
+
+		this.screenWidthSubscription =
+			this.responsiveService.screenWidth$.subscribe((val) => {
+				this.screenWidth = val;
+			});
+	}
+
+	/**
+	 * Cleans up resources when the component is destroyed by unsubscribing
+	 * from all subscriptions to prevent memory leaks.
+	 *
+	 * @return {void} This method does not return a value.
+	 */
+	ngOnDestroy() {
+		if (this.userSubscription) this.userSubscription.unsubscribe();
+		this.isMainMenuOpenSubscription.unsubscribe();
+		this.screenWidthSubscription.unsubscribe();
 	}
 
 	/**

@@ -158,6 +158,28 @@ export class ChatService {
 	}
 
 	/**
+	 * Sets the currently selected channel.
+	 *
+	 * @param {ChannelData} channel - The channel data to set as selected.
+	 * @return {void} No return value.
+	 */
+	setSelectedChannel(channel: ChannelData): void {
+		this.selectedChannel = channel;
+		this.setActiveChat(channel.channelId);
+		console.log('Selected channel set:', channel);
+	}
+
+	/**
+	 * Clears the currently selected channel.
+	 *
+	 * @return {void} No return value.
+	 */
+	clearSelectedChannel(): void {
+		this.selectedChannel = null as any;
+		this._activeChat = '';
+	}
+
+	/**
 	 * Updates the thread messages information in Firestore for a selected thread message.
 	 *
 	 * @param {string} time - The last timestamp of the thread activity.
@@ -224,7 +246,7 @@ export class ChatService {
 
 	/**
 	 * Checks if a channel with the given name already exists.
-	 * 
+	 *
 	 * @param {string} channelName - The name to check for duplicates.
 	 * @return {Promise<boolean>} - A promise that resolves to true if a duplicate exists, false otherwise.
 	 */
@@ -264,10 +286,10 @@ export class ChatService {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
 			const newDocRef = doc(channelsRef);  // Generiert eine neue Document ID
-			
+
 			// Aktualisiere die channelId im übergebenen Objekt
 			channel.channelId = newDocRef.id;
-			
+
 			await setDoc(newDocRef, {
 				channelId: newDocRef.id,  // Verwende die Firestore Document ID als channelId
 				channelName: channel.channelName,
@@ -278,7 +300,7 @@ export class ChatService {
 				createdAt: channel.createdAt || Timestamp.fromDate(new Date()),
 				updatedAt: Timestamp.fromDate(new Date()),
 			});
-		
+
 			return newDocRef.id; // Rückgabe der Document ID
 		});
 	}
@@ -561,7 +583,7 @@ export class ChatService {
 			const firestore = inject(Firestore);
 			const channelsRef = collection(firestore, "channels");
 			const newDocRef = doc(channelsRef);  // Generiert automatisch eine Document ID
-			
+
 			const newChannel: ChannelData = {
 				channelId: newDocRef.id,  // Verwende die Firestore Document ID
 				channelName: `${user2.userName}`,
@@ -631,7 +653,7 @@ export class ChatService {
 	/**
 	 * Gets a real-time Observable for a specific channel by ID.
 	 * This allows components to subscribe to changes in a specific channel's data.
-	 * 
+	 *
 	 * @param {string} channelId - The ID of the channel to observe.
 	 * @returns {Observable<ChannelData | undefined>} An Observable that emits the channel data whenever it changes.
 	 */
@@ -642,7 +664,7 @@ export class ChatService {
 
 			return new Observable<ChannelData | undefined>(observer => {
 				// Set up real-time listener using onSnapshot
-				const unsubscribe = onSnapshot(channelRef, 
+				const unsubscribe = onSnapshot(channelRef,
 					(docSnap) => {
 						if (docSnap.exists()) {
 							observer.next({ ...docSnap.data(), channelId: docSnap.id } as ChannelData);

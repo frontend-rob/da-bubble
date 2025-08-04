@@ -1,0 +1,86 @@
+<div class="chat-header">
+	@if (selectedChannel.channelType.channel) {
+		<div (click)="onOpenModal()" class="chat-title">
+			<img
+				class="icon"
+				ngSrc="assets/img/chat/channel_tag.svg"
+				alt="channel tag"
+				height="18"
+				width="18"
+			/>
+			<h1>{{ selectedChannel.channelName }}</h1>
+			<img
+				class="arrow"
+				ngSrc="assets/img/chat/arrow_down.svg"
+				alt="arrow down"
+				height="12"
+				width="12"
+			/>
+		</div>
+	} @else {
+		<ng-container *ngIf="otherUser$ | async as otherUser">
+			<div
+				(click)="onProfileCardToggle(true, otherUser)"
+				class="chat-title menu-item"
+			>
+				<div class="avatar">
+					<img
+						[ngSrc]="otherUser.photoURL"
+						alt="avatar"
+						height="50"
+						width="50"
+					/>
+					<div
+						[ngClass]="{
+              online: (otherUserPresence$ | async)?.status === 'online',
+              offline: (otherUserPresence$ | async)?.status === 'offline',
+              away: (otherUserPresence$ | async)?.status === 'away'
+            }"
+						class="status"
+					></div>
+				</div>
+				<h1>{{ otherUser.userName }}</h1>
+				<img
+					class="arrow"
+					ngSrc="assets/img/chat/arrow_down.svg"
+					alt="arrow down"
+					height="12"
+					width="12"
+				/>
+			</div>
+		</ng-container>
+	}
+
+	@if (selectedChannel.channelType.channel) {
+		<div class="chat-members">
+			@if (screenWidth >= 1024) {
+				<div (click)="onOpenMembersMenu()" class="members">
+					<div
+						*ngFor="let memberId of selectedChannel.channelMembers"
+						class="member"
+					>
+						<ng-container *ngIf="memberId | channelUser | async as member">
+							<img
+								[ngSrc]="member.photoURL"
+								alt="member photoURL"
+								height="48"
+								width="48"
+							/>
+						</ng-container>
+					</div>
+					<div class="member-counter">
+						{{ selectedChannel.channelMembers.length || 0 }}
+					</div>
+				</div>
+			}
+			<div (click)="onOpenAddMemberModal()" class="add-member">
+				<img
+					ngSrc="assets/img/chat/add_member.svg"
+					alt="add member"
+					height="17"
+					width="22"
+				/>
+			</div>
+		</div>
+	}
+</div>

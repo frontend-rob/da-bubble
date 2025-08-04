@@ -1,0 +1,13 @@
+<div class="new-message-header">
+	<h1>New Message</h1>
+	<div>
+		<input
+			(input)="onInputDataChange()"
+			(keydown)="onKeyDown($event)"
+			[(ngModel)]="newMessageInputData"
+			name="description"
+			placeholder="To: #channel, @anybody or E-Mail Address"
+			type="text"
+		/>
+	</div>
+</div>

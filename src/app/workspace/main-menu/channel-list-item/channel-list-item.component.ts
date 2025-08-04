@@ -36,7 +36,15 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
 		private chatService: ChatService,
 		private userService: UserService,
 		private responsiveService: ResponsiveService
-	) { }
+	) {
+	}
+
+	/**
+	 * Returns true if this channel is the active chat.
+	 */
+	get isActive(): boolean {
+		return this.channel.channelId === this.chatService.activeChat;
+	}
 
 	/**
 	 * Initializes subscriptions for user and screen width changes.
@@ -64,13 +72,6 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
 			this.userSubscription.unsubscribe();
 		}
 		this.screenWidthSubscription.unsubscribe();
-	}
-
-	/**
-	 * Returns true if this channel is the active chat.
-	 */
-	get isActive(): boolean {
-		return this.channel.channelId === this.chatService.activeChat;
 	}
 
 	/**

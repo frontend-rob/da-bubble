@@ -1,12 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Observable } from "rxjs";
-import { UserData } from "../../../interfaces/user.interface";
-import { ChatService } from "../../../services/chat.service";
-import {
-	PresenceService,
-	UserPresence,
-} from "../../../services/presence.service";
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Observable} from "rxjs";
+import {UserData} from "../../../interfaces/user.interface";
+import {ChatService} from "../../../services/chat.service";
+import {PresenceService, UserPresence,} from "../../../services/presence.service";
 
 /**
  * Component for displaying a direct message list item that represents either
@@ -39,7 +36,8 @@ export class DirectMessageListItemComponent implements OnInit {
 	constructor(
 		public chatService: ChatService,
 		private presenceService: PresenceService
-	) {}
+	) {
+	}
 
 	/**
 	 * Initializes the component by setting up the chat partner presence subscription
