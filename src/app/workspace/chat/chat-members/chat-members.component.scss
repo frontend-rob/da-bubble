@@ -1,7 +1,89 @@
 @use "./../../../../styles/variables" as variables;
+@use "./../../../../styles/mixins" as mixins;
 @use "./../../../../styles/fonts" as fonts;
 @use "./../../../../styles/shared-styles" as shared;
-@use "./../../../../styles/mixins" as mixins;
+
+
+/* Container auf der rechten Seite des Headers */
+:host {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+/* Avatare kompakter, leichte Überlappung */
+.members {
+	display: flex;
+	align-items: center;
+	padding: 2px 8px;
+	gap: 10px;
+	border-radius: 100px;
+
+	&:hover {
+		background-color: variables.$bg-base-100;
+
+		.member-counter {
+			color: variables.$text-hover;
+		}
+	}
+}
+
+.member {
+	margin-left: -14px;
+	width: 36px;
+	height: 36px;
+	border: 2px solid #fff;
+	border-radius: 50%;
+
+	&:first-child {
+		margin-left: 0 !important;
+	}
+
+	img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+	}
+}
+
+.member-counter {
+	font-size: 14px;
+	font-weight: 600;
+	color: variables.$text-secondary;
+}
+
+/* Add-Member Button klein, dezent */
+.add-member {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	background-color: variables.$bg-base-100;
+	cursor: pointer;
+
+	img {
+		width: 18px;
+		height: 14px;
+	}
+
+	&:hover img {
+		content: url("/assets/img/chat/add_member_hover.svg");
+	}
+}
+
+/* Popover/Modale wie zuvor – nur kleine Abstände anpassen */
+.members-menu-modal {
+	@include mixins.modal-container;
+	@include mixins.body-text;
+	position: absolute;
+	top: 56px;
+	right: 16px;
+	width: 360px;
+	z-index: 10;
+	background-color: variables.$bg-base-200;
+}
 
 /* Avatare und Zähler im Header-Bereich */
 .members {
@@ -903,7 +985,7 @@
 
 			&::-webkit-scrollbar {
 				background: transparent;
-				width: 0px;
+				width: 0;
 			}
 		}
 
@@ -1005,5 +1087,34 @@
 
 	.direct-message-info {
 		font-size: 16px;
+	}
+}
+
+/* Status-Abzeichen */
+.status {
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	border: 2px solid #fff;
+
+	&.online {
+		background-color: variables.$online;
+	}
+
+	&.away {
+		background-color: variables.$away;
+	}
+
+	&.offline {
+		background-color: variables.$offline;
+	}
+}
+
+@media screen and (max-width: 1440px) {
+	.add-member {
+		display: none;
 	}
 }

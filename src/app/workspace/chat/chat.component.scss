@@ -25,11 +25,35 @@
 	height: 100%;
 }
 
+/* Footer/Card-Stil für Eingabefeld */
+.chat-footer {
+	width: 100%;
+}
+
+/* Titel + Mitglieder nebeneinander */
+.chat-header-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	width: 100%;
+	border-bottom: 1px solid variables.$border; /* feine Trennlinie wie Figma */
+	padding-bottom: 8px;
+
+	app-chat-header {
+		width: 100%;
+	}
+}
+
 .chat-main {
 	@include mixins.flex-column(center, space-between);
 	width: 100%;
 	height: 100%;
 	overflow-y: auto;
+
+	app-chat-message-other {
+		width: 100%;
+	}
 }
 
 .chat-history {

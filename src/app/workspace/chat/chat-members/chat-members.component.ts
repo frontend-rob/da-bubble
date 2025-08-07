@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ChannelData} from '../../../interfaces/channel.interface';
 import {UserData} from '../../../interfaces/user.interface';
-import {UserPresence} from '../../../services/presence.service';
 import {ChannelUserPipe} from '../../../pipes/channel-user.pipe';
+import {PresenceService, UserPresence} from '../../../services/presence.service';
 
 @Component({
 	selector: 'app-chat-members',
@@ -28,12 +28,14 @@ export class ChatMembersComponent {
 
 	@Output() openAddMemberModal = new EventEmitter<void>();
 	@Output() closeModals = new EventEmitter<void>();
-	@Output() profileCardToggle = new EventEmitter<{ show: boolean, user: UserData }>();
+	@Output() profileCardToggle = new EventEmitter<{ show: boolean; user: UserData }>();
 	@Output() userSelectionAdd = new EventEmitter<UserData>();
 	@Output() userSelectionRemove = new EventEmitter<UserData>();
 	@Output() searchInputChange = new EventEmitter<void>();
 	@Output() addNewMember = new EventEmitter<void>();
-	@Output() memberPresenceRequest = new EventEmitter<string>();
+
+	constructor(private presenceService: PresenceService) {
+	}
 
 	onOpenAddMemberModal(): void {
 		this.openAddMemberModal.emit();
@@ -63,10 +65,8 @@ export class ChatMembersComponent {
 		this.addNewMember.emit();
 	}
 
-	// Diese Methode sollte eine Observable zurückgeben, nicht einen EventEmitter verwenden
+	// Präsenz wirklich laden
 	getMemberPresenceStatus(uid: string): Observable<UserPresence | null> {
-		// Hier sollte die tatsächliche Presence-Logic implementiert werden
-		// Für jetzt geben wir ein leeres Observable zurück
-		return of(null);
+		return this.presenceService.getUserPresence(uid);
 	}
 }

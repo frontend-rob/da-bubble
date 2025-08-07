@@ -1,46 +1,50 @@
 @use "./../../../../styles/variables" as variables;
-@use "./../../../../styles/fonts" as fonts;
-@use "./../../../../styles/shared-styles" as shared;
 @use "./../../../../styles/mixins" as mixins;
 
 /* Kopfbereich der Chat-Ansicht */
 .header {
 	@include mixins.flex-row;
 	width: 100%;
-	padding: 20px;
+	padding: 16px 24px;
 	border-top-left-radius: 30px;
 	border-top-right-radius: 30px;
 	box-shadow: 0 2px 10px 0 #00000014;
-	position: relative;
+	position: sticky; /* sticky wie in der Referenz */
+	top: 0;
+	z-index: 5;
+	background-color: variables.$bg-base-200;
 	max-height: 6rem;
 	height: 100%;
 }
 
 .chat-header {
-	@include mixins.flex-between;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	min-width: 0;
 	width: 100%;
-	position: relative;
 }
 
-/* Titel/Badge */
 .chat-title {
 	@include mixins.badge;
 	cursor: pointer;
+	padding: 8px 12px;
+	gap: 8px;
 
 	h1 {
-		font-size: 24px;
+		font-size: 20px;
 		font-weight: 700;
-		transition: color 0.3s ease;
+		transition: color .3s ease;
 	}
 
-	.icon,
-	.arrow {
-		transition: all 0.3s ease;
+	.icon, .arrow {
+		transition: all .3s ease;
 	}
 
 	.avatar-icon {
-		width: 50px;
-		height: 50px;
+		width: 40px;
+		height: 40px;
 	}
 
 	&:hover {
@@ -68,11 +72,89 @@
 	position: relative;
 }
 
+/* Hauptbereich mit seitlichen Guttern */
+.chat-main {
+	@include mixins.flex-column(center, space-between);
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	padding: 0 24px; /* Gutter links/rechts */
+}
+
+/* Zeittrenner entsprechend Referenz */
+.message-time-separator {
+	@include mixins.flex-center;
+	padding: 16px 0;
+	width: 100%;
+	gap: 16px;
+
+	&::before,
+	&::after {
+		content: "";
+		flex: 1;
+		border-bottom: 1px solid variables.$border;
+		opacity: .8;
+	}
+
+	.time {
+		border: 1px solid variables.$border;
+		background-color: variables.$bg-base-200;
+		border-radius: 999px;
+		padding: 6px 14px;
+		font-size: 14px;
+		color: variables.$text-secondary;
+		white-space: nowrap;
+	}
+}
+
+/* Fallback für alte Klasse */
+.date-divider {
+	@extend .message-time-separator;
+
+	> span {
+		@extend .time;
+	}
+}
+
+/* Footer/Card-Stil für Eingabefeld */
+.chat-footer {
+	padding: 16px 24px 24px;
+}
+
+.message-input-field {
+	width: 100%;
+	border-radius: 16px;
+	background: variables.$bg-base-200;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, .08);
+	overflow: hidden; /* damit innenliegende Elemente sauber runden */
+}
+
+/* Dünne Scrollbar */
+.chat-main {
+	scrollbar-width: thin;
+}
+
+.chat-main::-webkit-scrollbar {
+	height: 8px;
+	width: 8px;
+}
+
+.chat-main::-webkit-scrollbar-thumb {
+	background-color: rgba(0, 0, 0, .15);
+	border-radius: 8px;
+}
+
+/* Responsive Feinschliff */
+@media screen and (max-width: 1280px) {
+	.chat-main {
+		padding: 0 16px;
+	}
+}
+
 /* Responsive für Header */
 @media screen and (max-width: 1024px) {
 	.header {
-		max-height: 52px;
-		padding: 8px 16px;
+		padding: 8px 12px;
 		border-radius: 0;
 	}
 
@@ -89,5 +171,122 @@
 		.arrow {
 			width: 12px;
 		}
+	}
+}
+
+@media screen and (min-width: 1440px) {
+	.chat-title h1 {
+		font-size: 22px;
+	}
+}
+
+/* Avatare kompakter, leichte Überlappung */
+.members {
+	display: flex;
+	align-items: center;
+	padding: 2px 8px;
+	gap: 10px;
+	border-radius: 100px;
+
+	&:hover {
+		background-color: variables.$bg-base-100;
+
+		.member-counter {
+			color: variables.$text-hover;
+		}
+	}
+}
+
+.member {
+	margin-left: -14px;
+	width: 36px;
+	height: 36px;
+	border: 2px solid #fff;
+	border-radius: 50%;
+
+	&:first-child {
+		margin-left: 0 !important;
+	}
+
+	img {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+	}
+}
+
+
+.add-member {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45px;
+	height: 45px;
+	border-radius: 100%;
+	background-color: variables.$bg-base-100;
+	cursor: pointer;
+
+	img {
+		width: 22px;
+		height: 17px;
+	}
+
+	&:hover img {
+		content: url("/assets/img/chat/add_member_hover.svg");
+	}
+}
+
+@media screen and (max-width: 1440px) {
+	.add-member {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 1440px) {
+	.add-member {
+		display: none
+	}
+}
+
+
+.add-member-modal-header > div {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+
+.add-member-modal > div:last-child {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.add-member-modal > div:last-child button {
+	@include mixins.action-button(variables.$bg-primary,
+		variables.$text-inverse);
+	width: fit-content;
+}
+
+.add-member-modal > div:last-child button:hover {
+	background-color: variables.$bg-primary-accent;
+}
+
+add-member {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 45px;
+	height: 45px;
+	border-radius: 100%;
+	background-color: variables.$bg-base-100;
+	cursor: pointer;
+
+	img {
+		width: 22px;
+		height: 17px;
+	}
+
+	&:hover img {
+		content: url("/assets/img/chat/add_member_hover.svg");
 	}
 }
