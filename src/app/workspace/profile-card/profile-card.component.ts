@@ -15,7 +15,7 @@ import {WorkspaceService} from "../../services/workspace.service";
  */
 @Component({
 	selector: "app-profile-card",
-	imports: [CommonModule, NgOptimizedImage, FormsModule],
+	imports: [CommonModule, FormsModule, NgOptimizedImage],
 	templateUrl: "./profile-card.component.html",
 	styleUrl: "./profile-card.component.scss",
 })

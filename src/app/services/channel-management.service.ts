@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { ChannelData } from '../interfaces/channel.interface';
-import { UserData } from '../interfaces/user.interface';
+import {Injectable} from '@angular/core';
+import {ChannelData} from '../interfaces/channel.interface';
+import {UserData} from '../interfaces/user.interface';
 
 /**
  * Service for managing channel operations such as filtering, categorizing, and validating channels.

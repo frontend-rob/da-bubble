@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import {Injectable} from "@angular/core";
+import {BehaviorSubject} from "rxjs";
 
 /**
  * Service for managing the state of the main menu in the workspace.

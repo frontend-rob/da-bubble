@@ -6,15 +6,13 @@ import {UserService} from '../../../services/user.service';
 import {UserData} from '../../../interfaces/user.interface';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
-import {MentionInputComponent} from "../mention-input/mention-input.component";
 
 @Component({
 	selector: 'app-message-threads',
 	standalone: true,
 	imports: [
 		CommonModule,
-		FormsModule,
-		MentionInputComponent
+		FormsModule
 	],
 	templateUrl: './message-threads.component.html',
 	styleUrls: ['./message-threads.component.scss']

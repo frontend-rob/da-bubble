@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Observable } from "rxjs";
-import { ChannelData } from "../../../interfaces/channel.interface";
-import { UserData } from "../../../interfaces/user.interface";
-import { PresenceService, UserPresence } from "../../../services/presence.service";
+import {AfterViewInit, Component, EventEmitter, Input, Output} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Observable} from "rxjs";
+import {ChannelData} from "../../../interfaces/channel.interface";
+import {UserData} from "../../../interfaces/user.interface";
+import {PresenceService, UserPresence} from "../../../services/presence.service";
 
 @Component({
     selector: "app-message-input-modal",

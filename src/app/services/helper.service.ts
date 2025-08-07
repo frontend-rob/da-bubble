@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 
 /**
  * Helper service providing general utility methods for the entire application.

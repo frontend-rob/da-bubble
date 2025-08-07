@@ -1,5 +1,17 @@
 import {EnvironmentInjector, inject, Injectable, OnDestroy, runInInjectionContext} from "@angular/core";
-import {debounceTime, filter, fromEvent, merge, Observable, Subject, switchMap, takeUntil, tap, timer, throttleTime} from "rxjs";
+import {
+	debounceTime,
+	filter,
+	fromEvent,
+	merge,
+	Observable,
+	Subject,
+	switchMap,
+	takeUntil,
+	tap,
+	throttleTime,
+	timer
+} from "rxjs";
 import {Database, get, off, onDisconnect, onValue, ref, serverTimestamp, set} from "@angular/fire/database";
 import {
 	Auth,

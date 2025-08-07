@@ -2,11 +2,11 @@ import {Component} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {MainMenuComponent} from "./main-menu/main-menu.component";
 import {WorkspaceHeaderComponent} from "./workspace-header/workspace-header.component";
-import {ChatComponent} from "./chat/chat.component";
-import {ThreadComponent} from "./thread/thread.component";
 import {ProfileCardComponent} from "./profile-card/profile-card.component";
 import {ChatService} from "../services/chat.service";
 import {UserService} from "../services/user.service";
+import {ChatComponent} from "./chat/chat.component";
+import {ThreadComponent} from "./thread/thread.component";
 
 /**
  * WorkspaceComponent manages the main application view, including chats, threads etc.
@@ -17,9 +17,9 @@ import {UserService} from "../services/user.service";
 		CommonModule,
 		MainMenuComponent,
 		WorkspaceHeaderComponent,
+		ProfileCardComponent,
 		ChatComponent,
 		ThreadComponent,
-		ProfileCardComponent,
 	],
 	templateUrl: "./workspace.component.html",
 	styleUrls: ["./workspace.component.scss"],

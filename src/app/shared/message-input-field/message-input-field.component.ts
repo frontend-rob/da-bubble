@@ -1,22 +1,22 @@
 import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnInit,
-    Output,
-    ViewChild
+	AfterViewInit,
+	Component,
+	ElementRef,
+	EventEmitter,
+	HostListener,
+	Input,
+	OnInit,
+	Output,
+	ViewChild
 } from "@angular/core";
-import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-import { Subscription } from "rxjs";
-import { MessageInputModalComponent } from "./message-input-modal/message-input-modal.component";
-import { ChannelData } from "../../interfaces/channel.interface";
-import { UserData } from "../../interfaces/user.interface";
-import { ChatService } from "../../services/chat.service";
-import { UserLookupService } from "../../services/user-lookup.service";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {Subscription} from "rxjs";
+import {MessageInputModalComponent} from "./message-input-modal/message-input-modal.component";
+import {ChannelData} from "../../interfaces/channel.interface";
+import {UserData} from "../../interfaces/user.interface";
+import {ChatService} from "../../services/chat.service";
+import {UserLookupService} from "../../services/user-lookup.service";
 
 @Component({
     selector: "app-message-input-field",

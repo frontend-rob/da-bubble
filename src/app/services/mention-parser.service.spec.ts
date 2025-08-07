@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { MentionParserService } from './mention-parser.service';
+import {MentionParserService} from './mention-parser.service';
 
 describe('MentionParserService', () => {
   let service: MentionParserService;

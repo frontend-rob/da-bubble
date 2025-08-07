@@ -1,7 +1,7 @@
-import { inject, Injectable } from '@angular/core';
-import { Database, onValue, ref } from '@angular/fire/database';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {inject, Injectable} from '@angular/core';
+import {Database, onValue, ref} from '@angular/fire/database';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 export interface UserPresence {
     status: 'online' | 'offline' | 'away';

@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { UserData } from '../interfaces/user.interface';
+import {Injectable} from '@angular/core';
+import {UserData} from '../interfaces/user.interface';
 
 export interface MentionMatch {
   type: 'user' | 'channel' | 'everyone';

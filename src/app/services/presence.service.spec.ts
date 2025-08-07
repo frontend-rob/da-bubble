@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { PresenceService } from './presence.service';
+import {TestBed} from '@angular/core/testing';
+import {PresenceService} from './presence.service';
 
 describe('PresenceService', () => {
 

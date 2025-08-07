@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { UserLookupService } from './user-lookup.service';
+import {TestBed} from '@angular/core/testing';
+import {UserLookupService} from './user-lookup.service';
 
 describe('UserLookupService', () => {
 

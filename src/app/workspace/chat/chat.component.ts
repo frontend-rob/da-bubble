@@ -7,27 +7,27 @@ import {Message} from "../../interfaces/message.interface";
 import {UserData} from "../../interfaces/user.interface";
 import {UserPresence} from "../../services/presence.service";
 import {CommonModule} from "@angular/common";
-import {ChatHeaderComponent} from "./chat-header/chat-header.component";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {ChatManagementService} from "../../services/chat-management.service";
 import {ChatMembersComponent} from "./chat-members/chat-members.component";
+import {ChatHeaderComponent} from "./chat-header/chat-header.component";
 import {ChannelModalComponent} from "./channel-modal/channel-modal.component";
 import {NewMessageHeaderComponent} from "./new-message-header/new-message-header.component";
 import {ChatMessageComponent} from "./chat-message-other/chat-message.component";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
 import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
-import {ChatManagementService} from "../../services/chat-management.service";
 
 @Component({
 	selector: "app-chat",
 	standalone: true,
 	imports: [
 		CommonModule,
-		ChatHeaderComponent,
 		ChatMembersComponent,
+		ChatHeaderComponent,
 		ChannelModalComponent,
 		NewMessageHeaderComponent,
 		ChatMessageComponent,
-		MessageInputFieldComponent,
-		AutoScrollingDirective
+		AutoScrollingDirective,
+		MessageInputFieldComponent
 	],
 	templateUrl: "./chat.component.html",
 	styleUrls: ["./chat.component.scss"]

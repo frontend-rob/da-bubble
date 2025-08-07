@@ -1,0 +1,93 @@
+@use "./../../../../styles/variables" as variables;
+@use "./../../../../styles/fonts" as fonts;
+@use "./../../../../styles/shared-styles" as shared;
+@use "./../../../../styles/mixins" as mixins;
+
+/* Kopfbereich der Chat-Ansicht */
+.header {
+	@include mixins.flex-row;
+	width: 100%;
+	padding: 20px;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
+	box-shadow: 0 2px 10px 0 #00000014;
+	position: relative;
+	max-height: 6rem;
+	height: 100%;
+}
+
+.chat-header {
+	@include mixins.flex-between;
+	width: 100%;
+	position: relative;
+}
+
+/* Titel/Badge */
+.chat-title {
+	@include mixins.badge;
+	cursor: pointer;
+
+	h1 {
+		font-size: 24px;
+		font-weight: 700;
+		transition: color 0.3s ease;
+	}
+
+	.icon,
+	.arrow {
+		transition: all 0.3s ease;
+	}
+
+	.avatar-icon {
+		width: 50px;
+		height: 50px;
+	}
+
+	&:hover {
+		background-color: variables.$bg-base-100;
+
+		h1 {
+			color: variables.$text-hover;
+		}
+
+		.icon {
+			content: url("/assets/img/chat/channel_tag_hover.svg");
+		}
+
+		.arrow {
+			content: url("/assets/img/chat/arrow_down_hover.svg");
+		}
+	}
+}
+
+/* Platzhalter für Bereich, in dem <app-chat-members> gerendert wird */
+.chat-members {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	position: relative;
+}
+
+/* Responsive für Header */
+@media screen and (max-width: 1024px) {
+	.header {
+		max-height: 52px;
+		padding: 8px 16px;
+		border-radius: 0;
+	}
+
+	.chat-title {
+		.icon {
+			width: 16px;
+			height: 16px;
+		}
+
+		h1 {
+			font-size: 20px;
+		}
+
+		.arrow {
+			width: 12px;
+		}
+	}
+}

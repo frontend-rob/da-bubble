@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from "@angular/core";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {Subscription} from "rxjs";
 import {ChannelData} from "../../../interfaces/channel.interface";
 import {UserData} from "../../../interfaces/user.interface";
@@ -12,7 +12,7 @@ import {UserService} from "../../../services/user.service";
  */
 @Component({
 	selector: "app-channel-list-item",
-	imports: [CommonModule, NgOptimizedImage],
+	imports: [CommonModule],
 	templateUrl: "./channel-list-item.component.html",
 	styleUrl: "./channel-list-item.component.scss",
 })

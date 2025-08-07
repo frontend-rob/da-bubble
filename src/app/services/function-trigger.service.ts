@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
-import { ChannelData } from '../interfaces/channel.interface';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
+import {ChannelData} from '../interfaces/channel.interface';
 
 /**
  * Service for triggering channel events between different components of the application.

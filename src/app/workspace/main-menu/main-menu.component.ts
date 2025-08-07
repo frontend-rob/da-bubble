@@ -11,7 +11,7 @@
  * 3. Create a ChannelCreationComponent for channel creation
  * 4. Create a UserSelectionComponent for user selection
  */
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {ChangeDetectorRef, Component, inject, OnDestroy, OnInit,} from "@angular/core";
 import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
 import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
@@ -36,7 +36,6 @@ import {ChannelManagementService} from "../../services/channel-management.servic
 		ChannelListItemComponent,
 		DirectMessageListItemComponent,
 		FormsModule,
-		NgOptimizedImage,
 		SearchCardComponent,
 	],
 	templateUrl: "./main-menu.component.html",

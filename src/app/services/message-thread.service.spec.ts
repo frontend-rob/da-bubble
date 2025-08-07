@@ -1,13 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { MessageThreadService } from './message-thread.service';
+import {MessageThreadsService} from './message-thread.service';
 
 describe('MessageThreadService', () => {
-  let service: MessageThreadService;
+	let service: MessageThreadsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MessageThreadService);
+	  service = TestBed.inject(MessageThreadsService);
   });
 
   it('should be created', () => {

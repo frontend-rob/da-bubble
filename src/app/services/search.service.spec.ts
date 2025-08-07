@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { SearchService } from './search.service';
+import {TestBed} from '@angular/core/testing';
+import {SearchService} from './search.service';
 
 describe('SearchService', () => {
 

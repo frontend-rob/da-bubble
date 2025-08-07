@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { firstValueFrom, take } from 'rxjs';
-import { UserData } from '../interfaces/user.interface';
-import { SearchResult } from '../interfaces/search-result.interface';
-import { UserService } from './user.service';
+import {Injectable} from '@angular/core';
+import {firstValueFrom, take} from 'rxjs';
+import {UserData} from '../interfaces/user.interface';
+import {SearchResult} from '../interfaces/search-result.interface';
+import {UserService} from './user.service';
 
 /**
  * Service for searching users by term and mapping user data to search results.

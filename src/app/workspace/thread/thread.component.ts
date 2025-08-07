@@ -1,15 +1,15 @@
 import {Component, inject, Input, OnDestroy, OnInit, TrackByFunction} from "@angular/core";
-import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {Timestamp} from "@angular/fire/firestore";
 import {firstValueFrom, map, Observable, Subscription} from "rxjs";
-import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
-import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
 import {Message} from "../../interfaces/message.interface";
 import {UserData} from "../../interfaces/user.interface";
-import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 import {ChatService} from "../../services/chat.service";
 import {HelperService} from "../../services/helper.service";
 import {UserService} from "../../services/user.service";
+import {MessageInputFieldComponent} from "../../shared/message-input-field/message-input-field.component";
+import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
+import {ChatMessageComponent} from "../chat/chat-message-other/chat-message.component";
 
 /**
  * ThreadComponent displays and manages a chat thread, including messages and user interactions.
@@ -18,10 +18,10 @@ import {UserService} from "../../services/user.service";
 	selector: "app-thread",
 	imports: [
 		CommonModule,
-		NgOptimizedImage,
 		MessageInputFieldComponent,
-		ChatMessageComponent,
 		AutoScrollingDirective,
+		ChatMessageComponent,
+
 	],
 	templateUrl: "./thread.component.html",
 	styleUrl: "./thread.component.scss",

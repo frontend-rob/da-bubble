@@ -1,5 +1,4 @@
 @if (selectedChannel) {
-	<!-- Rest des Templates bleibt unverändert -->
 	<section class="chat-section">
 		<header class="header">
 			<div *ngIf="!isNewMessage" class="chat-header-wrapper">
@@ -33,7 +32,8 @@
 					(userSelectionAdd)="addUserToSelection($event)"
 					(userSelectionRemove)="removeUserFromSelection($event)"
 					(searchInputChange)="onSearchInputChange()"
-					(addNewMember)="addNewMember()">
+					(addNewMember)="addNewMember()"
+					style="width: 100%;">
 				</app-chat-members>
 
 				<app-channel-modal
@@ -64,30 +64,54 @@
 			</app-new-message-header>
 		</header>
 
-		<main
-			*ngIf="messages.length >= 1"
-			appAutoScroll
-			[trigger]="messages"
-			class="chat-main"
-		>
-			@for (message of messages; track trackByMessageId($index, message)) {
-				@if (shouldShowDate(messages, $index)) {
-					<div class="date-divider">
-						<span>{{ message.date }}</span>
-					</div>
+		@if (messages && messages.length >= 1) {
+			<main
+				appAutoScroll
+				[trigger]="messages"
+				class="chat-main"
+			>
+				@for (message of messages; track trackByMessageId($index, message)) {
+					@if (shouldShowDate(messages, $index)) {
+						<div class="message-time-separator">
+							<span class="time">{{ message.date }}</span>
+						</div>
+					}
+					<app-chat-message-other
+						[message]="message"
+						[isThisAThreadMessage]="false">
+					</app-chat-message-other>
 				}
-				<app-chat-message-other
-					[message]="message"
-					[isThisAThreadMessage]="false">
-				</app-chat-message-other>
-			}
-		</main>
-
-		<!-- Direct Message Empty State -->
-		@if (selectedChannel.channelType.directMessage && messages.length === 0) {
-			<main class="dm-empty-state">
-				<!-- DM Empty State Content hier -->
 			</main>
+		}
+
+		@if (!messages || messages.length === 0) {
+			@if (selectedChannel.channelType.directMessage) {
+				<main class="dm-empty-state">
+					<div class="empty-state-content">
+						@if (otherUser$ | async; as otherUser) {
+							<div class="user-avatar">
+								<img [src]="otherUser.photoURL || '/assets/img/default-avatar.png'"
+										 [alt]="otherUser.userName"/>
+							</div>
+							<h3>Das ist der Beginn eurer Unterhaltung mit {{ otherUser.userName }}</h3>
+							<p>Schreibt die erste Nachricht!</p>
+						} @else {
+							<h3>Direct Message</h3>
+							<p>Das ist der Beginn eurer Unterhaltung.</p>
+						}
+					</div>
+				</main>
+			} @else if (selectedChannel.channelType.channel) {
+				<main class="channel-empty-state">
+					<div class="empty-state-content">
+						<h3>Willkommen in #{{ selectedChannel.channelName }}!</h3>
+						<p>Das ist der Beginn des #{{ selectedChannel.channelName }} Channels.</p>
+						@if (selectedChannel.channelDescription) {
+							<p class="channel-description">{{ selectedChannel.channelDescription }}</p>
+						}
+					</div>
+				</main>
+			}
 		}
 
 		<footer class="chat-footer">
@@ -98,7 +122,7 @@
 			</app-message-input-field>
 		</footer>
 	</section>
-	
+
 	<div (click)="onCloseModals()" *ngIf="isModalBGOpen" class="modal-bg"></div>
 } @else {
 	<div class="no-channel-selected">

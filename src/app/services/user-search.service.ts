@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { UserData } from '../interfaces/user.interface';
+import {Injectable} from '@angular/core';
+import {Observable, of} from 'rxjs';
+import {UserData} from '../interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'

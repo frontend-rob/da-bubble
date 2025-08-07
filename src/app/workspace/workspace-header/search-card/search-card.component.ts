@@ -17,6 +17,7 @@ import {FunctionTriggerService} from "../../../services/function-trigger.service
 		CommonModule,
 		FormsModule,
 		NgOptimizedImage,
+
 	],
 	templateUrl: "./search-card.component.html",
 	styleUrls: ["./search-card.component.scss"],

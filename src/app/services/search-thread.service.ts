@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { firstValueFrom, take } from 'rxjs';
-import { ChannelData } from '../interfaces/channel.interface';
-import { SearchResult } from '../interfaces/search-result.interface';
-import { UserData } from '../interfaces/user.interface';
-import { ChatService } from './chat.service';
-import { UserLookupService } from './user-lookup.service';
+import {Injectable} from '@angular/core';
+import {firstValueFrom, take} from 'rxjs';
+import {ChannelData} from '../interfaces/channel.interface';
+import {SearchResult} from '../interfaces/search-result.interface';
+import {UserData} from '../interfaces/user.interface';
+import {ChatService} from './chat.service';
+import {UserLookupService} from './user-lookup.service';
 
 /**
  * Service for searching thread messages and mapping thread data to search results.

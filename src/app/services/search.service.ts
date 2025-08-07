@@ -1,14 +1,14 @@
-import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, take } from 'rxjs';
-import { Database, get, ref } from '@angular/fire/database';
-import { SearchResult } from '../interfaces/search-result.interface';
-import { ChatService } from './chat.service';
-import { UserService } from './user.service';
-import { UserLookupService } from './user-lookup.service';
-import { SearchUserService } from './search-user.service';
-import { SearchChannelService } from './search-channel.service';
-import { SearchThreadService } from './search-thread.service';
-import { SearchMessageService } from './search-message.service';
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
+import {Database, get, ref} from '@angular/fire/database';
+import {SearchResult} from '../interfaces/search-result.interface';
+import {ChatService} from './chat.service';
+import {UserService} from './user.service';
+import {UserLookupService} from './user-lookup.service';
+import {SearchUserService} from './search-user.service';
+import {SearchChannelService} from './search-channel.service';
+import {SearchThreadService} from './search-thread.service';
+import {SearchMessageService} from './search-message.service';
 
 export interface CategorizedSearchResults {
     messages: SearchResult[];

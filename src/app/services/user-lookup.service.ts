@@ -1,7 +1,7 @@
-import { EnvironmentInjector, inject, Injectable, runInInjectionContext } from '@angular/core';
-import { UserData } from '../interfaces/user.interface';
-import { collection, collectionData, doc, docData, Firestore, query, where } from '@angular/fire/firestore';
-import { map, Observable, of, shareReplay } from 'rxjs';
+import {EnvironmentInjector, inject, Injectable, runInInjectionContext} from '@angular/core';
+import {UserData} from '../interfaces/user.interface';
+import {collection, collectionData, doc, docData, Firestore, query, where} from '@angular/fire/firestore';
+import {map, Observable, of, shareReplay} from 'rxjs';
 
 /**
  * Service for looking up user data by user ID(s) and managing a local cache.

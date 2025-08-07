@@ -14,7 +14,7 @@ import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 	name: "chatMessageTagLink",
 	standalone: true,
 })
-export class chatMessageTagLink implements PipeTransform {
+export class ChatMessageTagLink implements PipeTransform {
 	constructor(private sanitizer: DomSanitizer) {
 	}
 

@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { SearchThreadService } from './search-thread.service';
+import {SearchThreadService} from './search-thread.service';
 
 describe('SearchThreadService', () => {
   let service: SearchThreadService;

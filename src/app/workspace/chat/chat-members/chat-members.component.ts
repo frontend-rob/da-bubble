@@ -10,7 +10,7 @@ import {ChannelUserPipe} from '../../../pipes/channel-user.pipe';
 @Component({
 	selector: 'app-chat-members',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ChannelUserPipe, NgOptimizedImage],
+	imports: [CommonModule, FormsModule, NgOptimizedImage, ChannelUserPipe],
 	templateUrl: './chat-members.component.html',
 	styleUrls: ['./chat-members.component.scss']
 })

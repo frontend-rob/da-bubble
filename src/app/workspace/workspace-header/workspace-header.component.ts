@@ -21,6 +21,7 @@ import {PresenceService, UserPresence} from "../../services/presence.service";
 		SearchCardComponent,
 		AvatarsComponent,
 		NgOptimizedImage,
+
 	],
 	templateUrl: "./workspace-header.component.html",
 	styleUrl: "./workspace-header.component.scss",

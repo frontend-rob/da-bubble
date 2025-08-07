@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { firstValueFrom, take } from 'rxjs';
-import { ChannelData } from '../interfaces/channel.interface';
-import { SearchResult } from '../interfaces/search-result.interface';
-import { ChatService } from './chat.service';
+import {Injectable} from '@angular/core';
+import {firstValueFrom, take} from 'rxjs';
+import {ChannelData} from '../interfaces/channel.interface';
+import {SearchResult} from '../interfaces/search-result.interface';
+import {ChatService} from './chat.service';
 
 /**
  * Service for searching channels by term and mapping channel data to search results.

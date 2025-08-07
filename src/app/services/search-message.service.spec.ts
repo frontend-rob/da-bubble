@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { SearchMessageService } from './search-message.service';
+import {SearchMessageService} from './search-message.service';
 
 describe('SearchMessageService', () => {
   let service: SearchMessageService;

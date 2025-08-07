@@ -1,6 +1,6 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { ChatManagementService } from './chat-management.service';
+import {ChatManagementService} from './chat-management.service';
 
 describe('ChatManagementService', () => {
   let service: ChatManagementService;

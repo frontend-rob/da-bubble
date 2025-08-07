@@ -18,22 +18,22 @@ import {UserService} from "../../../services/user.service";
 import {UserData} from "../../../interfaces/user.interface";
 import {Timestamp} from "@angular/fire/firestore";
 import {FormsModule} from "@angular/forms";
-import {chatMessageTagLink} from "../../../pipes/chat-message-tag-link.pipe";
 import {UserLookupService} from "../../../services/user-lookup.service";
-import {ChannelUsersPipe} from "../../../pipes/channel-user.pipe";
 import {UserDataFromUidPipe} from "../../../pipes/user-data-from-uid.pipe";
+import {ChannelUsersPipe} from "../../../pipes/channel-user.pipe";
+import {ChatMessageTagLink} from "../../../pipes/chat-message-tag-link.pipe";
 
 
 @Component({
 	selector: "app-chat-message-other",
 	imports: [
 		CommonModule,
-		ChatOptionBarComponent,
 		FormsModule,
 		NgOptimizedImage,
-		chatMessageTagLink,
+		ChatOptionBarComponent,
+		UserDataFromUidPipe,
 		ChannelUsersPipe,
-		UserDataFromUidPipe
+		ChatMessageTagLink
 	],
 	templateUrl: "./chat-message.component.html",
 	styleUrl: "./chat-message.component.scss",

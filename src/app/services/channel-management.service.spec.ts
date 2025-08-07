@@ -1,5 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-import { ChannelManagementService } from './channel-management.service';
+import {TestBed} from '@angular/core/testing';
+import {ChannelManagementService} from './channel-management.service';
 
 describe('ChannelManagementService', () => {
 
