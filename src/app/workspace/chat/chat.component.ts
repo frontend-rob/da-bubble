@@ -1,5 +1,5 @@
-import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
-import {Observable, of, Subscription} from "rxjs";
+import {Component, inject, OnDestroy, OnInit, ViewChild} from "@angular/core";
+import {Observable, Subscription} from "rxjs";
 import {ChatService} from "../../services/chat.service";
 import {FunctionTriggerService} from "../../services/function-trigger.service";
 import {ChannelData} from "../../interfaces/channel.interface";
@@ -27,7 +27,8 @@ import {AutoScrollingDirective} from "../../directive/auto-scrolling.directive";
 		NewMessageHeaderComponent,
 		ChatMessageComponent,
 		AutoScrollingDirective,
-		MessageInputFieldComponent
+		MessageInputFieldComponent,
+		AutoScrollingDirective
 	],
 	templateUrl: "./chat.component.html",
 	styleUrls: ["./chat.component.scss"]
@@ -61,15 +62,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 	newChannelDescription = '';
 
 	private subscriptions: Subscription[] = [];
-
-	constructor(
-		public readonly chatService: ChatService,
-		private chatManagementService: ChatManagementService,
-		private functionTriggerService: FunctionTriggerService
-	) {
-		// Entferne die direkte Zuweisung
-		// this.selectedChannel = this.chatService.selectedChannel;
-	}
+	private chatService = inject(ChatService);
+	private chatManagementService = inject(ChatManagementService);
+	private functionTriggerService = inject(FunctionTriggerService);
 
 	get isNewMessage(): boolean {
 		return this.chatService.isNewMessage;
@@ -136,7 +131,12 @@ export class ChatComponent implements OnInit, OnDestroy {
 	}
 
 	async onSendChatMessage(content: string): Promise<void> {
-		await this.chatManagementService.sendChatMessage(content, this.currentUser);
+		const channelId = this.selectedChannel?.channelId;
+		if (!channelId) {
+			console.warn('Kein Channel ausgewählt – Nachricht wird nicht gesendet.');
+			return;
+		}
+		await this.chatManagementService.sendChatMessage(content, this.currentUser, channelId);
 	}
 
 	onInputDataChange(): void {
@@ -165,10 +165,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
 	addNewMember(): void {
 		console.log('Adding new members:', this.selectedUsersToAdd);
-	}
-
-	getMemberPresence(uid: string): Observable<UserPresence | null> {
-		return of(null); // Placeholder
 	}
 
 	shouldShowDate(messages: Message[], index: number): boolean {

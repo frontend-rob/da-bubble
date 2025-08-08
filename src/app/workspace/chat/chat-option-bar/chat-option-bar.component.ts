@@ -1,11 +1,11 @@
-import {CommonModule} from "@angular/common";
-import {Component, EventEmitter, Input, Output} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
+import {Component, EventEmitter, inject, Input, Output} from "@angular/core";
 import {ChatService} from "../../../services/chat.service";
 import {IdtMessages} from "../../../interfaces/message.interface";
 
 @Component({
 	selector: "app-chat-option-bar",
-	imports: [CommonModule],
+	imports: [CommonModule, NgOptimizedImage],
 	templateUrl: "./chat-option-bar.component.html",
 	styleUrl: "./chat-option-bar.component.scss",
 	standalone: true,
@@ -23,8 +23,7 @@ export class ChatOptionBarComponent {
 	@Output() deleteMessageEvent = new EventEmitter<IdtMessages>();
 	@Input() isThisAThreadMessage!: boolean;
 
-	constructor(private chatService: ChatService) {
-	}
+	chatService = inject(ChatService);
 
 	openThread() {
 		this.chatService.handleThread(true);

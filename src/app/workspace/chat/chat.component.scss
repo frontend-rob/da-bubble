@@ -22,7 +22,6 @@
 	box-shadow: 0 2px 10px 0 #00000014;
 	position: relative;
 	max-height: 6rem;
-	height: 100%;
 }
 
 /* Footer/Card-Stil für Eingabefeld */
@@ -35,10 +34,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	gap: 16px;
 	width: 100%;
-	border-bottom: 1px solid variables.$border; /* feine Trennlinie wie Figma */
-	padding-bottom: 8px;
 
 	app-chat-header {
 		width: 100%;

@@ -214,3 +214,10 @@
 		</div>
 	</div>
 }
+
+<!-- Overlay für Members-Menu & Add-Member -->
+<div
+	(click)="onCloseModals()"
+	*ngIf="isMembersMenuOpen || isAddMemberModalOpen"
+	class="modal-bg">
+</div>

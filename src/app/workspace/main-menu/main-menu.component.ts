@@ -11,7 +11,7 @@
  * 3. Create a ChannelCreationComponent for channel creation
  * 4. Create a UserSelectionComponent for user selection
  */
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {ChangeDetectorRef, Component, inject, OnDestroy, OnInit,} from "@angular/core";
 import {ChannelListItemComponent} from "./channel-list-item/channel-list-item.component";
 import {DirectMessageListItemComponent} from "./direct-message-list-item/direct-message-list-item.component";
@@ -37,6 +37,7 @@ import {ChannelManagementService} from "../../services/channel-management.servic
 		DirectMessageListItemComponent,
 		FormsModule,
 		SearchCardComponent,
+		NgOptimizedImage,
 	],
 	templateUrl: "./main-menu.component.html",
 	styleUrl: "./main-menu.component.scss",
@@ -76,12 +77,9 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
 	private destroy$ = new Subject<void>();
 
-	constructor(
-		private workspaceService: WorkspaceService,
-		private cdr: ChangeDetectorRef,
-		private chatService: ChatService,
-	) {
-	}
+	private workspaceService = inject(WorkspaceService)
+	private cdr = inject(ChangeDetectorRef)
+	private chatService = inject(ChatService)
 
 	/**
 	 * Gets the current state of the user menu from the user service.

@@ -10,7 +10,6 @@ import {
 	Firestore,
 	getDoc,
 	getDocs,
-	onSnapshot,
 	orderBy,
 	query,
 	setDoc,
@@ -19,7 +18,6 @@ import {
 	where,
 } from "@angular/fire/firestore";
 import {UserData} from "../interfaces/user.interface";
-import {HelperService} from "./helper.service";
 
 @Injectable({
 	providedIn: "root",
@@ -30,7 +28,6 @@ export class ChatService {
 	selectedThreadMessageId!: string;
 
 	private environmentInjector = inject(EnvironmentInjector);
-	private helperService: any = inject(HelperService);
 	private _isChatResponsive = false;
 
 	/**
@@ -265,7 +262,7 @@ export class ChatService {
 		});
 	}
 
- /**
+	/**
 	 * Creates a new channel in the Firestore database.
 	 * For regular channels (not direct messages), checks if a channel with the same name already exists.
 	 * Generates a new document ID and uses it as the channel ID.
@@ -306,34 +303,6 @@ export class ChatService {
 	}
 
 	/**
-	 * Updates the channel document in the Firestore database.
-	 *
-	 * @param {ChannelData} channel The channel document to update.
-	 * @returns {Promise<void>} A promise that resolves when the update is complete.
-	 */
-	async updateChannel(channel: ChannelData): Promise<void> {
-		return runInInjectionContext(this.environmentInjector, async () => {
-			const firestore = inject(Firestore);
-			if (!channel.channelId) return;
-			const channelDoc = doc(
-				firestore,
-				"channels",
-				channel.channelId.toString()
-			);
-			await updateDoc(channelDoc, {
-				channelId: channel.channelId,
-				channelName: channel.channelName,
-				channelDescription: channel.channelDescription,
-				channelType: channel.channelType,
-				createdBy: channel.createdBy,
-				channelMembers: channel.channelMembers,
-				createdAt: channel.createdAt,
-				updatedAt: Timestamp.fromDate(new Date()),
-			});
-		});
-	}
-
-	/**
 	 * Retrieves a stream of messages for a specified channel, ordered by timestamp in ascending order.
 	 *
 	 * @param {string} channelId - The unique identifier of the channel for which messages need to be fetched.
@@ -363,13 +332,15 @@ export class ChatService {
 
 	async sendMessage(channelId: string, message: Message): Promise<void> {
 		return runInInjectionContext(this.environmentInjector, async () => {
-			const firestore = inject(Firestore);
-			const messagesRef = collection(
-				firestore,
-				`channels/${channelId}/messages`
-			);
-			const newMsgDoc = doc(messagesRef);
-			await setDoc(newMsgDoc, message);
+			try {
+				const firestore = inject(Firestore);
+				const messagesRef = collection(firestore, `channels/${channelId}/messages`);
+				const newMsgDoc = doc(messagesRef);
+				await setDoc(newMsgDoc, message);
+			} catch (e) {
+				console.error('sendMessage write error:', e, {channelId, message});
+				throw e;
+			}
 		});
 	}
 
@@ -424,7 +395,7 @@ export class ChatService {
 		});
 	}
 
- /**
+	/**
 	 * Updates the reactions for a message in Firestore.
 	 *
 	 * @param {string} channelId - The ID of the channel containing the message.
@@ -450,7 +421,7 @@ export class ChatService {
 		});
 	}
 
- /**
+	/**
 	 * Updates the reactions for a message within a thread in Firestore.
 	 *
 	 * @param {string} channelId - The ID of the channel containing the thread.
@@ -510,7 +481,7 @@ export class ChatService {
 		console.info(r);
 	}
 
- /**
+	/**
 	 * Deletes a message from Firestore by channel and message ID.
 	 *
 	 * @param {string} channelId - The ID of the channel containing the message.
@@ -613,7 +584,7 @@ export class ChatService {
 		});
 	}
 
- /**
+	/**
 	 * Removes a user from a channel's member list and updates the channel document.
 	 *
 	 * @param {string} channelId - The ID of the channel to remove the user from.
@@ -647,40 +618,6 @@ export class ChatService {
 				console.error("Error removing user from channel:", error);
 				throw error;
 			}
-		});
-	}
-
-	/**
-	 * Gets a real-time Observable for a specific channel by ID.
-	 * This allows components to subscribe to changes in a specific channel's data.
-	 *
-	 * @param {string} channelId - The ID of the channel to observe.
-	 * @returns {Observable<ChannelData | undefined>} An Observable that emits the channel data whenever it changes.
-	 */
-	getChannelById(channelId: string): Observable<ChannelData | undefined> {
-		return runInInjectionContext(this.environmentInjector, () => {
-			const firestore = inject(Firestore);
-			const channelRef = doc(firestore, `channels/${channelId}`);
-
-			return new Observable<ChannelData | undefined>(observer => {
-				// Set up real-time listener using onSnapshot
-				const unsubscribe = onSnapshot(channelRef,
-					(docSnap) => {
-						if (docSnap.exists()) {
-							observer.next({ ...docSnap.data(), channelId: docSnap.id } as ChannelData);
-						} else {
-							observer.next(undefined);
-						}
-					},
-					(error) => {
-						console.error("Error getting channel updates:", error);
-						observer.error(error);
-					}
-				);
-
-				// Return the unsubscribe function to clean up when the Observable is unsubscribed
-				return () => unsubscribe();
-			});
 		});
 	}
 }

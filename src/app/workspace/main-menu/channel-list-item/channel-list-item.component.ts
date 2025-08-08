@@ -1,5 +1,5 @@
-import {Component, Input, OnDestroy, OnInit} from "@angular/core";
-import {CommonModule} from "@angular/common";
+import {Component, inject, Input, OnDestroy, OnInit} from "@angular/core";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {Subscription} from "rxjs";
 import {ChannelData} from "../../../interfaces/channel.interface";
 import {UserData} from "../../../interfaces/user.interface";
@@ -12,7 +12,7 @@ import {UserService} from "../../../services/user.service";
  */
 @Component({
 	selector: "app-channel-list-item",
-	imports: [CommonModule],
+	imports: [CommonModule, NgOptimizedImage],
 	templateUrl: "./channel-list-item.component.html",
 	styleUrl: "./channel-list-item.component.scss",
 })
@@ -32,12 +32,9 @@ export class ChannelListItemComponent implements OnInit, OnDestroy {
 	 * @param userService Service for user operations
 	 * @param responsiveService Service for responsive design
 	 */
-	constructor(
-		private chatService: ChatService,
-		private userService: UserService,
-		private responsiveService: ResponsiveService
-	) {
-	}
+	private chatService = inject(ChatService)
+	private userService = inject(UserService)
+	private responsiveService = inject(ResponsiveService)
 
 	/**
 	 * Returns true if this channel is the active chat.

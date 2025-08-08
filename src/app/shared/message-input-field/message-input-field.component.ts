@@ -4,6 +4,7 @@ import {
 	ElementRef,
 	EventEmitter,
 	HostListener,
+	inject,
 	Input,
 	OnInit,
 	Output,
@@ -68,16 +69,9 @@ export class MessageInputFieldComponent implements OnInit, AfterViewInit {
         "\u{1F680}", // 🚀
     ];
 
-    /**
-     * Creates the component and injects required services.
-     * @param chatService Service for chat and channel data
-     * @param elementRef Reference to the component's DOM element
-     * @param userLookupService Service for user lookup
-     */
-    constructor(
-        private chatService: ChatService,
-        private elementRef: ElementRef,
-        private userLookupService: UserLookupService) { }
+	private chatService = inject(ChatService);
+	private elementRef = inject(ElementRef);
+	private userLookupService = inject(UserLookupService);
 
     /**
      * Initializes users and subscribes to channel updates.
@@ -161,7 +155,7 @@ export class MessageInputFieldComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Handles input changes and closes modals if tag character is removed.
+	 * Handle input changes and closes modals if the tag character is removed.
      */
     onInput(): void {
         if (this.isUserTagModalOpen && !this.messageInputData.includes('@')) {
@@ -258,7 +252,7 @@ export class MessageInputFieldComponent implements OnInit, AfterViewInit {
     }
 
     /**
-     * Closes the specified modal and removes tag character if needed.
+	 * Closes the specified modal and removes the tag character if needed.
      * @param modal Modal type to close
      */
     private closeModal(modal: 'emoji' | 'user' | 'channel') {

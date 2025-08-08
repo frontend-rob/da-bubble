@@ -842,6 +842,7 @@
 	white-space: nowrap;
 }
 
+/* Modal-Overlay */
 .modal-bg {
 	@include mixins.modal-bg;
 	backdrop-filter: none;
