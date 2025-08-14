@@ -97,7 +97,7 @@
 					></div>
 
 					@if ((getUserPresence() | async)?.status === 'online') {
-						<p class="onlineText">Aktiv</p>
+						<p class="onlineText">Online</p>
 					} @else if ((getUserPresence() | async)?.status === 'away') {
 						<p class="awayText">Abwesend</p>
 					} @else {
