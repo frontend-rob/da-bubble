@@ -73,8 +73,8 @@ export class LogInComponent {
     */
     guestLogIn(): void {
         this.logInForm.setValue({
-            email: 'es@dabubble.com',
-            password: 'es@dabubble406'
+            email: 'guest@dabubble.com',
+            password: 'guest@dabubble406'
         });
         this.onSubmit();
     }

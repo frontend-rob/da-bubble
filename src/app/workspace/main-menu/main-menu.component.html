@@ -11,16 +11,6 @@
 					/>
 					<h1>Devspace</h1>
 				</div>
-
-				<div class="add-new-channel-btn">
-					<img
-						(click)="handleNewMessage(true)"
-						alt="edit square"
-						height="24"
-						ngSrc="assets/img/main-menu/edit_square.svg"
-						width="24"
-					/>
-				</div>
 			</div>
 			<app-search-card class="search-bar-container"></app-search-card>
 		</header>
@@ -159,19 +149,6 @@
 				</div>
 			</div>
 		</main>
-
-		<!-- TODO:  -->
-		@if (!isUserMenuOpen && !this.isModalOpen) {
-			<div class="mobile-add-new-channel-btn">
-				<img
-					(click)="handleNewMessage(true)"
-					alt="edit square"
-					height="24"
-					ngSrc="assets/img/main-menu/edit_square.svg"
-					width="24"
-				/>
-			</div>
-		}
 
 		<div (click)="toggleModal()" *ngIf="isModalOpen" class="modal-bg">
 			<div

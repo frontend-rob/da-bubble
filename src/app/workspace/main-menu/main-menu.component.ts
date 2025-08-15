@@ -587,13 +587,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 		event.stopPropagation();
 	}
 
-	handleNewMessage(bool: boolean) {
-		this.chatService.handleNewMessage(bool);
 
-		if (bool) {
-			this.chatService.setActiveChat("");
-		}
-	}
 
 	resetForm() {
 		this.channelFormData = {

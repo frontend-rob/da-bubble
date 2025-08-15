@@ -66,21 +66,6 @@
                     font-weight: 700;
                 }
             }
-
-            .add-new-channel-btn {
-                @include mixins.circle-button;
-                padding: 8px;
-                @include mixins.hover-bg(variables.$bg-neutral-hover);
-
-                >img {
-                    width: 24px;
-                    height: 24px;
-
-                    &:hover {
-                        content: url("/assets/img/main-menu/edit_square_hover.svg");
-                    }
-                }
-            }
         }
 
         .search-bar-container {
